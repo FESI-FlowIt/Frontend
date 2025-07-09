@@ -6,7 +6,6 @@ import prettierPlugin from 'eslint-plugin-prettier';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import storybook from 'eslint-plugin-storybook';
 import { dirname } from 'path';
-import tseslint from 'typescript-eslint';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -30,7 +29,6 @@ const config = [
   ...storybook.configs['flat/recommended'],
 
   eslint.configs.recommended,
-  ...tseslint.configs.recommended,
 
   {
     plugins: {
