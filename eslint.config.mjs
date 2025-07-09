@@ -34,7 +34,6 @@ const config = [
 
   {
     plugins: {
-      '@typescript-eslint': tseslint.plugin,
       import: importPlugin,
       'simple-import-sort': simpleImportSort,
       prettier: prettierPlugin,
