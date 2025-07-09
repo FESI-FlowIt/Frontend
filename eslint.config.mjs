@@ -65,6 +65,7 @@ const config = [
       ],
       'prefer-arrow-callback': ['error'],
       '@typescript-eslint/no-explicit-any': 'warn',
+      'no-unused-vars': 'warn',
     },
   },
 ];

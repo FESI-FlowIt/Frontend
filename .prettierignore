@@ -1,0 +1,9 @@
+node_modules
+.next
+.swc
+.vscode
+.github
+out
+dist
+storybook-static
+coverage
