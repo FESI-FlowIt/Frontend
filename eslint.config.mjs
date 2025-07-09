@@ -25,7 +25,7 @@ const config = [
     settings: {
       react: {
         version: 'detect',
-        runtiom: 'automatic',
+        runtime: 'automatic',
       },
     },
   },
