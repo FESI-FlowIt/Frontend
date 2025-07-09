@@ -21,6 +21,9 @@ const config = [
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
+      globals: {
+        React: true,
+      },
     },
     settings: {
       react: {

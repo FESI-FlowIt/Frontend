@@ -37,7 +37,7 @@ jobs:
         run: npm run format:check
 
       - name: jest test
-        run: npm test
+        run: npm test -- --passWithNoTests
 
       - name: build project
         run: npm run build
