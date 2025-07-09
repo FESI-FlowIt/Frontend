@@ -16,8 +16,8 @@ export const Example: Story = {
     <div
       style={{
         padding: '1rem',
-        backgroundColor: '#f5f5f5',
-        borderRadius: '0.5rem',
+        backgroundColor: '#32CD32',
+        borderRadius: '1rem',
         textAlign: 'center',
       }}
     >
