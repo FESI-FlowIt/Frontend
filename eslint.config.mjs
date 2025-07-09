@@ -21,6 +21,12 @@ const config = [
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
+      settings: {
+        react: {
+          version: 'detect',
+          runtiom: 'automatic',
+        },
+      },
     },
   },
 
