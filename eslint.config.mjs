@@ -6,7 +6,6 @@ import prettierPlugin from 'eslint-plugin-prettier';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import storybook from 'eslint-plugin-storybook';
 import { dirname } from 'path';
-import tseslint from 'typescript-eslint';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -22,6 +21,15 @@ const config = [
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
+      globals: {
+        React: true,
+      },
+    },
+    settings: {
+      react: {
+        version: 'detect',
+        runtime: 'automatic',
+      },
     },
   },
 
@@ -30,11 +38,9 @@ const config = [
   ...storybook.configs['flat/recommended'],
 
   eslint.configs.recommended,
-  ...tseslint.configs.recommended,
 
   {
     plugins: {
-      '@typescript-eslint': tseslint.plugin,
       import: importPlugin,
       'simple-import-sort': simpleImportSort,
       prettier: prettierPlugin,
@@ -65,6 +71,7 @@ const config = [
       ],
       'prefer-arrow-callback': ['error'],
       '@typescript-eslint/no-explicit-any': 'warn',
+      'no-unused-vars': 'warn',
     },
   },
 ];

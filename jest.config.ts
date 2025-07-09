@@ -19,6 +19,11 @@ const customConfig: Config = {
   roots: ['<rootDir>/src'],
   collectCoverage: true,
   coverageDirectory: 'coverage',
+  collectCoverageFrom: [
+    'src/**/*.{js,jsx,ts,tsx}',
+    '!src/**/*.stories.{js,jsx,ts,tsx}',
+    '!src/**/*.d.ts',
+  ],
 };
 
 export default createJestConfig(customConfig);
