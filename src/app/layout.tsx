@@ -1,3 +1,7 @@
+'use client';
+
+import { useEffect } from 'react';
+
 import type { Metadata } from 'next';
 
 import ReactQueryProvider from './providers/ReactQueryProvider';
@@ -14,6 +18,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      import('../mocks/browser').then(({ worker }) => {
+        worker.start();
+      });
+    }
+  }, []);
+
   return (
     <html lang="kr">
       <body>

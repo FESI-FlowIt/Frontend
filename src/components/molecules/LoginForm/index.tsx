@@ -1,3 +1,5 @@
+'use client';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -6,13 +8,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { loginSchema } from '@/lib/validation';
 
-type LoginFormData = z.infer<typeof loginSchema>;
+export type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
@@ -32,7 +34,9 @@ export default function LoginForm() {
         <Input type="password" placeholder="비밀번호" {...register('password')} />
         {errors.password && <p>{errors.password.message}</p>}
       </div>
-      <Button type="submit">로그인</Button>
+      <Button type="submit" disabled={isSubmitting}>
+        로그인
+      </Button>
     </form>
   );
 }
