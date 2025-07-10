@@ -29,7 +29,16 @@ jobs:
       - name: install dependencies
         run: npm ci
 
-      - name: deploy to chromatic
+      - name: deploy to chromatic develop only changed
+        if: github.base_ref == 'develop'
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          exitOnceUploaded: true
+          onlyChanged: true
+
+      - name: deploy to chromatic main full build
+        if: github.base_ref == 'main'
         uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
