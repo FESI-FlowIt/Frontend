@@ -1,6 +1,152 @@
-@import 'tailwindcss/preflight';
-@tailwind utilities;
+/* 1. Tailwind의 모든 기능을 활성화하는 통합 지시어입니다. */
+@import 'tailwindcss';
 
-body {
-  @apply ui-background text-text-01 font-sans;
+/* 2. @theme 블록 안에 프로젝트의 전체 디자인 시스템을 CSS 변수로 정의합니다. */
+@theme {
+  /* ========================================================================
+     Colors (색상)
+     ======================================================================== */
+  --color-white: #ffffff;
+  --color-ui-background: #ffffff;
+  --color-ui-background-primary-soft: #d3e3ff;
+  --color-primary-01: #4c82f7;
+  --color-primary-01-hover: #6696fa;
+  --color-secondary-01: #ffd84d;
+  --color-secondary-01-hover: #ffe17a;
+  --color-tertiary-01: #f7f8fb;
+  --color-tertiary-01-press: #f4f5f9;
+  --color-text-00: #ffffff;
+  --color-text-01: #292c32;
+  --color-text-02: #485057;
+  --color-text-03: #667077;
+  --color-text-04: #a3abb0;
+  --color-text-inactive: #c3cad6;
+  --color-disable: #b8bec3;
+  --color-line: #e4e8f0;
+  --color-error: #ff5f5f;
+  --color-snackbar: #515660;
+  --color-delete: #ff5f5f;
+
+  /* Goal Colors */
+  --color-goal-red: #ff6b6b;
+  --color-goal-orange: #ffa94d;
+  --color-goal-yellow: #ffe17a;
+  --color-goal-green: #5edc8d;
+  --color-goal-blue: #3774f8;
+  --color-goal-purple: #9e80ff;
+  --color-goal-pink: #ff72b6;
+
+  /* HeatMap Colors */
+  --color-heatmap-0: #f2f2f2;
+  --color-heatmap-1: #d5e6ff;
+  --color-heatmap-2: #8cb8f9;
+  --color-heatmap-3: #4c82f7;
+  --color-heatmap-4: #1a59e1;
+  --color-heatmap-accent: #eeba06;
+
+  /* ========================================================================
+     Font Family (글꼴)
+     ======================================================================== */
+  --font-family-sans: 'Pretendard', theme(fontFamily.sans);
+}
+
+/* 3. @layer base 블록에 기본 스타일(body 등)을 정의합니다. */
+@layer base {
+  body {
+    /*
+      수정된 부분:
+      theme() 함수로 감싸지 않고, CSS 변수를 직접 사용합니다.
+    */
+    background-color: var(--color-ui-background);
+    color: var(--color-text-01);
+    font-family: var(--font-family-sans);
+  }
+}
+
+@layer utilities {
+  /* Title */
+  .text-display-32 {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 40px;
+  }
+  .text-display-24 {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 30px;
+  }
+  .text-head-20 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 26px;
+  }
+  .text-head-16 {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 28px;
+  }
+  .text-head-long-16 {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 30px;
+  }
+
+  /* Body */
+  .text-body-sb-20 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 22px;
+  }
+
+  .text-body-m-20 {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 22px;
+  }
+
+  .text-body-20 {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 22px;
+  }
+  .text-body-b-16 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 22px;
+  }
+  .text-body-m-16 {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+  .text-body-16 {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  .text-body-long-m-16 {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 34px;
+  }
+  .text-body-long-16 {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+  }
+  .text-body-b-12 {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 22px;
+  }
+  .text-body-m-12 {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 22px;
+  }
+  .text-body-12 {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 22px;
+  }
 }
