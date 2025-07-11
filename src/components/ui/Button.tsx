@@ -8,7 +8,7 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
   variants: {
     variant: {
       default: 'bg-primary-01 hover:bg-primary-01-hover',
-      secondary: 'bg-secondary-01 hover:secondary-01-hover',
+      secondary: 'bg-secondary-01 hover:bg-secondary-01-hover',
       disable: 'bg-disable',
     },
     text: {
@@ -37,9 +37,13 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {}
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, children, ...props }, ref) => {
+  ({ className, variant, size, text, rounded, children, ...props }, ref) => {
     return (
-      <button className={cn(buttonVariants({ variant, size }), className)} ref={ref} {...props}>
+      <button
+        className={cn(buttonVariants({ variant, size, text, rounded }), className)}
+        ref={ref}
+        {...props}
+      >
         {children}
       </button>
     );
