@@ -1,0 +1,40 @@
+export const colors = {
+  // Base
+  white: '#FFFFFF',
+  'ui-background': '#FFFFFF',
+  'ui-background-primary-soft': '#D3E3FF',
+  'primary-01': '#4C82F7',
+  'primary-01-hover': '#6696fa',
+  'secondary-01': '#FFD84D',
+  'secondary-01-hover': '#FFE17A',
+  'tertiary-01': '#F7F8FB',
+  'tertiary-01-press': '#F4F5F9',
+  'text-00': '#FFFFFF',
+  'text-01': '#292C32',
+  'text-02': '#485057',
+  'text-03': '#667077',
+  'text-04': '#A3ABB0',
+  'text-inactive': '#C3CAD6',
+  disable: '#B8BEC3',
+  line: '#E4E8F0',
+  error: '#FF5F5F',
+  snackbar: '#515660',
+  delete: '#FF5F5F',
+
+  // Goals
+  'goal-red': '#FF6B6B',
+  'goal-orange': '#FFA94D',
+  'goal-yellow': '#FFE17A',
+  'goal-green': '#5EDC8D',
+  'goal-blue': '#3774F8',
+  'goal-purple': '#9E80FF',
+  'goal-pink': '#FF72B6',
+
+  // HeatMap
+  'heatmap-0': '#F2F2F2',
+  'heatmap-1': '#D5E6FF',
+  'heatmap-2': '#8CB8F9',
+  'heatmap-3': '#4C82F7',
+  'heatmap-4': '#1A59E1',
+  'heatmap-accent': '#EEBA06',
+};
