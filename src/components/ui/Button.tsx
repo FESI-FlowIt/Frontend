@@ -7,17 +7,17 @@ import { cn } from '@/lib/utils';
 const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
   variants: {
     variant: {
-      default: 'bg-primary-01 hover:bg-primary-01-hover',
-      secondary: 'bg-secondary-01 hover:bg-secondary-01-hover',
-      disable: 'bg-disable',
+      default: 'bg-primary-01 hover:bg-primary-01-hover text-white',
+      secondary: 'bg-secondary-01 hover:bg-secondary-01-hover text-text-02',
+      disable: 'bg-disable text-white',
     },
     text: {
       default: 'text-body-sb-20 sm:text-body-m-16',
       secondary: 'text-body-sb-20 sm:text-body-16',
     },
     size: {
-      auth: 'h-[62px] w-[600px] px-5 py-6 sm:h-11 sm:w-full',
-      check: 'h-[60px] w-[118px] px-5 py-6 sm:h-11 sm:w-20',
+      auth: 'h-[62px] w-[600px] px-5 py-6 sm:h-11 sm:w-full md:w-full md:max-w-[600px]',
+      check: 'h-[60px] w-[118px] px-5 py-6 sm:h-11 sm:w-20 md:w-full md:max-w-[118px]',
       modal: 'h-12 w-[520px]',
     },
     rounded: {
