@@ -7,13 +7,14 @@ import { cn } from '@/lib/utils';
 const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
   variants: {
     variant: {
-      default: 'bg-primary-01 hover:bg-primary-01-hover text-white',
-      secondary: 'bg-secondary-01 hover:bg-secondary-01-hover text-text-02',
-      disable: 'bg-disable text-white',
+      default: 'bg-primary-01 hover:bg-primary-01-hover',
+      secondary: 'bg-secondary-01 hover:bg-secondary-01-hover',
+      disable: 'bg-disable',
     },
     text: {
-      default: 'text-body-sb-20 sm:text-body-m-16',
-      secondary: 'text-body-sb-20 sm:text-body-16',
+      default: 'text-body-sb-20 sm:text-body-m-16 text-white',
+      secondary: 'text-body-sb-20 sm:text-body-16 text-text-02',
+      disable: 'text-body-sb-20 sm:text-body-16 text-white',
     },
     size: {
       auth: 'h-[62px] w-[600px] px-5 py-6 sm:h-11 sm:w-full md:w-full md:max-w-[600px]',
