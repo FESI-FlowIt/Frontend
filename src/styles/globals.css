@@ -48,59 +48,6 @@
      Font Family (글꼴)
      ======================================================================== */
   --font-family-sans: 'Pretendard', theme(fontFamily.sans);
-
-  /* ========================================================================
-     Font Size (글자 크기 & 줄 간격)
-     ======================================================================== */
-  /* Title */
-  --font-size-display-32: 32px;
-  --leading-display-32: 40px; /* line-height */
-
-  --font-size-display-24: 24px;
-  --leading-display-24: 30px;
-
-  --font-size-head-20: 20px;
-  --leading-head-20: 26px;
-
-  --font-size-head-16: 16px;
-  --leading-head-16: 28px;
-
-  --font-size-head-long-16: 16px;
-  --leading-head-long-16: 30px;
-
-  /* Body */
-  --font-size-body-sb-20: 20px;
-  --leading-body-sb-20: 22px;
-
-  --font-size-body-m-20: 20px;
-  --leading-body-m-20: 22px;
-
-  --font-size-body-20: 20px;
-  --leading-body-20: 22px;
-
-  --font-size-body-b-16: 16px;
-  --leading-body-b-16: 22px;
-
-  --font-size-body-m-16: 16px;
-  --leading-body-m-16: 24px;
-
-  --font-size-body-16: 16px;
-  --leading-body-16: 24px;
-
-  --font-size-body-long-m-16: 16px;
-  --leading-body-long-m-16: 34px;
-
-  --font-size-body-long-16: 16px;
-  --leading-body-long-16: 28px;
-
-  --font-size-body-b-12: 12px;
-  --leading-body-b-12: 22px;
-
-  --font-size-body-m-12: 12px;
-  --leading-body-m-12: 22px;
-
-  --font-size-body-12: 12px;
-  --leading-body-12: 22px;
 }
 
 /* 3. @layer base 블록에 기본 스타일(body 등)을 정의합니다. */
