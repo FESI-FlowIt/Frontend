@@ -7,8 +7,8 @@ export const fontSize = {
   'head-long-16': ['16px', { fontWeight: '600', lineHeight: '30px' }],
 
   // Body
-  'body-sb-20': ['20px', { fontWeight: '700', lineHeight: '22px' }],
-  'body-m-20': ['20px', { fontWeight: '700', lineHeight: '22px' }],
+  'body-sb-20': ['20px', { fontWeight: '600', lineHeight: '22px' }],
+  'body-m-20': ['20px', { fontWeight: '500', lineHeight: '22px' }],
   'body-20': ['20px', { fontWeight: '700', lineHeight: '22px' }],
   'body-b-16': ['16px', { fontWeight: '700', lineHeight: '22px' }],
   'body-m-16': ['16px', { fontWeight: '500', lineHeight: '24px' }],
