@@ -1,6 +1,6 @@
-@import 'tailwindcss/preflight';
-@tailwind utilities;
+@config "./tailwind.config.ts";
+@import 'tailwindcss';
 
 body {
-  @apply ui-background text-text-01 font-sans;
+  @apply bg-ui-background text-text-01 text-body-16 font-sans;
 }
