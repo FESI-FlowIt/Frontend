@@ -35,16 +35,19 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
 });
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+    VariantProps<typeof buttonVariants> {
+  icon?: React.ReactNode;
+}
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, text, rounded, children, ...props }, ref) => {
+  ({ className, variant, size, text, rounded, children, icon, ...props }, ref) => {
     return (
       <button
-        className={cn(buttonVariants({ variant, size, text, rounded }), className)}
+        className={cn(buttonVariants({ variant, size, text, rounded }), className, icon && 'gap-4')}
         ref={ref}
         {...props}
       >
+        {icon && <div className={cn('h-24 w-24')}>{icon}</div>}
         {children}
       </button>
     );
