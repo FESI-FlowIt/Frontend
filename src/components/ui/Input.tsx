@@ -7,10 +7,11 @@ import { cn } from '@/lib/utils';
 const inputVariants = cva('', {
   variants: {
     variant: {
-      default: 'focus:border-primary-01 border-line rounded-xl border bg-white',
+      default:
+        'border-line focus-visible:border-primary-01-hover rounded-xl border bg-white focus:border-2 focus:outline-none',
     },
     inputSize: {
-      default: 'sm:w-ful h-[60px] w-[600px] px-5 py-6 sm:h-11 md:w-full md:max-w-[600px]',
+      default: 'h-60 w-600 px-20 py-24 sm:h-44 sm:w-full md:w-full md:max-w-600',
     },
     text: {
       default: 'text-body-sb-20 placeholder:text-text-inactive text-black',

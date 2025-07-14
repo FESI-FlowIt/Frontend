@@ -17,9 +17,9 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       disable: 'text-body-sb-20 sm:text-body-16 text-white',
     },
     size: {
-      auth: 'h-[62px] w-[600px] px-5 py-6 sm:h-11 sm:w-full md:w-full md:max-w-[600px]',
-      check: 'h-[60px] w-[118px] px-5 py-6 sm:h-11 sm:w-20 md:w-full md:max-w-[118px]',
-      modal: 'h-12 w-[520px]',
+      auth: 'h-62 w-600 px-20 py-24 sm:h-44 sm:w-full sm:min-w-343 md:w-full md:max-w-600',
+      check: 'h-60 w-118 px-20 py-24 sm:h-44 sm:w-80 md:w-full md:max-w-118',
+      modal: 'w-520',
     },
     rounded: {
       none: 'rounded-none',

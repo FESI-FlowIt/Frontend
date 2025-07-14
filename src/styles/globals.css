@@ -150,3 +150,7 @@
     line-height: 22px;
   }
 }
+
+:root {
+  --spacing: 0.0625rem;
+}
