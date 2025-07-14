@@ -10,7 +10,7 @@ import naver from '../../../public/assets/images/naverLogo.svg';
 export default function Logo() {
   const router = useRouter();
 
-  //ToDo: 소셜로그인 api가 나오면 router 설정
+  //ToDo: 소셜로그인 api가 나오면 post 요청 및 router 설정
   const handleNavigation = (provider: 'google' | 'kakao' | 'naver') => {
     router.push(`/${provider}`);
   };
