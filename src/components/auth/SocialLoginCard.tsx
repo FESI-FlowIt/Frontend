@@ -7,7 +7,7 @@ import google from '../../../public/assets/images/googleLogo.svg';
 import kakao from '../../../public/assets/images/kakaoLogo.svg';
 import naver from '../../../public/assets/images/naverLogo.svg';
 
-export default function Logo() {
+export default function SocialLoginCard() {
   const router = useRouter();
 
   //ToDo: 소셜로그인 api가 나오면 post 요청 및 router 설정
