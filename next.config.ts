@@ -1,6 +1,20 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  // TurboPack 설정
+  // package.json에서 dev 에 "next dev --turbopack"으로 되어있기때문에
+  // npm run dev 환경에서 svgr을 사용하려면 turbopack 설정이 필요합니다.
+  experimental: {
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
+  },
+  // webpack 설정
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/i,
