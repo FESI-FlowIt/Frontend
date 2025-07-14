@@ -12,13 +12,13 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       disable: 'bg-disable',
     },
     text: {
-      default: 'text-body-sb-20 sm:text-body-m-16 text-white',
-      secondary: 'text-body-sb-20 sm:text-body-16 text-text-02',
-      disable: 'text-body-sb-20 sm:text-body-16 text-white',
+      default: 'lg:text-body-sb-20 md:text-body-sb-20 sm:text-body-m-16 text-white',
+      secondary: 'lg:text-body-sb-20 md:text-body-sb-20 sm:text-body-m-16 text-text-02',
+      disable: 'lg:text-body-sb-20 md:text-body-sb-20 sm:text-body-m-16 text-white',
     },
     size: {
-      auth: 'h-62 w-600 px-20 py-24 sm:h-44 sm:w-full sm:min-w-343 md:w-full md:max-w-600',
-      check: 'h-60 w-118 px-20 py-24 sm:h-44 sm:w-80 md:w-full md:max-w-118',
+      auth: 'px-20 py-24 sm:h-44 sm:w-full sm:max-w-343 md:h-62 md:w-full md:max-w-600 lg:h-62 lg:w-600',
+      check: 'px-20 py-24 sm:h-44 sm:w-80 md:h-60 md:w-full md:max-w-118 lg:h-60 lg:w-118',
       modal: 'w-520',
     },
     rounded: {

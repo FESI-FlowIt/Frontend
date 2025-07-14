@@ -3,6 +3,9 @@
 
 /* 2. @theme 블록 안에 프로젝트의 전체 디자인 시스템을 CSS 변수로 정의합니다. */
 @theme {
+  --breakpoint-sm: 375;
+  --breakpoint-md: 744;
+  --breakpoint-lg: 1024;
   /* ========================================================================
      Colors (색상)
      ======================================================================== */
@@ -63,92 +66,90 @@
   }
 }
 
-@layer utilities {
-  /* Title */
-  .text-display-32 {
-    font-size: 32px;
-    font-weight: 700;
-    line-height: 40px;
-  }
-  .text-display-24 {
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 30px;
-  }
-  .text-head-20 {
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 26px;
-  }
-  .text-head-16 {
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 28px;
-  }
-  .text-head-long-16 {
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 30px;
-  }
+/* Title */
+@utility text-display-32 {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px;
+}
+@utility text-display-24 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+}
+@utility text-head-20 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 26px;
+}
+@utility text-head-16 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 28px;
+}
+@utility text-head-long-16 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 30px;
+}
 
-  /* Body */
-  .text-body-sb-20 {
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 22px;
-  }
+/* Body */
+@utility text-body-sb-20 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 22px;
+}
 
-  .text-body-m-20 {
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 22px;
-  }
+@utility text-body-m-20 {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 22px;
+}
 
-  .text-body-20 {
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 22px;
-  }
-  .text-body-b-16 {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 22px;
-  }
-  .text-body-m-16 {
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 24px;
-  }
-  .text-body-16 {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
-  }
-  .text-body-long-m-16 {
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 34px;
-  }
-  .text-body-long-16 {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 28px;
-  }
-  .text-body-b-12 {
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 22px;
-  }
-  .text-body-m-12 {
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 22px;
-  }
-  .text-body-12 {
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 22px;
-  }
+@utility text-body-20 {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 22px;
+}
+@utility text-body-b-16 {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+}
+@utility text-body-m-16 {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+@utility text-body-16 {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+@utility text-body-long-m-16 {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 34px;
+}
+@utility text-body-long-16 {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 28px;
+}
+@utility text-body-b-12 {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 22px;
+}
+@utility text-body-m-12 {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 22px;
+}
+@utility text-body-12 {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 22px;
 }
 
 :root {
