@@ -152,6 +152,16 @@
   line-height: 22px;
 }
 
+@utility text-logo-52 {
+  font-size: 52px;
+  font-weight: 700;
+}
+
+@utility text-logo-31 {
+  font-size: 31.2px;
+  font-weight: 700;
+}
+
 :root {
   --spacing: 0.0625rem;
 }
