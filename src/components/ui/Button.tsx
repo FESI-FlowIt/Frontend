@@ -9,21 +9,24 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
     variant: {
       default: 'bg-primary-01 hover:bg-primary-01-hover',
       secondary: 'bg-secondary-01 hover:bg-secondary-01-hover',
-      disable: 'bg-disable',
     },
     text: {
-      default: 'lg:text-body-sb-20 md:text-body-sb-20 sm:text-body-m-16 text-white',
-      secondary: 'lg:text-body-sb-20 md:text-body-sb-20 sm:text-body-m-16 text-text-02',
-      disable: 'lg:text-body-sb-20 md:text-body-sb-20 sm:text-body-m-16 text-white',
+      default: 'md:text-body-sb-20 sm:text-body-m-16 text-white',
+      secondary: 'md:text-body-sb-20 sm:text-body-m-16 text-text-02',
     },
     size: {
-      auth: 'px-20 py-24 sm:h-44 sm:w-full sm:max-w-343 md:h-62 md:w-full md:max-w-600 lg:h-62 lg:w-600',
-      check: 'px-20 py-24 sm:h-44 sm:w-80 md:h-60 md:w-full md:max-w-118 lg:h-60 lg:w-118',
+      auth: 'h-62 w-600 px-20 py-24 sm:h-44 sm:w-full sm:max-w-343 md:h-62 md:w-full md:max-w-600',
+      check:
+        'h-60 w-118 px-20 py-24 whitespace-nowrap sm:h-44 sm:w-80 md:h-60 md:w-full md:max-w-118',
       modal: 'w-520',
     },
     rounded: {
       none: 'rounded-none',
       default: 'rounded-xl',
+    },
+    isDisabled: {
+      true: 'md:text-body-sb-20 sm:text-body-m-16 bg-disable text-white',
+      false: '',
     },
   },
   defaultVariants: {
@@ -31,6 +34,7 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
     text: 'default',
     size: 'auth',
     rounded: 'default',
+    isDisabled: false,
   },
 });
 export interface ButtonProps
@@ -40,13 +44,11 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, text, rounded, children, icon, ...props }, ref) => {
+  ({ className, variant, size, text, rounded, children, icon, disabled, ...props }, ref) => {
+    const btnStyle = buttonVariants({ variant, size, text, rounded, isDisabled: disabled });
+
     return (
-      <button
-        className={cn(buttonVariants({ variant, size, text, rounded }), className, icon && 'gap-4')}
-        ref={ref}
-        {...props}
-      >
+      <button className={cn(btnStyle, className, icon && 'gap-4')} ref={ref} {...props}>
         {icon && <div className={cn('h-24 w-24')}>{icon}</div>}
         {children}
       </button>

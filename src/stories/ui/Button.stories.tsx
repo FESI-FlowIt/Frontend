@@ -9,7 +9,7 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'secondary', 'disable'],
+      options: ['default', 'secondary'],
     },
     text: {
       control: 'select',
@@ -22,6 +22,9 @@ const meta: Meta<typeof Button> = {
     rounded: {
       control: 'select',
       options: ['none', 'default'],
+    },
+    disabled: {
+      control: 'boolean',
     },
     onClick: { action: 'clicked' },
   },
@@ -37,6 +40,7 @@ export const Default: Story = {
     text: 'default',
     size: 'auth',
     rounded: 'default',
+    disabled: false,
   },
 };
 
@@ -47,15 +51,22 @@ export const Secondary: Story = {
     text: 'secondary',
     size: 'check',
     rounded: 'default',
+    disabled: false,
   },
 };
 
 export const Disable: Story = {
   args: {
     children: '로그인',
-    variant: 'disable',
-    text: 'default',
     size: 'auth',
     rounded: 'default',
+    disabled: true,
+  },
+};
+
+export const Icon: Story = {
+  args: {
+    icon: <span>🚀</span>,
+    children: 'Icon Button',
   },
 };
