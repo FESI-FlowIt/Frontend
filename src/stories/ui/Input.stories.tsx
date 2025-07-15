@@ -19,6 +19,7 @@ const meta: Meta<typeof Input> = {
       control: 'select',
       options: ['default'],
     },
+    hasError: { control: 'boolean' },
   },
   args: {
     placeholder: '아이디',
@@ -33,5 +34,12 @@ export const Default: Story = {
     variant: 'default',
     inputSize: 'default',
     text: 'default',
+    hasError: false,
+  },
+};
+
+export const Errored: Story = {
+  args: {
+    hasError: true,
   },
 };
