@@ -25,7 +25,7 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       default: 'rounded-xl',
     },
     isDisabled: {
-      true: 'md:text-body-sb-20 sm:text-body-m-16 bg-disable text-white',
+      true: 'md:text-body-sb-20 sm:text-body-m-16 bg-disable hover:bg-disabled text-white hover:cursor-not-allowed',
       false: '',
     },
   },
@@ -48,7 +48,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const btnStyles = buttonVariants({ variant, size, text, rounded, isDisabled: disabled });
 
     return (
-      <button className={cn(btnStyles, className, icon && 'gap-4')} ref={ref} {...props}>
+      <button
+        disabled={disabled}
+        className={cn(btnStyles, className, icon && 'gap-4')}
+        ref={ref}
+        {...props}
+      >
         {icon && <div className={cn('h-24 w-24')}>{icon}</div>}
         {children}
       </button>
