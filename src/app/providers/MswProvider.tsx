@@ -3,19 +3,19 @@
 import { useEffect, useState } from 'react';
 
 export const MswProvider = ({ children }: { children: React.ReactNode }) => {
-  const [mswReady, setMswReady] = useState(false);
+  const [mswReady, setMswReady] = useState(process.env.NODE_ENV !== 'development');
 
   useEffect(() => {
-    const init = async () => {
-      const initMSW = await import('@/mocks').then(res => res.initMsw);
-      await initMSW();
-      setMswReady(true);
-    };
-
-    if (!mswReady) {
-      init();
+    if (process.env.NODE_ENV === 'development') {
+      import('@/mocks').then(({ initMsw }) => {
+        initMsw().finally(() => setMswReady(true));
+      });
     }
-  }, [mswReady]);
+  }, []);
+
+  if (!mswReady) {
+    return null;
+  }
 
   return <>{children}</>;
 };

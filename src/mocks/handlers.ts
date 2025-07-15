@@ -1,10 +1,8 @@
 import { http, HttpResponse } from 'msw';
 
-import { LoginFormData } from '@/components/molecules/LoginForm';
-
 export const handlers = [
   http.post('/auth/signIn', async ({ request }) => {
-    const { email, password } = (await request.json()) as LoginFormData;
+    const { email, password } = (await request.json()) as { email: string; password: string };
     if (email === 'test1@test.com' && password === 'asd123123') {
       return HttpResponse.json({
         id: '1',

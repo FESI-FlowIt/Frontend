@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { MswProvider } from './providers/MSWProvider';
+import { MswProvider } from './providers/MswProvider';
 import ReactQueryProvider from './providers/ReactQueryProvider';
 
 import '../styles/globals.css';
