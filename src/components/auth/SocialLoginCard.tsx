@@ -28,7 +28,7 @@ export default function SocialLoginCard({ mode }: { mode: 'login' | 'signUp' }) 
           <div
             key={name}
             onClick={() => handleNavigation(name as 'naver' | 'kakao' | 'google')}
-            className="relative sm:h-44 sm:w-44 md:h-52 md:w-52 lg:h-52 lg:w-52"
+            className="relative cursor-pointer sm:h-44 sm:w-44 md:h-52 md:w-52 lg:h-52 lg:w-52"
           >
             <Image src={icon} alt={`${name} 로고 이미지`} fill />
           </div>
@@ -52,7 +52,7 @@ export default function SocialLoginCard({ mode }: { mode: 'login' | 'signUp' }) 
           <div
             key={name}
             onClick={() => handleNavigation(name as 'naver' | 'kakao' | 'google')}
-            className="relative sm:h-44 sm:w-44 md:h-52 md:w-52 lg:h-52 lg:w-52"
+            className="relative cursor-pointer sm:h-44 sm:w-44 md:h-52 md:w-52 lg:h-52 lg:w-52"
           >
             <Image src={icon} alt={`${name} 로고 이미지`} fill />
           </div>

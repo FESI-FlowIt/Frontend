@@ -4,6 +4,12 @@ import '../src/styles/globals.css';
 
 const preview: Preview = {
   parameters: {
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        pathname: '/',
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
