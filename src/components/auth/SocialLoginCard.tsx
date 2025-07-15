@@ -16,7 +16,7 @@ const providers: ProvidersInterface[] = [
 export default function SocialLoginCard({ mode }: { mode: 'login' | 'signUp' }) {
   const router = useRouter();
 
-  //ToDo: 소셜로그인 api가 나오면 post 요청 및 router 설정
+  //TODO: 소셜로그인 api가 나오면 post 요청 및 router 설정
   const handleNavigation = (provider: 'google' | 'kakao' | 'naver') => {
     router.push(`/${provider}`);
   };
