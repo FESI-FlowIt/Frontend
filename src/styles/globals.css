@@ -10,6 +10,7 @@
      Colors (색상)
      ======================================================================== */
   --color-white: #ffffff;
+  --color-black: #1e2128;
   --color-ui-background: #ffffff;
   --color-ui-background-primary-soft: #d3e3ff;
   --color-primary-01: #4c82f7;
@@ -150,6 +151,16 @@
   font-size: 12px;
   font-weight: 400;
   line-height: 22px;
+}
+
+@utility text-logo-52 {
+  font-size: 52px;
+  font-weight: 700;
+}
+
+@utility text-logo-31 {
+  font-size: 31.2px;
+  font-weight: 700;
 }
 
 :root {
