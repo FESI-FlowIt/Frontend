@@ -8,7 +8,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
-import off from '@/../public/assets/images/visibility_off.svg';
 import { loginSchema } from '@/lib/validation';
 
 import { Button } from '../ui/Button';
@@ -19,6 +18,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const [isShow, setIsShow] = useState(false);
 
   const {
     register,
@@ -81,16 +81,28 @@ export default function LoginForm() {
         {errors?.email && <p className="text-body-m-20 text-error mt-12">{errors.email.message}</p>}
       </div>
       <div className="mb-20 sm:mb-28 md:mb-20">
-        <div>
+        <div className="relative">
           <Input
-            type="password"
+            type={isShow ? 'text' : 'password'}
             placeholder="비밀번호"
             defaultValue=""
             hasError={!!errors.password}
             {...register('password')}
           />
-          <button className="relative h-24 w-24">
-            <Image src={off} alt="패스워드 보여주기 이미지" fill />
+          <button
+            type="button"
+            onClick={() => setIsShow(prev => !prev)}
+            className="absolute top-1/2 right-450 -translate-y-1/2 cursor-pointer"
+          >
+            <Image
+              //TODO: 피그마에 없어서 제 로컬에 있는 이미지 사용했는데 추후에 visibility_on 이미지 변경해야합니다.
+              src={
+                isShow ? '/assets/images/visibility_on.svg' : '/assets/images/visibility_off.svg'
+              }
+              alt="패스워드 보여주기 이미지"
+              width={24}
+              height={24}
+            />
           </button>
         </div>
 
