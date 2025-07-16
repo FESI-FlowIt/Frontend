@@ -1,3 +1,7 @@
-export default function Home() {
-  return <div>안녕하세요.</div>;
+'use client';
+
+import GoalListDashboard from '@/components/goals/goallist/GoalListDashboard';
+
+export default function Page() {
+  return <GoalListDashboard />;
 }

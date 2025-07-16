@@ -1,11 +1,10 @@
+// src/mocks/handlers.ts
+
 import { http, HttpResponse } from 'msw';
+import { mockGoalSummaries } from './data/mockGoalSummaries';
 
 export const handlers = [
-  http.get('https://api.example.com/user', () => {
-    return HttpResponse.json({
-      id: 'abc-123',
-      firstName: 'John',
-      lastName: 'Maverick',
-    });
+  http.get('/api/goals', () => {
+    return HttpResponse.json(mockGoalSummaries);
   }),
 ];
