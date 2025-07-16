@@ -81,18 +81,19 @@ export default function LoginForm() {
         {errors?.email && <p className="text-body-m-20 text-error mt-12">{errors.email.message}</p>}
       </div>
       <div className="mb-20 sm:mb-28 md:mb-20">
-        <div className="relative">
+        <div className="relative h-60 w-600 sm:h-44 sm:w-full sm:max-w-343 md:h-60 md:w-full md:max-w-600">
           <Input
             type={isShow ? 'text' : 'password'}
             placeholder="비밀번호"
             defaultValue=""
             hasError={!!errors.password}
+            className="pr-40"
             {...register('password')}
           />
           <button
             type="button"
             onClick={() => setIsShow(prev => !prev)}
-            className="absolute top-1/2 right-450 -translate-y-1/2 cursor-pointer"
+            className="absolute top-1/2 right-10 -translate-y-1/2 cursor-pointer"
           >
             <Image
               //TODO: 피그마에 없어서 제 로컬에 있는 이미지 사용했는데 추후에 visibility_on 이미지 변경해야합니다.
