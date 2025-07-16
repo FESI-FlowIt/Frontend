@@ -2,11 +2,13 @@
 
 import { useState } from 'react';
 
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
+import off from '@/../public/assets/images/visibility_off.svg';
 import { loginSchema } from '@/lib/validation';
 
 import { Button } from '../ui/Button';
@@ -21,6 +23,7 @@ export default function LoginForm() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -28,7 +31,12 @@ export default function LoginForm() {
       email: '',
       password: '',
     },
+    mode: 'onBlur',
   });
+
+  const email = watch('email');
+  const password = watch('password');
+  const isFormValid = email.trim() !== '' && password.trim() !== '';
 
   const onSubmit = async (formData: LoginFormData) => {
     setIsLoading(true);
@@ -61,7 +69,7 @@ export default function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20 sm:gap-12 md:gap-20">
       <div>
         <Input
           type="email"
@@ -70,19 +78,27 @@ export default function LoginForm() {
           {...register('email')}
           hasError={!!errors.email}
         />
-        {errors?.email && <p>{errors.email.message}</p>}
+        {errors?.email && <p className="text-body-m-20 text-error mt-12">{errors.email.message}</p>}
       </div>
-      <div>
-        <Input
-          type="password"
-          placeholder="비밀번호"
-          defaultValue=""
-          hasError={!!errors.password}
-          {...register('password')}
-        />
-        {errors?.password && <p>{errors.password.message}</p>}
+      <div className="mb-20 sm:mb-28 md:mb-20">
+        <div>
+          <Input
+            type="password"
+            placeholder="비밀번호"
+            defaultValue=""
+            hasError={!!errors.password}
+            {...register('password')}
+          />
+          <button className="relative h-24 w-24">
+            <Image src={off} alt="패스워드 보여주기 이미지" fill />
+          </button>
+        </div>
+
+        {errors?.password && (
+          <p className="text-body-m-20 text-error mt-12">{errors.password.message}</p>
+        )}
       </div>
-      <Button disabled={isLoading}>로그인</Button>
+      <Button disabled={isLoading || !isFormValid}>로그인</Button>
     </form>
   );
 }
