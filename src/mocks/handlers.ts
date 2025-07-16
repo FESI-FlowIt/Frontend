@@ -10,6 +10,9 @@ export const handlers = [
         token: 'fake-jwt-token',
       });
     }
-    return new HttpResponse('Unauthorized', { status: 401 });
+    return HttpResponse.json(
+      { message: '이메일 또는 비밀번호가 올바르지 않습니다.' },
+      { status: 401 },
+    );
   }),
 ];
