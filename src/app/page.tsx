@@ -1,5 +1,3 @@
-import Logo from '@/components/auth/Logo';
-
 export default function Home() {
-  return <Logo />;
+  return <div>안녕하세요.</div>;
 }
