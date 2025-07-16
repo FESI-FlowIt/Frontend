@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 
 // Tab 버튼 variants
 const tabVariants = cva(
-  'text-body-m-16 md:text-body-m-20 rounded-8 flex h-24 items-center justify-center transition-all duration-200 md:h-32',
+  'text-body-m-16 md:text-body-m-20 rounded-8 flex h-24 w-136 items-center justify-center transition-all duration-200 md:h-32 md:w-156',
   {
     variants: {
       variant: {
@@ -23,7 +23,7 @@ const tabVariants = cva(
 );
 
 // Tab 컨테이너 variants
-const tabContainerVariants = cva('bg-line rounded-8 flex h-32 w-280 gap-0 p-4 md:h-40 md:w-320');
+const tabContainerVariants = cva('bg-line rounded-8 flex h-32 w-fit gap-0 p-4 md:h-40');
 
 export interface TabItem {
   id: string;
@@ -68,7 +68,7 @@ const Tab = ({ items, defaultValue, value, onChange, className }: TabProps) => {
               tabVariants({
                 variant: isActive ? 'active' : 'inactive',
               }),
-              'flex-1 cursor-pointer px-4',
+              'cursor-pointer',
             )}
             type="button"
             role="tab"
