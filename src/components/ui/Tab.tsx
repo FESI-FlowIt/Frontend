@@ -11,7 +11,7 @@ const tabVariants = cva(
     variants: {
       variant: {
         active: 'text-text-02 bg-ui-background',
-        inactive: 'text-text-04 bg-transparent',
+        inactive: 'text-text-04 hover:text-text-03 bg-transparent',
       },
     },
     defaultVariants: {
