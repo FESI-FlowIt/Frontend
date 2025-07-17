@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-
 import { cva, VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
@@ -32,24 +30,13 @@ export interface TabItem {
 
 interface TabProps extends VariantProps<typeof tabContainerVariants> {
   items: TabItem[];
-  defaultValue?: string; // 비제어 컴포넌트용
-  value?: string; // 제어 컴포넌트용
-  onChange?: (value: string) => void;
+  value: string;
+  onChange: (value: string) => void;
   className?: string;
 }
 
-const Tab = ({ items, defaultValue, value, onChange, className }: TabProps) => {
-  // 비제어 컴포넌트용 내부 상태
-  const [internalValue, setInternalValue] = useState(defaultValue || items[0]?.id || '');
-
-  const activeTab = value !== undefined ? value : internalValue;
-
-  const handleTabClick = (id: string) => {
-    if (value === undefined) {
-      setInternalValue(id);
-    }
-    onChange?.(id);
-  };
+const Tab = ({ items, value, onChange, className }: TabProps) => {
+  const activeValue = value ?? items[0]?.id ?? '';
 
   if (!items || items.length === 0) {
     return null;
@@ -58,12 +45,12 @@ const Tab = ({ items, defaultValue, value, onChange, className }: TabProps) => {
   return (
     <div className={cn(tabContainerVariants(), className)}>
       {items.map(item => {
-        const isActive = activeTab === item.id;
+        const isActive = activeValue === item.id;
 
         return (
           <button
             key={item.id}
-            onClick={() => handleTabClick(item.id)}
+            onClick={() => onChange(item.id)}
             className={cn(
               tabVariants({
                 variant: isActive ? 'active' : 'inactive',
