@@ -23,6 +23,7 @@ const config = [
       sourceType: 'module',
       globals: {
         React: true,
+        jest: true,
       },
     },
     settings: {
