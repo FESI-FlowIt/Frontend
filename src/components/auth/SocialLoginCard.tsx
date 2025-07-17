@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { clsx } from 'clsx';
+
+import { ROUTES } from '@/lib/routes';
 interface ProvidersInterface {
   name: string;
   icon: string;
@@ -54,7 +56,7 @@ export default function SocialLoginCard({ mode }: { mode: 'login' | 'signUp' }) 
         <span className="text-body-16 flex gap-4">
           FlowIt이 처음이신가요?
           <span
-            onClick={() => router.push('/auth/signUp')}
+            onClick={() => router.push(ROUTES.AUTH.SIGNUP)}
             className="text-primary-01 cursor-pointer underline"
           >
             회원가입

@@ -102,7 +102,7 @@ export default function LoginForm() {
           <button
             type="button"
             onClick={() => setIsShow(prev => !prev)}
-            className="absolute top-1/2 right-10 -translate-y-1/2 cursor-pointer"
+            className="absolute top-1/2 right-18 -translate-y-1/2 cursor-pointer"
           >
             <Image
               //TODO: 피그마에 없어서 제 로컬에 있는 이미지 사용했는데 추후에 visibility_on 이미지 변경해야합니다.
