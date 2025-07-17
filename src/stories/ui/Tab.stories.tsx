@@ -12,11 +12,8 @@ const meta: Meta<typeof Tab> = {
     items: {
       description: '탭 아이템 배열 { id: string, label: string }[]',
     },
-    defaultValue: {
-      description: '초기 선택 탭 (비제어)',
-    },
     value: {
-      description: '현재 선택 탭 (제어)',
+      description: '현재 선택된 탭 ID',
     },
     onChange: {
       description: '탭 변경 콜백',
@@ -28,32 +25,46 @@ const meta: Meta<typeof Tab> = {
 export default meta;
 type Story = StoryObj<typeof Tab>;
 
-// 기본 사용 (비제어)
+// 기본 사용
 export const Default: Story = {
-  args: {
-    items: [
-      { id: 'week', label: '이번 주' },
-      { id: 'month', label: '이번 달' },
-    ],
-    defaultValue: 'week',
+  render: () => {
+    const [activeTab, setActiveTab] = useState('week');
+
+    return (
+      <Tab
+        items={[
+          { id: 'week', label: '이번 주' },
+          { id: 'month', label: '이번 달' },
+        ]}
+        value={activeTab}
+        onChange={setActiveTab}
+      />
+    );
   },
 };
 
 // 여러 탭
 export const MultipleTabs: Story = {
-  args: {
-    items: [
-      { id: 'all', label: '전체' },
-      { id: 'active', label: '활성' },
-      { id: 'completed', label: '완료' },
-      { id: 'archived', label: '보관' },
-    ],
-    defaultValue: 'all',
+  render: () => {
+    const [activeTab, setActiveTab] = useState('all');
+
+    return (
+      <Tab
+        items={[
+          { id: 'all', label: '전체' },
+          { id: 'active', label: '활성' },
+          { id: 'completed', label: '완료' },
+          { id: 'archived', label: '보관' },
+        ]}
+        value={activeTab}
+        onChange={setActiveTab}
+      />
+    );
   },
 };
 
-// 제어 컴포넌트
-export const Controlled: Story = {
+// 제어 컴포넌트 (외부 상태와 연동)
+export const WithExternalControl: Story = {
   render: () => {
     const [activeTab, setActiveTab] = useState('design');
 
