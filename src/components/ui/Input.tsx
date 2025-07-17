@@ -28,6 +28,7 @@ const inputVariants = cva('', {
     variant: 'default',
     inputSize: 'default',
     text: 'default',
+    isError: false,
   },
 });
 

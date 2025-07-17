@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import { MswProvider } from './providers/MswProvider';
 import ReactQueryProvider from './providers/ReactQueryProvider';
 
 import '../styles/globals.css';
@@ -17,7 +18,9 @@ export default function RootLayout({
   return (
     <html lang="kr">
       <body>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <MswProvider>
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+        </MswProvider>
       </body>
     </html>
   );
