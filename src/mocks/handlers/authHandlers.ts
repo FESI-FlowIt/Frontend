@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
 
-import { loginErr, loginRes } from '../mockResponses/auth/loginResponse';
+import { loginRes } from '../mockResponses/auth/loginResponse';
 
 export const authHandlers = [
   http.post('/auth/signIn', async ({ request }) => {
@@ -8,6 +8,27 @@ export const authHandlers = [
     if (email === 'test1@test.com' && password === 'asd123123') {
       return HttpResponse.json(loginRes);
     }
-    return HttpResponse.json(loginErr, { status: 401 });
+
+    if (email !== 'test1@test.com') {
+      return HttpResponse.json(
+        {
+          success: false,
+          errorField: 'email',
+          message: '가입되지 않은 이메일입니다.',
+        },
+        { status: 401 },
+      );
+    }
+
+    if (password !== 'asd123123') {
+      return HttpResponse.json(
+        {
+          success: false,
+          errorField: 'password',
+          message: '비밀번호가 올바르지 않습니다.',
+        },
+        { status: 401 },
+      );
+    }
   }),
 ];
