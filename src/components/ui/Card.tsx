@@ -2,7 +2,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
 
-const cardVariants = cva('rounded-20 flex flex-col gap-16 p-20', {
+const cardVariants = cva('rounded-20 flex w-fit flex-col gap-16 p-20', {
   variants: {
     backgroundColor: {
       white: 'bg-ui-background',
