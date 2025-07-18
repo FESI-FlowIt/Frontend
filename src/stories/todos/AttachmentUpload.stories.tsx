@@ -21,13 +21,13 @@ const meta: Meta<typeof AttachmentUpload> = {
 export default meta;
 type Story = StoryObj<typeof AttachmentUpload>;
 
-export const 기본: Story = {
+export const Default: Story = {
   render: () => {
     return <AttachmentUpload />;
   },
 };
 
-export const 파일탭활성화: Story = {
+export const FiletabActivated: Story = {
   render: () => {
     return <AttachmentUpload />;
   },
@@ -40,7 +40,7 @@ export const 파일탭활성화: Story = {
   },
 };
 
-export const 탭전환기능: Story = {
+export const TabSwitchFeature: Story = {
   render: () => {
     return (
       <div>

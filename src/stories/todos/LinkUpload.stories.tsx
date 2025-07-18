@@ -26,7 +26,7 @@ const meta: Meta<typeof LinkUpload> = {
 export default meta;
 type Story = StoryObj<typeof LinkUpload>;
 
-export const 빈상태: Story = {
+export const EmptyState: Story = {
   render: args => {
     const [attachments, setAttachments] = useState<Attachment[]>([]);
 
@@ -48,7 +48,7 @@ export const 빈상태: Story = {
   },
 };
 
-export const 링크있음: Story = {
+export const HasLink: Story = {
   render: args => {
     const [attachments, setAttachments] = useState<Attachment[]>([
       {
@@ -71,7 +71,7 @@ export const 링크있음: Story = {
   },
 };
 
-export const 긴URL: Story = {
+export const LongURL: Story = {
   render: args => {
     const [attachments, setAttachments] = useState<Attachment[]>([
       {

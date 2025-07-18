@@ -27,7 +27,7 @@ const meta: Meta<typeof FormField> = {
 export default meta;
 type Story = StoryObj<typeof FormField>;
 
-export const 기본입력: Story = {
+export const Default: Story = {
   render: args => {
     const [value, setValue] = useState('');
 
@@ -46,7 +46,7 @@ export const 기본입력: Story = {
   },
 };
 
-export const 텍스트영역: Story = {
+export const TextArea: Story = {
   render: args => {
     const [value, setValue] = useState('');
 
@@ -65,7 +65,7 @@ export const 텍스트영역: Story = {
   },
 };
 
-export const 선택박스: Story = {
+export const Select: Story = {
   render: args => {
     const [value, setValue] = useState('');
 
@@ -87,7 +87,7 @@ export const 선택박스: Story = {
   },
 };
 
-export const 커스텀스타일: Story = {
+export const CustomStyle: Story = {
   render: args => {
     const [value, setValue] = useState('');
 

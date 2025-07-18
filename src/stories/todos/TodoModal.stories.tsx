@@ -44,7 +44,7 @@ const meta: Meta<typeof TodoModal> = {
 export default meta;
 type Story = StoryObj<typeof TodoModal>;
 
-export const 할일생성모달: Story = {
+export const TodoCreateModal: Story = {
   render: args => {
     const { openTodoModal } = useModalStore();
 
@@ -62,7 +62,7 @@ export const 할일생성모달: Story = {
   },
 };
 
-export const 기본목표선택: Story = {
+export const DefaultGoalSelected: Story = {
   render: args => {
     const { openTodoModal } = useModalStore();
 
@@ -83,7 +83,7 @@ export const 기본목표선택: Story = {
   },
 };
 
-export const 할일수정모달: Story = {
+export const TodoEditModal: Story = {
   render: args => {
     const { openTodoEditModal } = useModalStore();
 
@@ -124,90 +124,7 @@ export const 할일수정모달: Story = {
   },
 };
 
-export const 외부Props사용: Story = {
-  render: args => {
-    const { openTodoModal } = useModalStore();
-
-    return (
-      <>
-        <button
-          onClick={openTodoModal}
-          className="rounded bg-purple-500 px-4 py-2 text-white hover:bg-purple-600"
-        >
-          외부 Props로 할 일 수정
-        </button>
-        <TodoModal {...args} />
-      </>
-    );
-  },
-  args: {
-    todoToEdit: {
-      todoId: '2',
-      goalId: 'goal-2',
-      title: '외부 Props로 전달된 할 일',
-      isDone: false,
-      createdAt: '2024-01-01T00:00:00.000Z',
-      updatedAt: '2024-01-01T00:00:00.000Z',
-      accumulatedMs: 0,
-    },
-    defaultGoalId: 'goal-2',
-  },
-};
-
-export const 스토어우선순위테스트: Story = {
-  render: args => {
-    const { openTodoModal, openTodoEditModal } = useModalStore();
-
-    const mockTodo: Todo = {
-      todoId: '3',
-      goalId: 'goal-3',
-      title: '스토어에서 관리되는 할 일',
-      isDone: false,
-      createdAt: '2024-01-01T00:00:00.000Z',
-      updatedAt: '2024-01-01T00:00:00.000Z',
-      accumulatedMs: 0,
-    };
-
-    return (
-      <>
-        <div className="mb-4 flex gap-3">
-          <button
-            onClick={openTodoModal}
-            className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-          >
-            생성 모달
-          </button>
-          <button
-            onClick={() => openTodoEditModal(mockTodo)}
-            className="rounded bg-orange-500 px-4 py-2 text-white hover:bg-orange-600"
-          >
-            수정 모달
-          </button>
-        </div>
-        <div className="max-w-md text-sm text-gray-600">
-          <p>
-            <strong>우선순위 테스트:</strong>
-          </p>
-          <p>editingTodo가 있으면 store의 editingTodo 사용, 없으면 props의 todoToEdit 사용</p>
-        </div>
-        <TodoModal {...args} />
-      </>
-    );
-  },
-  args: {
-    todoToEdit: {
-      todoId: '4',
-      goalId: 'goal-4',
-      title: 'Props로 전달된 할 일 (우선순위 낮음)',
-      isDone: false,
-      createdAt: '2024-01-01T00:00:00.000Z',
-      updatedAt: '2024-01-01T00:00:00.000Z',
-      accumulatedMs: 0,
-    },
-  },
-};
-
-export const 폼기능테스트: Story = {
+export const FormFeatureTest: Story = {
   render: args => {
     const { openTodoModal } = useModalStore();
 

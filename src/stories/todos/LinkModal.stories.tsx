@@ -24,7 +24,7 @@ const meta: Meta<typeof LinkModal> = {
 export default meta;
 type Story = StoryObj<typeof LinkModal>;
 
-export const 기본: Story = {
+export const Default: Story = {
   render: args => {
     const { openLinkModal } = useModalStore();
 
@@ -47,7 +47,7 @@ export const 기본: Story = {
   },
 };
 
-export const 유효성검증테스트: Story = {
+export const ValidationTest: Story = {
   render: args => {
     const { openLinkModal } = useModalStore();
 
@@ -75,7 +75,7 @@ export const 유효성검증테스트: Story = {
 
 import React, { useState } from 'react';
 
-export const URL정규화예시: Story = {
+export const URLNormalizationTest: Story = {
   render: args => {
     const { openLinkModal } = useModalStore();
     const [answer, setAnswer] = useState<Attachment | null>(null);

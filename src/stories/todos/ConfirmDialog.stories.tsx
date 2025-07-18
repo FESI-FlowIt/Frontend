@@ -29,7 +29,7 @@ const meta: Meta<typeof ConfirmDialog> = {
 export default meta;
 type Story = StoryObj<typeof ConfirmDialog>;
 
-export const 삭제확인: Story = {
+export const ConfirmDeletion: Story = {
   render: args => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -58,7 +58,7 @@ export const 삭제확인: Story = {
   },
 };
 
-export const 데이터삭제확인: Story = {
+export const ConfirmDataDeletion: Story = {
   render: args => {
     const [isOpen, setIsOpen] = useState(false);
 

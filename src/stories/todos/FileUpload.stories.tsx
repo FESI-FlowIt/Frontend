@@ -28,7 +28,7 @@ const meta: Meta<typeof FileUpload> = {
 export default meta;
 type Story = StoryObj<typeof FileUpload>;
 
-export const 기본: Story = {
+export const Default: Story = {
   render: args => {
     const [attachments, setAttachments] = useState<Attachment[]>([]);
 
@@ -51,7 +51,7 @@ export const 기본: Story = {
   },
 };
 
-export const 업로드완료상태: Story = {
+export const UploadCompleted: Story = {
   render: args => {
     const [attachments, setAttachments] = useState<Attachment[]>([
       {

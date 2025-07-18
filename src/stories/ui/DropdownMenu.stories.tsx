@@ -41,7 +41,7 @@ const meta: Meta<typeof DropdownMenu> = {
 export default meta;
 type Story = StoryObj<typeof DropdownMenu>;
 
-export const 기본: Story = {
+export const Default: Story = {
   render: args => {
     const [isOpen, setIsOpen] = useState(false);
     const triggerRef = useRef<HTMLButtonElement>(null);
@@ -73,7 +73,7 @@ export const 기본: Story = {
   },
 };
 
-export const 위치별예시: Story = {
+export const ExampleByLocation: Story = {
   render: () => {
     const [openMenu, setOpenMenu] = useState<string | null>(null);
     const bottomLeftRef = useRef<HTMLButtonElement>(null);
