@@ -1,13 +1,12 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { cva, type VariantProps } from 'class-variance-authority';
-import { createPortal } from 'react-dom';
 
 import { cn } from '@/lib/utils';
 
-const dropdownVariants = cva('fixed z-50 rounded-lg border border-gray-200 bg-white shadow-lg', {
+const dropdownVariants = cva('absolute rounded-lg border shadow-lg', {
   variants: {
     size: {
       sm: 'max-w-xs min-w-32',
@@ -35,7 +34,7 @@ const dropdownVariants = cva('fixed z-50 rounded-lg border border-gray-200 bg-wh
   },
 });
 
-export interface DropdownPortalProps extends VariantProps<typeof dropdownVariants> {
+export interface DropdownMenuProps extends VariantProps<typeof dropdownVariants> {
   children: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
@@ -43,9 +42,10 @@ export interface DropdownPortalProps extends VariantProps<typeof dropdownVariant
   className?: string;
   position?: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
   matchTriggerWidth?: boolean;
+  zIndex?: number;
 }
 
-const DropdownPortal = ({
+const DropdownMenu = ({
   children,
   isOpen,
   onClose,
@@ -55,9 +55,18 @@ const DropdownPortal = ({
   shadow,
   className,
   position = 'bottom-left',
-}: DropdownPortalProps) => {
+  matchTriggerWidth = false,
+  zIndex = 50, // 기본값 50
+}: DropdownMenuProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
 
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
+  // 외부 클릭 및 키보드 이벤트 처리
   useEffect(() => {
     if (!isOpen) return;
 
@@ -87,73 +96,45 @@ const DropdownPortal = ({
     };
   }, [isOpen, onClose, triggerRef]);
 
-  // 위치 계산
-  const getPosition = () => {
-    if (!triggerRef.current) return { top: 0, left: 0 };
+  if (!mounted || !isOpen) return null;
 
-    const rect = triggerRef.current.getBoundingClientRect();
-    const scrollY = window.scrollY;
-    const scrollX = window.scrollX;
-
-    const triggerWidth = size === 'full' ? rect.width : undefined;
-
+  const getPositionClasses = () => {
     switch (position) {
       case 'bottom-left':
-        return {
-          top: rect.bottom + scrollY + 4,
-          left: rect.left + scrollX,
-          ...(triggerWidth && { width: triggerWidth }),
-        };
+        return 'top-full left-0 mt-4';
       case 'bottom-right':
-        return {
-          top: rect.bottom + scrollY + 4,
-          left: rect.right + scrollX,
-          transform: 'translateX(-100%)',
-          ...(triggerWidth && { width: triggerWidth }),
-        };
+        return 'top-full right-0 mt-4';
       case 'top-left':
-        return {
-          top: rect.top + scrollY - 4,
-          left: rect.left + scrollX,
-          transform: 'translateY(-100%)',
-          ...(triggerWidth && { width: triggerWidth }),
-        };
+        return 'bottom-full left-0 mb-4';
       case 'top-right':
-        return {
-          top: rect.top + scrollY - 4,
-          left: rect.right + scrollX,
-          transform: 'translateX(-100%) translateY(-100%)',
-          ...(triggerWidth && { width: triggerWidth }),
-        };
+        return 'bottom-full right-0 mb-4';
       default:
-        return {
-          top: rect.bottom + scrollY + 4,
-          left: rect.left + scrollX,
-          ...(triggerWidth && { width: triggerWidth }),
-        };
+        return 'top-full left-0 mt-4';
     }
   };
 
-  if (!isOpen) return null;
+  const widthStyle =
+    matchTriggerWidth && triggerRef.current ? { width: triggerRef.current.offsetWidth } : {};
 
-  const positionStyle = getPosition();
-
-  return createPortal(
+  return (
     <div
       ref={dropdownRef}
-      className={cn(dropdownVariants({ size, animation, shadow }), className)}
+      className={cn(
+        dropdownVariants({ size, animation, shadow }),
+        'border-line bg-white',
+        getPositionClasses(),
+        className,
+      )}
       style={{
-        top: positionStyle.top,
-        left: positionStyle.left,
-        ...(positionStyle.width && { width: positionStyle.width }),
+        zIndex,
+        ...widthStyle,
       }}
       role="menu"
       aria-orientation="vertical"
     >
       {children}
-    </div>,
-    document.body,
+    </div>
   );
 };
 
-export default DropdownPortal;
+export default DropdownMenu;
