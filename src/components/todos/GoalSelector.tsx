@@ -45,30 +45,6 @@ const GoalSelector = ({ selectedGoalId, onSelectGoal, error }: GoalSelectorProps
         </span>
       </button>
 
-      {/* {isOpen && (
-        <>
-          <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-          <div className="border-line absolute top-full right-0 left-0 z-50 mt-4 max-h-200 overflow-y-auto rounded-lg border bg-white shadow-lg">
-            {goalsData?.goals.map(goal => (
-              <button
-                key={goal.goalId}
-                type="button"
-                onClick={() => {
-                  onSelectGoal(goal.goalId);
-                  setIsOpen(false);
-                }}
-                className="hover:bg-tertiary-01 flex w-full items-center space-x-12 px-20 py-12 text-left transition-colors"
-              >
-                <div
-                  className="h-12 w-12 flex-shrink-0 rounded-full"
-                  style={{ backgroundColor: `var(${goal.color})` }}
-                />
-                <span className="text-text-01 truncate">{goal.title}</span>
-              </button>
-            ))}
-          </div>
-        </>
-      )} */}
       <DropdownPortal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
@@ -97,7 +73,6 @@ const GoalSelector = ({ selectedGoalId, onSelectGoal, error }: GoalSelectorProps
                 style={{ backgroundColor: `var(${goal.color})` }}
               />
               <span className="truncate">{goal.title}</span>
-              {/* 🔥 선택된 목표 표시 */}
               {selectedGoalId === goal.goalId && <span className="text-primary-01 ml-auto">✓</span>}
             </button>
           ))}
