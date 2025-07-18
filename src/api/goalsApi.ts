@@ -4,7 +4,6 @@ import {
   Goal,
   GoalFormData,
   GoalSummary,
-  UpdateGoalPinStatusRequest,
   UpdateGoalRequest,
 } from '@/interfaces/goal';
 
@@ -87,11 +86,6 @@ export const goalsApi = {
 
   // 목표 고정 상태 변경
   updateGoalPinStatus: async (goalId: string, isPinned: boolean): Promise<Goal> => {
-    const requestData: UpdateGoalPinStatusRequest = {
-      goalId,
-      isPinned,
-    };
-
     const response = await fetch(`/goals/${goalId}/pin`, {
       method: 'PATCH',
       headers: {

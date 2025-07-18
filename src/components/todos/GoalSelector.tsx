@@ -8,6 +8,7 @@ import DropdownPortal from '../ui/DropdownMenu';
 
 interface GoalSelectorProps {
   selectedGoalId: string;
+  // eslint-disable-next-line no-unused-vars
   onSelectGoal: (goalId: string) => void;
   error?: boolean;
 }

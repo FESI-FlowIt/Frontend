@@ -16,6 +16,7 @@ interface ModalState {
   closeGoalModal: () => void;
   closeAllModals: () => void;
 
+  // eslint-disable-next-line no-unused-vars
   openTodoEditModal: (todo: Todo) => void;
   closeEditModal: () => void;
 }

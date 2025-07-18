@@ -6,6 +6,7 @@ import FileUploadIcon from '@/assets/FileUploadIcon.svg';
 import { Attachment } from '@/interfaces/todo';
 
 interface FileUploadProps {
+  // eslint-disable-next-line no-unused-vars
   onFilesChange: (files: File[]) => void;
   maxFiles?: number;
   maxFileSize?: number; // MB 단위

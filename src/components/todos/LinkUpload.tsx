@@ -11,6 +11,7 @@ import LinkModal from './LinkModal';
 
 interface LinkUploadProps {
   attachments: Attachment[];
+  // eslint-disable-next-line no-unused-vars
   onLinksChange: (links: Attachment[]) => void;
 }
 

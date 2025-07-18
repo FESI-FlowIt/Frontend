@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { create } from 'zustand';
 
 import { Attachment } from '@/interfaces/todo';
@@ -10,6 +11,7 @@ interface AttachmentState {
   errors: string[];
 
   // 액션
+
   setAttachments: (attachments: Attachment[]) => void;
   addAttachments: (attachments: Attachment[]) => void;
   removeAttachment: (index: number) => void;

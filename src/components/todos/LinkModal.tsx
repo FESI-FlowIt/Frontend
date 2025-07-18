@@ -15,6 +15,7 @@ import FormField from '../ui/FormField';
 import Modal from '../ui/Modal';
 
 interface LinkModalProps {
+  // eslint-disable-next-line no-unused-vars
   onAddLink: (link: Attachment) => void;
 }
 
