@@ -12,6 +12,7 @@ import { useModalStore } from '@/store/modalStore';
 
 import { Button } from '../ui/Button';
 import FormField from '../ui/FormField';
+import { Input } from '../ui/Input';
 import Modal from '../ui/Modal';
 
 interface LinkModalProps {
@@ -125,16 +126,14 @@ const LinkModal = ({ onAddLink }: LinkModalProps) => {
       <form onSubmit={handleFormSubmitWithStopPropagation} noValidate>
         <div className="space-y-24">
           <FormField label="링크 URL" htmlFor="url">
-            <input
+            <Input
               id="url"
               type="url"
+              variant="modal"
               {...register('url')}
               placeholder="www.example.com 또는 https://example.com"
-              className={`text-body-m-16 h-44 w-full rounded-lg border px-20 py-10 transition-colors focus:ring-2 focus:outline-none ${
-                errors.url
-                  ? 'border-error focus:ring-error'
-                  : 'border-line focus:ring-primary-01-hover focus:border-primary-01-hover'
-              }`}
+              hasError={!!errors.url}
+              inputSize="modal"
             />
             {errors.url && <p className="text-error text-body-12 mt-4">{errors.url.message}</p>}
           </FormField>

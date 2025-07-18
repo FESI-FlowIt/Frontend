@@ -14,6 +14,7 @@ import { useModalStore } from '@/store/modalStore';
 
 import { Button } from '../ui/Button';
 import FormField from '../ui/FormField';
+import { Input } from '../ui/Input';
 import Modal from '../ui/Modal';
 
 import AttachmentUpload from './AttachmentUpload';
@@ -182,16 +183,14 @@ const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {
         <form onSubmit={handleSubmit(handleFormSubmit)} noValidate>
           <div>
             <FormField label="제목" htmlFor="title" className="mb-44">
-              <input
+              <Input
                 id="title"
                 type="text"
+                variant="modal"
                 {...register('title')}
                 placeholder="할 일의 제목을 적어주세요"
-                className={`text-body-m-16 h-44 w-full rounded-lg border px-20 py-10 transition-colors focus:ring-2 focus:outline-none ${
-                  errors.title
-                    ? 'border-error focus:ring-error'
-                    : 'border-line focus:ring-primary-01-hover focus:border-primary-01-hover'
-                }`}
+                hasError={!!errors.title}
+                inputSize="modal"
               />
             </FormField>
 
