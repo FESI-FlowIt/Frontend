@@ -14,15 +14,6 @@ export const useTodos = (goalId?: string) => {
   });
 };
 
-// 특정 할 일 조회
-export const useTodo = (todoId: string) => {
-  return useQuery({
-    queryKey: [...TODOS_QUERY_KEY, todoId],
-    queryFn: () => todosApi.getTodo(todoId),
-    enabled: !!todoId,
-  });
-};
-
 // 할 일 생성
 export const useCreateTodo = () => {
   const queryClient = useQueryClient();
