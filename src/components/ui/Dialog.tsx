@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { cva, type VariantProps } from 'class-variance-authority';
 import { createPortal } from 'react-dom';
@@ -72,7 +72,7 @@ const Dialog = ({
   closeOnEscape = true,
   className,
 }: DialogProps) => {
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isOpen || !closeOnEscape) return;
 
     const handleEscape = (e: KeyboardEvent) => {
