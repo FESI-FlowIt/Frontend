@@ -31,4 +31,19 @@ export const authHandlers = [
       );
     }
   }),
+
+  http.post('/user', async () => {
+    return HttpResponse.json({ message: '회원가입 성공!' }, { status: 200 });
+  }),
+
+  http.post('/auth/check-email', async ({ request }) => {
+    const { email } = (await request.json()) as { email: string };
+    if (email === 'test1@test.com') {
+      return HttpResponse.json(
+        { errorField: 'email', message: '이미 사용 중인 이메일입니다' },
+        { status: 400 },
+      );
+    }
+    return HttpResponse.json({ message: '사용 가능한 이메일입니다!' }, { status: 200 });
+  }),
 ];
