@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 import ConfirmDialog from '@/components/todos/ConfirmDialog';
 
 const meta: Meta<typeof ConfirmDialog> = {
-  title: 'components/todos/ConfirmDialog',
+  title: 'Components/todos/ConfirmDialog',
   component: ConfirmDialog,
   parameters: {
     layout: 'centered',

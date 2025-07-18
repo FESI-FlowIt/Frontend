@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 import DropdownMenu from '@/components/ui/DropdownMenu';
 
 const meta: Meta<typeof DropdownMenu> = {
-  title: 'components/ui/DropdownMenu',
+  title: 'Components/ui/DropdownMenu',
   component: DropdownMenu,
   parameters: {
     layout: 'centered',

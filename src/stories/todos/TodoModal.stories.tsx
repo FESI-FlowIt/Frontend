@@ -16,7 +16,7 @@ const queryClient = new QueryClient({
 });
 
 const meta: Meta<typeof TodoModal> = {
-  title: 'components/todos/TodoModal',
+  title: 'Components/todos/TodoModal',
   component: TodoModal,
   parameters: {
     layout: 'centered',

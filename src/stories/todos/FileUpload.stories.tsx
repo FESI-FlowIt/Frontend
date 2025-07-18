@@ -6,7 +6,7 @@ import FileUpload from '@/components/todos/FileUpload';
 import { Attachment } from '@/interfaces/todo';
 
 const meta: Meta<typeof FileUpload> = {
-  title: 'components/todos/FileUpload',
+  title: 'Components/todos/FileUpload',
   component: FileUpload,
   parameters: {
     layout: 'centered',

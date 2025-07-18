@@ -5,7 +5,7 @@ import { Attachment } from '@/interfaces/todo';
 import { useModalStore } from '@/store/modalStore';
 
 const meta: Meta<typeof LinkModal> = {
-  title: 'components/todos/LinkModal',
+  title: 'Components/todos/LinkModal',
   component: LinkModal,
   parameters: {
     layout: 'centered',

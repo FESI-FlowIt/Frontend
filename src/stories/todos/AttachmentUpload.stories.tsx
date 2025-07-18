@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 import AttachmentUpload from '@/components/todos/AttachmentUpload';
 
 const meta: Meta<typeof AttachmentUpload> = {
-  title: 'components/todos/AttachmentUpload',
+  title: 'Components/todos/AttachmentUpload',
   component: AttachmentUpload,
   parameters: {
     layout: 'centered',

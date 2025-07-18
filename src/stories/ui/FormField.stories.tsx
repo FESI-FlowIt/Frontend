@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 import FormField from '@/components/ui/FormField';
 
 const meta: Meta<typeof FormField> = {
-  title: 'components/ui/FormField',
+  title: 'Components/ui/FormField',
   component: FormField,
   parameters: {
     layout: 'centered',

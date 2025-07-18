@@ -6,7 +6,7 @@ import LinkUpload from '@/components/todos/LinkUpload';
 import { Attachment } from '@/interfaces/todo';
 
 const meta: Meta<typeof LinkUpload> = {
-  title: 'components/todos/LinkUpload',
+  title: 'Components/todos/LinkUpload',
   component: LinkUpload,
   parameters: {
     layout: 'centered',
