@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-import type { Meta, StoryObj } from '@storybook/nextjs';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
 import Dialog from '@/components/ui/Dialog';
 
 const meta: Meta<typeof Dialog> = {
-  title: 'components/ui/Dialog',
+  title: 'Components/ui/Dialog',
   component: Dialog,
   parameters: {
     layout: 'centered',
@@ -33,8 +33,8 @@ const meta: Meta<typeof Dialog> = {
 export default meta;
 type Story = StoryObj<typeof Dialog>;
 
-export const 기본: Story = {
-  render: args => {
+export const Default: Story = {
+  render: (args: Story['args']) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -61,8 +61,8 @@ export const 기본: Story = {
   },
 };
 
-export const 오류알림: Story = {
-  render: args => {
+export const ErrorAlert: Story = {
+  render: (args: Story['args']) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -89,8 +89,8 @@ export const 오류알림: Story = {
   },
 };
 
-export const 각진모서리: Story = {
-  render: args => {
+export const SharpBorder: Story = {
+  render: (args: Story['args']) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
