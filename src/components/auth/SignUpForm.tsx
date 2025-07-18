@@ -126,7 +126,7 @@ export default function SingUpForm() {
         {errors?.name && <p className="text-body-m-20 text-error mt-12">{errors.name.message}</p>}
       </div>
       <div className="flex flex-col gap-12">
-        <label>이메일</label>
+        <label className="text-text-03 text-body-sb-20">이메일</label>
         <div className="flex gap-12">
           <Input
             type="email"
@@ -143,14 +143,14 @@ export default function SingUpForm() {
             text="secondary"
             onClick={() => handleCheckEmail(email)}
           >
-            {isEmailChecked ? '인증 완료' : '확인'}
+            확인
           </Button>
         </div>
         {emailServerError && <p className="text-body-m-20 text-error mt-12">{emailServerError}</p>}
         {isEmailChecked && <p className="text-body-m-20 text-goal-green">인증이 완료되었습니다!</p>}
       </div>
       <div className="flex flex-col gap-12">
-        <label>비밀번호</label>
+        <label className="text-text-03 text-body-sb-20">비밀번호</label>
         <div className="relative h-60 w-600 sm:h-44 sm:w-full sm:max-w-343 md:h-60 md:w-full md:max-w-600">
           <Input
             type={isPwShow ? 'text' : 'password'}
@@ -180,7 +180,7 @@ export default function SingUpForm() {
         )}
       </div>
       <div className="flex flex-col gap-12">
-        <label>비밀번호 확인</label>
+        <label className="text-text-03 text-body-sb-20">비밀번호 확인</label>
         <div className="relative h-60 w-600 sm:h-44 sm:w-full sm:max-w-343 md:h-60 md:w-full md:max-w-600">
           <Input
             type={isPwCheckShow ? 'text' : 'password'}
