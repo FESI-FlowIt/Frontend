@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import GoalListDashboardCard from '../components/goals/goallist/GoalListDashboardCard';
-import { mockGoalSummaries } from '@/mocks/data/mockGoalSummaries'; // 변경된 위치로 import
+import { mockGoalSummaries } from '@/mocks/data/mockGoalSummaries';
 
 const meta: Meta<typeof GoalListDashboardCard> = {
   title: 'components/goals/goallist/GoalListDashboardCard',
