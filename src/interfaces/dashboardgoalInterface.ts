@@ -1,4 +1,3 @@
-
 export type Todo = {
   id: string;
   content: string;
@@ -16,13 +15,4 @@ export type GoalSummary = {
   createdAt: string;
 };
 
-export type GoalColor =  
-  | 'red'  
-  | 'orange'  
-  | 'yellow'  
-  | 'green'  
-  | 'blue'  
-  | 'purple'  
-  | 'pink';
-
-
+export type GoalColor = 'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'purple' | 'pink';

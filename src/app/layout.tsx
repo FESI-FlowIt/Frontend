@@ -1,8 +1,9 @@
-import '../styles/globals.css';
 import type { Metadata } from 'next';
 
 import { MswProvider } from './providers/MswProvider';
 import ReactQueryProvider from './providers/ReactQueryProvider';
+
+import '../styles/globals.css';
 
 export const metadata: Metadata = {
   title: 'FlowIt',

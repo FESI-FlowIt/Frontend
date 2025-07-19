@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import { useRouter } from 'next/navigation';
-import { GoalSummary, GoalColor, Todo } from '@/interfaces/dashboardgoalInterface';
+
 import GoalsIcon from '@/assets/icons/GoalsIcon.svg';
 import { Button } from '@/components/ui/Button';
+import { GoalColor, GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
 
 export const goalColorVariants: Record<GoalColor, { background: string; text: string }> = {
   red: { background: 'bg-[var(--color-goal-red)]', text: 'text-[var(--color-goal-red)]' },
@@ -17,7 +19,7 @@ export const goalColorVariants: Record<GoalColor, { background: string; text: st
 };
 
 export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | null }) {
-  const router = typeof window !== 'undefined' ? useRouter() : { push: () => {} };
+  const router = useRouter();
   const [todos, setTodos] = useState<Todo[]>(goal?.todos ?? []);
 
   useEffect(() => {
