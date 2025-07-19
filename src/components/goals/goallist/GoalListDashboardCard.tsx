@@ -1,22 +1,42 @@
 'use client';
 
-import { GoalSummary } from '@/interfaces/goalInterface';
+import { GoalSummary, GoalColor, Todo } from '@/interfaces/goalInterface';
 import { useRouter } from 'next/navigation';
-// import GoalsIcon from '@/assets/icons/GoalsIcon.svg';
+import { useState, useEffect } from 'react';
+import GoalsIcon from '@/assets/icons/GoalsIcon.svg';
+
+export const goalColorVariants: Record<GoalColor, { background: string; text: string }> = {
+  red: { background: 'bg-[var(--color-goal-red)]', text: 'text-[var(--color-goal-red)]' },
+  orange: { background: 'bg-[var(--color-goal-orange)]', text: 'text-[var(--color-goal-orange)]' },
+  yellow: { background: 'bg-[var(--color-goal-yellow)]', text: 'text-[var(--color-goal-yellow)]' },
+  green: { background: 'bg-[var(--color-goal-green)]', text: 'text-[var(--color-goal-green)]' },
+  blue: { background: 'bg-[var(--color-goal-blue)]', text: 'text-[var(--color-goal-blue)]' },
+  purple: { background: 'bg-[var(--color-goal-purple)]', text: 'text-[var(--color-goal-purple)]' },
+  pink: { background: 'bg-[var(--color-goal-pink)]', text: 'text-[var(--color-goal-pink)]' },
+};
 
 export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | null }) {
   const router = typeof window !== 'undefined' ? useRouter() : { push: () => {} };
+  const [todos, setTodos] = useState<Todo[]>(goal?.todos ?? []);
+
+  useEffect(() => {
+    if (goal) setTodos(goal.todos);
+  }, [goal]);
+
+  const handleToggle = (id: string) => {
+    setTodos(prev => prev.map(todo => (todo.id === id ? { ...todo, isDone: !todo.isDone } : todo)));
+  };
 
   if (!goal) {
     return (
-      <div className="relative flex h-[368px] w-[480px] flex-col items-center justify-center rounded-[20px] bg-white p-6 text-center shadow">
-        <p className="text-text-03 mb-2 text-[16px] leading-[24px]">
+      <div className="relative flex h-340 w-480 flex-col items-center justify-center rounded-[20px] bg-white p-32 text-center shadow">
+        <p className="text-text-03 mb-8 text-[16px] leading-[24px]">
           목표가 없습니다.
           <br />
           목표를 만들어볼까요?
         </p>
         <button
-          className="rounded-md bg-gray-100 px-4 py-2 text-sm"
+          className="rounded-md bg-gray-100 px-[16px] py-[8px] text-sm"
           onClick={() => router.push('/goals/create')}
         >
           + 목표 만들기
@@ -25,10 +45,11 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
     );
   }
 
-  const colorClass = `bg-[var(--color-goal-${goal.color})]` as const;
-  const doneCount = goal.todos.filter(todo => todo.isDone).length;
-  const totalCount = goal.todos.length;
+  const doneCount = todos.filter(todo => todo.isDone).length;
+  const totalCount = todos.length;
   const progressPercent = totalCount === 0 ? 0 : Math.round((doneCount / totalCount) * 100);
+
+  const { background: bgClass, text: textClass } = goalColorVariants[goal.color as GoalColor];
 
   const handleClick = () => {
     router.push?.(`/goals/${goal.goalId}`);
@@ -36,88 +57,66 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
 
   return (
     <div
-      className="relative h-[368px] w-[480px] cursor-pointer overflow-hidden rounded-[20px] bg-white"
+      className="relative flex h-340 w-480 cursor-pointer flex-col overflow-hidden rounded-[20px] bg-white"
       onClick={handleClick}
     >
-      <div className={`absolute top-0 left-0 h-full w-[12px] ${colorClass}`} />
-
-      <div className="flex h-full flex-col p-10">
-        <div className="mb-2">
-          <div className="flex items-center gap-2">
-            {/* <GoalsIcon className="h-[24px] w-[24px]" /> */}
-            <h3 className="text-text-01 text-body-sb-20">{goal.title}</h3>
-          </div>
-          <div className="mt-5 flex items-baseline gap-3">
-            <span className="text-body-sb-20">D-{goal.dDay}</span>
-            <span className="text-body-m-16 text-text-03">({goal.deadlineDate} 마감)</span>
+      <div className={`absolute top-0 left-0 h-full w-12 ${bgClass}`} />
+      <div className="flex flex-1 flex-col justify-between px-32 pt-20 pb-20">
+        <div className="flex-col gap-20">
+          <div className="flex flex-col gap-12">
+            <div className="flex items-center gap-8">
+              <GoalsIcon className={`h-24 w-24 ${textClass}`} />
+              <h3 className="text-text-01 text-body-sb-20 max-w-296 truncate">{goal.title}</h3>
+            </div>
+            <div className="flex items-baseline gap-12">
+              <h3 className="text-text-01 text-body-sb-20">D-{goal.dDay}</h3>
+              <span className="text-body-m-16 text-text-03">({goal.deadlineDate} 마감)</span>
+            </div>
+            <span className="text-body-m-16 text-text-04">
+              {doneCount}/{totalCount} 완료 ({progressPercent}%)
+            </span>
+            <div className="bg-line h-8 w-full overflow-hidden rounded-full">
+              <div
+                className={`h-full rounded-full ${bgClass}`}
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
           </div>
         </div>
 
-        {totalCount === 0 ? (
-          <div className="flex flex-1 flex-col items-center justify-center">
-            <p className="text-text-03 mb-4 text-center text-[16px] leading-[24px]">
-              목표를 이루기 위해
-              <br />할 일을 생성해볼까요?
-            </p>
+        <div className="flex flex-col gap-20">
+          <div className="flex items-center justify-between">
+            <span className="text-body-sb-20 text-text-01">할 일: {totalCount}개</span>
             <button
-              className="text-text-00 h-[40px] w-[140px] rounded-md bg-[var(--color-snackbar)]"
+              className="text-body-m-16 text-text-00 h-[40px] w-[84px] rounded-md bg-[var(--color-snackbar)]"
               onClick={e => {
                 e.stopPropagation();
                 router.push(`/goals/${goal.goalId}/todos/create`);
               }}
             >
-              + 할 일 만들기
+              + 할 일
             </button>
           </div>
-        ) : (
-          <>
-            <div className="flex flex-col gap-1">
-              <div className="text-body-m-16 text-text-04">
-                {doneCount}/{totalCount} 완료 ({progressPercent}%)
-              </div>
-              <div className="bg-line relative h-[8px] w-full overflow-hidden rounded-full">
-                <div
-                  className={`absolute top-0 left-0 h-full rounded-full ${colorClass}`}
-                  style={{ width: `${progressPercent}%` }}
-                />
-              </div>
-            </div>
 
-            <div className="mt-5">
-              <div className="mb-5 flex items-center justify-between">
-                <span className="text-body-sb-20 text-text-01">할 일: {totalCount}개</span>
-                <button
-                  className="text-body-m-16 text-text-00 h-[40px] w-[84px] rounded-md bg-[var(--color-snackbar)]"
-                  onClick={e => {
-                    e.stopPropagation();
-                    router.push(`/goals/${goal.goalId}/todos/create`);
-                  }}
-                >
-                  + 할 일
-                </button>
-              </div>
-
-              <div className="scrollbar-thin scrollbar-track-[var(--color-line)] scrollbar-thumb-[var(--color-line)] max-h-[120px] space-y-4 overflow-y-auto">
-                {[...goal.todos]
-                  .sort((a, b) => Number(a.isDone) - Number(b.isDone))
-                  .map(todo => (
-                    <div key={todo.id} className="flex h-[24px] items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={todo.isDone}
-                        readOnly
-                        onClick={e => e.stopPropagation()}
-                        className={`h-[20px] w-[20px] rounded border ${
-                          todo.isDone ? 'bg-[var(--color-primary-01)]' : 'bg-white'
-                        }`}
-                      />
-                      <span className="text-text-02 text-body-m-16">{todo.content}</span>
-                    </div>
-                  ))}
-              </div>
+          <div className="overflow-y-auto" style={{ maxHeight: '104px' }}>
+            <div className="flex flex-col gap-16">
+              {[...todos]
+                .sort((a, b) => Number(a.isDone) - Number(b.isDone))
+                .map(todo => (
+                  <div key={todo.id} className="flex h-24 items-center gap-8">
+                    <input
+                      type="checkbox"
+                      checked={todo.isDone}
+                      onChange={() => handleToggle(todo.id)}
+                      onClick={e => e.stopPropagation()}
+                      className={`h-24 w-24 rounded border ${todo.isDone ? 'bg-primary-01' : 'bg-white'}`}
+                    />
+                    <span className="text-text-02 text-body-m-16">{todo.content}</span>
+                  </div>
+                ))}
             </div>
-          </>
-        )}
+          </div>
+        </div>
       </div>
     </div>
   );
