@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import GoalListDashboardCard from '../components/goals/GoalListDashboardCard';
+import GoalListDashboardCard from '@/components/goals/GoalListDashboardCard';
 import { goalSummariesRes } from '@/mocks/mockResponses/goals/goalsResponse';
 
 const meta: Meta<typeof GoalListDashboardCard> = {
   title: 'components/goals/goallist/GoalListDashboardCard',
   component: GoalListDashboardCard,
+  tags: ['autodocs'],
 };
 
 export default meta;
