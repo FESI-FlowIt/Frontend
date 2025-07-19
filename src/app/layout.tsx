@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import type { Metadata } from 'next';
-import { MSWProvider } from './providers/MSWProvider';
+
+import { MswProvider } from './providers/MswProvider';
 import ReactQueryProvider from './providers/ReactQueryProvider';
 
 export const metadata: Metadata = {
@@ -12,9 +13,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko">
       <body>
-        <MSWProvider>
+        <MswProvider>
           <ReactQueryProvider>{children}</ReactQueryProvider>
-        </MSWProvider>
+        </MswProvider>
       </body>
     </html>
   );
