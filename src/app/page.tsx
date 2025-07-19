@@ -1,8 +1,8 @@
 'use client';
 
-import GoalListDashboardCard from '@/components/goals/goallist/GoalListDashboardCard';
-import { mockGoalSummaries } from '@/mocks/data/mockGoalSummaries';
+import GoalListDashboardCard from '@/components/goals/GoalListDashboardCard';
+import { goalSummariesRes } from '@/mocks/mockResponses/goals/goalsResponse';
 
 export default function Page() {
-  return <GoalListDashboardCard goal={mockGoalSummaries[0]} />;
+  return <GoalListDashboardCard goal={goalSummariesRes[0]} />;
 }

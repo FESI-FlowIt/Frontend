@@ -1,9 +1,8 @@
-// hooks/useGoals.ts
 import { useQuery } from '@tanstack/react-query';
-import { GoalSummary } from '@/interfaces/goalInterface';
+import { GoalSummary } from '@/interfaces/dashboardgoalInterface';
 
 export function useGoals() {
-    console.log('useGoals 훅 실행'); // ✅ 콘솔 확인용
+    console.log('useGoals 훅 실행'); 
   return useQuery<GoalSummary[]>({
     queryKey: ['goals'],
     queryFn: async () => {

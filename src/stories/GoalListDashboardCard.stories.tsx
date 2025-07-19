@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import GoalListDashboardCard from '../components/goals/goallist/GoalListDashboardCard';
-import { mockGoalSummaries } from '@/mocks/data/mockGoalSummaries';
+import GoalListDashboardCard from '../components/goals/GoalListDashboardCard';
+import { goalSummariesRes } from '@/mocks/mockResponses/goals/goalsResponse';
 
 const meta: Meta<typeof GoalListDashboardCard> = {
   title: 'components/goals/goallist/GoalListDashboardCard',
@@ -13,7 +13,7 @@ type Story = StoryObj<typeof GoalListDashboardCard>;
 
 export const 기본: Story = {
   args: {
-    goal: mockGoalSummaries[0],
+    goal: goalSummariesRes[0],
   },
 };
 

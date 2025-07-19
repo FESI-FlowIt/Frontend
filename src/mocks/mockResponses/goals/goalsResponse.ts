@@ -1,6 +1,6 @@
-import { GoalSummary } from '@/interfaces/goalInterface';
+import { GoalSummary } from '@/interfaces/dashboardgoalInterface';
 
-export const mockGoalSummaries: GoalSummary[] = [
+export const goalSummariesRes: GoalSummary[] = [
   {
     goalId: 'goal-1',
     title: '프론트엔드 프로젝트 완성',

@@ -1,9 +1,10 @@
 'use client';
 
-import { GoalSummary, GoalColor, Todo } from '@/interfaces/goalInterface';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { GoalSummary, GoalColor, Todo } from '@/interfaces/dashboardgoalInterface';
 import GoalsIcon from '@/assets/icons/GoalsIcon.svg';
+import { Button } from '@/components/ui/Button';
 
 export const goalColorVariants: Record<GoalColor, { background: string; text: string }> = {
   red: { background: 'bg-[var(--color-goal-red)]', text: 'text-[var(--color-goal-red)]' },
@@ -35,12 +36,15 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
           <br />
           목표를 만들어볼까요?
         </p>
-        <button
-          className="rounded-md bg-gray-100 px-[16px] py-[8px] text-sm"
+        <Button
+          size="check"
+          variant="snackbar"
+          text="default"
+          type="button"
           onClick={() => router.push('/goals/create')}
         >
           + 목표 만들기
-        </button>
+        </Button>
       </div>
     );
   }
@@ -87,15 +91,18 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
         <div className="flex flex-col gap-20">
           <div className="flex items-center justify-between">
             <span className="text-body-sb-20 text-text-01">할 일: {totalCount}개</span>
-            <button
-              className="text-body-m-16 text-text-00 h-[40px] w-[84px] rounded-md bg-[var(--color-snackbar)]"
+            <Button
+              size="todoCard"
+              variant="snackbar"
+              text="todoCard"
+              type="button"
               onClick={e => {
                 e.stopPropagation();
                 router.push(`/goals/${goal.goalId}/todos/create`);
               }}
             >
               + 할 일
-            </button>
+            </Button>
           </div>
 
           <div className="overflow-y-auto" style={{ maxHeight: '104px' }}>
