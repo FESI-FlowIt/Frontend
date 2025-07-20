@@ -32,7 +32,7 @@ export default function SidebarUser() {
 
   return (
     <div className="flex flex-col gap-12">
-      <span className="text-head-20 mb-12 text-black">
+      <span className="text-head-20 sm:text-head-16 md:text-head-20 mb-12 text-black">
         {user?.name}님,
         <br />
         오늘도 목표를 달성해봐요!
