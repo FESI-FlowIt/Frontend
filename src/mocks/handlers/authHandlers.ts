@@ -13,4 +13,11 @@ export const authHandlers = [
       { status: 401 },
     );
   }),
+
+  http.get('/user', () => {
+    return HttpResponse.json({
+      name: '김코드',
+      email: 'test1@test.com',
+    });
+  }),
 ];
