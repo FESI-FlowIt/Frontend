@@ -39,3 +39,11 @@ export const Info: Story = {
     'aria-label': '정보 보기',
   },
 };
+
+export const WithClick: Story = {
+  args: {
+    variant: 'info',
+    'aria-label': '정보 아이콘',
+    onClick: () => alert('아이콘 버튼 클릭됨!'),
+  },
+};

@@ -23,7 +23,7 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
 }
 
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ className, variant, 'aria-label': ariaLabel, ...props }, ref) => {
+  ({ className, variant, 'aria-label': ariaLabel, onClick, ...props }, ref) => {
     const { src, alt, className: iconClassName } = iconConfig[variant];
 
     return (
@@ -33,6 +33,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
           className,
         )}
         aria-label={ariaLabel}
+        onClick={onClick}
         ref={ref}
         {...props}
       >
