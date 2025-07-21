@@ -7,6 +7,9 @@ import { useRouter } from 'next/navigation';
 import GoalsIcon from '@/assets/icons/GoalsIcon.svg';
 import { Button } from '@/components/ui/Button';
 import { GoalColor, GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
+import CheckIcon from '@/assets/icons/check.svg';
+import CheckDefaultIcon from '@/assets/icons/check_default.svg';
+import { ROUTES } from '@/lib/routes';
 
 export const goalColorVariants: Record<GoalColor, { background: string; text: string }> = {
   red: { background: 'bg-[var(--color-goal-red)]', text: 'text-[var(--color-goal-red)]' },
@@ -58,7 +61,7 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
   const { background: bgClass, text: textClass } = goalColorVariants[goal.color as GoalColor];
 
   const handleClick = () => {
-    router.push?.(`/goals/${goal.goalId}`);
+    router.push(ROUTES.GOALS.goalDetail(goal.goalId));
   };
 
   return (
@@ -113,13 +116,20 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
                 .sort((a, b) => Number(a.isDone) - Number(b.isDone))
                 .map(todo => (
                   <div key={todo.id} className="flex h-24 items-center gap-8">
-                    <input
-                      type="checkbox"
-                      checked={todo.isDone}
-                      onChange={() => handleToggle(todo.id)}
-                      onClick={e => e.stopPropagation()}
-                      className={`h-24 w-24 rounded border ${todo.isDone ? 'bg-primary-01' : 'bg-white'}`}
-                    />
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        handleToggle(todo.id);
+                      }}
+                      className="flex h-24 w-24 items-center justify-center"
+                    >
+                      {todo.isDone ? (
+                        <CheckIcon className="h-24 w-24" />
+                      ) : (
+                        <CheckDefaultIcon className="h-24 w-24" />
+                      )}
+                    </button>
+
                     <span className="text-text-02 text-body-m-16">{todo.content}</span>
                   </div>
                 ))}

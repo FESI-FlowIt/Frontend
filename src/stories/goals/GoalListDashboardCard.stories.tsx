@@ -4,7 +4,7 @@ import GoalListDashboardCard from '@/components/goals/GoalListDashboardCard';
 import { goalSummariesRes } from '@/mocks/mockResponses/goals/goalsResponse';
 
 const meta: Meta<typeof GoalListDashboardCard> = {
-  title: 'components/goals/goallist/GoalListDashboardCard',
+  title: 'Components/goals/goallist/GoalListDashboardCard',
   component: GoalListDashboardCard,
   tags: ['autodocs'],
 };
