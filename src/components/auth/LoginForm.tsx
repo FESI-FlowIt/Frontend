@@ -20,12 +20,10 @@ export default function LoginForm() {
   const router = useRouter();
   const [isShow, setIsShow] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<LoginFormData>({
+  const [emailServerError, setEmailServerError] = useState<string | null>(null);
+  const [passwordServerError, setPasswordServerError] = useState<string | null>(null);
+
+  const { register, handleSubmit, watch } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
@@ -51,14 +49,25 @@ export default function LoginForm() {
         body: JSON.stringify(formData),
       });
 
+      const data = await res.json();
+
       if (!res.ok) {
-        const errorData = await res.json();
         //TODO: 추후 api 요청 실패시 나온 response 값에 따라 공통 모달을 만들어서 보여줄 예정입니다.
-        alert(errorData.message);
-        return;
+        if (!res.ok) {
+          if (data.errorField === 'email') {
+            setEmailServerError(data.message);
+            alert(data.message);
+          }
+
+          if (data.errorField === 'password') {
+            setPasswordServerError(data.message);
+            alert(data.message);
+          }
+
+          return;
+        }
       }
 
-      const data = await res.json();
       router.push('/dashboard');
       return data;
     } catch (err) {
@@ -76,9 +85,9 @@ export default function LoginForm() {
           placeholder="이메일"
           defaultValue=""
           {...register('email')}
-          hasError={!!errors.email}
+          hasError={!!emailServerError}
         />
-        {errors?.email && <p className="text-body-m-20 text-error mt-12">{errors.email.message}</p>}
+        {emailServerError && <p className="text-body-m-20 text-error mt-12">{emailServerError}</p>}
       </div>
       <div className="mb-20 sm:mb-28 md:mb-20">
         <div className="relative h-60 w-600 sm:h-44 sm:w-full sm:max-w-343 md:h-60 md:w-full md:max-w-600">
@@ -86,8 +95,8 @@ export default function LoginForm() {
             type={isShow ? 'text' : 'password'}
             placeholder="비밀번호"
             defaultValue=""
-            hasError={!!errors.password}
-            className="pr-44"
+            hasError={!!passwordServerError}
+            className="pr-40"
             {...register('password')}
           />
           <button
@@ -96,7 +105,6 @@ export default function LoginForm() {
             className="absolute top-1/2 right-18 -translate-y-1/2 cursor-pointer"
           >
             <Image
-              //TODO: 피그마에 없어서 제 로컬에 있는 이미지 사용했는데 추후에 visibility_on 이미지 변경해야합니다.
               src={
                 isShow ? '/assets/images/visibility_on.svg' : '/assets/images/visibility_off.svg'
               }
@@ -107,8 +115,8 @@ export default function LoginForm() {
           </button>
         </div>
 
-        {errors?.password && (
-          <p className="text-body-m-20 text-error mt-12">{errors.password.message}</p>
+        {passwordServerError && (
+          <p className="text-body-m-20 text-error mt-12">{passwordServerError}</p>
         )}
       </div>
       <Button disabled={isLoading || !isFormValid}>로그인</Button>
