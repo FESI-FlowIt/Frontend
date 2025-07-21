@@ -2,43 +2,16 @@
 
 import React from 'react';
 
+import { DAY_LABELS, TIME_LABELS } from '@/constants/heatmap';
+import { TimeSlotKey, WeeklyHeatmapResponse } from '@/interfaces/heatmap';
+
 import HeatmapCell from './HeatmapCell';
-
-type TimeSlotKey = 'dawn' | 'morning' | 'afternoon' | 'evening';
-
-interface TimeSlot {
-  minutes: number;
-  intensity: 0 | 1 | 2 | 3 | 4;
-}
-
-interface DayData {
-  date: string;
-  time_slots: Record<TimeSlotKey, TimeSlot>;
-}
-
-export interface WeeklyHeatmapResponse {
-  success: boolean;
-  data: {
-    week_start: string;
-    week_end: string;
-    days: DayData[];
-  };
-}
-
-const TIME_LABELS: Record<TimeSlotKey, string> = {
-  dawn: '새벽\n00-06',
-  morning: '오전\n06-12',
-  afternoon: '오후\n12-18',
-  evening: '밤\n18-24',
-};
-
-const DAY_LABELS = ['월', '화', '수', '목', '금', '토', '일'];
 
 interface WeeklyHeatmapProps {
   data: WeeklyHeatmapResponse['data'];
 }
 
-const WeeklyHeatmap: React.FC<WeeklyHeatmapProps> = ({ data }) => {
+const WeeklyHeatmap = ({ data }: WeeklyHeatmapProps) => {
   const timeKeys: TimeSlotKey[] = ['dawn', 'morning', 'afternoon', 'evening'];
 
   return (
