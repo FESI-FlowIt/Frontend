@@ -4,4 +4,7 @@ export const ROUTES = {
     LOGIN: '/auth/login',
     SIGNUP: '/auth/signUp',
   },
+  GOALS: {
+    goalDetail: (goalId: string) => `/goals/${goalId}`,
+  },
 };
