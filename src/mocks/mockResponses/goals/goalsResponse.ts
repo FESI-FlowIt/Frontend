@@ -24,6 +24,6 @@ export const goalSummariesRes: GoalSummary[] = [
     color: 'red',
     isPinned: false,
     createdAt: '2025-07-18T00:00:00Z',
-    todos: [], 
+    todos: [],
   },
 ];

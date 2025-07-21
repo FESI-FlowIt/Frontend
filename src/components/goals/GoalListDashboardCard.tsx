@@ -1,13 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import { useRouter } from 'next/navigation';
 
 import { GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
 import { ROUTES } from '@/lib/routes';
-import NoGoalsGuide from './NoGoalsGuide';
+
 import EmptyTodo from './EmptyTodo';
 import GoalCardContent from './GoalCardContent';
+import NoGoalsGuide from './NoGoalsGuide';
 
 export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | null }) {
   const router = useRouter();

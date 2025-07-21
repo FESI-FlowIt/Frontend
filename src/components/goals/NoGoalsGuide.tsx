@@ -1,8 +1,9 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import NogoalIcon from '@/assets/icons/nogoal.svg';
 import { Button } from '@/components/ui/Button';
-import { useRouter } from 'next/navigation';
 
 export default function NoGoalsGuide() {
   const router = useRouter();
