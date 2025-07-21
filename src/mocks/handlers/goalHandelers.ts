@@ -3,7 +3,7 @@ import { http, HttpResponse } from 'msw';
 import { goalSummariesRes } from '../mockResponses/goals/goalsResponse';
 
 export const goalHandlers = [
-  http.get('/api/goals', async () => {
+  http.get('/api/goals', () => {
     const isSuccess = true;
 
     if (isSuccess) {
@@ -13,7 +13,7 @@ export const goalHandlers = [
     return HttpResponse.json({ message: '목표 데이터를 불러오지 못했습니다.' }, { status: 500 });
   }),
 
-  http.patch('api/goals/:goalId', async ({ params, request }) => {
+  http.patch('/api/goals/:goalId', async ({ params, request }) => {
     const { goalId } = params;
     const body = (await request.json()) as { isPinned: boolean };
 
