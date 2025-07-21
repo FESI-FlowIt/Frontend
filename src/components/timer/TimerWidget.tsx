@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
 import ClockIcon from '@/assets/icons/clock.svg';
 
 export default function TimerWidget() {
