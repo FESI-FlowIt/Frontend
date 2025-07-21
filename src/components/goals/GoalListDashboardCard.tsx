@@ -14,13 +14,13 @@ import EmptyTodo from './EmptyTodo';
 import NoGoalsGuide from './NoGoalsGuide';
 
 export const goalColorVariants: Record<GoalColor, { background: string; text: string }> = {
-  red: { background: 'bg-[var(--color-goal-red)]', text: 'text-[var(--color-goal-red)]' },
-  orange: { background: 'bg-[var(--color-goal-orange)]', text: 'text-[var(--color-goal-orange)]' },
-  yellow: { background: 'bg-[var(--color-goal-yellow)]', text: 'text-[var(--color-goal-yellow)]' },
-  green: { background: 'bg-[var(--color-goal-green)]', text: 'text-[var(--color-goal-green)]' },
-  blue: { background: 'bg-[var(--color-goal-blue)]', text: 'text-[var(--color-goal-blue)]' },
-  purple: { background: 'bg-[var(--color-goal-purple)]', text: 'text-[var(--color-goal-purple)]' },
-  pink: { background: 'bg-[var(--color-goal-pink)]', text: 'text-[var(--color-goal-pink)]' },
+  red: { background: 'bg-goal-red', text: 'text-goal-red' },
+  orange: { background: 'bg-goal-orange', text: 'text-goal-orange' },
+  yellow: { background: 'bg-goal-yellow', text: 'text-goal-yellow' },
+  green: { background: 'bg-goal-green', text: 'text-goal-green' },
+  blue: { background: 'bg-goal-blue', text: 'text-goal-blue' },
+  purple: { background: 'bg-goal-purple', text: 'text-goal-purple' },
+  pink: { background: 'bg-goal-pink', text: 'text-goal-pink' },
 };
 
 export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | null }) {
