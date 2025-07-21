@@ -11,7 +11,6 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       secondary: 'bg-secondary-01 hover:bg-secondary-01-hover',
       snackbar: 'bg-snackbar hover:bg-snackbar',
       white: 'bg-white hover:bg-white',
-
     },
     text: {
       default: 'md:text-body-sb-20 sm:text-body-m-16 text-white',
@@ -30,7 +29,6 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       todoCard: 'h-40 w-84',
       emptytodoCard: 'h-40 w-200',
       addgoal: 'h-48 w-260',
-
     },
     rounded: {
       none: 'rounded-none',
