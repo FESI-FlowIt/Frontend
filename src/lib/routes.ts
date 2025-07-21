@@ -4,7 +4,9 @@ export const ROUTES = {
     LOGIN: '/auth/login',
     SIGNUP: '/auth/signUp',
   },
+  DASHBOARD: '/dashboard',
   GOALS: {
-    goalDetail: (goalId: string) => `/goals/${goalId}`,
+    LIST: '/goal',
+    DETAIL: (goalId: string) => `/goal/${goalId}`,
   },
 };

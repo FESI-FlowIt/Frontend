@@ -7,7 +7,7 @@ export function useGoals() {
   return useQuery<GoalSummary[]>({
     queryKey: ['goals'],
     queryFn: async () => {
-      const res = await fetch('/api/goals');
+      const res = await fetch('/goals');
       if (!res.ok) throw new Error('Failed to fetch goals');
       return res.json();
     },
