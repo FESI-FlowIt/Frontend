@@ -16,4 +16,14 @@ export const goalSummariesRes: GoalSummary[] = [
       { id: 'todo-4', content: '할일 UI 구현', isDone: false },
     ],
   },
+  {
+    goalId: 'goal-2',
+    title: 'UI 고도화',
+    dDay: 5,
+    deadlineDate: '07/25',
+    color: 'red',
+    isPinned: false,
+    createdAt: '2025-07-18T00:00:00Z',
+    todos: [], 
+  },
 ];

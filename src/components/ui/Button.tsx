@@ -22,6 +22,8 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
         'h-60 w-118 px-20 py-24 whitespace-nowrap sm:h-44 sm:w-80 md:h-60 md:w-full md:max-w-118',
       modal: 'w-520',
       todoCard: 'h-40 w-84',
+      emptytodoCard: 'h-40 w-200',
+      addgoal: 'h-48 w-260',
     },
     rounded: {
       none: 'rounded-none',

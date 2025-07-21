@@ -10,6 +10,8 @@ import GoalsIcon from '@/assets/icons/GoalsIcon.svg';
 import { Button } from '@/components/ui/Button';
 import { GoalColor, GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
 import { ROUTES } from '@/lib/routes';
+import EmptyTodo from './EmptyTodo';
+import NoGoalsGuide from './NoGoalsGuide';
 
 export const goalColorVariants: Record<GoalColor, { background: string; text: string }> = {
   red: { background: 'bg-[var(--color-goal-red)]', text: 'text-[var(--color-goal-red)]' },
@@ -34,24 +36,7 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
   };
 
   if (!goal) {
-    return (
-      <div className="relative flex h-340 w-480 flex-col items-center justify-center rounded-[20px] bg-white p-32 text-center shadow">
-        <p className="text-text-03 mb-8 text-[16px] leading-[24px]">
-          목표가 없습니다.
-          <br />
-          목표를 만들어볼까요?
-        </p>
-        <Button
-          size="check"
-          variant="snackbar"
-          text="default"
-          type="button"
-          onClick={() => router.push('/goals/create')}
-        >
-          + 목표 만들기
-        </Button>
-      </div>
-    );
+    return <NoGoalsGuide />;
   }
 
   const doneCount = todos.filter(todo => todo.isDone).length;
@@ -63,6 +48,32 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
   const handleClick = () => {
     router.push(ROUTES.GOALS.goalDetail(goal.goalId));
   };
+  if (todos.length === 0) {
+    return (
+      <div
+        className="relative flex h-340 w-480 cursor-pointer flex-col overflow-hidden rounded-[20px] bg-white"
+        onClick={handleClick}
+      >
+        <div className={`absolute top-0 left-0 h-full w-12 ${bgClass}`} />
+        <div className="flex flex-1 flex-col justify-between px-32 pt-20 pb-20">
+          <div className="flex flex-col gap-12">
+            <div className="flex items-center gap-8">
+              <GoalsIcon className={`h-24 w-24 ${textClass}`} />
+              <h3 className="text-text-01 text-body-sb-20 max-w-296 truncate">{goal.title}</h3>
+            </div>
+            <div className="flex items-baseline gap-12">
+              <h3 className="text-text-01 text-body-sb-20">D-{goal.dDay}</h3>
+              <span className="text-body-m-16 text-text-03">({goal.deadlineDate} 마감)</span>
+            </div>
+          </div>
+
+          <div className="w-full">
+            <EmptyTodo goalId={goal.goalId} />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -111,29 +122,33 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
           </div>
 
           <div className="overflow-y-auto" style={{ maxHeight: '104px' }}>
-            <div className="flex flex-col gap-16">
-              {[...todos]
-                .sort((a, b) => Number(a.isDone) - Number(b.isDone))
-                .map(todo => (
-                  <div key={todo.id} className="flex h-24 items-center gap-8">
-                    <button
-                      onClick={e => {
-                        e.stopPropagation();
-                        handleToggle(todo.id);
-                      }}
-                      className="flex h-24 w-24 items-center justify-center"
-                    >
-                      {todo.isDone ? (
-                        <CheckIcon className="h-24 w-24" />
-                      ) : (
-                        <CheckDefaultIcon className="h-24 w-24" />
-                      )}
-                    </button>
+            {todos.length === 0 ? (
+              <EmptyTodo goalId={goal.goalId} />
+            ) : (
+              <div className="flex flex-col gap-16">
+                {[...todos]
+                  .sort((a, b) => Number(a.isDone) - Number(b.isDone))
+                  .map(todo => (
+                    <div key={todo.id} className="flex h-24 items-center gap-8">
+                      <button
+                        onClick={e => {
+                          e.stopPropagation();
+                          handleToggle(todo.id);
+                        }}
+                        className="flex h-24 w-24 items-center justify-center"
+                      >
+                        {todo.isDone ? (
+                          <CheckIcon className="h-24 w-24" />
+                        ) : (
+                          <CheckDefaultIcon className="h-24 w-24" />
+                        )}
+                      </button>
 
-                    <span className="text-text-02 text-body-m-16">{todo.content}</span>
-                  </div>
-                ))}
-            </div>
+                      <span className="text-text-02 text-body-m-16">{todo.content}</span>
+                    </div>
+                  ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -19,8 +19,16 @@ export const Default: Story = {
   },
 };
 
-export const EmptyCard: Story = {
+export const Emptygoals: Story = {
   args: {
     goal: null,
+  },
+};
+export const NoTodos: Story = {
+  args: {
+    goal: {
+      ...goalSummariesRes[1],
+      todos: [],
+    },
   },
 };
