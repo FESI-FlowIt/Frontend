@@ -32,6 +32,7 @@ export default function SidebarMenu() {
     currentPinned: boolean;
   }) => {
     const nextPinned = !currentPinned;
+
     try {
       const res = await fetch(`/api/goals/${goalId}`, {
         method: 'PATCH',
@@ -69,15 +70,17 @@ export default function SidebarMenu() {
           <span className="text-text-01 text-body-sb-20">목표</span>
         </div>
 
-        <div className="flex flex-col gap-12">
+        <div className="flex max-h-590 flex-col gap-12 overflow-y-auto">
           {goals.map(goal => (
             <div key={goal.goalId} className="flex h-52 w-260 items-center justify-between px-10">
               <div
                 onClick={() => router.push(ROUTES.GOALS.DETAIL(goal.goalId))}
-                className="flex items-center gap-20"
+                className="flex cursor-pointer items-center gap-20"
               >
-                <div className="bg-error h-12 w-12 rounded-full" />
-                <span className="text-text-02 text-body-m-20">{goal.title}</span>
+                <div className={`h-12 w-12 rounded-full bg-goal-${goal.color}`} />
+                <span className="text-text-02 text-body-m-20 w-170 overflow-hidden overflow-ellipsis whitespace-nowrap">
+                  {goal.title}
+                </span>
               </div>
               <button
                 onClick={() =>
