@@ -16,3 +16,13 @@ export type GoalSummary = {
 };
 
 export type GoalColor = 'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'purple' | 'pink';
+
+export type Goal = {
+  id: string;
+  title: string;
+  color: string;
+  todos: {
+    id: string;
+    title: string;
+  }[];
+};
