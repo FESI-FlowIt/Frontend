@@ -2,6 +2,8 @@
 
 import React, { useRef, useState } from 'react';
 
+import clsx from 'clsx';
+
 import { useGoals } from '@/hooks/useGoals';
 
 import DropdownPortal from '../ui/DropdownMenu';
@@ -35,11 +37,13 @@ const GoalSelector = ({ selectedGoalId, onSelectGoal, error }: GoalSelectorProps
         ref={triggerRef}
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`text-body-m-16 flex h-44 w-full items-center justify-between rounded-lg border px-20 py-10 transition-colors focus:ring-2 focus:outline-none ${
-          error
-            ? 'border-error focus:ring-error'
-            : 'border-line focus:ring-primary-01-hover focus:border-primary-01-hover'
-        }`}
+        className={clsx(
+          'text-body-m-16 flex h-44 w-full items-center justify-between rounded-lg border px-20 py-10 transition-colors focus:ring-2 focus:outline-none',
+          {
+            'border-error focus:ring-error': error,
+            'border-line focus:ring-primary-01-hover focus:border-primary-01-hover': !error,
+          },
+        )}
       >
         <span className={selectedGoal ? 'text-text-01' : 'text-text-04'}>
           {selectedGoal ? selectedGoal.title : '목표 선택'}
@@ -65,9 +69,13 @@ const GoalSelector = ({ selectedGoalId, onSelectGoal, error }: GoalSelectorProps
                 onSelectGoal(goal.goalId);
                 setIsOpen(false);
               }}
-              className={`hover:bg-tertiary-01 flex w-full items-center space-x-12 px-20 py-12 text-left transition-colors ${
-                selectedGoalId === goal.goalId ? 'bg-primary-01/10 text-primary-01' : 'text-text-01'
-              }`}
+              className={clsx(
+                'hover:bg-tertiary-01 flex w-full items-center space-x-12 px-20 py-12 text-left transition-colors',
+                {
+                  'bg-primary-01/10 text-primary-01': selectedGoalId === goal.goalId,
+                  'text-text-01': selectedGoalId !== goal.goalId,
+                },
+              )}
             >
               <div
                 className="h-12 w-12 flex-shrink-0 rounded-full"

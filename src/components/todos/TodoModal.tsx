@@ -183,14 +183,12 @@ const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {
         <form onSubmit={handleSubmit(handleFormSubmit)} noValidate>
           <div>
             <FormField label="제목" htmlFor="title" className="mb-44">
-              <Input
-                id="title"
-                type="text"
-                variant="modal"
-                {...register('title')}
-                placeholder="할 일의 제목을 적어주세요"
-                hasError={!!errors.title}
-                inputSize="modal"
+              <Controller
+                name="title"
+                control={control}
+                render={({ field }) => (
+                  <Input {...field} type="text" inputSize="modal" variant="modal" />
+                )}
               />
             </FormField>
 

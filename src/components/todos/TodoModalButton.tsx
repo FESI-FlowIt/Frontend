@@ -1,5 +1,7 @@
 import React from 'react';
 
+import clsx from 'clsx';
+
 import { Button } from '@/components/ui/Button';
 
 export interface TodoModalButtonProps {
@@ -17,7 +19,10 @@ const TodoModalButton = ({ type, activeTab, onClick, icon, children }: TodoModal
       variant={isActive ? 'secondary' : 'snackbar'}
       text={isActive ? 'secondaryModal' : 'snackbar'}
       icon={React.cloneElement(icon as React.ReactElement<React.SVGProps<SVGSVGElement>>, {
-        className: isActive ? 'text-snackbar' : 'text-white',
+        className: clsx({
+          'text-snackbar': isActive,
+          'text-white': !isActive,
+        }),
       })}
       onClick={onClick}
       size={'md'}

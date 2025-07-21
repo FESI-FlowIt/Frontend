@@ -1,37 +1,14 @@
 import { http, HttpResponse } from 'msw';
 
-import { Note } from '@/interfaces/note';
-import { Attachment } from '@/interfaces/todo';
+import { Todo, TodoCreateRequest, TodoUpdateRequest } from '@/interfaces/todo';
 
 import { createStorage } from '../utils/storage';
 
-export interface MockTodo {
-  todoId: string;
-  goalId: string;
-  title: string;
-  isDone: boolean;
-  attachment: Attachment[];
-  notes: Note[];
-  createdAt: string;
-  updatedAt: string;
-  accumulatedMs: number;
-}
+type MockTodo = Todo;
 
 const STORAGE_KEY = 'todos';
 const todoStorage = createStorage<MockTodo>(STORAGE_KEY, []);
 let todos = todoStorage.load();
-
-export interface CreateTodoRequest {
-  goalId: string;
-  title: string;
-  attachments: Attachment[];
-}
-
-export interface UpdateTodoRequest {
-  title: string;
-  isDone?: boolean;
-  attachments?: Attachment[];
-}
 
 export const todoHandlers = [
   http.get('/todos', ({ request }) => {
@@ -51,7 +28,7 @@ export const todoHandlers = [
   }),
 
   http.post('/todos', async ({ request }) => {
-    const requestData = (await request.json()) as CreateTodoRequest;
+    const requestData = (await request.json()) as TodoCreateRequest;
     todos = todoStorage.load();
 
     const newTodo: MockTodo = {
@@ -73,7 +50,7 @@ export const todoHandlers = [
 
   http.put('/todos/:todoId', async ({ params, request }) => {
     const { todoId } = params as { todoId: string };
-    const updateData = (await request.json()) as UpdateTodoRequest;
+    const updateData = (await request.json()) as TodoUpdateRequest;
     todos = todoStorage.load();
 
     const todoIndex = todos.findIndex(todo => todo.todoId === todoId);

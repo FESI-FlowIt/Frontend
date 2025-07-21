@@ -2,6 +2,8 @@
 
 import React, { useRef, useState } from 'react';
 
+import clsx from 'clsx';
+
 import FileUploadIcon from '@/assets/FileUploadIcon.svg';
 import { Attachment } from '@/interfaces/todo';
 
@@ -114,13 +116,14 @@ const FileUpload = ({
     <div className="space-y-8">
       {/* 파일 업로드 영역 */}
       <div
-        className={`h-160 cursor-pointer rounded-lg border-2 p-24 text-center transition-colors ${
-          dragActive
-            ? 'border-primary-01 bg-primary-01/10'
-            : errors.length > 0
-              ? 'border-error bg-error/5'
-              : 'border-line hover:border-primary-01'
-        }`}
+        className={clsx(
+          'h-160 cursor-pointer rounded-lg border-2 p-24 text-center transition-colors',
+          {
+            'border-primary-01 bg-primary-01/10': dragActive,
+            'border-error bg-error/5': errors.length > 0 && !dragActive,
+            'border-line hover:border-primary-01': !dragActive && errors.length === 0,
+          },
+        )}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
         onDragOver={handleDrag}

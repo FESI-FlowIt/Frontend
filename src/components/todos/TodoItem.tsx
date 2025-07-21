@@ -2,6 +2,8 @@
 
 import React, { useRef, useState } from 'react';
 
+import clsx from 'clsx';
+
 import DropdownMenu from '@/components/ui/DropdownMenu';
 import { useDeleteTodo, useToggleTodo } from '@/hooks/useTodos';
 import { Todo } from '@/interfaces/todo';
@@ -38,7 +40,6 @@ const TodoItem = ({ todo }: TodoItemProps) => {
 
   const handleEdit = () => {
     openTodoEditModal(todo);
-    console.log(todo);
     setIsMenuOpen(false);
   };
 
@@ -68,7 +69,10 @@ const TodoItem = ({ todo }: TodoItemProps) => {
 
       <div className="flex-1">
         <h3
-          className={`text-body-m-16 ${todo.isDone ? 'text-text-04 line-through' : 'text-text-01'}`}
+          className={clsx('text-body-m-16', {
+            'text-text-04 line-through': todo.isDone,
+            'text-text-01': !todo.isDone,
+          })}
         >
           {todo.title}
         </h3>
@@ -119,11 +123,13 @@ const TodoItem = ({ todo }: TodoItemProps) => {
           <button
             onClick={handleDelete}
             disabled={deleteTodoMutation.isPending}
-            className={`flex w-full items-center gap-2 px-4 py-2 text-left transition-colors ${
-              deleteTodoMutation.isPending
-                ? 'cursor-not-allowed text-gray-400'
-                : 'text-red-600 hover:bg-red-50'
-            } `}
+            className={clsx(
+              'flex w-full items-center gap-2 px-4 py-2 text-left transition-colors',
+              {
+                'cursor-not-allowed text-gray-400': deleteTodoMutation.isPending,
+                'text-red-600 hover:bg-red-50': !deleteTodoMutation.isPending,
+              },
+            )}
           >
             <span>🗑️</span>
             {deleteTodoMutation.isPending ? '삭제 중...' : '삭제하기'}
