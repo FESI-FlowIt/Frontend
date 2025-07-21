@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
+
 import TimerWidget from '@/components/timer/TimerWidget';
 
 const meta: Meta<typeof TimerWidget> = {
