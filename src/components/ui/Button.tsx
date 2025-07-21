@@ -39,7 +39,7 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
     text: 'default',
     size: 'auth',
     rounded: 'default',
-    isDisabled: false,
+    isDisabled: true,
   },
 });
 export interface ButtonProps
