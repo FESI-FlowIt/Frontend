@@ -28,7 +28,7 @@ interface HeatmapCellProps extends VariantProps<typeof heatmapCellVariants> {
   className?: string;
 }
 
-const HeatmapCell: React.FC<HeatmapCellProps> = ({ minutes, intensity = 0, className }) => {
+const HeatmapCell = ({ minutes, intensity = 0, className }: HeatmapCellProps) => {
   return (
     <div className={cn(heatmapCellVariants({ intensity }), className)}>
       <span className="text-text-inactive text-body-m-16">{formatHeatmapTime(minutes)}h</span>

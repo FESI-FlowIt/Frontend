@@ -20,8 +20,21 @@ export interface DayData {
 export interface WeeklyHeatmapResponse {
   success: boolean;
   data: {
-    week_start: string;
-    week_end: string;
-    days: DayData[];
+    days: {
+      date: string;
+      time_slots: Record<TimeSlotKey, { minutes: number; intensity: number }>;
+    }[];
+  };
+}
+
+// 월간 히트맵 응답 데이터 형식
+export interface MonthlyHeatmapResponse {
+  success: boolean;
+  data: {
+    month: string;
+    days: {
+      week_of_month: number;
+      time_slots: Record<TimeSlotKey, { minutes: number; intensity: number }>;
+    }[];
   };
 }
