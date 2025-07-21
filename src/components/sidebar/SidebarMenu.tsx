@@ -14,7 +14,7 @@ export default function SidebarMenu() {
 
   useEffect(() => {
     const fetchGoals = async () => {
-      const res = await fetch('/api/goals');
+      const res = await fetch('/goals');
       if (!res.ok) throw new Error('Failed to fetch goals');
 
       const data = await res.json();
@@ -34,7 +34,7 @@ export default function SidebarMenu() {
     const nextPinned = !currentPinned;
 
     try {
-      const res = await fetch(`/api/goals/${goalId}`, {
+      const res = await fetch(`/goals/${goalId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
