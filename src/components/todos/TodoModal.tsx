@@ -43,7 +43,6 @@ const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {
   const isEditMode = !!currentTodo;
 
   const {
-    register,
     handleSubmit,
     control,
     formState: { errors, isValid },

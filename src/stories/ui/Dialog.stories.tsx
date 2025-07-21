@@ -62,7 +62,7 @@ const meta: Meta<typeof Dialog> = {
 export default meta;
 type Story = StoryObj<typeof Dialog>;
 
-const DialogWithHooks = (args: any) => {
+const DialogWithHooks = (args: Story['args']) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

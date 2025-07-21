@@ -31,7 +31,7 @@ const meta: Meta<typeof Modal> = {
 export default meta;
 type Story = StoryObj<typeof Modal>;
 
-const ModalWithHooks = (args: any) => {
+const ModalWithHooks = (args: Story['args']) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
