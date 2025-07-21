@@ -46,4 +46,11 @@ export const authHandlers = [
     }
     return HttpResponse.json({ message: '사용 가능한 이메일입니다!' }, { status: 200 });
   }),
+
+  http.get('/user', () => {
+    return HttpResponse.json({
+      name: '김코드',
+      email: 'test1@test.com',
+    });
+  }),
 ];
