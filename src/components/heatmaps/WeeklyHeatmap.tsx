@@ -1,8 +1,6 @@
 'use client';
 
-import React from 'react';
-
-import { DAY_LABELS, TIME_LABELS } from '@/constants/heatmap';
+import { TIME_LABELS, WEEKDAY_LABELS } from '@/constants/heatmap';
 import { TimeSlotKey, WeeklyHeatmapResponse } from '@/interfaces/heatmap';
 
 import HeatmapCell from './HeatmapCell';
@@ -34,7 +32,7 @@ const WeeklyHeatmap = ({ data }: WeeklyHeatmapProps) => {
           <div key={day.date} className="flex items-center gap-x-16">
             {/* 요일 라벨 */}
             <div className="text-text-04 text-body-m-16 flex h-36 items-center justify-center">
-              {DAY_LABELS[rowIndex]}
+              {WEEKDAY_LABELS[rowIndex]}
             </div>
 
             {/* 시간대별 HeatmapCell */}
