@@ -37,6 +37,7 @@
   --color-error: #ff5f5f;
   --color-snackbar: #515660;
   --color-delete: #ff5f5f;
+  --color-timer: #69D7C4;
 
   /* Goal Colors */
   --color-goal-red: #ff6b6b;
@@ -54,6 +55,7 @@
   --color-heatmap-3: #4c82f7;
   --color-heatmap-4: #1a59e1;
   --color-heatmap-accent: #eeba06;
+  
 
   /* ========================================================================
      Font Family (글꼴)
