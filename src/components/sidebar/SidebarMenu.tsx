@@ -73,7 +73,7 @@ export default function SidebarMenu() {
           {goals.map(goal => (
             <div key={goal.goalId} className="flex h-52 w-260 items-center justify-between px-10">
               <div
-                onClick={() => router.push(ROUTES.GOAL.DETAIL(goal.goalId))}
+                onClick={() => router.push(ROUTES.GOALS.DETAIL(goal.goalId))}
                 className="flex items-center gap-20"
               >
                 <div className="bg-error h-12 w-12 rounded-full" />

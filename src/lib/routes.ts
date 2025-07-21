@@ -5,7 +5,7 @@ export const ROUTES = {
     SIGNUP: '/auth/signUp',
   },
   DASHBOARD: '/dashboard',
-  GOAL: {
+  GOALS: {
     LIST: '/goal',
     DETAIL: (goalId: string) => `/goal/${goalId}`,
   },
