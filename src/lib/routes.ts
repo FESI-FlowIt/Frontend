@@ -6,5 +6,5 @@ export const ROUTES = {
   },
   GOALS: {
     goalDetail: (goalId: string) => `/goals/${goalId}`,
-  }
+  },
 };

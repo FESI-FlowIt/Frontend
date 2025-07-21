@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
+import CheckIcon from '@/assets/icons/check.svg';
+import CheckDefaultIcon from '@/assets/icons/check_default.svg';
 import GoalsIcon from '@/assets/icons/GoalsIcon.svg';
 import { Button } from '@/components/ui/Button';
 import { GoalColor, GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
-import CheckIcon from '@/assets/icons/check.svg';
-import CheckDefaultIcon from '@/assets/icons/check_default.svg';
 import { ROUTES } from '@/lib/routes';
 
 export const goalColorVariants: Record<GoalColor, { background: string; text: string }> = {
