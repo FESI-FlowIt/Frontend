@@ -15,6 +15,8 @@ const inputVariants = cva('', {
     inputSize: {
       default:
         'h-60 w-600 px-20 py-24 sm:h-44 sm:w-full sm:max-w-343 md:h-60 md:w-full md:max-w-600',
+      withBtn:
+        'h-60 w-470 px-20 py-24 sm:h-45 sm:w-full sm:max-w-251 md:h-60 md:w-full md:max-w-470',
     },
     text: {
       default: 'text-body-sb-20 placeholder:text-text-inactive text-black',
