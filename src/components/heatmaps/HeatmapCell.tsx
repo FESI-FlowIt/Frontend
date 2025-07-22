@@ -1,7 +1,7 @@
 import { cva, VariantProps } from 'class-variance-authority';
 
 import { HeatmapIntensity } from '@/interfaces/heatmap';
-import { formatHeatmapTime } from '@/lib/format';
+import { formatMinutesToHourString } from '@/lib/format';
 import { cn } from '@/lib/utils';
 
 const heatmapCellVariants = cva(
@@ -31,7 +31,9 @@ interface HeatmapCellProps extends VariantProps<typeof heatmapCellVariants> {
 const HeatmapCell = ({ minutes, intensity = 0, className }: HeatmapCellProps) => {
   return (
     <div className={cn(heatmapCellVariants({ intensity }), className)}>
-      <span className="text-text-inactive text-body-m-16">{formatHeatmapTime(minutes)}h</span>
+      <span className="text-text-inactive text-body-m-16">
+        {formatMinutesToHourString(minutes)}h
+      </span>
     </div>
   );
 };
