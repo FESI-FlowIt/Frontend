@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Modal from '@/components/ui/Modal';
 import TimerHeader from './TimerHeader';
 import TaskInfo from './TaskInfo';
@@ -19,6 +18,9 @@ export type TimerModalProps = {
   goalColor: string;
   todoContent: string;
   todoId: string;
+  minutes: number;
+  seconds: number;
+  accumulatedSeconds: number;
 };
 
 export default function TimerModal({
@@ -32,73 +34,30 @@ export default function TimerModal({
   goalColor,
   todoContent,
   todoId,
+  minutes,
+  seconds,
+  accumulatedSeconds,
 }: TimerModalProps) {
-  const [elapsedSeconds, setElapsedSeconds] = useState(0);
-  const [totalElapsed, setTotalElapsed] = useState(0);
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
-
-    if (isRunning) {
-      interval = setInterval(() => {
-        setElapsedSeconds(prev => prev + 1);
-      }, 1000);
-    }
-
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isRunning]);
-
   const formatTime = (totalSeconds: number) => {
     const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
-    const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
-    const seconds = String(totalSeconds % 60).padStart(2, '0');
-    return { hours, minutes, seconds };
+    const mins = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+    const secs = String(totalSeconds % 60).padStart(2, '0');
+    return { hours, minutes: mins, seconds: secs };
   };
 
-  const { hours, minutes, seconds } = formatTime(elapsedSeconds);
-  const {
-    hours: totalH,
-    minutes: totalM,
-    seconds: totalS,
-  } = formatTime(totalElapsed + elapsedSeconds);
+  const currentSeconds = minutes * 60 + seconds;
+  const totalElapsedSeconds = accumulatedSeconds + currentSeconds;
 
-  const handleStop = async () => {
-    const total = totalElapsed + elapsedSeconds;
-    setElapsedSeconds(0);
-    setTotalElapsed(total);
-
-    try {
-      await fetch('/api/timer/save', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          todoId,
-          elapsedSeconds: total,
-          endedAt: new Date().toISOString(),
-        }),
-      });
-      console.log('저장 완료!');
-    } catch (err) {
-      console.error('서버 저장 실패', err);
-    }
-
-    onStop();
-  };
+  const { hours, minutes: mm, seconds: ss } = formatTime(currentSeconds);
+  const { hours: totalH, minutes: totalM, seconds: totalS } = formatTime(totalElapsedSeconds);
 
   return (
     <Modal isOpen onClose={onClose} size="timer">
       <div className="w-520 p-10">
         <TimerHeader onBack={onBack} onClose={onClose} />
         <TaskInfo goalTitle={goalTitle} goalColor={goalColor} todoContent={todoContent} />
-        <TimerDisplay hours={hours} minutes={minutes} seconds={seconds} />
-        <TimerControls
-          isRunning={isRunning}
-          onStart={onStart}
-          onPause={onPause}
-          onStop={handleStop}
-        />
+        <TimerDisplay hours={hours} minutes={mm} seconds={ss} />
+        <TimerControls isRunning={isRunning} onStart={onStart} onPause={onPause} onStop={onStop} />
         <TotalTimeDisplay totalH={totalH} totalM={totalM} totalS={totalS} />
       </div>
     </Modal>

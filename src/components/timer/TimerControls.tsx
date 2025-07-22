@@ -16,7 +16,7 @@ export default function TimerControls({ isRunning, onStart, onPause, onStop }: T
       {!isRunning ? (
         <button
           aria-label="시작"
-          className="border-line bg-tertiary-01 flex h-88 w-88 items-center justify-center rounded-full border"
+          className="border-line bg-tertiary-01 flex h-88 w-88 cursor-pointer items-center justify-center rounded-full border"
           onClick={onStart}
         >
           <StartIcon className="text-primary-01 h-48 w-48" />
@@ -25,7 +25,7 @@ export default function TimerControls({ isRunning, onStart, onPause, onStop }: T
         <>
           <button
             aria-label="일시정지"
-            className="border-line bg-tertiary-01 flex h-88 w-88 items-center justify-center rounded-full border"
+            className="border-line bg-tertiary-01 flex h-88 w-88 cursor-pointer items-center justify-center rounded-full border"
             onClick={onPause}
           >
             <div className="flex gap-7">
@@ -36,7 +36,7 @@ export default function TimerControls({ isRunning, onStart, onPause, onStop }: T
 
           <button
             aria-label="중지"
-            className="border-line bg-tertiary-01 flex h-88 w-88 items-center justify-center rounded-full border"
+            className="border-line bg-tertiary-01 flex h-88 w-88 cursor-pointer items-center justify-center rounded-full border"
             onClick={onStop}
           >
             <div className="bg-error h-41 w-41 rounded-[4px]" />
