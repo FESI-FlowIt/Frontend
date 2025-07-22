@@ -42,8 +42,15 @@ export default function TimerWidget({ goals }: { goals: Goal[] }) {
     setSelectedTodo(todo);
     setMinutes(0);
     setSeconds(0);
-    setIsRunning(true);
-    setIsModalOpen(false);
+    setIsModalOpen(false); // ✅ 여기서 바로 시작하지 않음 (모달에서 시작버튼 클릭 시 시작)
+  };
+
+  const handleStart = () => setIsRunning(true);
+  const handlePause = () => setIsRunning(false);
+  const handleStop = () => {
+    setIsRunning(false);
+    setMinutes(0);
+    setSeconds(0);
   };
 
   return (
@@ -59,7 +66,9 @@ export default function TimerWidget({ goals }: { goals: Goal[] }) {
           <TimerIcon className="h-24 w-24" />
           {isRunning ? (
             <>
-              <div className="text-body-sb-20 mt-[4px]">{`${formatNumber(minutes)}:${formatNumber(seconds)}`}</div>
+              <div className="text-body-sb-20 mt-[4px]">
+                {`${formatNumber(minutes)}:${formatNumber(seconds)}`}
+              </div>
               <div className="text-body-sb-16">할 일 중</div>
             </>
           ) : (
@@ -78,8 +87,12 @@ export default function TimerWidget({ goals }: { goals: Goal[] }) {
       )}
 
       {/* 타이머 모달 */}
-      {isRunning && selectedGoal && selectedTodo && (
+      {selectedGoal && selectedTodo && (
         <TimerModal
+          isRunning={isRunning}
+          onStart={handleStart}
+          onPause={handlePause}
+          onStop={handleStop}
           onClose={() => {
             setIsRunning(false);
             setSelectedGoal(null);
@@ -92,6 +105,7 @@ export default function TimerWidget({ goals }: { goals: Goal[] }) {
           goalTitle={selectedGoal.title}
           goalColor={selectedGoal.color}
           todoContent={selectedTodo.content}
+          todoId={selectedTodo.id}
         />
       )}
     </>
