@@ -50,4 +50,5 @@ export interface TodoUpdateRequest {
   title?: string;
   isDone?: boolean;
   attachments?: Attachment[];
+  goalId?: string;
 }

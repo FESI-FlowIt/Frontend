@@ -2,24 +2,16 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, useForm } from 'react-hook-form';
-
 import AddNewTodoIcon from '@/assets/AddNewTodoIcon.svg';
 import CloseIcon from '@/assets/CloseIcon.svg';
-import { useCreateTodo, useUpdateTodo } from '@/hooks/useTodos';
-import { Attachment, Todo, TodoFormData, todoFormSchema } from '@/interfaces/todo';
-import { useAttachmentStore } from '@/store/attachmentStore';
+import { useTodoForm } from '@/hooks/useTodoForm';
+import { Todo } from '@/interfaces/todo';
 import { useModalStore } from '@/store/modalStore';
 
-import { Button } from '../ui/Button';
-import FormField from '../ui/FormField';
-import { Input } from '../ui/Input';
 import Modal from '../ui/Modal';
 
-import AttachmentUpload from './AttachmentUpload';
 import ConfirmDialog from './ConfirmDialog';
-import GoalSelector from './GoalSelector';
+import TodoForm from './TodoForm';
 
 interface TodoModalProps {
   todoToEdit?: Todo;
@@ -28,74 +20,13 @@ interface TodoModalProps {
 
 const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-  const [initialState, setInitialState] = useState<{
-    form: TodoFormData;
-    attachments: Attachment[];
-  } | null>(null);
-  const { attachments, setAttachments, reset: resetAttachments } = useAttachmentStore();
 
-  const createTodoMutation = useCreateTodo();
-  const updateTodoMutation = useUpdateTodo();
+  const { todoModalIsOpen, closeTodoModal } = useModalStore();
 
-  const { todoModalIsOpen, closeTodoModal, editingTodo } = useModalStore();
-
-  const currentTodo = editingTodo || todoToEdit;
-  const isEditMode = !!currentTodo;
-
-  const {
-    handleSubmit,
-    control,
-    formState: { errors, isValid },
-    reset,
-    watch,
-  } = useForm<TodoFormData>({
-    resolver: zodResolver(todoFormSchema),
-    mode: 'onChange',
-  });
-
-  const watchedValues = watch();
-
-  const hasChanges =
-    initialState &&
-    (JSON.stringify(watchedValues) !== JSON.stringify(initialState.form) ||
-      JSON.stringify(attachments) !== JSON.stringify(initialState.attachments));
-
-  useEffect(() => {
-    if (todoModalIsOpen) {
-      if (isEditMode && currentTodo) {
-        const formData = {
-          title: currentTodo.title,
-          goalId: currentTodo.goalId,
-        };
-        reset(formData);
-        setAttachments(currentTodo.attachment || []);
-        setInitialState({
-          form: formData,
-          attachments: currentTodo.attachment || [],
-        });
-      } else {
-        const formData = {
-          title: '',
-          goalId: defaultGoalId || '',
-        };
-        reset(formData);
-
-        resetAttachments();
-        setInitialState({
-          form: formData,
-          attachments: [],
-        });
-      }
-    }
-  }, [
-    todoModalIsOpen,
-    isEditMode,
-    currentTodo,
+  const { form, hasChanges, isEditMode, handleFormSubmit, isLoading } = useTodoForm({
+    todoToEdit,
     defaultGoalId,
-    reset,
-    setAttachments,
-    resetAttachments,
-  ]);
+  });
 
   const handleModalClose = () => {
     if (hasChanges) {
@@ -104,6 +35,35 @@ const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {
       closeTodoModal();
     }
   };
+
+  const handleConfirmDialogConfirm = () => {
+    setShowConfirmDialog(false);
+    closeTodoModal();
+  };
+
+  const handleConfirmDialogClose = () => {
+    setShowConfirmDialog(false);
+  };
+
+  useEffect(() => {
+    if (showConfirmDialog) {
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          e.stopPropagation();
+          handleConfirmDialogConfirm();
+        }
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          e.stopPropagation();
+          handleConfirmDialogClose();
+        }
+      };
+
+      document.addEventListener('keydown', handleKeyDown, true);
+      return () => document.removeEventListener('keydown', handleKeyDown, true);
+    }
+  }, [showConfirmDialog]);
 
   useEffect(() => {
     if (!todoModalIsOpen || !hasChanges) return;
@@ -116,42 +76,6 @@ const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {
     window.addEventListener('beforeunload', handleBeforeUnload);
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [todoModalIsOpen, hasChanges]);
-
-  const handleFormSubmit = (data: TodoFormData) => {
-    if (isEditMode && currentTodo) {
-      updateTodoMutation.mutate(
-        {
-          todoId: currentTodo.todoId,
-          data: {
-            title: data.title,
-            attachments: attachments,
-          },
-        },
-        {
-          onSuccess: () => {
-            closeTodoModal();
-          },
-          onError: () => {},
-        },
-      );
-    } else {
-      createTodoMutation.mutate(
-        {
-          goalId: data.goalId,
-          title: data.title,
-          attachments: attachments,
-        },
-        {
-          onSuccess: () => {
-            closeTodoModal();
-          },
-          onError: () => {},
-        },
-      );
-    }
-  };
-
-  const isLoading = createTodoMutation.isPending || updateTodoMutation.isPending;
 
   return (
     <>
@@ -179,50 +103,17 @@ const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit(handleFormSubmit)} noValidate>
-          <div>
-            <FormField label="제목" htmlFor="title" className="mb-44">
-              <Controller
-                name="title"
-                control={control}
-                render={({ field }) => (
-                  <Input {...field} type="text" inputSize="modal" variant="modal" />
-                )}
-              />
-            </FormField>
-
-            {/* 자료 업로드 */}
-            <FormField label="자료" className="mb-44">
-              <AttachmentUpload />
-            </FormField>
-
-            {/* 목표 선택 */}
-            <FormField label="목표 선택" htmlFor="goalId">
-              <Controller
-                name="goalId"
-                control={control}
-                render={({ field }) => (
-                  <GoalSelector
-                    selectedGoalId={field.value}
-                    onSelectGoal={field.onChange}
-                    error={!!errors.goalId}
-                  />
-                )}
-              />
-            </FormField>
-          </div>
-
-          <div className="mt-60">
-            <Button type="submit" disabled={!isValid || isLoading} variant="default" size="modal">
-              {isLoading ? '처리 중...' : isEditMode ? '수정하기' : '생성하기'}
-            </Button>
-          </div>
-        </form>
+        <TodoForm
+          form={form}
+          onSubmit={handleFormSubmit}
+          isEditMode={isEditMode}
+          isLoading={isLoading}
+        />
       </Modal>
       <ConfirmDialog
         isOpen={showConfirmDialog}
-        onClose={() => setShowConfirmDialog(false)}
-        onConfirm={() => closeTodoModal()}
+        onClose={handleConfirmDialogClose}
+        onConfirm={handleConfirmDialogConfirm}
       />
     </>
   );
