@@ -76,10 +76,11 @@ const ConfirmDialog = ({
             size="modal"
             onClick={onClose}
             className="border-1"
+            disabled={false}
           >
             {cancelText}
           </Button>
-          <Button variant="default" size="modal" onClick={handleConfirm}>
+          <Button variant="default" size="modal" onClick={handleConfirm} disabled={false}>
             {confirmText}
           </Button>
         </div>

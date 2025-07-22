@@ -28,6 +28,7 @@ const TodoModalButton = ({ type, activeTab, onClick, icon, children }: TodoModal
       size={'md'}
       rounded={'lg'}
       type="button"
+      disabled={false}
     >
       {children}
     </Button>

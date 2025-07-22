@@ -148,6 +148,7 @@ const LinkModal = ({ onAddLink }: LinkModalProps) => {
             size="md"
             rounded="lg"
             className="flex-1"
+            disabled={false}
           >
             취소
           </Button>
