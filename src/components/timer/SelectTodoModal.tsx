@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Goal, Todo } from '@/interfaces/dashboardgoalInterface';
 import Modal from '@/components/ui/Modal';
-import ClockIcon from '@/assets/icons/clock.svg';
+import TimerIcon from '@/../public/assets/icons/timerIcon.svg';
 
 type SelectTodoModalProps = {
   goals: Goal[];
@@ -17,7 +17,7 @@ export default function SelectTodoModal({ goals, onClose, onSelect }: SelectTodo
   return (
     <Modal isOpen onClose={onClose} size="timer">
       <div className="mb-6 flex items-center gap-12">
-        <ClockIcon className="text-Gray_01 h-24 w-24" />
+        <TimerIcon className="text-Gray_01 h-24 w-24" />
         <h2 className="text-heading-sb-20 text-lg font-bold">어떤 작업을 시작해볼까요?</h2>
       </div>
 

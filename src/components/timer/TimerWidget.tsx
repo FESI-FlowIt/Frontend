@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import ClockIcon from '@/assets/icons/clock.svg';
+import TimerIcon from '@/../public/assets/icons/timerIcon.svg';
 import SelectTodoModal from '@/components/timer/SelectTodoModal';
 import TimerModal from '@/components/timer/TimerModal';
 import { Goal, Todo } from '@/interfaces/dashboardgoalInterface';
@@ -56,7 +56,7 @@ export default function TimerWidget({ goals }: { goals: Goal[] }) {
         }`}
       >
         <div className={`flex flex-col items-center ${isRunning ? 'mt-[13px]' : 'mt-[25px]'}`}>
-          <ClockIcon className="h-24 w-24" />
+          <TimerIcon className="h-24 w-24" />
           {isRunning ? (
             <>
               <div className="text-body-sb-20 mt-[4px]">{`${formatNumber(minutes)}:${formatNumber(seconds)}`}</div>

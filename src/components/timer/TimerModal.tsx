@@ -1,6 +1,6 @@
 import { IconButton } from '@/components/ui/IconButton';
 import Modal from '@/components/ui/Modal';
-import ClockIcon from '@/assets/icons/clock.svg';
+import TimerIcon from '@/../public/assets/icons/timerIcon.svg';
 
 type TimerModalProps = {
   onClose: () => void;
@@ -23,7 +23,7 @@ export default function TimerModal({
         {/* 헤더 */}
         <div className="mb-40 flex items-center justify-between">
           <div className="flex items-center gap-12">
-            <ClockIcon className="text-Gray_01 h-24 w-24" />
+            <TimerIcon className="text-Gray_01 h-24 w-24" />
             <h2 className="text-display-24">할 일 타이머</h2>
           </div>
           <div className="flex items-center gap-2">
