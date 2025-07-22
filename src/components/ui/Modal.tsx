@@ -35,9 +35,11 @@ const modalContentVariants = cva(
         goal: 'h-552 w-600',
         todo: 'h-auto w-600',
         link: 'h-auto w-520',
+        auth: 'h-256 w-402',
       },
       padding: {
         default: 'p-40',
+        auth: 'p-20',
       },
       margin: {
         default: 'm-16',
@@ -45,6 +47,7 @@ const modalContentVariants = cva(
       rounded: {
         default: 'rounded-3xl',
         none: 'rounded-none',
+        auth: 'rounded-20',
       },
       animation: {
         none: '',

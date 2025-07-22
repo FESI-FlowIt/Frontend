@@ -201,3 +201,11 @@
 @utility rounded-20 {
   border-radius: 20px;
 }
+
+@utility rounded-tr-50 {
+  border-top-right-radius: 50px;
+}
+
+@utility rounded-br-50 {
+  border-bottom-right-radius: 50px;
+}

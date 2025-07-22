@@ -14,6 +14,8 @@ import { signupSchema } from '@/lib/validation';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 
+import AuthModal from './AuthModal';
+
 type SignupFormData = z.infer<typeof signupSchema>;
 
 export default function SingUpForm() {
@@ -24,6 +26,9 @@ export default function SingUpForm() {
   const [emailServerError, setEmailServerError] = useState<string | null>(null);
   const [isEmailChecking, setIsEmailChecking] = useState(false);
   const [isEmailChecked, setIsEmailChecked] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleCloseModal = () => setIsModalOpen(false);
 
   const {
     register,
@@ -73,10 +78,8 @@ export default function SingUpForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        //TODO: 추후 api 요청 실패시 나온 response 값에 따라 공통 모달을 만들어서 보여줄 예정입니다.
         if (data.errorField === 'email') {
           setEmailServerError(data.message);
-          alert(data.message);
         }
         return;
       }
@@ -90,9 +93,8 @@ export default function SingUpForm() {
   };
 
   const onSubmit = async (formData: SignupFormData) => {
-    setIsLoading(true);
-
     if (isEmailChecked) {
+      setIsLoading(true);
       try {
         const res = await fetch('/user', {
           method: 'POST',
@@ -105,6 +107,7 @@ export default function SingUpForm() {
         await res.json();
         router.push(ROUTES.AUTH.LOGIN);
       } catch (err) {
+        setIsModalOpen(true);
         console.log(err);
       } finally {
         setIsLoading(false);
@@ -211,9 +214,13 @@ export default function SingUpForm() {
           <p className="text-body-m-20 text-error mt-12">{errors.passwordCheck.message}</p>
         )}
       </div>
-      <Button className="mt-20" disabled={isLoading || !isFormValid}>
+      <Button className="mt-20" disabled={isLoading || !isFormValid || !isEmailChecked}>
         가입하기
       </Button>
+
+      {isModalOpen && (
+        <AuthModal isOpen={isModalOpen} closeModal={handleCloseModal} mode="signup" />
+      )}
     </form>
   );
 }
