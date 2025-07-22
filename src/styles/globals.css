@@ -3,9 +3,16 @@
 
 /* 2. @theme 블록 안에 프로젝트의 전체 디자인 시스템을 CSS 변수로 정의합니다. */
 @theme {
-  --breakpoint-sm: 375;
-  --breakpoint-md: 744;
-  --breakpoint-lg: 1024;
+  /* ========================================================================
+     Breakpoints (반응형 중단점)
+     sm: 모바일 (375px 이상)
+     md: 태블릿 (744px 이상)  
+     lg: 데스크톱 (1024px 이상)
+     ======================================================================== */
+  --breakpoint-sm: 375px;
+  --breakpoint-md: 744px;
+  --breakpoint-lg: 1024px;
+
   /* ========================================================================
      Colors (색상)
      ======================================================================== */
@@ -30,6 +37,7 @@
   --color-error: #ff5f5f;
   --color-snackbar: #515660;
   --color-delete: #ff5f5f;
+  --color-timer: #69d7c4;
 
   /* Goal Colors */
   --color-goal-red: #ff6b6b;
@@ -48,6 +56,8 @@
   --color-heatmap-4: #1a59e1;
   --color-heatmap-accent: #eeba06;
 
+  --color-sidebar-hover: #f7f7f7;
+
   /* ========================================================================
      Font Family (글꼴)
      ======================================================================== */
@@ -57,15 +67,24 @@
 /* 3. @layer base 블록에 기본 스타일(body 등)을 정의합니다. */
 @layer base {
   body {
-    /*
-      수정된 부분:
-      theme() 함수로 감싸지 않고, CSS 변수를 직접 사용합니다.
-    */
     background-color: var(--color-ui-background);
     color: var(--color-text-01);
     font-family: var(--font-family-sans);
   }
 }
+
+/* ========================================================================
+   Spacing System (간격 시스템)
+   기본 단위: 0.0625rem (16 units = 1rem = 16px)
+   예: p-16 → 16 × 0.0625rem = 1rem = 16px
+   ======================================================================== */
+:root {
+  --spacing: 0.0625rem;
+}
+
+/* ========================================================================
+   Custom Typography Utilities (커스텀 타이포그래피 유틸리티)
+   ======================================================================== */
 
 /* Title */
 @utility text-display-32 {
@@ -100,13 +119,11 @@
   font-weight: 600;
   line-height: 22px;
 }
-
 @utility text-body-m-20 {
   font-size: 20px;
   font-weight: 500;
   line-height: 22px;
 }
-
 @utility text-body-20 {
   font-size: 20px;
   font-weight: 700;
@@ -153,6 +170,7 @@
   line-height: 22px;
 }
 
+/*logo*/
 @utility text-logo-52 {
   font-size: 52px;
   font-weight: 700;
@@ -163,6 +181,32 @@
   font-weight: 700;
 }
 
-:root {
-  --spacing: 0.0625rem;
+@utility text-logo-24 {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+/* ========================================================================
+   Custom Border Radius Utilities (커스텀 보더 라디우스 유틸리티)
+   ======================================================================== */
+
+@utility rounded-4 {
+  border-radius: 4px;
+}
+@utility rounded-8 {
+  border-radius: 8px;
+}
+@utility rounded-12 {
+  border-radius: 12px;
+}
+@utility rounded-20 {
+  border-radius: 20px;
+}
+
+@utility rounded-tr-50 {
+  border-top-right-radius: 50px;
+}
+
+@utility rounded-br-50 {
+  border-bottom-right-radius: 50px;
 }
