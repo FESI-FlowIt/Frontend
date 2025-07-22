@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
-import NogoalIcon from '@/assets/icons/nogoal.svg';
+import NogoalIcon from '@/../public/assets/icons/nogoal.svg';
 import { Button } from '@/components/ui/Button';
 
 export default function NoGoalsGuide() {

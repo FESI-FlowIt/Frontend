@@ -2,9 +2,9 @@
 
 import { useRouter } from 'next/navigation';
 
-import CheckIcon from '@/assets/icons/check.svg';
-import CheckDefaultIcon from '@/assets/icons/check_default.svg';
-import GoalsIcon from '@/assets/icons/GoalsIcon.svg';
+import CheckIcon from '@/../public/assets/icons/check.svg';
+import CheckDefaultIcon from '@/../public/assets/icons/check_default.svg';
+import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
 import { Button } from '@/components/ui/Button';
 import { GoalColor, GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
 import { ROUTES } from '@/lib/routes';
@@ -45,7 +45,7 @@ export default function GoalCardContent({
         <div className="flex-col gap-20">
           <div className="flex flex-col gap-12">
             <div className="flex items-center gap-8">
-              <GoalsIcon className={`h-24 w-24 ${textClass}`} />
+              <GoalIcon className={`h-24 w-24 ${textClass}`} />
               <h3 className="text-text-01 text-body-sb-20 max-w-296 truncate">{goal.title}</h3>
             </div>
             <div className="flex items-baseline gap-12">

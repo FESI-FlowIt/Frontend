@@ -3,11 +3,15 @@
 import { useEffect, useState } from 'react';
 import ClockIcon from '@/assets/icons/clock.svg';
 import SelectTodoModal from '@/components/timer/SelectTodoModal';
-import { Goal } from '@/interfaces/dashboardgoalInterface';
+import TimerModal from '@/components/timer/TimerModal';
+import { Goal, Todo } from '@/interfaces/dashboardgoalInterface';
+import { formatNumber } from '@/lib/format';
 
 export default function TimerWidget({ goals }: { goals: Goal[] }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
+  const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null);
+  const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
 
@@ -27,16 +31,15 @@ export default function TimerWidget({ goals }: { goals: Goal[] }) {
     return () => clearInterval(interval);
   }, [isRunning]);
 
-  const format = (num: number) => String(num).padStart(2, '0');
-
   const handleWidgetClick = () => {
     if (!isRunning) {
       setIsModalOpen(true);
     }
   };
 
-  const handleSelectTodo = (todoId: string) => {
-    console.log('선택된 todo:', todoId);
+  const handleSelectTodo = (goal: Goal, todo: Todo) => {
+    setSelectedGoal(goal);
+    setSelectedTodo(todo);
     setMinutes(0);
     setSeconds(0);
     setIsRunning(true);
@@ -45,15 +48,18 @@ export default function TimerWidget({ goals }: { goals: Goal[] }) {
 
   return (
     <>
+      {/* 타이머 위젯 버튼 */}
       <button
         onClick={handleWidgetClick}
-        className={`fixed right-40 bottom-40 z-50 flex h-100 w-100 flex-col items-center justify-start rounded-full text-white shadow-xl transition-colors ${isRunning ? 'bg-primary-01' : 'bg-timer'}`}
+        className={`fixed right-40 bottom-40 z-50 flex h-100 w-100 flex-col items-center justify-start rounded-full text-white shadow-xl transition-colors ${
+          isRunning ? 'bg-primary-01' : 'bg-timer'
+        }`}
       >
         <div className={`flex flex-col items-center ${isRunning ? 'mt-[13px]' : 'mt-[25px]'}`}>
           <ClockIcon className="h-24 w-24" />
           {isRunning ? (
             <>
-              <div className="text-body-sb-20 mt-[4px]">{`${format(minutes)}:${format(seconds)}`}</div>
+              <div className="text-body-sb-20 mt-[4px]">{`${formatNumber(minutes)}:${formatNumber(seconds)}`}</div>
               <div className="text-body-sb-16">할 일 중</div>
             </>
           ) : (
@@ -62,11 +68,30 @@ export default function TimerWidget({ goals }: { goals: Goal[] }) {
         </div>
       </button>
 
+      {/* 할 일 선택 모달 */}
       {isModalOpen && (
         <SelectTodoModal
           goals={goals}
           onClose={() => setIsModalOpen(false)}
           onSelect={handleSelectTodo}
+        />
+      )}
+
+      {/* 타이머 모달 */}
+      {isRunning && selectedGoal && selectedTodo && (
+        <TimerModal
+          onClose={() => {
+            setIsRunning(false);
+            setSelectedGoal(null);
+            setSelectedTodo(null);
+          }}
+          onBack={() => {
+            setIsRunning(false);
+            setIsModalOpen(true);
+          }}
+          goalTitle={selectedGoal.title}
+          goalColor={selectedGoal.color}
+          todoContent={selectedTodo.content}
         />
       )}
     </>

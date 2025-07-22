@@ -35,6 +35,7 @@ const modalContentVariants = cva(
         goal: 'h-552 w-600',
         todo: 'h-auto w-600',
         link: 'h-auto w-520',
+        timer: 'h-762 w-600',
       },
       padding: {
         default: 'p-40',
