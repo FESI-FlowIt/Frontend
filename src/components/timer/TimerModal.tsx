@@ -34,7 +34,7 @@ export default function TimerModal({
   goalTitle,
   goalColor,
   todoContent,
-  todoId,
+  todoId: _todoId,
   minutes,
   seconds,
   accumulatedSeconds,

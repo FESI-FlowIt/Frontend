@@ -43,7 +43,7 @@ export default function SelectTodoModal({
           return (
             <div
               key={goal.goalId}
-              className="border-line w-full max-w-520 rounded-xl border bg-white px-20 py-20"
+              className="border-background w-full max-w-520 rounded-xl border bg-white px-20 py-20"
             >
               <button
                 className="flex w-full cursor-pointer items-center justify-between text-left"
