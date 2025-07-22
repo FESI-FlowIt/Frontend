@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
 import ClockIcon from '@/assets/icons/clock.svg';
+import { formatNumber } from '@/lib/format';
 
 export default function TimerWidget() {
   const [isRunning, setIsRunning] = useState(false);
@@ -33,8 +33,6 @@ export default function TimerWidget() {
     setIsRunning(prev => !prev);
   };
 
-  const format = (num: number) => String(num).padStart(2, '0');
-
   return (
     <button
       onClick={handleClick}
@@ -45,7 +43,7 @@ export default function TimerWidget() {
 
         {isRunning ? (
           <>
-            <div className="text-body-sb-20 mt-4">{`${format(minutes)}:${format(seconds)}`}</div>
+            <div className="text-body-sb-20 mt-4">{`${formatNumber(minutes)}:${formatNumber(seconds)}`}</div>
             <div className="text-body-sb-16">할 일 중</div>
           </>
         ) : (
