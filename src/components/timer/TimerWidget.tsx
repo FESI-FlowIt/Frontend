@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import ClockIcon from '@/assets/icons/clock.svg';
 import { formatNumber } from '@/lib/format';
 
