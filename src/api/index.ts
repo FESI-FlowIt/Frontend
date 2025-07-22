@@ -30,7 +30,7 @@ export async function getRequest(url: string, params?: Params, options?: GetRequ
   return fetchWrapper(fullUrl, {
     method: 'GET',
     headers,
-  }).then(handleResponse);
+  });
 }
 
 export async function postRequest(url: string, body: object = {}) {
@@ -40,7 +40,7 @@ export async function postRequest(url: string, body: object = {}) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
-  }).then(handleResponse);
+  });
 }
 
 export async function patchRequest(url: string, body: object = {}) {
@@ -50,7 +50,7 @@ export async function patchRequest(url: string, body: object = {}) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
-  }).then(handleResponse);
+  });
 }
 
 export async function deleteRequest(url: string) {
@@ -59,7 +59,7 @@ export async function deleteRequest(url: string) {
     headers: {
       'Content-Type': 'application/json',
     },
-  }).then(handleResponse);
+  });
 }
 
 export async function putRequest(url: string, body: File) {
@@ -69,18 +69,5 @@ export async function putRequest(url: string, body: File) {
       'Content-Type': body.type,
     },
     body,
-  }).then(handleResponse);
-}
-
-async function handleResponse(response: Response) {
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-  }
-
-  if (response.status === 204) {
-    return;
-  }
-
-  return response.json();
+  });
 }
