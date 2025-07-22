@@ -13,3 +13,21 @@ export const TIME_LABELS: Record<TimeSlotKey, string> = {
   afternoon: '오후\n12-18',
   evening: '밤\n18-24',
 };
+
+// 주간 히트맵 범례
+export const WEEKLY_LEGEND = [
+  { intensity: 0, label: '0-1시간', bgClass: 'bg-heatmap-0' },
+  { intensity: 1, label: '1-2시간', bgClass: 'bg-heatmap-1' },
+  { intensity: 2, label: '2-3시간', bgClass: 'bg-heatmap-2' },
+  { intensity: 3, label: '3-4시간', bgClass: 'bg-heatmap-3' },
+  { intensity: 4, label: '4시간+', bgClass: 'bg-heatmap-4' },
+];
+
+// 월간 히트맵 범례
+export const MONTHLY_LEGEND = [
+  { intensity: 0, label: '0-7시간', bgClass: 'bg-heatmap-0' },
+  { intensity: 1, label: '7-14시간', bgClass: 'bg-heatmap-1' },
+  { intensity: 2, label: '14-21시간', bgClass: 'bg-heatmap-2' },
+  { intensity: 3, label: '21-28시간', bgClass: 'bg-heatmap-3' },
+  { intensity: 4, label: '28시간+', bgClass: 'bg-heatmap-4' },
+];
