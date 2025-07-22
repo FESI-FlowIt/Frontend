@@ -8,10 +8,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
+import { ROUTES } from '@/lib/routes';
 import { loginSchema } from '@/lib/validation';
 
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
+
+import AuthModal from './AuthModal';
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
@@ -22,6 +25,9 @@ export default function LoginForm() {
 
   const [emailServerError, setEmailServerError] = useState<string | null>(null);
   const [passwordServerError, setPasswordServerError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleCloseModal = () => setIsModalOpen(false);
 
   const { register, handleSubmit, watch } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -52,23 +58,22 @@ export default function LoginForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        //TODO: 추후 api 요청 실패시 나온 response 값에 따라 공통 모달을 만들어서 보여줄 예정입니다.
         if (!res.ok) {
+          setIsModalOpen(true);
+
           if (data.errorField === 'email') {
             setEmailServerError(data.message);
-            alert(data.message);
           }
 
           if (data.errorField === 'password') {
             setPasswordServerError(data.message);
-            alert(data.message);
           }
 
           return;
         }
       }
 
-      router.push('/dashboard');
+      router.push(ROUTES.DASHBOARD);
       return data;
     } catch (err) {
       console.error(err);
@@ -120,6 +125,8 @@ export default function LoginForm() {
         )}
       </div>
       <Button disabled={isLoading || !isFormValid}>로그인</Button>
+
+      {isModalOpen && <AuthModal isOpen={isModalOpen} closeModal={handleCloseModal} mode="login" />}
     </form>
   );
 }
