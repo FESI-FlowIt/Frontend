@@ -14,7 +14,6 @@ export class CustomError extends Error {
 
 export async function fetchWrapper(url: string, options: RequestInit = {}) {
   const accessToken = useAuthStore.getState().accessToken;
-  const refreshToken = useAuthStore.getState().refreshToken;
 
   const headers: any = {
     'Cache-Control': 'no-cache',
@@ -32,12 +31,12 @@ export async function fetchWrapper(url: string, options: RequestInit = {}) {
     });
 
     if (!response.ok) {
-      if (response.status === 401 && refreshToken) {
+      if (response.status === 401 && accessToken) {
         const refreshResponse = await fetch(`${BASE_URL}/auth/tokens`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${refreshToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         });
 
@@ -45,14 +44,10 @@ export async function fetchWrapper(url: string, options: RequestInit = {}) {
           throw new CustomError('Failed to refresh token', await refreshResponse.json());
         }
 
-        const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
-          await refreshResponse.json();
+        const { accessToken: newAccessToken } = await refreshResponse.json();
 
         // zustand에 새로운 토큰 저장
         useAuthStore.getState().setAccessToken(newAccessToken);
-        if (newRefreshToken) {
-          useAuthStore.getState().setRefreshToken(newRefreshToken);
-        }
 
         // 새 accessToken으로 재시도
         headers.Authorization = `Bearer ${newAccessToken}`;
