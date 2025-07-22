@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import z from 'zod';
 
 import useLogin from '@/hooks/auth/useLogin';
-import { loginSchema } from '@/lib/validation';
+import { loginSchema } from '@/interfaces/auth';
 
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';

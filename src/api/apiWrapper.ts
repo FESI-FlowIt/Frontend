@@ -2,7 +2,7 @@ import { RequestInit } from 'next/dist/server/web/spec-extension/request';
 
 import { useAuthStore } from '@/store/authStore';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000';
 
 export class CustomError extends Error {
   data: any;
