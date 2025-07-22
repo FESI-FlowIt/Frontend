@@ -15,7 +15,6 @@ interface TodoItemProps {
 
 const TodoItem = ({ todo }: TodoItemProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isToggling, setIsToggling] = useState(false);
   const kebabButtonRef = useRef<HTMLButtonElement>(null);
 
   const toggleTodoMutation = useToggleTodo();
@@ -23,9 +22,7 @@ const TodoItem = ({ todo }: TodoItemProps) => {
   const { openTodoEditModal } = useModalStore();
 
   const handleToggle = async () => {
-    if (isToggling) return;
-
-    setIsToggling(true);
+    if (toggleTodoMutation.isPending) return;
     try {
       await toggleTodoMutation.mutateAsync({
         todoId: todo.todoId,
@@ -33,8 +30,6 @@ const TodoItem = ({ todo }: TodoItemProps) => {
       });
     } catch (error) {
       console.error('할일 상태 변경 실패:', error);
-    } finally {
-      setIsToggling(false);
     }
   };
 
@@ -63,7 +58,7 @@ const TodoItem = ({ todo }: TodoItemProps) => {
         type="checkbox"
         checked={todo.isDone}
         onChange={handleToggle}
-        disabled={isToggling}
+        disabled={toggleTodoMutation.isPending}
         className="text-primary-01 h-16 w-16 rounded"
       />
 
