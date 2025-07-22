@@ -36,14 +36,14 @@ const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {
     }
   };
 
-  const handleConfirmDialogConfirm = () => {
+  const handleConfirmDialogConfirm = React.useCallback(() => {
     setShowConfirmDialog(false);
     closeTodoModal();
-  };
+  }, [closeTodoModal]);
 
-  const handleConfirmDialogClose = () => {
+  const handleConfirmDialogClose = React.useCallback(() => {
     setShowConfirmDialog(false);
-  };
+  }, []);
 
   useEffect(() => {
     if (showConfirmDialog) {
@@ -63,7 +63,7 @@ const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {
       document.addEventListener('keydown', handleKeyDown, true);
       return () => document.removeEventListener('keydown', handleKeyDown, true);
     }
-  }, [showConfirmDialog]);
+  }, [showConfirmDialog, handleConfirmDialogConfirm, handleConfirmDialogClose]);
 
   useEffect(() => {
     if (!todoModalIsOpen || !hasChanges) return;
