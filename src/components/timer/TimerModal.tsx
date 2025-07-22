@@ -84,7 +84,7 @@ export default function TimerModal({
       console.error('서버 저장 실패', err);
     }
 
-    onStop(); // 부모에게 중지 알림
+    onStop();
   };
 
   return (

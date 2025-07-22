@@ -1,4 +1,3 @@
-// TimerHeader.tsx
 import { IconButton } from '@/components/ui/IconButton';
 import TimerIcon from '@/../public/assets/icons/timerIcon.svg';
 

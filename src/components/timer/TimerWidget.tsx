@@ -42,7 +42,7 @@ export default function TimerWidget({ goals }: { goals: Goal[] }) {
     setSelectedTodo(todo);
     setMinutes(0);
     setSeconds(0);
-    setIsModalOpen(false); // ✅ 여기서 바로 시작하지 않음 (모달에서 시작버튼 클릭 시 시작)
+    setIsModalOpen(false);
   };
 
   const handleStart = () => setIsRunning(true);
