@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import SelectTodoModal from '@/components/timer/SelectTodoModal';
-import TimerModal from '@/components/timer/TimerModal';
 import TimerButton from '@/components/timer/TimerButton';
+import TimerModal from '@/components/timer/TimerModal';
 import { GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
 
 export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {

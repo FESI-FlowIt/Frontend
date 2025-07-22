@@ -1,5 +1,5 @@
-import { IconButton } from '@/components/ui/IconButton';
 import TimerIcon from '@/../public/assets/icons/timerIcon.svg';
+import { IconButton } from '@/components/ui/IconButton';
 
 type Props = {
   onBack: () => void;

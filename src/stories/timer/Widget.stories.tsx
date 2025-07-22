@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import TimerWidget from '@/components/timer/TimerWidget';
 
+import TimerWidget from '@/components/timer/TimerWidget';
 import { goalSummariesRes } from '@/mocks/mockResponses/goals/goalsResponse'; // ✅ 경로 정확히 확인
 
 const meta: Meta<typeof TimerWidget> = {

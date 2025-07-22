@@ -1,10 +1,11 @@
 'use client';
 
 import Modal from '@/components/ui/Modal';
-import TimerHeader from './TimerHeader';
+
 import TaskInfo from './TaskInfo';
-import TimerDisplay from './TimerDisplay';
 import TimerControls from './TimerControls';
+import TimerDisplay from './TimerDisplay';
+import TimerHeader from './TimerHeader';
 import TotalTimeDisplay from './TotalTimerDisplay';
 
 export type TimerModalProps = {

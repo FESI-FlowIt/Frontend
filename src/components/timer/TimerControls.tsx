@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+
 import StartIcon from '@/../public/assets/icons/startIcon.svg';
 
 interface TimerControlsProps {

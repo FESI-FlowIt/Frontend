@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
-import Modal from '@/components/ui/Modal';
+
 import TimerIcon from '@/../public/assets/icons/timerIcon.svg';
 import { IconButton } from '@/components/ui/IconButton';
+import Modal from '@/components/ui/Modal';
+import { GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
 
 type SelectTodoModalProps = {
   goals: GoalSummary[];
