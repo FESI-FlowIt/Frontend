@@ -10,11 +10,11 @@ const HeatmapLayout = ({ timeKeys, children }: HeatmapLayoutProps) => {
   return (
     <div className="flex flex-col">
       {/* 시간대 헤더 */}
-      <div className="mb-12 ml-[36px] flex gap-x-4">
+      <div className="mb-12 ml-40 flex gap-x-4">
         {timeKeys.map(key => (
           <div
             key={key}
-            className="text-text-04 text-body-m-16 flex w-64 items-center justify-center text-center md:w-120 lg:w-180"
+            className="text-text-04 text-body-m-16 flex w-64 items-center justify-center text-center md:w-120 lg:w-160"
           >
             <span className="whitespace-pre-line">{TIME_LABELS[key]}</span>
           </div>

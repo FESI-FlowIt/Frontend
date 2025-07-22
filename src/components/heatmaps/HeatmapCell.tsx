@@ -5,7 +5,7 @@ import { formatHeatmapTime } from '@/lib/format';
 import { cn } from '@/lib/utils';
 
 const heatmapCellVariants = cva(
-  'text-body-m-16 flex h-36 w-64 items-center justify-center rounded-[8px] md:w-120 lg:w-180',
+  'text-body-m-16 rounded-8 flex h-36 w-64 items-center justify-center md:w-120 lg:w-160',
   {
     variants: {
       intensity: {
