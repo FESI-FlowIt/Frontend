@@ -59,12 +59,6 @@ const DropdownMenu = ({
   zIndex = 50, // 기본값 50
 }: DropdownMenuProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    return () => setMounted(false);
-  }, []);
 
   // 외부 클릭 및 키보드 이벤트 처리
   useEffect(() => {
@@ -96,7 +90,7 @@ const DropdownMenu = ({
     };
   }, [isOpen, onClose, triggerRef]);
 
-  if (!mounted || !isOpen) return null;
+  if (!isOpen) return null;
 
   const getPositionClasses = () => {
     switch (position) {
