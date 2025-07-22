@@ -8,14 +8,16 @@ type MockTodo = Todo;
 
 const STORAGE_KEY = 'todos';
 const todoStorage = createStorage<MockTodo>(STORAGE_KEY, []);
-let todos = todoStorage.load();
+
+const getTodos = () => todoStorage.load();
+const saveTodos = (todos: MockTodo[]) => todoStorage.save(todos);
 
 export const todoHandlers = [
   http.get('/todos', ({ request }) => {
     const url = new URL(request.url);
     const goalId = url.searchParams.get('goalId');
 
-    todos = todoStorage.load();
+    const todos = getTodos();
 
     let filteredTodos = todos;
     if (goalId) {
@@ -29,7 +31,7 @@ export const todoHandlers = [
 
   http.post('/todos', async ({ request }) => {
     const requestData = (await request.json()) as TodoCreateRequest;
-    todos = todoStorage.load();
+    const todos = getTodos();
 
     const newTodo: MockTodo = {
       todoId: Date.now().toString(),
@@ -43,15 +45,15 @@ export const todoHandlers = [
       accumulatedMs: 0,
     };
 
-    todos.push(newTodo);
-    todoStorage.save(todos);
+    const updatedTodos = [...todos, newTodo];
+    saveTodos(updatedTodos);
     return HttpResponse.json(newTodo);
   }),
 
   http.put('/todos/:todoId', async ({ params, request }) => {
     const { todoId } = params as { todoId: string };
     const updateData = (await request.json()) as TodoUpdateRequest;
-    todos = todoStorage.load();
+    const todos = getTodos();
 
     const todoIndex = todos.findIndex(todo => todo.todoId === todoId);
     if (todoIndex === -1) {
@@ -68,47 +70,50 @@ export const todoHandlers = [
       updatedTodo.attachment = updateData.attachments;
     }
 
-    todos[todoIndex] = updatedTodo;
-    todoStorage.save(todos);
-    return HttpResponse.json(todos[todoIndex]);
+    const updatedTodos = [...todos];
+    updatedTodos[todoIndex] = updatedTodo;
+    saveTodos(updatedTodos);
+    return HttpResponse.json(updatedTodo);
   }),
 
   http.delete('/todos/:todoId', ({ params }) => {
     const { todoId } = params as { todoId: string };
-
-    todos = todoStorage.load();
+    const todos = getTodos();
 
     const todoIndex = todos.findIndex(todo => todo.todoId === todoId);
     if (todoIndex === -1) {
       return HttpResponse.json({ error: 'Todo not found' }, { status: 404 });
     }
 
-    todoStorage.save(todos);
+    const updatedTodos = todos.filter(todo => todo.todoId !== todoId);
+    saveTodos(updatedTodos);
 
     return HttpResponse.json({ success: true });
   }),
 
   http.patch('/todos/:todoId/toggle', ({ params }) => {
     const { todoId } = params as { todoId: string };
-
-    todos = todoStorage.load();
+    const todos = getTodos();
 
     const todoIndex = todos.findIndex(todo => todo.todoId === todoId);
     if (todoIndex === -1) {
       return HttpResponse.json({ error: 'Todo not found' }, { status: 404 });
     }
 
-    todos[todoIndex].isDone = !todos[todoIndex].isDone;
-    todos[todoIndex].updatedAt = new Date().toISOString();
+    const updatedTodos = [...todos];
+    updatedTodos[todoIndex] = {
+      ...updatedTodos[todoIndex],
+      isDone: !updatedTodos[todoIndex].isDone,
+      updatedAt: new Date().toISOString(),
+    };
 
-    todoStorage.save(todos);
+    saveTodos(updatedTodos);
 
-    return HttpResponse.json(todos[todoIndex]);
+    return HttpResponse.json(updatedTodos[todoIndex]);
   }),
 
   http.delete('/todos/reset', () => {
     todoStorage.clear();
-    todos = [];
     return HttpResponse.json({ success: true });
   }),
 ];
