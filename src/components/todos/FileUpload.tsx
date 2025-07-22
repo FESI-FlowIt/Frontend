@@ -6,6 +6,7 @@ import clsx from 'clsx';
 
 import FileUploadIcon from '@/assets/FileUploadIcon.svg';
 import { Attachment } from '@/interfaces/todo';
+import validateFile from '@/lib/fileValidation';
 
 interface FileUploadProps {
   // eslint-disable-next-line no-unused-vars
@@ -27,64 +28,23 @@ const FileUpload = ({
   const [dragActive, setDragActive] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
 
-  const validateFile = (file: File): string | null => {
-    // 파일 크기 검사
-    if (file.size > maxFileSize * 1024 * 1024) {
-      return `${file.name}은(는) 크기가 ${maxFileSize}MB를 초과합니다.`;
-    }
-
-    // 파일 타입 검사
-    const isValidType = acceptedTypes.some(type => {
-      if (type.includes('*')) {
-        // image/* 같은 와일드카드 타입 검사
-        const baseType = type.split('/')[0];
-        return file.type.startsWith(baseType);
-      }
-      // 확장자 검사
-      if (type.startsWith('.')) {
-        return file.name.toLowerCase().endsWith(type.toLowerCase());
-      }
-      // MIME 타입 검사
-      return file.type === type;
-    });
-
-    if (!isValidType) {
-      return `${file.name}은(는) 지원되지 않는 파일 형식입니다.`;
-    }
-
-    return null;
-  };
-
   const handleFileSelect = (selectedFiles: FileList | null) => {
     if (!selectedFiles) return;
 
     const newFiles = Array.from(selectedFiles);
-    const validFiles: File[] = [];
     const newErrors: string[] = [];
 
-    if (newFiles.length > maxFiles) {
-      newErrors.push(`최대 ${maxFiles}개의 파일만 업로드할 수 있습니다.`);
-      newFiles.splice(maxFiles); // 최대 개수만큼만 유지
-    }
-
-    // 각 파일 유효성 검사
-    newFiles.forEach(file => {
-      const error = validateFile(file);
-      if (error) {
-        newErrors.push(error);
-      } else {
-        validFiles.push(file);
-      }
+    // 파일 유효성 검사
+    const validFiles = newFiles.slice(0, maxFiles).filter(file => {
+      const error = validateFile(file, { maxFileSize, acceptedTypes });
+      if (error) newErrors.push(error);
+      return !error;
     });
 
-    // 에러 상태 업데이트
     setErrors(newErrors);
 
-    // 유효한 파일만 추가
-    if (validFiles.length > 0) {
-      const updatedFiles = validFiles.slice(0, maxFiles);
-      onFilesChange(updatedFiles);
-    }
+    // 부모에게 알림만 → 부모가 state를 관리
+    onFilesChange(validFiles);
 
     if (newErrors.length > 0) {
       setTimeout(() => setErrors([]), 3000);
