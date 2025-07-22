@@ -1,5 +1,3 @@
-// src/stories/insight/InsightCard.stories.tsx
-
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
 import InsightCard from '@/components/insight/InsightCard';
