@@ -34,7 +34,7 @@ export default function TimerModal({
   goalTitle,
   goalColor,
   todoContent,
-  todoId: _todoId,
+  todoId: _todoId, // eslint-disable-line @typescript-eslint/no-unused-vars
   minutes,
   seconds,
   accumulatedSeconds,
