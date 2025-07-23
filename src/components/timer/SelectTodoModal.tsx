@@ -7,12 +7,12 @@ import { IconButton } from '@/components/ui/IconButton';
 import Modal from '@/components/ui/Modal';
 import { GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
 
-type SelectTodoModalProps = {
+interface SelectTodoModalProps {
   goals: GoalSummary[];
   onClose: () => void;
   onSelect: (goal: GoalSummary, todo: Todo) => void;
   defaultSelectedGoalId?: string | null;
-};
+}
 
 export default function SelectTodoModal({
   goals,

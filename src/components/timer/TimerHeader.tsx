@@ -1,12 +1,12 @@
 import TimerIcon from '@/../public/assets/icons/timerIcon.svg';
 import { IconButton } from '@/components/ui/IconButton';
 
-type Props = {
+interface TimerHeaderProps {
   onBack: () => void;
   onClose: () => void;
-};
+}
 
-export default function TimerHeader({ onBack, onClose }: Props) {
+export default function TimerHeader({ onBack, onClose }: TimerHeaderProps) {
   return (
     <div className="mb-40 flex items-center justify-between">
       <div className="flex items-center gap-12">

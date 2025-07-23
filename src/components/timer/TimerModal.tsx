@@ -1,14 +1,14 @@
 'use client';
 
 import Modal from '@/components/ui/Modal';
-
 import TaskInfo from './TaskInfo';
 import TimerControls from './TimerControls';
 import TimerDisplay from './TimerDisplay';
 import TimerHeader from './TimerHeader';
 import TotalTimeDisplay from './TotalTimerDisplay';
+import { formatTime, getCurrentSeconds, getTotalElapsedSeconds } from '@/lib/timerUtils';
 
-export type TimerModalProps = {
+export interface TimerModalProps {
   onClose: () => void;
   onBack: () => void;
   onStart: () => void;
@@ -22,7 +22,7 @@ export type TimerModalProps = {
   minutes: number;
   seconds: number;
   accumulatedSeconds: number;
-};
+}
 
 export default function TimerModal({
   onClose,
@@ -39,15 +39,8 @@ export default function TimerModal({
   seconds,
   accumulatedSeconds,
 }: TimerModalProps) {
-  const formatTime = (totalSeconds: number) => {
-    const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
-    const mins = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
-    const secs = String(totalSeconds % 60).padStart(2, '0');
-    return { hours, minutes: mins, seconds: secs };
-  };
-
-  const currentSeconds = minutes * 60 + seconds;
-  const totalElapsedSeconds = accumulatedSeconds + currentSeconds;
+  const currentSeconds = getCurrentSeconds(minutes, seconds);
+  const totalElapsedSeconds = getTotalElapsedSeconds(currentSeconds, accumulatedSeconds);
 
   const { hours, minutes: mm, seconds: ss } = formatTime(currentSeconds);
   const { hours: totalH, minutes: totalM, seconds: totalS } = formatTime(totalElapsedSeconds);

@@ -2,12 +2,12 @@
 import TimerIcon from '@/../public/assets/icons/timerIcon.svg';
 import { formatNumber } from '@/lib/format';
 
-type TimerButtonProps = {
+interface TimerButtonProps {
   isRunning: boolean;
   minutes: number;
   seconds: number;
   onClick: () => void;
-};
+}
 
 export default function TimerButton({ isRunning, minutes, seconds, onClick }: TimerButtonProps) {
   return (
