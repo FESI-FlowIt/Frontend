@@ -5,7 +5,7 @@ import { useState } from 'react';
 import SelectTodoModal from '@/components/timer/SelectTodoModal';
 import TimerButton from '@/components/timer/TimerButton';
 import TimerModal from '@/components/timer/TimerModal';
-import { useTimerControl } from '@/hooks/useTimerControl';
+import { useTimerMap } from '@/hooks/useTimerMap';
 import { GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
 
 export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
@@ -14,21 +14,14 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
   const [selectedGoal, setSelectedGoal] = useState<GoalSummary | null>(null);
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
 
-  const {
-    isRunning,
-    minutes,
-    seconds,
-    accumulatedSeconds,
-    handleStart,
-    handlePause,
-    handleStop,
-    setMinutes,
-    setSeconds,
-    setAccumulatedSeconds,
-  } = useTimerControl();
+  const { getTimerState, handleStart, handlePause, handleStop, isAnyRunning, runningTodoId } =
+    useTimerMap();
+
+  const activeTimerState = runningTodoId ? getTimerState(runningTodoId) : null;
+  const selectedTimerState = selectedTodo ? getTimerState(selectedTodo.id) : null;
 
   const handleWidgetClick = () => {
-    if (isRunning && selectedGoal && selectedTodo) {
+    if (activeTimerState?.isRunning && selectedGoal && selectedTodo) {
       setIsTimerModalOpen(true);
     } else {
       setIsSelectModalOpen(true);
@@ -38,14 +31,6 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
   const handleSelectTodo = (goal: GoalSummary, todo: Todo) => {
     setSelectedGoal(goal);
     setSelectedTodo(todo);
-
-    const isSameTodo = selectedTodo?.id === todo.id;
-    if (!isSameTodo) {
-      setMinutes(0);
-      setSeconds(0);
-      setAccumulatedSeconds(0);
-    }
-
     setIsSelectModalOpen(false);
     setIsTimerModalOpen(true);
   };
@@ -53,9 +38,9 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
   return (
     <>
       <TimerButton
-        isRunning={isRunning}
-        minutes={minutes}
-        seconds={seconds}
+        isRunning={activeTimerState?.isRunning || false}
+        minutes={activeTimerState?.minutes || 0}
+        seconds={activeTimerState?.seconds || 0}
         onClick={handleWidgetClick}
       />
 
@@ -67,12 +52,13 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
         />
       )}
 
-      {isTimerModalOpen && selectedGoal && selectedTodo && (
+      {isTimerModalOpen && selectedGoal && selectedTodo && selectedTimerState && (
         <TimerModal
-          isRunning={isRunning}
-          onStart={handleStart}
-          onPause={handlePause}
-          onStop={handleStop}
+          isRunning={selectedTimerState.isRunning}
+          isBlocked={isAnyRunning && runningTodoId !== selectedTodo.id}
+          onStart={() => handleStart(selectedTodo.id)}
+          onPause={() => handlePause(selectedTodo.id)}
+          onStop={() => handleStop(selectedTodo.id)}
           onClose={() => setIsTimerModalOpen(false)}
           onBack={() => {
             setIsTimerModalOpen(false);
@@ -82,9 +68,9 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
           goalColor={selectedGoal.color}
           todoContent={selectedTodo.content}
           todoId={selectedTodo.id}
-          minutes={minutes}
-          seconds={seconds}
-          accumulatedSeconds={accumulatedSeconds}
+          minutes={selectedTimerState.minutes}
+          seconds={selectedTimerState.seconds}
+          accumulatedSeconds={selectedTimerState.accumulatedSeconds}
         />
       )}
     </>

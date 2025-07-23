@@ -8,19 +8,29 @@ import StopIcon from '@/../public/assets/icons/stopIcon.svg';
 
 interface TimerControlsProps {
   isRunning: boolean;
+  isBlocked: boolean;
   onStart: () => void;
   onPause: () => void;
   onStop: () => void;
 }
 
-export default function TimerControls({ isRunning, onStart, onPause, onStop }: TimerControlsProps) {
+export default function TimerControls({
+  isRunning,
+  isBlocked,
+  onStart,
+  onPause,
+  onStop,
+}: TimerControlsProps) {
   return (
     <div className="mt-60 mb-80 flex justify-center gap-32">
       {!isRunning ? (
         <button
           aria-label="시작"
           onClick={onStart}
-          className="flex h-88 w-88 cursor-pointer items-center justify-center"
+          disabled={isBlocked}
+          className={`flex h-88 w-88 cursor-pointer items-center justify-center ${
+            isBlocked ? 'cursor-not-allowed opacity-40' : ''
+          }`}
         >
           <StartIcon className="h-full w-full" />
         </button>
