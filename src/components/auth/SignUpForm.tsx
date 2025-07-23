@@ -22,8 +22,10 @@ export default function SignUpForm() {
   const [emailServerError, setEmailServerError] = useState<string | null>(null);
   const [isEmailChecked, setIsEmailChecked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCheckOpen, setIsCheckOpen] = useState(false);
 
   const handleCloseModal = () => setIsModalOpen(false);
+  const handleCloseCheck = () => setIsCheckOpen(false);
 
   const {
     register,
@@ -59,6 +61,7 @@ export default function SignUpForm() {
       setIsEmailChecked(true);
     },
     onError: () => {
+      setIsCheckOpen(true);
       setEmailServerError('이미 사용 중인 이메일입니다');
     },
   });
@@ -114,6 +117,9 @@ export default function SignUpForm() {
       </Button>
       {isModalOpen && (
         <AuthModal isOpen={isModalOpen} closeModal={handleCloseModal} mode="signup" />
+      )}
+      {isCheckOpen && (
+        <AuthModal isOpen={isCheckOpen} closeModal={handleCloseCheck} mode="emailCheck" />
       )}
     </form>
   );
