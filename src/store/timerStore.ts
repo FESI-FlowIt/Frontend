@@ -1,4 +1,3 @@
-// src/store/timerStore.ts
 import { create } from 'zustand';
 
 interface TimerState {
@@ -20,7 +19,7 @@ interface TimerStore {
 }
 
 export const useTimerStore = create<TimerStore>((set, get) => {
-  let intervalId: NodeJS.Timeout | null = null;
+  let intervalId: ReturnType<typeof setInterval> | null = null;
 
   const initializeTimer = (todoId: string) => {
     const timers = get().timers;
@@ -134,6 +133,7 @@ export const useTimerStore = create<TimerStore>((set, get) => {
           runningTodoId: null,
         };
       });
+
       if (intervalId) {
         clearInterval(intervalId);
         intervalId = null;
