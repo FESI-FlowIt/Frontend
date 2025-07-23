@@ -1,8 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
-import CloseIcon from '@/assets/CloseIcon.svg';
 import { Button } from '@/components/ui/Button';
 import Dialog from '@/components/ui/Dialog';
 
@@ -25,35 +24,26 @@ const ConfirmDialog = ({
   message = '정말 나가시겠어요?\n작성된 내용이 모두 사라집니다.',
   confirmText = '확인',
   cancelText = '취소',
-  showCloseButton = true,
 }: ConfirmDialogProps) => {
-  const handleConfirm = () => {
+  const handleConfirm = useCallback(() => {
     onConfirm();
     onClose();
-  };
+  }, [onConfirm, onClose]);
 
   return (
     <Dialog
       isOpen={isOpen}
       onClose={onClose}
+      onEnter={handleConfirm}
       size="default"
       overlay="default"
       closeOnOverlayClick={false}
-      closeOnEscape={false}
+      closeOnEscape={true}
     >
       <div className="flex h-full flex-col">
         {/* Header */}
         <div className="mb-16 text-center">
           <h2 className="text-body-sb-20 font-semibold text-slate-800">{title}</h2>
-          {showCloseButton && (
-            <button
-              onClick={onClose}
-              className="absolute top-20 right-20 cursor-pointer"
-              aria-label="닫기"
-            >
-              <CloseIcon className="text-text-03" />
-            </button>
-          )}
         </div>
 
         {/* Body */}

@@ -1,22 +1,15 @@
 import {
   CreateGoalRequest,
   GetGoalsRequestParams,
+  GetGoalsResponse,
   Goal,
   GoalFormData,
-  GoalSummary,
   UpdateGoalRequest,
 } from '@/interfaces/goal';
 
 export const goalsApi = {
   // 목표 목록 조회
-  getGoals: async (
-    params?: GetGoalsRequestParams,
-  ): Promise<{
-    goals: GoalSummary[];
-    totalCount: number;
-    currentPage: number;
-    totalPages: number;
-  }> => {
+  getGoals: async (params?: GetGoalsRequestParams): Promise<GetGoalsResponse> => {
     const searchParams = new URLSearchParams();
 
     if (params?.page) searchParams.append('page', params.page.toString());

@@ -63,15 +63,82 @@
   /* ========================================================================
      Font Family (글꼴)
      ======================================================================== */
-  --font-family-sans: 'Pretendard', theme(fontFamily.sans);
+  --font-family-sans: var(--font-pretendard), sans-serif;
 }
 
-/* 3. @layer base 블록에 기본 스타일(body 등)을 정의합니다. */
+/* 3. @layer base 블록에 CSS Reset과 기본 스타일을 정의합니다. */
 @layer base {
+  /* CSS Reset */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
     background-color: var(--color-ui-background);
     color: var(--color-text-01);
     font-family: var(--font-family-sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* 한국 웹사이트에서 자주 필요한 reset */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  ul,
+  ol,
+  li {
+    list-style: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  input,
+  textarea,
+  select {
+    border: none;
+    outline: none;
+    font-family: inherit;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: top;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
   }
 }
 
