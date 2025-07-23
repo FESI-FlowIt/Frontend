@@ -1,37 +1,31 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import SelectTodoModal from '@/components/timer/SelectTodoModal';
 import TimerButton from '@/components/timer/TimerButton';
 import TimerModal from '@/components/timer/TimerModal';
+import { useTimerControl } from '@/hooks/useTimerControl';
 import { GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
 
 export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const [isTimerModalOpen, setIsTimerModalOpen] = useState(false);
-  const [isRunning, setIsRunning] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<GoalSummary | null>(null);
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
-  const [accumulatedSeconds, setAccumulatedSeconds] = useState(0);
 
-  useEffect(() => {
-    if (!isRunning) return;
-
-    const interval = setInterval(() => {
-      setSeconds(prev => {
-        if (prev === 59) {
-          setMinutes(min => min + 1);
-          return 0;
-        }
-        return prev + 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [isRunning]);
+  const {
+    isRunning,
+    minutes,
+    seconds,
+    accumulatedSeconds,
+    handleStart,
+    handlePause,
+    handleStop,
+    setMinutes,
+    setSeconds,
+    setAccumulatedSeconds,
+  } = useTimerControl();
 
   const handleWidgetClick = () => {
     if (isRunning && selectedGoal && selectedTodo) {
@@ -49,22 +43,6 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
     setAccumulatedSeconds(0);
     setIsSelectModalOpen(false);
     setIsTimerModalOpen(true);
-  };
-
-  const handleStart = () => setIsRunning(true);
-
-  const handlePause = () => {
-    //일시정지
-    setIsRunning(false);
-  };
-
-  const handleStop = () => {
-    // 중지 시 누적 시간 합산
-    const currentElapsed = minutes * 60 + seconds;
-    setAccumulatedSeconds(prev => prev + currentElapsed);
-    setIsRunning(false);
-    setMinutes(0);
-    setSeconds(0);
   };
 
   return (
