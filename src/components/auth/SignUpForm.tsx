@@ -8,8 +8,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
+import { signupSchema } from '@/interfaces/auth';
 import { ROUTES } from '@/lib/routes';
-import { signupSchema } from '@/lib/validation';
 
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
