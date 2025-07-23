@@ -25,7 +25,6 @@ const ConfirmDialog = ({
   message = '정말 나가시겠어요?\n작성된 내용이 모두 사라집니다.',
   confirmText = '확인',
   cancelText = '취소',
-  showCloseButton = true,
 }: ConfirmDialogProps) => {
   const handleConfirm = () => {
     onConfirm();
@@ -45,15 +44,6 @@ const ConfirmDialog = ({
         {/* Header */}
         <div className="mb-16 text-center">
           <h2 className="text-body-sb-20 font-semibold text-slate-800">{title}</h2>
-          {showCloseButton && (
-            <button
-              onClick={onClose}
-              className="absolute top-20 right-20 cursor-pointer"
-              aria-label="닫기"
-            >
-              <CloseIcon className="text-text-03" />
-            </button>
-          )}
         </div>
 
         {/* Body */}
