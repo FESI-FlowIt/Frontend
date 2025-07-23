@@ -26,7 +26,8 @@ export const goalSummariesRes: GoalSummary[] = [
     createdAt: '2025-07-18T00:00:00Z',
     todos: [
       { id: 'todo-5', content: 'UI 구현', isDone: true },
-      { id: 'todo-4', content: 'API 연동', isDone: true },],
+      { id: 'todo-4', content: 'API 연동', isDone: true },
+    ],
   },
   {
     goalId: 'goal-3',

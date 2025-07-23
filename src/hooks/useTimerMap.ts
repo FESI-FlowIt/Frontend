@@ -1,4 +1,3 @@
-// src/hooks/useTimerMap.ts
 import { useEffect, useRef, useState } from 'react';
 
 interface TimerState {
