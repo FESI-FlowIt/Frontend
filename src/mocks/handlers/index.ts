@@ -1,4 +1,5 @@
 import { authHandlers } from './authHandlers';
+import { goalHandlers } from './goalHandlers';
 import { todoHandlers } from './todoHandlers';
 
-export const handlers = [...authHandlers, ...todoHandlers];
+export const handlers = [...authHandlers, ...todoHandlers, ...goalHandlers];
