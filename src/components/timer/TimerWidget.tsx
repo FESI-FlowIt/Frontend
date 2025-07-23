@@ -38,9 +38,14 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
   const handleSelectTodo = (goal: GoalSummary, todo: Todo) => {
     setSelectedGoal(goal);
     setSelectedTodo(todo);
-    setMinutes(0);
-    setSeconds(0);
-    setAccumulatedSeconds(0);
+
+    const isSameTodo = selectedTodo?.id === todo.id;
+    if (!isSameTodo) {
+      setMinutes(0);
+      setSeconds(0);
+      setAccumulatedSeconds(0);
+    }
+
     setIsSelectModalOpen(false);
     setIsTimerModalOpen(true);
   };

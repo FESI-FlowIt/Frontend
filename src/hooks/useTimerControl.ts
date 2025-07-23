@@ -22,7 +22,7 @@ export function useTimerControl() {
 
   const handleStart = () => setIsRunning(true);
   const handlePause = () => {
-    setAccumulatedSeconds(prev => prev + minutes * 60 + seconds);
+    
     setIsRunning(false);
   };
   const handleStop = () => {
