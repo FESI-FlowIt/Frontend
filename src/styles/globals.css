@@ -63,7 +63,7 @@
   /* ========================================================================
      Font Family (글꼴)
      ======================================================================== */
-  --font-family-sans: 'Pretendard', theme(fontFamily.sans);
+  --font-family-sans: var(--font-pretendard), sans-serif;
 }
 
 /* 3. @layer base 블록에 기본 스타일(body 등)을 정의합니다. */
