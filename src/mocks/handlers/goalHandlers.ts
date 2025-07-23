@@ -37,6 +37,20 @@ export const goalHandlers = [
     return HttpResponse.json({ message: '목표 데이터를 불러오지 못했습니다.' }, { status: 500 });
   }),
 
+  http.patch('/goals/:goalId', async ({ params, request }) => {
+    const { goalId } = params;
+    const body = (await request.json()) as { isPinned: boolean };
+
+    const goal = goalSummariesRes.find(g => g.goalId === goalId);
+    if (!goal) {
+      return HttpResponse.json({ message: '목표를 찾을 수 없습니다.' }, { status: 404 });
+    }
+
+    goal.isPinned = body.isPinned;
+
+    return HttpResponse.json(goal);
+  }),
+
   // 목표 생성
   http.post('/goals', async ({ request }) => {
     const body = (await request.json()) as CreateGoalRequest;
