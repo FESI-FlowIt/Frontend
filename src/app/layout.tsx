@@ -1,9 +1,17 @@
 import type { Metadata } from 'next';
+import localFont from 'next/font/local';
 
 import { MswProvider } from './providers/MswProvider';
 import ReactQueryProvider from './providers/ReactQueryProvider';
 
 import '../styles/globals.css';
+
+const pretendard = localFont({
+  src: '../../node_modules/pretendard/dist/web/variable/woff2/PretendardVariable.woff2',
+  display: 'swap',
+  weight: '45 920',
+  variable: '--font-pretendard',
+});
 
 export const metadata: Metadata = {
   title: 'FlowIt',
@@ -12,7 +20,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={pretendard.variable}>
       <body>
         <MswProvider>
           <ReactQueryProvider>{children}</ReactQueryProvider>
