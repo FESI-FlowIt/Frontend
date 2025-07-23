@@ -10,7 +10,7 @@ interface PasswordInputProps {
   placeholder?: string;
   register: any;
   name: string;
-  error?: string;
+  error?: string | null;
 }
 
 export default function PasswordInput({
