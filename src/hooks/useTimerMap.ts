@@ -11,7 +11,7 @@ type TimerMap = Record<string, TimerState>;
 
 export function useTimerMap() {
   const [timers, setTimers] = useState<TimerMap>({});
-  const intervalsRef = useRef<Record<string, NodeJS.Timeout | undefined>>({});
+  const intervalsRef = useRef<Record<string, ReturnType<typeof setInterval> | undefined>>({});
 
   const getTimerState = (todoId: string): TimerState => {
     return (
@@ -35,8 +35,7 @@ export function useTimerMap() {
   };
 
   const handleStart = (todoId: string) => {
-    // 하나라도 실행 중이면 새로 시작 못함
-    const runningId = Object.entries(timers).find(([_, state]) => state.isRunning)?.[0];
+    const runningId = Object.entries(timers).find(([, state]) => state.isRunning)?.[0];
     if (runningId && runningId !== todoId) return;
 
     updateTimerState(todoId, { isRunning: true });
@@ -68,8 +67,11 @@ export function useTimerMap() {
   };
 
   const handlePause = (todoId: string) => {
-    clearInterval(intervalsRef.current[todoId]);
-    intervalsRef.current[todoId] = undefined;
+    const interval = intervalsRef.current[todoId];
+    if (interval) {
+      clearInterval(interval);
+      intervalsRef.current[todoId] = undefined;
+    }
 
     updateTimerState(todoId, { isRunning: false });
   };
@@ -78,8 +80,11 @@ export function useTimerMap() {
     const { minutes, seconds, accumulatedSeconds } = getTimerState(todoId);
     const currentElapsed = minutes * 60 + seconds;
 
-    clearInterval(intervalsRef.current[todoId]);
-    intervalsRef.current[todoId] = undefined;
+    const interval = intervalsRef.current[todoId];
+    if (interval) {
+      clearInterval(interval);
+      intervalsRef.current[todoId] = undefined;
+    }
 
     updateTimerState(todoId, {
       isRunning: false,
@@ -90,11 +95,14 @@ export function useTimerMap() {
   };
 
   const isAnyRunning = Object.values(timers).some(state => state.isRunning);
-  const runningTodoId = Object.entries(timers).find(([_, state]) => state.isRunning)?.[0] || null;
+  const runningTodoId = Object.entries(timers).find(([, state]) => state.isRunning)?.[0] || null;
 
   useEffect(() => {
+    const allIntervals = intervalsRef.current;
     return () => {
-      Object.values(intervalsRef.current).forEach(clearInterval);
+      Object.values(allIntervals).forEach(interval => {
+        if (interval) clearInterval(interval);
+      });
     };
   }, []);
 
