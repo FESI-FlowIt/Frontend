@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import SelectTodoModal from '@/components/timer/SelectTodoModal';
 import TimerButton from '@/components/timer/TimerButton';
 import TimerModal from '@/components/timer/TimerModal';
-import { useTimerMap } from '@/hooks/useTimerMap';
+import { useTimerStore } from '@/store/timerStore';
 import { GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
 
 export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
@@ -14,11 +14,19 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
   const [selectedGoal, setSelectedGoal] = useState<GoalSummary | null>(null);
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
 
-  const { getTimerState, handleStart, handlePause, handleStop, isAnyRunning, runningTodoId } =
-    useTimerMap();
+  const { getTimerState, startTimer, pauseTimer, stopTimer, runningTodoId } = useTimerStore();
 
   const activeTimerState = runningTodoId ? getTimerState(runningTodoId) : null;
   const selectedTimerState = selectedTodo ? getTimerState(selectedTodo.id) : null;
+
+  const isBlocked: boolean = !!activeTimerState?.isRunning && selectedTodo?.id !== runningTodoId;
+
+  useEffect(() => {
+    console.log('🔍 [DEBUG] isBlocked:', isBlocked);
+    console.log('🔍 [DEBUG] selectedTodo.id:', selectedTodo?.id);
+    console.log('🔍 [DEBUG] runningTodoId:', runningTodoId);
+    console.log('🔍 [DEBUG] activeTimerState?.isRunning:', activeTimerState?.isRunning);
+  }, [isBlocked, selectedTodo?.id, runningTodoId, activeTimerState?.isRunning]);
 
   const handleWidgetClick = () => {
     if (activeTimerState?.isRunning && selectedGoal && selectedTodo) {
@@ -55,10 +63,10 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
       {isTimerModalOpen && selectedGoal && selectedTodo && selectedTimerState && (
         <TimerModal
           isRunning={selectedTimerState.isRunning}
-          isBlocked={isAnyRunning && runningTodoId !== selectedTodo.id}
-          onStart={() => handleStart(selectedTodo.id)}
-          onPause={() => handlePause(selectedTodo.id)}
-          onStop={() => handleStop(selectedTodo.id)}
+          isBlocked={isBlocked}
+          onStart={() => startTimer(selectedTodo.id)}
+          onPause={() => pauseTimer(selectedTodo.id)}
+          onStop={() => stopTimer(selectedTodo.id)}
           onClose={() => setIsTimerModalOpen(false)}
           onBack={() => {
             setIsTimerModalOpen(false);

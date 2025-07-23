@@ -28,9 +28,7 @@ export default function TimerControls({
           aria-label="시작"
           onClick={onStart}
           disabled={isBlocked}
-          className={`flex h-88 w-88 cursor-pointer items-center justify-center ${
-            isBlocked ? 'cursor-not-allowed opacity-40' : ''
-          }`}
+          className="flex h-88 w-88 cursor-pointer items-center justify-center disabled:opacity-40"
         >
           <StartIcon className="h-full w-full" />
         </button>

@@ -15,7 +15,7 @@ export interface TimerModalProps {
   onPause: () => void;
   onStop: () => void;
   isRunning: boolean;
-  isBlocked: boolean; // ✅ 추가
+  isBlocked: boolean;
   goalTitle: string;
   goalColor: string;
   todoContent: string;
@@ -32,7 +32,7 @@ export default function TimerModal({
   onPause,
   onStop,
   isRunning,
-  isBlocked, // ✅
+  isBlocked,
   goalTitle,
   goalColor,
   todoContent,
@@ -51,16 +51,16 @@ export default function TimerModal({
     <Modal isOpen onClose={onClose} size="timer">
       <div className="w-520 p-10">
         <TimerHeader onBack={onBack} onClose={onClose} />
-        {isBlocked && (
-          <div className="mb-4 rounded-md bg-red-100 px-4 py-2 text-center text-sm text-red-700">
+        {isBlocked === true && (
+          <div className="text-error mb-4 rounded-md bg-red-100 px-4 py-2 text-center text-sm">
             이미 다른 할일의 타이머가 실행 중입니다.
-          </div>
+          </div> //이 부분은 디자인이 추가 되면 색깔이나 크기 리팩토링 하겠습니다
         )}
         <TaskInfo goalTitle={goalTitle} goalColor={goalColor} todoContent={todoContent} />
         <TimerDisplay hours={hours} minutes={mm} seconds={ss} />
         <TimerControls
           isRunning={isRunning}
-          isBlocked={isBlocked} // ✅ 추가
+          isBlocked={isBlocked}
           onStart={onStart}
           onPause={onPause}
           onStop={onStop}
