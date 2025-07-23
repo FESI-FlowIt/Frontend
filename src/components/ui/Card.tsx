@@ -22,14 +22,7 @@ interface CardProps extends VariantProps<typeof cardVariants> {
   className?: string;
 }
 
-const Card: React.FC<CardProps> = ({
-  icon,
-  title,
-  extra,
-  backgroundColor,
-  children,
-  className,
-}) => {
+const Card = ({ icon, title, extra, backgroundColor, children, className }: CardProps) => {
   return (
     <div className={cn(cardVariants({ backgroundColor }), className)}>
       {/* Header */}

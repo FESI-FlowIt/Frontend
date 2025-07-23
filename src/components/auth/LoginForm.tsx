@@ -2,27 +2,22 @@
 
 import { useState } from 'react';
 
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
-import { ROUTES } from '@/lib/routes';
-import { loginSchema } from '@/lib/validation';
+import useLogin from '@/hooks/auth/useLogin';
+import { loginSchema } from '@/interfaces/auth';
 
 import { Button } from '../ui/Button';
-import { Input } from '../ui/Input';
 
 import AuthModal from './AuthModal';
+import EmailInput from './EmailInput';
+import PasswordInput from './PasswordInput';
 
-type LoginFormData = z.infer<typeof loginSchema>;
+export type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-  const [isShow, setIsShow] = useState(false);
-
   const [emailServerError, setEmailServerError] = useState<string | null>(null);
   const [passwordServerError, setPasswordServerError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,90 +37,40 @@ export default function LoginForm() {
   const password = watch('password');
   const isFormValid = email.trim() !== '' && password.trim() !== '';
 
-  const onSubmit = async (formData: LoginFormData) => {
-    setIsLoading(true);
-
-    //TODO: 서버 api 나오면 api관련 로직 만들어서 호출하는 부분 수정할 예정입니다.
-    try {
-      const res = await fetch('/auth/signIn', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        if (!res.ok) {
-          setIsModalOpen(true);
-
-          if (data.errorField === 'email') {
-            setEmailServerError(data.message);
-          }
-
-          if (data.errorField === 'password') {
-            setPasswordServerError(data.message);
-          }
-
-          return;
-        }
+  const login = useLogin({
+    onError: error => {
+      setIsModalOpen(true);
+      if (error?.errorField === 'email') {
+        setEmailServerError('error.message');
       }
+      if (error?.errorField === 'password') {
+        setPasswordServerError(error.message);
+      }
+    },
+  });
 
-      router.push(ROUTES.DASHBOARD);
-      return data;
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsLoading(false);
-    }
+  const onSubmit = (formData: LoginFormData) => {
+    setEmailServerError(null);
+    setPasswordServerError(null);
+    setIsModalOpen(false);
+    login.mutate(formData);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20 sm:gap-12 md:gap-20">
-      <div>
-        <Input
-          type="email"
-          placeholder="이메일"
-          defaultValue=""
-          {...register('email')}
-          hasError={!!emailServerError}
-        />
-        {emailServerError && <p className="text-body-m-20 text-error mt-12">{emailServerError}</p>}
-      </div>
-      <div className="mb-20 sm:mb-28 md:mb-20">
-        <div className="relative h-60 w-600 sm:h-44 sm:w-full sm:max-w-343 md:h-60 md:w-full md:max-w-600">
-          <Input
-            type={isShow ? 'text' : 'password'}
-            placeholder="비밀번호"
-            defaultValue=""
-            hasError={!!passwordServerError}
-            className="pr-40"
-            {...register('password')}
-          />
-          <button
-            type="button"
-            onClick={() => setIsShow(prev => !prev)}
-            className="absolute top-1/2 right-18 -translate-y-1/2 cursor-pointer"
-          >
-            <Image
-              src={
-                isShow ? '/assets/images/visibility_on.svg' : '/assets/images/visibility_off.svg'
-              }
-              alt="패스워드 보여주기 이미지"
-              width={24}
-              height={24}
-            />
-          </button>
-        </div>
-
-        {passwordServerError && (
-          <p className="text-body-m-20 text-error mt-12">{passwordServerError}</p>
-        )}
-      </div>
-      <Button disabled={isLoading || !isFormValid}>로그인</Button>
-
+      <EmailInput
+        placeholder="이메일"
+        register={register}
+        email={email}
+        serverError={emailServerError}
+      />
+      <PasswordInput
+        placeholder="비밀번호"
+        register={register}
+        name="password"
+        error={passwordServerError}
+      />
+      <Button disabled={!isFormValid}>로그인</Button>
       {isModalOpen && <AuthModal isOpen={isModalOpen} closeModal={handleCloseModal} mode="login" />}
     </form>
   );
