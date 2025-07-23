@@ -54,16 +54,12 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
   const handleStart = () => setIsRunning(true);
 
   const handlePause = () => {
-    // 일시정지 시 누적 시간 합산
-    const currentElapsed = minutes * 60 + seconds;
-    setAccumulatedSeconds(prev => prev + currentElapsed);
+    //일시정지
     setIsRunning(false);
-    setMinutes(0);
-    setSeconds(0);
   };
 
   const handleStop = () => {
-    // 정지 시 누적 시간 합산
+    // 중지 시 누적 시간 합산
     const currentElapsed = minutes * 60 + seconds;
     setAccumulatedSeconds(prev => prev + currentElapsed);
     setIsRunning(false);

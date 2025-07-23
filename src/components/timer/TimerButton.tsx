@@ -17,17 +17,17 @@ export default function TimerButton({ isRunning, minutes, seconds, onClick }: Ti
         isRunning ? 'bg-primary-01' : 'bg-timer'
       }`}
     >
-      <div className={`flex flex-col items-center ${isRunning ? 'mt-[13px]' : 'mt-[25px]'}`}>
+      <div className={`flex flex-col items-center ${isRunning ? 'mt-13' : 'mt-25'}`}>
         <TimerIcon className="h-24 w-24" />
         {isRunning ? (
           <>
-            <div className="text-body-sb-20 mt-[4px]">
+            <div className="text-body-sb-20 mt-4">
               {`${formatNumber(minutes)}:${formatNumber(seconds)}`}
             </div>
             <div className="text-body-sb-16">할 일 중</div>
           </>
         ) : (
-          <div className="text-body-sb-20 mt-[4px]">할 일 시작</div>
+          <div className="text-body-sb-20 mt-4">할 일 시작</div>
         )}
       </div>
     </button>
