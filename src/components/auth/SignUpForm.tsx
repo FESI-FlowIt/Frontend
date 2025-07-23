@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-import Image from 'next/image';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
@@ -11,15 +10,15 @@ import { useEmailCheck, useSignup } from '@/hooks/auth/useSignup';
 import { signupSchema } from '@/interfaces/auth';
 
 import { Button } from '../ui/Button';
-import { Input } from '../ui/Input';
 
 import AuthModal from './AuthModal';
+import EmailInput from './EmailInput';
+import NameInput from './NameInput';
+import PasswordInput from './PasswordInput';
 
 export type SignupFormData = z.infer<typeof signupSchema>;
 
-export default function SingUpForm() {
-  const [isPwShow, setIsPwShow] = useState(false);
-  const [isPwCheckShow, setIsPwCheckShow] = useState(false);
+export default function SignUpForm() {
   const [emailServerError, setEmailServerError] = useState<string | null>(null);
   const [isEmailChecked, setIsEmailChecked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,8 +49,6 @@ export default function SingUpForm() {
     password.trim() !== '' &&
     name.trim() !== '' &&
     passwordCheck.trim() !== '';
-
-  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 
   useEffect(() => {
     setIsEmailChecked(false);
@@ -87,111 +84,34 @@ export default function SingUpForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20 sm:gap-12 md:gap-20">
-      <div className="flex flex-col gap-12">
-        <label className="text-text-03 text-body-sb-20">이름</label>
-        <Input
-          type="name"
-          placeholder="이름을 입력해주세요"
-          defaultValue=""
-          {...register('name')}
-          hasError={!!errors.name}
-        />
-        {errors?.name && <p className="text-body-m-20 text-error mt-12">{errors.name.message}</p>}
-      </div>
-
-      <div className="flex flex-col gap-12">
-        <label className="text-text-03 text-body-sb-20">이메일</label>
-        <div className="flex gap-12">
-          <Input
-            type="email"
-            placeholder="example@flowit.com"
-            defaultValue=""
-            {...register('email')}
-            hasError={!!emailServerError}
-            inputSize="withBtn"
-          />
-          <Button
-            disabled={!isEmailValid || isEmailChecked}
-            variant="secondary"
-            size="check"
-            text="secondary"
-            onClick={() => handleCheckEmail(email)}
-          >
-            확인
-          </Button>
-        </div>
-        {emailServerError && <p className="text-body-m-20 text-error mt-12">{emailServerError}</p>}
-        {isEmailChecked && <p className="text-body-m-20 text-goal-green">인증이 완료되었습니다!</p>}
-      </div>
-
-      <div className="flex flex-col gap-12">
-        <label className="text-text-03 text-body-sb-20">비밀번호</label>
-        <div className="relative h-60 w-600 sm:h-44 sm:w-full sm:max-w-343 md:h-60 md:w-full md:max-w-600">
-          <Input
-            type={isPwShow ? 'text' : 'password'}
-            placeholder="비밀번호를 입력해 주세요"
-            defaultValue=""
-            hasError={!!errors.password?.message}
-            className="pr-40"
-            {...register('password')}
-          />
-          <button
-            type="button"
-            onClick={() => setIsPwShow(prev => !prev)}
-            className="absolute top-1/2 right-18 -translate-y-1/2 cursor-pointer"
-          >
-            <Image
-              src={
-                isPwShow ? '/assets/images/visibility_on.svg' : '/assets/images/visibility_off.svg'
-              }
-              alt="패스워드 보여주기 이미지"
-              width={24}
-              height={24}
-            />
-          </button>
-        </div>
-        {errors?.password && (
-          <p className="text-body-m-20 text-error mt-12">{errors.password.message}</p>
-        )}
-      </div>
-
-      <div className="flex flex-col gap-12">
-        <label className="text-text-03 text-body-sb-20">비밀번호 확인</label>
-        <div className="relative h-60 w-600 sm:h-44 sm:w-full sm:max-w-343 md:h-60 md:w-full md:max-w-600">
-          <Input
-            type={isPwCheckShow ? 'text' : 'password'}
-            placeholder="비밀번호를 다시 한 번 입력해 주세요"
-            defaultValue=""
-            hasError={!!errors.passwordCheck?.message}
-            className="pr-40"
-            {...register('passwordCheck')}
-          />
-          <button
-            type="button"
-            onClick={() => setIsPwCheckShow(prev => !prev)}
-            className="absolute top-1/2 right-18 -translate-y-1/2 cursor-pointer"
-          >
-            <Image
-              src={
-                isPwCheckShow
-                  ? '/assets/images/visibility_on.svg'
-                  : '/assets/images/visibility_off.svg'
-              }
-              alt="패스워드 보여주기 이미지"
-              width={24}
-              height={24}
-            />
-          </button>
-        </div>
-        {errors?.passwordCheck && (
-          <p className="text-body-m-20 text-error mt-12">{errors.passwordCheck.message}</p>
-        )}
-      </div>
-
+      <NameInput label="이름" register={register} error={errors.name?.message} />
+      <EmailInput
+        label="이메일"
+        placeholder="example@flowit.com"
+        register={register}
+        email={email}
+        serverError={emailServerError}
+        isChecked={isEmailChecked}
+        onCheck={() => handleCheckEmail(email)}
+        showCheckButton={true}
+      />
+      <PasswordInput
+        placeholder="비밀번호를 입력해 주세요"
+        label="비밀번호"
+        register={register}
+        name="password"
+        error={errors.password?.message}
+      />
+      <PasswordInput
+        placeholder="비밀번호를 다시 한 번 입력해 주세요"
+        label="비밀번호 확인"
+        register={register}
+        name="passwordCheck"
+        error={errors.passwordCheck?.message}
+      />
       <Button className="mt-20" disabled={!isFormValid || !isEmailChecked}>
         가입하기
       </Button>
-
       {isModalOpen && (
         <AuthModal isOpen={isModalOpen} closeModal={handleCloseModal} mode="signup" />
       )}
