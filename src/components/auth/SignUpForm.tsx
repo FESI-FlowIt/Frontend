@@ -3,28 +3,24 @@
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
+import { useEmailCheck, useSignup } from '@/hooks/auth/useSignup';
 import { signupSchema } from '@/interfaces/auth';
-import { ROUTES } from '@/lib/routes';
 
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 
 import AuthModal from './AuthModal';
 
-type SignupFormData = z.infer<typeof signupSchema>;
+export type SignupFormData = z.infer<typeof signupSchema>;
 
 export default function SingUpForm() {
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
   const [isPwShow, setIsPwShow] = useState(false);
   const [isPwCheckShow, setIsPwCheckShow] = useState(false);
   const [emailServerError, setEmailServerError] = useState<string | null>(null);
-  const [isEmailChecking, setIsEmailChecking] = useState(false);
   const [isEmailChecked, setIsEmailChecked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -61,57 +57,31 @@ export default function SingUpForm() {
     setIsEmailChecked(false);
   }, [email]);
 
+  const emailCheck = useEmailCheck({
+    onSuccess: () => {
+      setIsEmailChecked(true);
+    },
+    onError: () => {
+      setEmailServerError('이미 사용 중인 이메일입니다');
+    },
+  });
+
   const handleCheckEmail = async (email: string) => {
     setIsEmailChecked(false);
     setEmailServerError(null);
 
-    try {
-      setIsEmailChecking(true);
-      const res = await fetch('/auth/check-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        if (data.errorField === 'email') {
-          setEmailServerError(data.message);
-        }
-        return;
-      }
-
-      setIsEmailChecked(true);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsEmailChecking(false);
-    }
+    emailCheck.mutate({ email });
   };
+
+  const signup = useSignup({
+    onError: () => {
+      setIsModalOpen(true);
+    },
+  });
 
   const onSubmit = async (formData: SignupFormData) => {
     if (isEmailChecked) {
-      setIsLoading(true);
-      try {
-        const res = await fetch('/user', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
-
-        await res.json();
-        router.push(ROUTES.AUTH.LOGIN);
-      } catch (err) {
-        setIsModalOpen(true);
-        console.log(err);
-      } finally {
-        setIsLoading(false);
-      }
+      signup.mutate(formData);
     }
   };
 
@@ -128,6 +98,7 @@ export default function SingUpForm() {
         />
         {errors?.name && <p className="text-body-m-20 text-error mt-12">{errors.name.message}</p>}
       </div>
+
       <div className="flex flex-col gap-12">
         <label className="text-text-03 text-body-sb-20">이메일</label>
         <div className="flex gap-12">
@@ -140,7 +111,7 @@ export default function SingUpForm() {
             inputSize="withBtn"
           />
           <Button
-            disabled={!isEmailValid || isEmailChecking || isEmailChecked}
+            disabled={!isEmailValid || isEmailChecked}
             variant="secondary"
             size="check"
             text="secondary"
@@ -152,6 +123,7 @@ export default function SingUpForm() {
         {emailServerError && <p className="text-body-m-20 text-error mt-12">{emailServerError}</p>}
         {isEmailChecked && <p className="text-body-m-20 text-goal-green">인증이 완료되었습니다!</p>}
       </div>
+
       <div className="flex flex-col gap-12">
         <label className="text-text-03 text-body-sb-20">비밀번호</label>
         <div className="relative h-60 w-600 sm:h-44 sm:w-full sm:max-w-343 md:h-60 md:w-full md:max-w-600">
@@ -182,6 +154,7 @@ export default function SingUpForm() {
           <p className="text-body-m-20 text-error mt-12">{errors.password.message}</p>
         )}
       </div>
+
       <div className="flex flex-col gap-12">
         <label className="text-text-03 text-body-sb-20">비밀번호 확인</label>
         <div className="relative h-60 w-600 sm:h-44 sm:w-full sm:max-w-343 md:h-60 md:w-full md:max-w-600">
@@ -214,7 +187,8 @@ export default function SingUpForm() {
           <p className="text-body-m-20 text-error mt-12">{errors.passwordCheck.message}</p>
         )}
       </div>
-      <Button className="mt-20" disabled={isLoading || !isFormValid || !isEmailChecked}>
+
+      <Button className="mt-20" disabled={!isFormValid || !isEmailChecked}>
         가입하기
       </Button>
 

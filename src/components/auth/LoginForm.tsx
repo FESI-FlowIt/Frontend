@@ -39,7 +39,7 @@ export default function LoginForm() {
   const isFormValid = email.trim() !== '' && password.trim() !== '';
 
   const login = useLogin({
-    onError: (error: any) => {
+    onError: error => {
       setIsModalOpen(true);
       if (error?.errorField === 'email') {
         setEmailServerError(error.message);
