@@ -64,6 +64,40 @@ export default function HeatmapSection() {
   const { data: weeklyInsightData } = useWeeklyInsight();
   const { data: monthlyInsightData } = useMonthlyInsight();
 
+  // 히트맵 렌더링
+  const renderHeatmap = () => {
+    if (period === 'week' && weeklyHeatmapData) {
+      return <WeeklyHeatmap data={weeklyHeatmapData.data} />;
+    }
+
+    if (period === 'month' && monthlyHeatmapData) {
+      return <MonthlyHeatmap data={monthlyHeatmapData.data} />;
+    }
+
+    return null;
+  };
+
+  // 인사이트 카드 렌더링
+  const renderInsightCard = () => {
+    if (period === 'week') {
+      return weeklyInsightData?.success && weeklyInsightData.data.insights.length > 0 ? (
+        <InsightCard variant="weekly" items={weeklyInsightData.data.insights} />
+      ) : (
+        <InsightCard variant="empty" />
+      );
+    }
+
+    if (period === 'month') {
+      return monthlyInsightData?.success && monthlyInsightData.data.insights.length > 0 ? (
+        <InsightCard variant="monthly" items={monthlyInsightData.data.insights} />
+      ) : (
+        <InsightCard variant="empty" />
+      );
+    }
+
+    return null;
+  };
+
   const cardTitle = (
     <div className="flex items-center gap-8">
       <span>작업 시간 분석</span>
@@ -89,31 +123,8 @@ export default function HeatmapSection() {
         backgroundColor="white"
       >
         <div className="flex flex-col gap-12">
-          {/* 히트맵 표시 */}
-          <div className="flex justify-center">
-            {period === 'week' && weeklyHeatmapData ? (
-              <WeeklyHeatmap data={weeklyHeatmapData.data} />
-            ) : null}
-
-            {period === 'month' && monthlyHeatmapData ? (
-              <MonthlyHeatmap data={monthlyHeatmapData.data} />
-            ) : null}
-          </div>
-
-          {/* 인사이트 카드 */}
-          {period === 'week' &&
-            (weeklyInsightData?.success && weeklyInsightData.data.insights.length > 0 ? (
-              <InsightCard variant="weekly" items={weeklyInsightData.data.insights} />
-            ) : (
-              <InsightCard variant="empty" />
-            ))}
-
-          {period === 'month' &&
-            (monthlyInsightData?.success && monthlyInsightData.data.insights.length > 0 ? (
-              <InsightCard variant="monthly" items={monthlyInsightData.data.insights} />
-            ) : (
-              <InsightCard variant="empty" />
-            ))}
+          <div className="flex justify-center">{renderHeatmap()}</div>
+          {renderInsightCard()}
         </div>
       </Card>
 
