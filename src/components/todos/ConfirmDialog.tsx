@@ -1,8 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
-import CloseIcon from '@/assets/CloseIcon.svg';
 import { Button } from '@/components/ui/Button';
 import Dialog from '@/components/ui/Dialog';
 
@@ -26,19 +25,20 @@ const ConfirmDialog = ({
   confirmText = '확인',
   cancelText = '취소',
 }: ConfirmDialogProps) => {
-  const handleConfirm = () => {
+  const handleConfirm = useCallback(() => {
     onConfirm();
     onClose();
-  };
+  }, [onConfirm, onClose]);
 
   return (
     <Dialog
       isOpen={isOpen}
       onClose={onClose}
+      onEnter={handleConfirm}
       size="default"
       overlay="default"
       closeOnOverlayClick={false}
-      closeOnEscape={false}
+      closeOnEscape={true}
     >
       <div className="flex h-full flex-col">
         {/* Header */}
