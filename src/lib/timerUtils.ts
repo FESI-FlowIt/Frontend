@@ -5,10 +5,7 @@ export const formatTime = (totalSeconds: number) => {
   return { hours, minutes, seconds };
 };
 
-export const getCurrentSeconds = (minutes: number, seconds: number) =>
-  minutes * 60 + seconds;
+export const getCurrentSeconds = (minutes: number, seconds: number) => minutes * 60 + seconds;
 
-export const getTotalElapsedSeconds = (
-  currentSeconds: number,
-  accumulatedSeconds: number,
-) => currentSeconds + accumulatedSeconds;
+export const getTotalElapsedSeconds = (currentSeconds: number, accumulatedSeconds: number) =>
+  currentSeconds + accumulatedSeconds;

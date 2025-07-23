@@ -41,12 +41,14 @@ export const useTimerStore = create<TimerStore>((set, get) => {
 
     getTimerState: (todoId: string) => {
       const timers = get().timers;
-      return timers[todoId] || {
-        isRunning: false,
-        minutes: 0,
-        seconds: 0,
-        accumulatedSeconds: 0,
-      };
+      return (
+        timers[todoId] || {
+          isRunning: false,
+          minutes: 0,
+          seconds: 0,
+          accumulatedSeconds: 0,
+        }
+      );
     },
 
     startTimer: (todoId: string) => {
@@ -95,26 +97,25 @@ export const useTimerStore = create<TimerStore>((set, get) => {
     },
 
     pauseTimer: (todoId: string) => {
-  set(state => {
-    const timer = state.timers[todoId];
-    return {
-      timers: {
-        ...state.timers,
-        [todoId]: {
-          ...timer,
-          isRunning: false,
-        },
-      },
-      runningTodoId: null, 
-    };
-  });
+      set(state => {
+        const timer = state.timers[todoId];
+        return {
+          timers: {
+            ...state.timers,
+            [todoId]: {
+              ...timer,
+              isRunning: false,
+            },
+          },
+          runningTodoId: null,
+        };
+      });
 
-  if (intervalId) {
-    clearInterval(intervalId);
-    intervalId = null;
-  }
-},
-
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    },
 
     stopTimer: (todoId: string) => {
       set(state => {

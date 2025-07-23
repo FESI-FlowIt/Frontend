@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import SelectTodoModal from '@/components/timer/SelectTodoModal';
 import TimerButton from '@/components/timer/TimerButton';
 import TimerModal from '@/components/timer/TimerModal';
-import { useTimerStore } from '@/store/timerStore';
 import { GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
+import { useTimerStore } from '@/store/timerStore';
 
 export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);

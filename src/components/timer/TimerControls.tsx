@@ -2,8 +2,8 @@
 
 import React from 'react';
 
-import StartIcon from '@/../public/assets/icons/startIcon.svg';
 import PauseIcon from '@/../public/assets/icons/pauseIcon.svg';
+import StartIcon from '@/../public/assets/icons/startIcon.svg';
 import StopIcon from '@/../public/assets/icons/stopIcon.svg';
 
 interface TimerControlsProps {

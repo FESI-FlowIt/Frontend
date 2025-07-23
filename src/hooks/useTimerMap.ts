@@ -91,8 +91,7 @@ export function useTimerMap() {
   };
 
   const isAnyRunning = Object.values(timers).some(state => state.isRunning);
-  const runningTodoId =
-    Object.entries(timers).find(([_, state]) => state.isRunning)?.[0] || null;
+  const runningTodoId = Object.entries(timers).find(([_, state]) => state.isRunning)?.[0] || null;
 
   useEffect(() => {
     return () => {

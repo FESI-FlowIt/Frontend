@@ -1,12 +1,13 @@
 'use client';
 
 import Modal from '@/components/ui/Modal';
+import { formatTime, getCurrentSeconds, getTotalElapsedSeconds } from '@/lib/timerUtils';
+
 import TaskInfo from './TaskInfo';
 import TimerControls from './TimerControls';
 import TimerDisplay from './TimerDisplay';
 import TimerHeader from './TimerHeader';
 import TotalTimeDisplay from './TotalTimerDisplay';
-import { formatTime, getCurrentSeconds, getTotalElapsedSeconds } from '@/lib/timerUtils';
 
 export interface TimerModalProps {
   onClose: () => void;
