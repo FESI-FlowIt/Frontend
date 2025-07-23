@@ -22,6 +22,7 @@ export default function NoGoalsGuide() {
           size="addgoal"
           variant="default"
           text="default"
+          disabled={false}
           onClick={() => router.push('/goals/create')}
         >
           + 목표 만들기

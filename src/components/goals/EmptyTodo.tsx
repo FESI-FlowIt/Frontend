@@ -18,6 +18,7 @@ export default function EmptyTodoMessage({ goalId }: { goalId: string }) {
         variant="snackbar"
         text="todoCard"
         type="button"
+        disabled={false}
         onClick={e => {
           e.stopPropagation();
           router.push(`/goals/${goalId}/todos/create`);
