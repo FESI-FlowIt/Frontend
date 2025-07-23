@@ -26,7 +26,7 @@ const dialogContentVariants = cva('relative bg-white shadow-xl', {
       default: 'h-256 w-402',
     },
     padding: {
-      default: 'px-20 pt-68 pb-30',
+      default: 'px-20 py-40',
     },
     margin: {
       default: 'm-16',
@@ -51,6 +51,7 @@ const dialogContentVariants = cva('relative bg-white shadow-xl', {
 export interface DialogProps extends VariantProps<typeof dialogContentVariants> {
   isOpen: boolean;
   onClose?: () => void;
+  onEnter?: () => void;
   children: React.ReactNode;
   overlay?: VariantProps<typeof dialogOverlayVariants>['overlay'];
   closeOnOverlayClick?: boolean;
@@ -61,6 +62,7 @@ export interface DialogProps extends VariantProps<typeof dialogContentVariants> 
 const Dialog = ({
   isOpen,
   onClose,
+  onEnter,
   children,
   size,
   padding,
@@ -73,17 +75,19 @@ const Dialog = ({
   className,
 }: DialogProps) => {
   useEffect(() => {
-    if (!isOpen || !closeOnEscape) return;
+    if (!isOpen) return;
 
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && closeOnEscape) {
         onClose?.();
+      } else if (e.key === 'Enter' && onEnter) {
+        onEnter();
       }
     };
 
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
-  }, [isOpen, closeOnEscape, onClose]);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, closeOnEscape, onClose, onEnter]);
 
   if (!isOpen) return null;
 
