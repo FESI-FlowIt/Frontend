@@ -7,7 +7,7 @@ export const goalSummariesRes: GoalSummary[] = [
     dDay: 3,
     deadlineDate: '07/20',
     color: 'orange',
-    isPinned: false,
+    isPinned: true,
     createdAt: '2025-07-10T12:00:00Z',
     todos: [
       { id: 'todo-1', content: '대시보드 UI 구현', isDone: true },
@@ -36,7 +36,7 @@ export const goalSummariesRes: GoalSummary[] = [
     deadlineDate: '07/27',
     color: 'green',
     isPinned: false,
-    createdAt: '2025-07-10T12:00:00Z',
+    createdAt: '2025-07-19T12:00:00Z',
     todos: [],
   },
   {
