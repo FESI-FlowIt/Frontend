@@ -15,7 +15,7 @@ type Story = StoryObj<typeof GoalListDashboardCard>;
 
 export const Default: Story = {
   args: {
-    goal: goalSummariesRes[0],
+    goal: goalSummariesRes.goals[0],
   },
 };
 
@@ -27,7 +27,7 @@ export const Emptygoals: Story = {
 export const NoTodos: Story = {
   args: {
     goal: {
-      ...goalSummariesRes[1],
+      ...goalSummariesRes.goals[1],
       todos: [],
     },
   },

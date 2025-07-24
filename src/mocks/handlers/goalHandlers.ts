@@ -1,22 +1,21 @@
 import { http, HttpResponse } from 'msw';
 
-import { GoalSummary } from '@/interfaces/dashboardgoalInterface';
-import { CreateGoalRequest, UpdateGoalRequest } from '@/interfaces/goal';
+import { CreateGoalRequest, GoalSummary, UpdateGoalRequest } from '@/interfaces/goal';
 import { goalSummariesRes } from '@/mocks/mockResponses/goals/goalsResponse';
 
 import { createStorage } from '../utils/storage';
 
 // localStorage를 활용한 목표 데이터 저장소
 const STORAGE_KEY = 'goals';
-const goalStorage = createStorage<GoalSummary>(STORAGE_KEY, goalSummariesRes);
+const goalStorage = createStorage<GoalSummary>(STORAGE_KEY, goalSummariesRes.goals);
 
 // localStorage에서 목표 데이터 불러오기
 const getStoredGoals = (): GoalSummary[] => {
   const storedGoals = goalStorage.load();
   // localStorage가 비어있으면 초기 데이터로 설정
   if (storedGoals.length === 0) {
-    goalStorage.save(goalSummariesRes);
-    return goalSummariesRes;
+    goalStorage.save(goalSummariesRes.goals);
+    return goalSummariesRes.goals;
   }
   return storedGoals;
 };
@@ -41,7 +40,7 @@ export const goalHandlers = [
     const { goalId } = params;
     const body = (await request.json()) as { isPinned: boolean };
 
-    const goal = goalSummariesRes.find(g => g.goalId === goalId);
+    const goal = goalSummariesRes.goals.find(g => g.goalId === goalId);
     if (!goal) {
       return HttpResponse.json({ message: '목표를 찾을 수 없습니다.' }, { status: 404 });
     }

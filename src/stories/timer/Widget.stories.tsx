@@ -16,5 +16,5 @@ export default meta;
 type Story = StoryObj<typeof TimerWidget>;
 
 export const Default: Story = {
-  render: () => <TimerWidget goals={goalSummariesRes} />,
+  render: () => <TimerWidget goals={goalSummariesRes.goals} />,
 };

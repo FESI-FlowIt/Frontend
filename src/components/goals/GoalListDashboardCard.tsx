@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
+import { GoalSummary } from '@/interfaces/goal';
+import { TodoSummary } from '@/interfaces/todo';
 import { ROUTES } from '@/lib/routes';
 
 import EmptyTodo from './EmptyTodo';
@@ -13,7 +14,7 @@ import NoGoalsGuide from './NoGoalsGuide';
 
 export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | null }) {
   const router = useRouter();
-  const [todos, setTodos] = useState<Todo[]>(goal?.todos ?? []);
+  const [todos, setTodos] = useState<TodoSummary[]>(goal?.todos ?? []);
 
   useEffect(() => {
     if (goal) setTodos(goal.todos);

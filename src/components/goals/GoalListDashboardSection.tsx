@@ -3,7 +3,7 @@
 import DashboardGoalIcon from '@/../public/assets/icons/dashborad-goal.svg';
 import GoIcon from '@/../public/assets/icons/go.svg';
 import Card from '@/components/ui/Card';
-import { GoalSummary } from '@/interfaces/dashboardgoalInterface';
+import { GoalSummary } from '@/interfaces/goal';
 
 import GoalListDashboardCard from './GoalListDashboardCard';
 import NoGoalsGuide from './NoGoalsGuide';

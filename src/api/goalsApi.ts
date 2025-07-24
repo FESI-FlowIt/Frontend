@@ -79,7 +79,7 @@ export const goalsApi = {
 
   // 목표 고정 상태 변경
   updateGoalPinStatus: async (goalId: string, isPinned: boolean): Promise<Goal> => {
-    const response = await fetch(`/goals/${goalId}/pin`, {
+    const response = await fetch(`/goals/${goalId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

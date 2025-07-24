@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import CheckDefaultIcon from '@/../public/assets/icons/check_default.svg';
 import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
 import { Button } from '@/components/ui/Button';
-import { GoalColor, GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
+import { GoalColor, GoalSummary } from '@/interfaces/goal';
+import { TodoSummary } from '@/interfaces/todo';
 import { ROUTES } from '@/lib/routes';
 
 export const goalColorVariants: Record<GoalColor, { background: string; text: string }> = {
@@ -24,7 +25,7 @@ export default function GoalCardContent({
   onToggle,
 }: {
   goal: GoalSummary;
-  todos: Todo[];
+  todos: TodoSummary[];
   onToggle: (id: string) => void;
 }) {
   const router = useRouter();
@@ -97,7 +98,7 @@ export default function GoalCardContent({
                   >
                     <CheckDefaultIcon className="h-24 w-24" />
                   </button>
-                  <span className="text-text-02 text-body-m-16">{todo.content}</span>
+                  <span className="text-text-02 text-body-m-16">{todo.title}</span>
                 </div>
               ))}
             </div>
