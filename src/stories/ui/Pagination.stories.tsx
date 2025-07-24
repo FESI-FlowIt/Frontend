@@ -96,16 +96,6 @@ export const Sizes: Story = {
     return (
       <div className="flex flex-col items-center gap-16">
         <div className="text-center">
-          <h3 className="mb-8 text-lg font-semibold">Small</h3>
-          <Pagination
-            size="sm"
-            pagination={createPagination('sm')}
-            onPageChange={page => handlePageChange('sm', page)}
-            maxVisiblePages={5}
-            showArrows={true}
-          />
-        </div>
-        <div className="text-center">
           <h3 className="mb-8 text-lg font-semibold">Medium</h3>
           <Pagination
             size="md"
