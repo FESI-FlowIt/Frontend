@@ -1,11 +1,12 @@
 'use client';
 
-import GoalListDashboardCard from './GoalListDashboardCard';
-import { GoalSummary } from '@/interfaces/dashboardgoalInterface';
-import Card from '@/components/ui/Card';
-import NoGoalsGuide from './NoGoalsGuide';
 import DashboardGoalIcon from '@/../public/assets/icons/dashborad-goal.svg';
 import GoIcon from '@/../public/assets/icons/go.svg';
+import Card from '@/components/ui/Card';
+import { GoalSummary } from '@/interfaces/dashboardgoalInterface';
+
+import GoalListDashboardCard from './GoalListDashboardCard';
+import NoGoalsGuide from './NoGoalsGuide';
 
 interface Props {
   goals: GoalSummary[];
