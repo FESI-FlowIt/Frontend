@@ -40,6 +40,27 @@ export const Info: Story = {
   },
 };
 
+export const Back: Story = {
+  args: {
+    variant: 'back',
+    'aria-label': '뒤로가기',
+  },
+};
+
+export const Prev: Story = {
+  args: {
+    variant: 'prev',
+    'aria-label': '이전으로 가기',
+  },
+};
+
+export const Next: Story = {
+  args: {
+    variant: 'next',
+    'aria-label': '다음으로 가기',
+  },
+};
+
 export const WithClick: Story = {
   args: {
     variant: 'info',
