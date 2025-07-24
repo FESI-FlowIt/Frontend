@@ -10,7 +10,5 @@ export const formatTime = (totalSeconds: number) => {
 export const getCurrentSeconds = (minutes: number, seconds: number) => minutes * 60 + seconds;
 
 // 현재 초와 누적 초를 더해 총 경과 시간 계산
-export const getTotalElapsedSeconds = (
-  currentSeconds: number,
-  accumulatedSeconds: number
-) => currentSeconds + accumulatedSeconds;
+export const getTotalElapsedSeconds = (currentSeconds: number, accumulatedSeconds: number) =>
+  currentSeconds + accumulatedSeconds;

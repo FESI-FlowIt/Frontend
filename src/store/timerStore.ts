@@ -22,22 +22,21 @@ export const useTimerStore = create<TimerStore>((set, get) => {
   let intervalId: ReturnType<typeof setInterval> | null = null;
 
   const initializeTimer = (todoId: string) => {
-  const timers = get().timers;
-  if (!timers[todoId]) {
-    set(state => ({
-      timers: {
-        ...state.timers,
-        [todoId]: {
-          isRunning: false,
-          minutes: 0,
-          seconds: 0,
-          accumulatedSeconds: 0,
+    const timers = get().timers;
+    if (!timers[todoId]) {
+      set(state => ({
+        timers: {
+          ...state.timers,
+          [todoId]: {
+            isRunning: false,
+            minutes: 0,
+            seconds: 0,
+            accumulatedSeconds: 0,
+          },
         },
-      },
-    }));
-  }
-};
-
+      }));
+    }
+  };
 
   return {
     timers: {},
