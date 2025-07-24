@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
-import NogoalIcon from '@/assets/icons/nogoal.svg';
+import NogoalIcon from '@/../public/assets/icons/nogoal.svg';
 import { Button } from '@/components/ui/Button';
 
 export default function NoGoalsGuide() {
@@ -22,6 +22,7 @@ export default function NoGoalsGuide() {
           size="addgoal"
           variant="default"
           text="default"
+          disabled={false}
           onClick={() => router.push('/goals/create')}
         >
           + 목표 만들기
