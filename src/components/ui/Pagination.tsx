@@ -65,28 +65,28 @@ interface PaginationProps
   pagination: PaginationInfo;
   // eslint-disable-next-line no-unused-vars
   onPageChange: (page: number) => void;
-  maxVisiblePages?: number;
+  maxVisiblePages?: number; // 화살표 클릭 시 이동할 페이지 수 (기본값: 5)
   showArrows?: boolean;
 }
 
 const Pagination = ({
   pagination,
   onPageChange,
-  maxVisiblePages = 5,
   showArrows = true,
   size,
   className,
+  maxVisiblePages = 5, // 화살표 클릭 시 이동할 페이지 수
   ...props
 }: PaginationProps) => {
   const { currentPage, totalPages, hasPrev, hasNext } = pagination;
 
-  // 표시할 페이지 번호들 계산
   const getVisiblePages = () => {
     const pages: number[] = [];
-    const startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-    const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
-    for (let i = startPage; i <= endPage; i++) {
+    const groupStart = Math.floor((currentPage - 1) / maxVisiblePages) * maxVisiblePages + 1;
+    const groupEnd = Math.min(groupStart + maxVisiblePages - 1, totalPages);
+
+    for (let i = groupStart; i <= groupEnd; i++) {
       pages.push(i);
     }
 
@@ -104,7 +104,7 @@ const Pagination = ({
       {showArrows && (
         <div className={cn(arrowButtonVariants({ size }), 'mr-8')}>
           <button
-            onClick={() => onPageChange(currentPage - 1)}
+            onClick={() => onPageChange(Math.max(1, currentPage - maxVisiblePages))}
             disabled={!hasPrev}
             className="flex h-24 w-24 items-center justify-center disabled:cursor-not-allowed disabled:opacity-50"
           >
@@ -133,7 +133,7 @@ const Pagination = ({
       {showArrows && (
         <div className={cn(arrowButtonVariants({ size }), 'ml-8')}>
           <button
-            onClick={() => onPageChange(currentPage + 1)}
+            onClick={() => onPageChange(Math.min(totalPages, currentPage + maxVisiblePages))}
             disabled={!hasNext}
             className="flex h-24 w-24 items-center justify-center disabled:cursor-not-allowed disabled:opacity-50"
           >

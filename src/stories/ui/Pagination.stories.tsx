@@ -21,7 +21,7 @@ const meta: Meta<typeof Pagination> = {
     },
     maxVisiblePages: {
       control: 'number',
-      description: '한 번에 표시할 최대 페이지 수',
+      description: '한 번에 표시할 페이지 수 및 화살표 클릭 시 이동할 페이지 수',
     },
     showArrows: {
       control: 'boolean',
@@ -60,7 +60,7 @@ export const Default: Story = {
   args: {
     pagination: {
       currentPage: 1,
-      totalPages: 10,
+      totalPages: 20,
       hasPrev: false,
       hasNext: true,
     },
@@ -184,6 +184,72 @@ export const DifferentPageCounts: Story = {
   },
 };
 
+// maxVisiblePages 옵션 비교
+export const MaxVisiblePagesComparison: Story = {
+  render: () => {
+    const [currentPages, setCurrentPages] = useState({
+      pages3: 1,
+      pages5: 1,
+      pages10: 1,
+    });
+
+    const handlePageChange = (type: keyof typeof currentPages, page: number) => {
+      setCurrentPages(prev => ({
+        ...prev,
+        [type]: page,
+      }));
+    };
+
+    const createPagination = (type: keyof typeof currentPages) => ({
+      currentPage: currentPages[type],
+      totalPages: 30,
+      hasPrev: currentPages[type] > 1,
+      hasNext: currentPages[type] < 30,
+    });
+
+    return (
+      <div className="flex flex-col items-center gap-16">
+        <div className="text-center">
+          <h3 className="mb-8 text-lg font-semibold">maxVisiblePages = 3 (3페이지씩 이동)</h3>
+          <Pagination
+            pagination={createPagination('pages3')}
+            onPageChange={page => handlePageChange('pages3', page)}
+            maxVisiblePages={3}
+            size="md"
+          />
+          <p className="mt-4 text-sm text-gray-500">
+            화살표 클릭시 3페이지씩 이동, 3개씩 그룹 표시
+          </p>
+        </div>
+        <div className="text-center">
+          <h3 className="mb-8 text-lg font-semibold">maxVisiblePages = 5 (5페이지씩 이동)</h3>
+          <Pagination
+            pagination={createPagination('pages5')}
+            onPageChange={page => handlePageChange('pages5', page)}
+            maxVisiblePages={5}
+            size="md"
+          />
+          <p className="mt-4 text-sm text-gray-500">
+            화살표 클릭시 5페이지씩 이동, 5개씩 그룹 표시
+          </p>
+        </div>
+        <div className="text-center">
+          <h3 className="mb-8 text-lg font-semibold">maxVisiblePages = 10 (10페이지씩 이동)</h3>
+          <Pagination
+            pagination={createPagination('pages10')}
+            onPageChange={page => handlePageChange('pages10', page)}
+            maxVisiblePages={10}
+            size="md"
+          />
+          <p className="mt-4 text-sm text-gray-500">
+            화살표 클릭시 10페이지씩 이동, 10개씩 그룹 표시
+          </p>
+        </div>
+      </div>
+    );
+  },
+};
+
 // 화살표 옵션
 export const ArrowOptions: Story = {
   render: () => {
@@ -257,7 +323,7 @@ export const Playground: Story = {
   args: {
     pagination: {
       currentPage: 1,
-      totalPages: 10,
+      totalPages: 30,
       hasPrev: false,
       hasNext: true,
     },
