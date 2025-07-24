@@ -12,7 +12,7 @@ const cardVariants = cva('rounded-20 flex flex-col gap-16 px-14 py-20 md:px-20',
     size: {
       auto: 'w-fit',
       heatmap: 'h-625 w-343 md:h-556 md:w-636 lg:w-752',
-      goal: 'h-[1146px] w-[343px] md:h-[1146px] md:w-[636px] lg:h-[428px] lg:w-[1504px]',
+      goal: 'h-1146 w-343 md:h-1146 md:w-636 lg:h-428 lg:w-1504',
     },
   },
   defaultVariants: {
