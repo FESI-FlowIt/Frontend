@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import SelectTodoModal from '@/components/timer/SelectTodoModal';
 import TimerButton from '@/components/timer/TimerButton';
