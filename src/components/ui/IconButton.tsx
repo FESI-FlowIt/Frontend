@@ -15,10 +15,15 @@ const iconConfig = {
     alt: '닫기 아이콘',
     className: 'text-gray-02',
   },
+  back: {
+    src: '/assets/icons/backIcon.svg',
+    alt: '뒤로가기 아이콘',
+    className: 'text-Gray_01',
+  },
 };
 
 interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant: 'info' | 'close';
+  variant: 'info' | 'close' | 'back';
   'aria-label': string;
 }
 

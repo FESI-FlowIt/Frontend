@@ -11,6 +11,7 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       secondary: 'bg-secondary-01 hover:bg-secondary-01-hover',
       snackbar: 'bg-snackbar hover:bg-snackbar',
       white: 'bg-white hover:bg-white',
+      gray: 'bg-Gray_01 hover:bg-Gray_01',
     },
     text: {
       default: 'md:text-body-sb-20 sm:text-body-m-16 text-white',

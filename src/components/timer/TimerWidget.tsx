@@ -1,56 +1,79 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import ClockIcon from '@/assets/icons/clock.svg';
-import { formatNumber } from '@/lib/format';
+import SelectTodoModal from '@/components/timer/SelectTodoModal';
+import TimerButton from '@/components/timer/TimerButton';
+import TimerModal from '@/components/timer/TimerModal';
+import { GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
+import { useTimerStore } from '@/store/timerStore';
 
-export default function TimerWidget() {
-  const [isRunning, setIsRunning] = useState(false);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
+export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
+  const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
+  const [isTimerModalOpen, setIsTimerModalOpen] = useState(false);
+  const [selectedGoal, setSelectedGoal] = useState<GoalSummary | null>(null);
+  const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
 
-  useEffect(() => {
-    if (!isRunning) return;
+  const { getTimerState, startTimer, pauseTimer, stopTimer, runningTodoId } = useTimerStore();
 
-    const interval = setInterval(() => {
-      setSeconds(prev => {
-        if (prev === 59) {
-          setMinutes(min => min + 1);
-          return 0;
-        }
-        return prev + 1;
-      });
-    }, 1000);
+  const activeTimerState = runningTodoId ? getTimerState(runningTodoId) : null;
+  const selectedTimerState = selectedTodo ? getTimerState(selectedTodo.id) : null;
 
-    return () => clearInterval(interval);
-  }, [isRunning]);
+  const isBlocked: boolean = !!activeTimerState?.isRunning && selectedTodo?.id !== runningTodoId;
 
-  const handleClick = () => {
-    if (!isRunning) {
-      setMinutes(0);
-      setSeconds(0);
+  const handleWidgetClick = () => {
+    if (activeTimerState?.isRunning && selectedGoal && selectedTodo) {
+      setIsTimerModalOpen(true);
+    } else {
+      setIsSelectModalOpen(true);
     }
-    setIsRunning(prev => !prev);
+  };
+
+  const handleSelectTodo = (goal: GoalSummary, todo: Todo) => {
+    setSelectedGoal(goal);
+    setSelectedTodo(todo);
+    setIsSelectModalOpen(false);
+    setIsTimerModalOpen(true);
   };
 
   return (
-    <button
-      onClick={handleClick}
-      className={`fixed right-40 bottom-40 z-50 flex h-100 w-100 flex-col items-center justify-start rounded-full text-white shadow-xl transition-colors ${isRunning ? 'bg-primary-01' : 'bg-timer'}`}
-    >
-      <div className={`flex flex-col items-center ${isRunning ? 'mt-13' : 'mt-25'}`}>
-        <ClockIcon className="h-24 w-24" />
+    <>
+      <TimerButton
+        isRunning={activeTimerState?.isRunning || false}
+        minutes={activeTimerState?.minutes || 0}
+        seconds={activeTimerState?.seconds || 0}
+        onClick={handleWidgetClick}
+      />
 
-        {isRunning ? (
-          <>
-            <div className="text-body-sb-20 mt-4">{`${formatNumber(minutes)}:${formatNumber(seconds)}`}</div>
-            <div className="text-body-sb-16">할 일 중</div>
-          </>
-        ) : (
-          <div className="text-body-sb-20 mt-4">할 일 시작</div>
-        )}
-      </div>
-    </button>
+      {isSelectModalOpen && (
+        <SelectTodoModal
+          goals={goals}
+          onClose={() => setIsSelectModalOpen(false)}
+          onSelect={handleSelectTodo}
+        />
+      )}
+
+      {isTimerModalOpen && selectedGoal && selectedTodo && selectedTimerState && (
+        <TimerModal
+          isRunning={selectedTimerState.isRunning}
+          isBlocked={isBlocked}
+          onStart={() => startTimer(selectedTodo.id)}
+          onPause={() => pauseTimer(selectedTodo.id)}
+          onStop={() => stopTimer(selectedTodo.id)}
+          onClose={() => setIsTimerModalOpen(false)}
+          onBack={() => {
+            setIsTimerModalOpen(false);
+            setIsSelectModalOpen(true);
+          }}
+          goalTitle={selectedGoal.title}
+          goalColor={selectedGoal.color}
+          todoContent={selectedTodo.content}
+          todoId={selectedTodo.id}
+          minutes={selectedTimerState.minutes}
+          seconds={selectedTimerState.seconds}
+          accumulatedSeconds={selectedTimerState.accumulatedSeconds}
+        />
+      )}
+    </>
   );
 }
