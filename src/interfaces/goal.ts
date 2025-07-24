@@ -35,25 +35,29 @@ export interface GoalSummary {
   goalId: string;
   title: string;
   color: string;
-  dueDate: string;
+  dDay: number;
+  deadlineDate: string;
   createdAt: string;
   isPinned: boolean;
-  progress: number;
-  uncompletedTasksPreview: UncompletedTaskPreview[];
+  todos: Todo[];
 }
-
-export interface UncompletedTaskPreview {
-  todoId: string;
-  goalId: string;
-  title: string;
-}
-
 //API Request
 export interface GetGoalsRequestParams {
   page?: number;
   limit?: number;
   sortBy?: 'latest' | 'dueDate';
   isPinned?: boolean;
+}
+
+export interface GetGoalsResponse {
+  goals: GoalSummary[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalCount: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
 }
 
 export interface CreateGoalRequest {

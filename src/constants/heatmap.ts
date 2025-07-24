@@ -1,3 +1,4 @@
+import { TabItem } from '@/components/ui/Tab';
 import { TimeSlotKey } from '@/interfaces/heatmap';
 
 // 요일 라벨 (일주일 기준, 월요일 시작)
@@ -30,4 +31,10 @@ export const MONTHLY_LEGEND = [
   { intensity: 2, label: '14-21시간', bgClass: 'bg-heatmap-2' },
   { intensity: 3, label: '21-28시간', bgClass: 'bg-heatmap-3' },
   { intensity: 4, label: '28시간+', bgClass: 'bg-heatmap-4' },
+];
+
+// 히트맵 조회 기간 선택 탭 (주간 / 월간)
+export const periodTabs: TabItem[] = [
+  { id: 'week', label: '이번 주' },
+  { id: 'month', label: '이번 달' },
 ];

@@ -9,7 +9,8 @@ interface InsightCardProps {
 }
 
 const InsightCard = ({ variant, items = [], className }: InsightCardProps) => {
-  const baseClasses = 'rounded-20 flex w-full flex-col p-20 bg-insight-container gap-12';
+  const baseClasses =
+    'rounded-20 flex w-full flex-col py-12 px-12 md:px-20 bg-insight-container gap-12';
 
   if (variant === 'empty') {
     return (
@@ -32,7 +33,7 @@ const InsightCard = ({ variant, items = [], className }: InsightCardProps) => {
   return (
     <div className={cn(baseClasses, className)}>
       <div className="text-text-01 text-body-b-16">{title}</div>
-      <div className="text-body-16 text-text-01 flex flex-col gap-10">
+      <div className="text-body-16 text-text-01 flex flex-col gap-10 leading-tight">
         {items.map((item, idx) => (
           <p key={idx}>{item}</p>
         ))}
