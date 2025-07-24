@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/store/authStore';
 
-import { postRequest } from '.';
+import { getRequest, postRequest } from '.';
 
 export const postLogin = async (email: string, password: string) => {
   const params = {
@@ -44,6 +44,16 @@ export const postEmailCheck = async (email: string) => {
     return data;
   } catch (err) {
     console.error('Fetch email check error', err);
+    throw err;
+  }
+};
+
+export const getUser = async () => {
+  try {
+    const data = await getRequest('/user');
+    return data;
+  } catch (err) {
+    console.error('Fetch user error', err);
     throw err;
   }
 };
