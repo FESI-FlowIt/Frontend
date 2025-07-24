@@ -21,8 +21,6 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
 
   const isBlocked: boolean = !!activeTimerState?.isRunning && selectedTodo?.id !== runningTodoId;
 
-  useEffect(() => {}, [isBlocked, selectedTodo?.id, runningTodoId, activeTimerState?.isRunning]);
-
   const handleWidgetClick = () => {
     if (activeTimerState?.isRunning && selectedGoal && selectedTodo) {
       setIsTimerModalOpen(true);
