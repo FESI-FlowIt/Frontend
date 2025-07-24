@@ -52,3 +52,9 @@ export interface TodoUpdateRequest {
   attachments?: Attachment[];
   goalId?: string;
 }
+
+export interface TodoSummary {
+  id: string;
+  title: string;
+  isDone: boolean;
+}

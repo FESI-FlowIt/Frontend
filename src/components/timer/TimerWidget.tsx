@@ -5,14 +5,15 @@ import { useState } from 'react';
 import SelectTodoModal from '@/components/timer/SelectTodoModal';
 import TimerButton from '@/components/timer/TimerButton';
 import TimerModal from '@/components/timer/TimerModal';
-import { GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
+import { GoalSummary } from '@/interfaces/goal';
+import { TodoSummary } from '@/interfaces/todo';
 import { useTimerStore } from '@/store/timerStore';
 
 export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const [isTimerModalOpen, setIsTimerModalOpen] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<GoalSummary | null>(null);
-  const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
+  const [selectedTodo, setSelectedTodo] = useState<TodoSummary | null>(null);
 
   const { getTimerState, startTimer, pauseTimer, stopTimer, runningTodoId } = useTimerStore();
 
@@ -29,7 +30,7 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
     }
   };
 
-  const handleSelectTodo = (goal: GoalSummary, todo: Todo) => {
+  const handleSelectTodo = (goal: GoalSummary, todo: TodoSummary) => {
     setSelectedGoal(goal);
     setSelectedTodo(todo);
     setIsSelectModalOpen(false);
@@ -67,7 +68,7 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
           }}
           goalTitle={selectedGoal.title}
           goalColor={selectedGoal.color}
-          todoContent={selectedTodo.content}
+          todoContent={selectedTodo.title}
           todoId={selectedTodo.id}
           minutes={selectedTimerState.minutes}
           seconds={selectedTimerState.seconds}

@@ -5,12 +5,13 @@ import { useEffect, useState } from 'react';
 import TimerIcon from '@/../public/assets/icons/timerIcon.svg';
 import { IconButton } from '@/components/ui/IconButton';
 import Modal from '@/components/ui/Modal';
-import { GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
+import { GoalSummary } from '@/interfaces/goal';
+import { TodoSummary } from '@/interfaces/todo';
 
 interface SelectTodoModalProps {
   goals: GoalSummary[];
   onClose: () => void;
-  onSelect: (goal: GoalSummary, todo: Todo) => void;
+  onSelect: (goal: GoalSummary, todo: TodoSummary) => void;
   defaultSelectedGoalId?: string | null;
 }
 
@@ -69,7 +70,7 @@ export default function SelectTodoModal({
                       }}
                       className="text-body-long-16 w-full cursor-pointer rounded-md bg-white px-16 py-12 text-left"
                     >
-                      {todo.content}
+                      {todo.title}
                     </button>
                   ))}
                 </div>
