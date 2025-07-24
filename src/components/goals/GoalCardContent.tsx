@@ -2,7 +2,6 @@
 
 import { useRouter } from 'next/navigation';
 
-import CheckIcon from '@/../public/assets/icons/check.svg';
 import CheckDefaultIcon from '@/../public/assets/icons/check_default.svg';
 import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
 import { Button } from '@/components/ui/Button';
