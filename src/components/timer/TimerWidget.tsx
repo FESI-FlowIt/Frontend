@@ -21,12 +21,7 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
 
   const isBlocked: boolean = !!activeTimerState?.isRunning && selectedTodo?.id !== runningTodoId;
 
-  useEffect(() => {
-    console.log('🔍 [DEBUG] isBlocked:', isBlocked);
-    console.log('🔍 [DEBUG] selectedTodo.id:', selectedTodo?.id);
-    console.log('🔍 [DEBUG] runningTodoId:', runningTodoId);
-    console.log('🔍 [DEBUG] activeTimerState?.isRunning:', activeTimerState?.isRunning);
-  }, [isBlocked, selectedTodo?.id, runningTodoId, activeTimerState?.isRunning]);
+  useEffect(() => {}, [isBlocked, selectedTodo?.id, runningTodoId, activeTimerState?.isRunning]);
 
   const handleWidgetClick = () => {
     if (activeTimerState?.isRunning && selectedGoal && selectedTodo) {

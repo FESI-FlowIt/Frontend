@@ -13,6 +13,7 @@ export function useTimerMap() {
   const [timers, setTimers] = useState<TimerMap>({});
   const intervalsRef = useRef<Record<string, ReturnType<typeof setInterval> | undefined>>({});
 
+  // 특정 todoId에 대한 타이머 상태 반환 (없으면 초기값)
   const getTimerState = (todoId: string): TimerState => {
     return (
       timers[todoId] || {
@@ -24,6 +25,7 @@ export function useTimerMap() {
     );
   };
 
+  // 타이머 상태를 업데이트
   const updateTimerState = (todoId: string, newState: Partial<TimerState>) => {
     setTimers(prev => ({
       ...prev,
@@ -34,6 +36,7 @@ export function useTimerMap() {
     }));
   };
 
+  // 타이머 시작 (다른 타이머가 실행 중이면 무시)
   const handleStart = (todoId: string) => {
     const runningId = Object.entries(timers).find(([, state]) => state.isRunning)?.[0];
     if (runningId && runningId !== todoId) return;
@@ -66,6 +69,7 @@ export function useTimerMap() {
     intervalsRef.current[todoId] = interval;
   };
 
+  // 타이머 일시정지
   const handlePause = (todoId: string) => {
     const interval = intervalsRef.current[todoId];
     if (interval) {
@@ -76,6 +80,7 @@ export function useTimerMap() {
     updateTimerState(todoId, { isRunning: false });
   };
 
+  // 타이머 정지 및 누적 시간 저장
   const handleStop = (todoId: string) => {
     const { minutes, seconds, accumulatedSeconds } = getTimerState(todoId);
     const currentElapsed = minutes * 60 + seconds;
@@ -94,9 +99,11 @@ export function useTimerMap() {
     });
   };
 
+  // 실행 중인 타이머 여부 및 해당 todoId
   const isAnyRunning = Object.values(timers).some(state => state.isRunning);
   const runningTodoId = Object.entries(timers).find(([, state]) => state.isRunning)?.[0] || null;
 
+  // 컴포넌트 unmount 시 모든 interval 정리
   useEffect(() => {
     const allIntervals = intervalsRef.current;
     return () => {
