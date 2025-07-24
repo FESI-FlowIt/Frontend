@@ -37,7 +37,7 @@ export default function GoalCardContent({
 
   return (
     <div
-      className="relative flex h-340 w-480 cursor-pointer flex-col overflow-hidden rounded-[20px] bg-white"
+      className="rounded-20 relative flex h-340 w-303 cursor-pointer flex-col overflow-hidden bg-white md:w-596 lg:w-480"
       onClick={() => router.push(ROUTES.GOALS.DETAIL(goal.goalId))}
     >
       <div className={`absolute top-0 left-0 h-full w-12 ${bgClass}`} />
