@@ -9,8 +9,11 @@ interface ModalState {
   goalModalIsOpen: boolean;
   editingTodo: Todo | null;
   editingGoal: Goal | null;
+  defaultGoalId: string | null;
 
   openTodoModal: () => void;
+  // eslint-disable-next-line no-unused-vars
+  openTodoModalWithGoal: (goalId: string) => void;
   closeTodoModal: () => void;
   openLinkModal: () => void;
   closeLinkModal: () => void;
@@ -33,13 +36,21 @@ export const useModalStore = create<ModalState>(set => ({
   goalModalIsOpen: false,
   editingTodo: null,
   editingGoal: null,
+  defaultGoalId: null,
 
   openTodoModal: () =>
     set({
       todoModalIsOpen: true,
       editingTodo: null,
+      defaultGoalId: null,
     }),
-  closeTodoModal: () => set({ todoModalIsOpen: false }),
+  openTodoModalWithGoal: (goalId: string) =>
+    set({
+      todoModalIsOpen: true,
+      editingTodo: null,
+      defaultGoalId: goalId,
+    }),
+  closeTodoModal: () => set({ todoModalIsOpen: false, defaultGoalId: null }),
   openLinkModal: () => set({ linkModalIsOpen: true }),
   closeLinkModal: () => set({ linkModalIsOpen: false }),
   openGoalModal: () =>
