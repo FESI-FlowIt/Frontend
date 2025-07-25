@@ -1,0 +1,46 @@
+name: Storybook Deploy
+
+on:
+  pull_request:
+    branches: [develop, main]
+    paths:
+      - '**/*.stories.ts'
+      - '**/*.stories.tsx'
+      - 'src/stories/**'
+      - '.storybook/**'
+    types: [opened, synchronize, reopened]
+
+jobs:
+  chromatic-deployment:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: setup node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: install dependencies
+        run: npm ci
+
+      - name: deploy to chromatic develop only changed
+        if: github.base_ref == 'develop'
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          exitOnceUploaded: true
+          onlyChanged: true
+
+      - name: deploy to chromatic main full build
+        if: github.base_ref == 'main'
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          exitOnceUploaded: true

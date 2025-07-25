@@ -1,0 +1,46 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  ci-checks:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: setup node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: install dependencies
+        run: npm ci
+
+      - name: check eslint
+        run: npm run lint
+
+      - name: check typescript
+        run: npm run type-check
+
+      - name: check prettier
+        run: npm run format:check
+
+      - name: jest test
+        run: npm test -- --passWithNoTests
+
+      - name: build project
+        run: npm run build
+
+      - name: build storybook
+        run: npm run build-storybook

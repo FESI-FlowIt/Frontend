@@ -1,0 +1,8 @@
+node_modules
+.next
+.swc
+out
+dist
+storybook-static
+coverage
+public/mockServiceWorker.js
