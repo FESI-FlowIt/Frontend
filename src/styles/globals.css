@@ -274,6 +274,9 @@
 @utility rounded-20 {
   border-radius: 20px;
 }
+@utility rounded-24 {
+  border-radius: 24px;
+}
 
 @utility rounded-tr-50 {
   border-top-right-radius: 50px;
