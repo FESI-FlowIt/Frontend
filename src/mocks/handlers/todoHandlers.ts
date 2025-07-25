@@ -1,23 +1,16 @@
 import { http, HttpResponse } from 'msw';
 
 import { Todo, TodoCreateRequest, TodoUpdateRequest } from '@/interfaces/todo';
-
-import { createStorage } from '../utils/storage';
+import { todosRes } from '@/mocks/mockResponses/todos/todosResponse';
 
 type MockTodo = Todo;
-
-const STORAGE_KEY = 'todos';
-const todoStorage = createStorage<MockTodo>(STORAGE_KEY, []);
-
-const getTodos = () => todoStorage.load();
-const saveTodos = (todos: MockTodo[]) => todoStorage.save(todos);
 
 export const todoHandlers = [
   http.get('/todos', ({ request }) => {
     const url = new URL(request.url);
     const goalId = url.searchParams.get('goalId');
 
-    const todos = getTodos();
+    const todos = todosRes.todos;
 
     let filteredTodos = todos;
     if (goalId) {
@@ -31,7 +24,6 @@ export const todoHandlers = [
 
   http.post('/todos', async ({ request }) => {
     const requestData = (await request.json()) as TodoCreateRequest;
-    const todos = getTodos();
 
     const newTodo: MockTodo = {
       todoId: Date.now().toString(),
@@ -45,15 +37,15 @@ export const todoHandlers = [
       accumulatedMs: 0,
     };
 
-    const updatedTodos = [...todos, newTodo];
-    saveTodos(updatedTodos);
+    // 실제 환경에서는 새로 생성된 Todo가 DB에 저장되겠지만,
+    // Mock 환경에서는 단순히 생성된 Todo만 반환
     return HttpResponse.json(newTodo);
   }),
 
   http.put('/todos/:todoId', async ({ params, request }) => {
     const { todoId } = params as { todoId: string };
     const updateData = (await request.json()) as TodoUpdateRequest;
-    const todos = getTodos();
+    const todos = todosRes.todos;
 
     const todoIndex = todos.findIndex(todo => todo.todoId === todoId);
     if (todoIndex === -1) {
@@ -70,50 +62,47 @@ export const todoHandlers = [
       updatedTodo.attachment = updateData.attachments;
     }
 
-    const updatedTodos = [...todos];
-    updatedTodos[todoIndex] = updatedTodo;
-    saveTodos(updatedTodos);
+    // Mock 환경에서는 실제 목 데이터를 업데이트
+    todos[todoIndex] = updatedTodo;
     return HttpResponse.json(updatedTodo);
   }),
 
   http.delete('/todos/:todoId', ({ params }) => {
     const { todoId } = params as { todoId: string };
-    const todos = getTodos();
+    const todos = todosRes.todos;
 
     const todoIndex = todos.findIndex(todo => todo.todoId === todoId);
     if (todoIndex === -1) {
       return HttpResponse.json({ error: 'Todo not found' }, { status: 404 });
     }
 
-    const updatedTodos = todos.filter(todo => todo.todoId !== todoId);
-    saveTodos(updatedTodos);
+    // Mock 환경에서는 실제 목 데이터에서 제거
+    todosRes.todos = todos.filter(todo => todo.todoId !== todoId);
 
     return HttpResponse.json({ success: true });
   }),
 
   http.patch('/todos/:todoId/toggle', ({ params }) => {
     const { todoId } = params as { todoId: string };
-    const todos = getTodos();
+    const todos = todosRes.todos;
 
     const todoIndex = todos.findIndex(todo => todo.todoId === todoId);
     if (todoIndex === -1) {
       return HttpResponse.json({ error: 'Todo not found' }, { status: 404 });
     }
 
-    const updatedTodos = [...todos];
-    updatedTodos[todoIndex] = {
-      ...updatedTodos[todoIndex],
-      isDone: !updatedTodos[todoIndex].isDone,
+    todos[todoIndex] = {
+      ...todos[todoIndex],
+      isDone: !todos[todoIndex].isDone,
       updatedAt: new Date().toISOString(),
     };
 
-    saveTodos(updatedTodos);
-
-    return HttpResponse.json(updatedTodos[todoIndex]);
+    return HttpResponse.json(todos[todoIndex]);
   }),
 
   http.delete('/todos/reset', () => {
-    todoStorage.clear();
+    // Mock 환경에서는 빈 배열로 초기화
+    todosRes.todos = [];
     return HttpResponse.json({ success: true });
   }),
 ];

@@ -6,7 +6,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
 
-const dropdownVariants = cva('absolute rounded-lg border shadow-lg', {
+const dropdownVariants = cva('absolute rounded-b-[20px] border shadow-lg', {
   variants: {
     size: {
       sm: 'max-w-xs min-w-32',
@@ -115,7 +115,7 @@ const DropdownMenu = ({
       ref={dropdownRef}
       className={cn(
         dropdownVariants({ size, animation, shadow }),
-        'border-line bg-white',
+        'border-none bg-white',
         getPositionClasses(),
         className,
       )}
