@@ -3,6 +3,7 @@
 import React from 'react';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
 import PinIconOff from '@/../public/assets/icons/pinIcon_off.svg';
@@ -12,6 +13,7 @@ import { useUpdateGoalPinStatus } from '@/hooks/useGoals';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
 import { getGoalColorClass, getGoalTextColorClass } from '@/lib/goalColorUtils';
+import { ROUTES } from '@/lib/routes';
 import { useModalStore } from '@/store/modalStore';
 
 import { Button } from '../../ui/Button';
@@ -23,9 +25,16 @@ interface GoalCardProps {
 const GoalCard = ({ goal }: GoalCardProps) => {
   const { openTodoModalWithGoal } = useModalStore();
   const updateGoalPinStatus = useUpdateGoalPinStatus();
+  const router = useRouter();
+
+  // 카드 클릭 핸들러 - 목표 상세 페이지로 이동
+  const handleCardClick = () => {
+    router.push(ROUTES.GOALS.DETAIL(goal.goalId));
+  };
 
   // 핀 토글 핸들러
-  const handleTogglePin = async () => {
+  const handleTogglePin = async (e: React.MouseEvent) => {
+    e.stopPropagation(); // 카드 클릭 이벤트 전파 방지
     try {
       await updateGoalPinStatus.mutateAsync({
         goalId: goal.goalId,
@@ -49,7 +58,8 @@ const GoalCard = ({ goal }: GoalCardProps) => {
   const incompleteTodos = goal.todos.filter(todo => !todo.isDone);
 
   // 할 일 만들기 버튼 핸들러
-  const handleCreateTodo = () => {
+  const handleCreateTodo = (e: React.MouseEvent) => {
+    e.stopPropagation(); // 카드 클릭 이벤트 전파 방지
     openTodoModalWithGoal(goal.goalId);
   };
 
@@ -69,7 +79,10 @@ const GoalCard = ({ goal }: GoalCardProps) => {
   );
 
   return (
-    <div className="rounded-20 relative flex h-340 w-480 cursor-pointer flex-col overflow-hidden bg-white shadow-lg">
+    <div
+      className="rounded-20 relative flex h-340 w-480 cursor-pointer flex-col overflow-hidden bg-white shadow-lg"
+      onClick={handleCardClick}
+    >
       {/* 왼쪽 색상 바 */}
       <div className={`absolute top-0 left-0 h-full w-12 ${getGoalColorClass(goal.color)}`} />
 
@@ -126,7 +139,12 @@ const GoalCard = ({ goal }: GoalCardProps) => {
                 {incompleteTodos.map((todo, index) => (
                   <div key={todo.id || index} className="flex h-24 items-center gap-8">
                     <div className="flex h-24 w-24 items-center justify-center">
-                      <div className="border-line h-20 w-20 rounded-full border-2" />
+                      <Image
+                        src="/assets/icons/check_default.svg"
+                        alt="Checked Icon"
+                        width={24}
+                        height={24}
+                      />
                     </div>
                     <span className="text-text-02 text-body-m-16 flex-1 truncate">
                       {todo.title}
