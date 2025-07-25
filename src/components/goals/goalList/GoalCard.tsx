@@ -27,14 +27,12 @@ const GoalCard = ({ goal }: GoalCardProps) => {
   const updateGoalPinStatus = useUpdateGoalPinStatus();
   const router = useRouter();
 
-  // 카드 클릭 핸들러 - 목표 상세 페이지로 이동
   const handleCardClick = () => {
     router.push(ROUTES.GOALS.DETAIL(goal.goalId));
   };
 
-  // 핀 토글 핸들러
   const handleTogglePin = async (e: React.MouseEvent) => {
-    e.stopPropagation(); // 카드 클릭 이벤트 전파 방지
+    e.stopPropagation();
     try {
       await updateGoalPinStatus.mutateAsync({
         goalId: goal.goalId,
@@ -42,11 +40,9 @@ const GoalCard = ({ goal }: GoalCardProps) => {
       });
     } catch (error) {
       console.error('핀 상태 변경 실패:', error);
-      // 에러가 발생해도 UI 피드백을 제공할 수 있습니다
     }
   };
 
-  // 진행률 계산
   const calculateProgress = (todos: TodoSummary[]) => {
     if (todos.length === 0) return 0;
     const completedTodos = todos.filter(todo => todo.isDone).length;
@@ -57,13 +53,11 @@ const GoalCard = ({ goal }: GoalCardProps) => {
   const completedCount = goal.todos.filter(todo => todo.isDone).length;
   const incompleteTodos = goal.todos.filter(todo => !todo.isDone);
 
-  // 할 일 만들기 버튼 핸들러
   const handleCreateTodo = (e: React.MouseEvent) => {
-    e.stopPropagation(); // 카드 클릭 이벤트 전파 방지
+    e.stopPropagation();
     openTodoModalWithGoal(goal.goalId);
   };
 
-  // 할 일 만들기 버튼 컴포넌트
   const CreateTodoButton = () => (
     <Button
       size="emptytodoCard"
@@ -154,7 +148,6 @@ const GoalCard = ({ goal }: GoalCardProps) => {
               </div>
             </>
           ) : goal.todos.length > 0 ? (
-            // 모든 할 일이 완료된 경우
             <div className="flex flex-col items-center justify-center pt-22">
               <div className="mb-32 flex items-center gap-8 text-center">
                 <Image src="/assets/icons/check.svg" alt="Check Icon" width={20} height={20} />
@@ -165,7 +158,6 @@ const GoalCard = ({ goal }: GoalCardProps) => {
               <CreateTodoButton />
             </div>
           ) : (
-            // 할 일이 아예 없는 경우
             <div className="flex flex-col items-center justify-center py-40">
               <div className="mb-32 flex flex-col items-center gap-8 text-center">
                 <div className="text-body-sb-20 text-text-02 font-semibold">목표를 이루기 위해</div>

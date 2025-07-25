@@ -11,7 +11,6 @@ import GoalsList from './GoalsList';
 import GoalsPagination from './GoalsPagination';
 
 const GoalsClientContent = () => {
-  // 초기 파라미터 상수
   const INITIAL_PARAMS: GetGoalsRequestParams = {
     page: 1,
     limit: 6,
@@ -19,36 +18,30 @@ const GoalsClientContent = () => {
     isPinned: undefined,
   };
 
-  // 페이지네이션, 필터링, 정렬 상태
   const [params, setParams] = useState<GetGoalsRequestParams>(INITIAL_PARAMS);
 
   const { data: goalsData, isLoading, error } = useGoals(params);
 
-  // 로딩 상태 컴포넌트
   const LoadingState = () => (
     <div className="flex min-h-screen items-center justify-center">
       <div className="text-body-m-16 text-text-02">로딩 중...</div>
     </div>
   );
 
-  // 에러 상태 컴포넌트
   const ErrorState = ({ message }: { message: string }) => (
     <div className="flex min-h-screen items-center justify-center">
       <div className="text-body-m-16 text-error">오류가 발생했습니다: {message}</div>
     </div>
   );
 
-  // 페이지네이션 핸들러
   const handlePageChange = (newPage: number) => {
     setParams(prev => ({ ...prev, page: newPage }));
   };
 
-  // 정렬 변경 핸들러
   const handleSortChange = (sortBy: 'latest' | 'dueDate') => {
     setParams(prev => ({ ...prev, sortBy, page: 1 }));
   };
 
-  // 필터 변경 핸들러
   const handleFilterChange = (isPinned?: boolean) => {
     setParams(prev => ({ ...prev, isPinned, page: 1 }));
   };
