@@ -3,7 +3,7 @@
 import DashboardGoalIcon from '@/../public/assets/icons/dashborad-goal.svg';
 import GoIcon from '@/../public/assets/icons/go.svg';
 import Card from '@/components/ui/Card';
-import { GoalSummary } from '@/interfaces/dashboardgoalInterface';
+import { GoalSummary } from '@/interfaces/goal';
 
 import GoalListDashboardCard from './GoalListDashboardCard';
 import NoGoalsGuide from './NoGoalsGuide';
@@ -21,27 +21,24 @@ export default function GoalListDashboardSection({ goals }: Props) {
     })
     .slice(0, 3);
 
-  const cardTitle = <span className="text-body-sb-20 text-text-01">목표 별 할 일</span>;
-
-  const cardExtra = (
-    <button className="text-body-sb-20 text-text-03 flex items-center gap-8 hover:underline">
-      모든 목표 보기
-      <GoIcon width={20} height={20} />
-    </button>
-  );
-
   return (
-    <Card
-      icon={<DashboardGoalIcon width={24} height={24} />}
-      title={cardTitle}
-      extra={cardExtra}
-      backgroundColor="cardContainer"
-      size="goal"
-    >
+    <Card backgroundColor="cardContainer" size="goal">
+      <div className="mb-16 flex items-center justify-between">
+        <div className="flex items-center gap-8">
+          <DashboardGoalIcon width={24} height={24} />
+          <span className="text-body-sb-20 text-text-01">목표 별 할 일</span>
+        </div>
+        <button className="text-text-03 flex items-center gap-8 hover:underline">
+          <span className="text-body-sb-20 hidden md:inline">모든 목표 보기</span>
+          <span className="text-body-mb-16 inline md:hidden">모두 보기</span>
+          <GoIcon width={20} height={20} />
+        </button>
+      </div>
+
       {sortedGoals.length === 0 ? (
         <NoGoalsGuide />
       ) : (
-        <div className="flex flex-wrap gap-12">
+        <div className="flex flex-wrap justify-center gap-12">
           {sortedGoals.map(goal => (
             <GoalListDashboardCard key={goal.goalId} goal={goal} />
           ))}

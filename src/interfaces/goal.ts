@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { Todo } from './todo';
+import { Todo, TodoSummary } from './todo';
 
 export interface Goal {
   goalId: string;
@@ -39,7 +39,7 @@ export interface GoalSummary {
   deadlineDate: string;
   createdAt: string;
   isPinned: boolean;
-  todos: Todo[];
+  todos: TodoSummary[];
 }
 //API Request
 export interface GetGoalsRequestParams {
@@ -82,3 +82,5 @@ export interface UpdateGoalPinStatusRequest {
 export interface DeleteGoalRequest {
   goalId: string;
 }
+
+export type GoalColor = 'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'purple' | 'pink';

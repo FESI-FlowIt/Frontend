@@ -30,10 +30,27 @@ const iconConfig = {
     alt: '다음 아이콘',
     className: 'text-gray-01',
   },
+  paginationArrowPrev: {
+    src: '/assets/icons/prevIcon.svg',
+    alt: '페이지네이션 아이콘',
+    className: 'text-snackbar',
+  },
+  paginationArrowNext: {
+    src: '/assets/icons/nextIcon.svg',
+    alt: '페이지네이션 아이콘',
+    className: 'text-snackbar',
+  },
 };
 
 interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant: 'info' | 'close' | 'back' | 'prev' | 'next';
+  variant:
+    | 'info'
+    | 'close'
+    | 'back'
+    | 'prev'
+    | 'next'
+    | 'paginationArrowPrev'
+    | 'paginationArrowNext';
   'aria-label': string;
 }
 

@@ -1,0 +1,26 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install SSH key
+        run: |
+          echo "${{ secrets.EC2_PEM_KEY }}" | tr -d '\r' > fe-keypair.pem
+          chmod 400 fe-keypair.pem
+
+      - name: Verify SSH key creation
+        run: ls -l fe-keypair.pem
+
+      - name: Deploy to EC2
+        run: |
+          ssh -i fe-keypair.pem -o StrictHostKeyChecking=no ubuntu@3.35.108.14 'cd ~/Frontend && git pull origin main && npm install && npm run build && pm2 restart FlowIt'

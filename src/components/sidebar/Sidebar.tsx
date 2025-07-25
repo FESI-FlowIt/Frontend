@@ -5,7 +5,9 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 import SidebarOpen from '@/../public/assets/icons/menu-right.svg';
+import { useModalStore } from '@/store/modalStore';
 
+import GoalModal from '../goals/GoalModal';
 import { Button } from '../ui/Button';
 
 import SidebarGoalsList from './SidebarGoalsList';
@@ -15,7 +17,7 @@ import SidebarUser from './SidebarUser';
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(true);
-  //TODO: 추후에 기정님이 목표 추가하기 모달 완성하시면 연결 할 예정입니다.
+  const { openGoalModal } = useModalStore();
 
   return isOpen ? (
     <div className="border-line rounded-tr-50 rounded-br-50 flex h-screen w-320 flex-col items-center border-r bg-white py-40 sm:w-280 sm:py-8 md:w-320 md:py-40">
@@ -37,11 +39,13 @@ export default function Sidebar() {
         </section>
 
         <section className="shrink-0 px-30 sm:px-10 md:px-30">
-          <Button size="addgoal" disabled={false}>
+          <Button size="addgoal" disabled={false} onClick={() => openGoalModal()}>
             + 목표추가
           </Button>
         </section>
       </div>
+
+      <GoalModal />
     </div>
   ) : (
     <>

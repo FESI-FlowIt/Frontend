@@ -1,28 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { GoalSummary } from '@/interfaces/dashboardgoalInterface';
+import { useGoals, useUpdateGoalPinStatus } from '@/hooks/useGoals';
 import { ROUTES } from '@/lib/routes';
 
 export default function SidebarGoalsList() {
-  const [goals, setGoals] = useState<GoalSummary[]>([]);
+  const { data } = useGoals();
+  const updatePinStatus = useUpdateGoalPinStatus();
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchGoals = async () => {
-      const res = await fetch('/goals');
-      if (!res.ok) throw new Error('Failed to fetch goals');
-
-      const data = await res.json();
-      setGoals(data);
-    };
-
-    fetchGoals();
-  }, []);
 
   const handlePinClick = async ({
     goalId,
@@ -32,27 +19,12 @@ export default function SidebarGoalsList() {
     currentPinned: boolean;
   }) => {
     const nextPinned = !currentPinned;
-
-    try {
-      const res = await fetch(`/goals/${goalId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ isPinned: nextPinned }),
-      });
-
-      const data = await res.json();
-      setGoals(prev =>
-        prev.map(goal => (goal.goalId === goalId ? { ...goal, isPinned: data.isPinned } : goal)),
-      );
-    } catch (err) {
-      console.error(err);
-    }
+    updatePinStatus.mutate({ goalId, isPinned: nextPinned });
   };
+
   return (
     <div className="flex flex-col gap-12 sm:gap-8 md:gap-12">
-      {goals.map(goal => (
+      {data?.goals?.map(goal => (
         <div
           key={goal.goalId}
           className="flex h-52 w-260 items-center justify-between px-10 sm:h-40 sm:w-248 md:h-52 md:w-260"

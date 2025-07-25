@@ -10,7 +10,6 @@ export const useGoals = (params?: GetGoalsRequestParams) => {
   return useQuery({
     queryKey: [...GOALS_QUERY_KEY, params],
     queryFn: () => goalsApi.getGoals(params),
-    enabled: true,
   });
 };
 
@@ -58,9 +57,6 @@ export const useUpdateGoalPinStatus = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: GOALS_QUERY_KEY });
     },
-    onError: error => {
-      console.error('목표 고정 상태 변경 실패:', error);
-    },
   });
 };
 
@@ -72,9 +68,6 @@ export const useDeleteGoal = () => {
     mutationFn: (goalId: string) => goalsApi.deleteGoal(goalId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: GOALS_QUERY_KEY });
-    },
-    onError: error => {
-      console.error('목표 삭제 실패:', error);
     },
   });
 };

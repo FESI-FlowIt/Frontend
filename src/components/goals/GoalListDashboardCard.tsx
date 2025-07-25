@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { GoalSummary, Todo } from '@/interfaces/dashboardgoalInterface';
+import { GoalSummary } from '@/interfaces/goal';
+import { TodoSummary } from '@/interfaces/todo';
 import { ROUTES } from '@/lib/routes';
 
 import EmptyTodo from './EmptyTodo';
@@ -13,7 +14,7 @@ import NoGoalsGuide from './NoGoalsGuide';
 
 export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | null }) {
   const router = useRouter();
-  const [todos, setTodos] = useState<Todo[]>(goal?.todos ?? []);
+  const [todos, setTodos] = useState<TodoSummary[]>(goal?.todos ?? []);
 
   useEffect(() => {
     if (goal) setTodos(goal.todos);
@@ -30,7 +31,7 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
   if (todos.length === 0) {
     return (
       <div
-        className="relative flex h-340 w-480 cursor-pointer flex-col overflow-hidden rounded-[20px] bg-white"
+        className="rounded-20 relative flex h-340 w-303 cursor-pointer flex-col overflow-hidden bg-white md:w-596 lg:w-480"
         onClick={() => router.push(ROUTES.GOALS.DETAIL(goal.goalId))}
       >
         <div className="bg-goal-orange absolute top-0 left-0 h-full w-12" />
