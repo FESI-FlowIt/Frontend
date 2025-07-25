@@ -62,12 +62,22 @@ export async function deleteRequest(url: string) {
   });
 }
 
-export async function putRequest(url: string, body: File) {
-  return fetchWrapper(url, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': body.type,
-    },
-    body,
-  });
+export async function putRequest(url: string, body: File | object) {
+  if (body instanceof File) {
+    return fetchWrapper(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': body.type,
+      },
+      body,
+    });
+  } else {
+    return fetchWrapper(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+  }
 }
