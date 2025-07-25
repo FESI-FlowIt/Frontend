@@ -7,30 +7,24 @@ import {
   UpdateGoalRequest,
 } from '@/interfaces/goal';
 
+import { deleteRequest, getRequest, patchRequest, postRequest, putRequest } from '.';
+
 export const goalsApi = {
   // 목표 목록 조회
   getGoals: async (params?: GetGoalsRequestParams): Promise<GetGoalsResponse> => {
-    const searchParams = new URLSearchParams();
+    const requestParams = {
+      page: params?.page ?? 1,
+      limit: params?.limit ?? 6,
+      sortBy: params?.sortBy ?? 'latest',
+      ...(params?.isPinned !== undefined && { isPinned: params.isPinned.toString() }),
+    };
 
-    if (params?.page) searchParams.append('page', params.page.toString());
-    if (params?.limit) searchParams.append('limit', params.limit.toString());
-    if (params?.sortBy) searchParams.append('sortBy', params.sortBy);
-    if (params?.isPinned !== undefined) searchParams.append('isPinned', params.isPinned.toString());
-
-    const response = await fetch(`/goals?${searchParams}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch goals');
-    }
-    return response.json();
+    return getRequest('/goals', requestParams);
   },
 
   // 목표 상세 조회
   getGoal: async (goalId: string): Promise<Goal> => {
-    const response = await fetch(`/goals/${goalId}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch goal');
-    }
-    return response.json();
+    return getRequest(`/goals/${goalId}`);
   },
 
   // 목표 생성
@@ -41,18 +35,7 @@ export const goalsApi = {
       dueDate: goalData.dueDate.toISOString(),
     };
 
-    const response = await fetch(`/goals`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestData),
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to create goal');
-    }
-    return response.json();
+    return postRequest('/goals', requestData);
   },
 
   // 목표 수정
@@ -63,44 +46,16 @@ export const goalsApi = {
       ...(goalData.dueDate && { dueDate: goalData.dueDate.toISOString() }),
     };
 
-    const response = await fetch(`/goals/${goalId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestData),
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to update goal');
-    }
-    return response.json();
+    return putRequest(`/goals/${goalId}`, requestData);
   },
 
   // 목표 고정 상태 변경
   updateGoalPinStatus: async (goalId: string, isPinned: boolean): Promise<Goal> => {
-    const response = await fetch(`/goals/${goalId}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ isPinned }),
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to update goal pin status');
-    }
-    return response.json();
+    return patchRequest(`/goals/${goalId}`, { isPinned });
   },
 
   // 목표 삭제
   deleteGoal: async (goalId: string): Promise<void> => {
-    const response = await fetch(`/goals/${goalId}`, {
-      method: 'DELETE',
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to delete goal');
-    }
+    return deleteRequest(`/goals/${goalId}`);
   },
 };
