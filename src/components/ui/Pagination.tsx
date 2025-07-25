@@ -93,6 +93,18 @@ const Pagination = ({
     return pages;
   };
 
+  const getNextGroupFirstPage = () => {
+    const currentGroupStart = Math.floor((currentPage - 1) / maxVisiblePages) * maxVisiblePages + 1;
+    const nextGroupStart = currentGroupStart + maxVisiblePages;
+    return Math.min(nextGroupStart, totalPages);
+  };
+
+  const getPrevGroupFirstPage = () => {
+    const currentGroupStart = Math.floor((currentPage - 1) / maxVisiblePages) * maxVisiblePages + 1;
+    const prevGroupStart = currentGroupStart - maxVisiblePages;
+    return Math.max(1, prevGroupStart);
+  };
+
   const visiblePages = getVisiblePages();
 
   if (totalPages <= 1) {
@@ -106,7 +118,7 @@ const Pagination = ({
           <IconButton
             variant="paginationArrowPrev"
             aria-label="이전 페이지"
-            onClick={() => onPageChange(Math.max(1, currentPage - maxVisiblePages))}
+            onClick={() => onPageChange(getPrevGroupFirstPage())}
             disabled={!hasPrev}
             className="disabled:cursor-not-allowed disabled:opacity-50"
           />
@@ -135,7 +147,7 @@ const Pagination = ({
           <IconButton
             variant="paginationArrowNext"
             aria-label="다음 페이지"
-            onClick={() => onPageChange(Math.min(totalPages, currentPage + maxVisiblePages))}
+            onClick={() => onPageChange(getNextGroupFirstPage())}
             disabled={!hasNext}
             className="disabled:cursor-not-allowed disabled:opacity-50"
           />
