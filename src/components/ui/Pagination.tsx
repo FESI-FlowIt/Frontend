@@ -2,9 +2,9 @@ import React from 'react';
 
 import { cva, VariantProps } from 'class-variance-authority';
 
-import ArrowBack from '@/assets/ArrowBack.svg';
-import ArrowForward from '@/assets/ArrowForward.svg';
 import { cn } from '@/lib/utils';
+
+import { IconButton } from './IconButton';
 
 const paginationVariants = cva('mt-38 flex items-center justify-center gap-16', {
   variants: {
@@ -103,13 +103,13 @@ const Pagination = ({
     <div className={cn(paginationVariants({ size }), className)} {...props}>
       {showArrows && (
         <div className={cn(arrowButtonVariants({ size }), 'mr-8')}>
-          <button
+          <IconButton
+            variant="paginationArrowPrev"
+            aria-label="이전 페이지"
             onClick={() => onPageChange(Math.max(1, currentPage - maxVisiblePages))}
             disabled={!hasPrev}
-            className="flex h-24 w-24 items-center justify-center disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <ArrowBack />
-          </button>
+            className="disabled:cursor-not-allowed disabled:opacity-50"
+          />
         </div>
       )}
 
@@ -132,13 +132,13 @@ const Pagination = ({
 
       {showArrows && (
         <div className={cn(arrowButtonVariants({ size }), 'ml-8')}>
-          <button
+          <IconButton
+            variant="paginationArrowNext"
+            aria-label="다음 페이지"
             onClick={() => onPageChange(Math.min(totalPages, currentPage + maxVisiblePages))}
             disabled={!hasNext}
-            className="flex h-24 w-24 items-center justify-center disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <ArrowForward />
-          </button>
+            className="disabled:cursor-not-allowed disabled:opacity-50"
+          />
         </div>
       )}
     </div>
