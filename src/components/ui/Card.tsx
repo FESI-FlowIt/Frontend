@@ -47,7 +47,9 @@ const Card = ({
         <div
           className={cn(
             'flex gap-16',
-            flexWrapExtra ? 'flex-col' : 'flex-row items-center justify-between',
+            flexWrapExtra
+              ? 'flex-col md:flex-row md:items-center md:justify-between'
+              : 'flex-row items-center justify-between',
           )}
         >
           <div className="flex items-center gap-8">
