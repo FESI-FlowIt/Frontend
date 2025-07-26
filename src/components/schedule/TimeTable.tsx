@@ -17,11 +17,7 @@ export default function TimeTable({ assignedTasks, onDropTask, onDeleteTask }: T
       {/* 상단 날짜 */}
       <div className="mb-8 flex h-63 justify-start pt-16 pl-24">
         <div className="h-44 w-213">
-          <ArrowNavigation
-            label="7월 8일 (화)"
-            onPrev={() => console.log('이전 날짜')}
-            onNext={() => console.log('다음 날짜')}
-          />
+          <ArrowNavigation label="7월 8일 (화)" onPrev={() => {}} onNext={() => {}} />
         </div>
       </div>
 
