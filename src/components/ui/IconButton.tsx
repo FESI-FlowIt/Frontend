@@ -40,6 +40,21 @@ const iconConfig = {
     alt: '페이지네이션 아이콘',
     className: 'text-snackbar',
   },
+  kebab: {
+    src: '/assets/icons/kebabIcon.svg',
+    alt: '메뉴 아이콘',
+    className: 'text-gray-01',
+  },
+  checkboxChecked: {
+    src: '/assets/icons/check.svg',
+    alt: '체크됨',
+    className: 'text-primary-01',
+  },
+  checkboxUnchecked: {
+    src: '/assets/icons/check_default.svg',
+    alt: '체크 안됨',
+    className: 'text-gray-300',
+  },
 };
 
 interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -50,7 +65,10 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
     | 'prev'
     | 'next'
     | 'paginationArrowPrev'
-    | 'paginationArrowNext';
+    | 'paginationArrowNext'
+    | 'kebab'
+    | 'checkboxChecked'
+    | 'checkboxUnchecked';
   'aria-label': string;
 }
 

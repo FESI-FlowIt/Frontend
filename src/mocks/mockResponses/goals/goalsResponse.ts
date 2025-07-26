@@ -3,6 +3,20 @@ import { GetGoalsResponse } from '@/interfaces/goal';
 export const goalSummariesRes: GetGoalsResponse = {
   goals: [
     {
+      goalId: 'goal-ui-test',
+      title: 'UI 테스트용 대량 할일 목표',
+      dDay: 15, // 08/10
+      deadlineDate: '08/10',
+      color: 'purple',
+      isPinned: true,
+      createdAt: '2025-07-25T12:00:00Z',
+      todos: Array.from({ length: 30 }, (_, index) => ({
+        id: `ui-test-todo-${index + 1}`,
+        title: `UI 테스트 할일 ${index + 1}`,
+        isDone: index < 10, // 처음 10개는 완료, 나머지 20개는 미완료
+      })),
+    },
+    {
       goalId: 'goal-1',
       title: '프론트엔드 프로젝트 완성',
       dDay: 3, // 07/28
