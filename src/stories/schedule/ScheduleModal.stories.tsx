@@ -14,5 +14,5 @@ export default meta;
 type Story = StoryObj<typeof ScheduleModal>;
 
 export const Default: Story = {
-  render: () => <ScheduleModal isOpen={true} onClose={() => alert('모달 닫힘')} />,
+  render: () => <ScheduleModal isOpen={true} onClose={() => {}} />,
 };

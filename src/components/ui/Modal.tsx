@@ -37,7 +37,7 @@ const modalContentVariants = cva(
         link: 'h-auto w-520',
         auth: 'h-256 w-402',
         timer: 'h-762 w-600',
-        schedule: 'h-800 w-724',
+        schedule: 'h-812 w-375 md:h-800 md:w-724',
       },
       padding: {
         default: 'p-40',

@@ -13,8 +13,8 @@ export const ScheduleRes = goalSummariesRes.goals.flatMap(goal =>
         updatedAt: '',
         accumulatedMs: 0,
         attachment: [], // ✅ 기본값으로 비워둠
-        notes: [],       // ✅ 기본값으로 비워둠
+        notes: [], // ✅ 기본값으로 비워둠
       },
       color: `bg-[var(--color-goal-${goal.color})]`,
-    }))
+    })),
 );

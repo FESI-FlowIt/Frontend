@@ -1,8 +1,9 @@
 import ArrowNavigation from '@/components/ui/ArrowNavigation';
+
 import { AssignedTask, Task } from './ScheduleModal';
 import TimeSlotRow from './TimeSlotRow';
 
-interface Props {
+interface TimeTableProps {
   assignedTasks: AssignedTask[];
   onDropTask: (taskId: string, time: string) => void;
   onDeleteTask: (task: Task, time: string) => void;
@@ -10,17 +11,22 @@ interface Props {
 
 const timeSlots = Array.from({ length: 24 }, (_, i) => `${i.toString().padStart(2, '0')}:00`);
 
-export default function TimeTable({ assignedTasks, onDropTask, onDeleteTask }: Props) {
+export default function TimeTable({ assignedTasks, onDropTask, onDeleteTask }: TimeTableProps) {
   return (
-    <div className="max-h-600 w-2/3 pl-4">
-      <div className="mb-16 flex justify-start pt-16 pl-16">
-        <ArrowNavigation
-          label="7월 8일 (화)"
-          onPrev={() => console.log('이전 날짜')}
-          onNext={() => console.log('다음 날짜')}
-        />
+    <div className="h-284 w-375 md:h-600 md:w-2/3 md:pl-4">
+      {/* 상단 날짜 */}
+      <div className="mb-8 flex h-63 justify-start pt-16 pl-24">
+        <div className="h-44 w-213">
+          <ArrowNavigation
+            label="7월 8일 (화)"
+            onPrev={() => console.log('이전 날짜')}
+            onNext={() => console.log('다음 날짜')}
+          />
+        </div>
       </div>
-      <div className="max-h-524 overflow-y-auto pr-1">
+
+      {/* 시간대 영역 */}
+      <div className="h-220 overflow-y-auto pr-1 md:h-524">
         <div className="flex flex-col">
           {timeSlots.map(time => (
             <TimeSlotRow

@@ -1,36 +1,46 @@
 'use client';
 
 import { useState } from 'react';
-import Modal from '@/components/ui/Modal';
-import UnassignedTaskList from './UnassignedTaskList';
-import TimeTable from './TimeTable';
-import ScheduleHeader from './ScheduleHeader';
 
-export type Task = {
+import Modal from '@/components/ui/Modal';
+import { goalSummariesRes } from '@/mocks/mockResponses/goals/goalsResponse';
+
+import ScheduleFooter from './ScheduleFooter';
+import ScheduleHeader from './ScheduleHeader';
+import TimeTable from './TimeTable';
+import UnassignedTaskList from './UnassignedTaskList';
+
+export interface Task {
   id: string;
   title: string;
   color: string;
-};
+}
 
-export type AssignedTask = {
+export interface AssignedTask {
   task: Task;
   time: string;
-};
+}
 
-const initialTasks: Task[] = [
-  { id: '1', title: '개발', color: 'red' },
-  { id: '2', title: '알고리즘', color: 'yellow' },
-  { id: '3', title: '기획', color: 'green' },
-];
-
-export default function ScheduleModal({
-  isOpen,
-  onClose,
-}: {
+interface ScheduleModalProps {
   isOpen: boolean;
   onClose: () => void;
-}) {
-  const [unassignedTasks, setUnassignedTasks] = useState<Task[]>(initialTasks);
+}
+
+const extractTasksFromGoals = (): Task[] => {
+  return goalSummariesRes.goals.flatMap(goal =>
+    goal.todos
+      .filter(todo => !todo.isDone)
+      .map(todo => ({
+        id: todo.id,
+        title: todo.title,
+        color: goal.color,
+      })),
+  );
+};
+
+export default function ScheduleModal({ isOpen, onClose }: ScheduleModalProps) {
+  const [originalTasks] = useState<Task[]>(() => extractTasksFromGoals());
+  const [unassignedTasks, setUnassignedTasks] = useState<Task[]>(() => extractTasksFromGoals());
   const [assignedTasks, setAssignedTasks] = useState<AssignedTask[]>([]);
 
   const handleDrop = (taskId: string, time: string) => {
@@ -43,15 +53,24 @@ export default function ScheduleModal({
 
   const handleDelete = (task: Task, time: string) => {
     setAssignedTasks(prev => prev.filter(a => a.task.id !== task.id || a.time !== time));
-    setUnassignedTasks(prev => [...prev, task]);
+
+    setUnassignedTasks(prev => {
+      const newTasks = [...prev];
+      const originalIndex = originalTasks.findIndex(t => t.id === task.id);
+
+      if (!newTasks.find(t => t.id === task.id) && originalIndex !== -1) {
+        newTasks.splice(originalIndex, 0, task);
+      }
+
+      return newTasks;
+    });
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="schedule" padding="none" rounded="schedule">
       <div className="flex h-full w-full flex-col">
         <ScheduleHeader onClose={onClose} />
-
-        <div className="flex h-full w-full">
+        <div className="flex h-full w-full flex-col md:flex-row">
           <UnassignedTaskList tasks={unassignedTasks} />
           <TimeTable
             assignedTasks={assignedTasks}
@@ -59,6 +78,7 @@ export default function ScheduleModal({
             onDeleteTask={handleDelete}
           />
         </div>
+        <ScheduleFooter onCancel={onClose} onSave={() => {}} />
       </div>
     </Modal>
   );
