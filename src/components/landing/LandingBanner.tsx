@@ -1,8 +1,15 @@
+'use client';
+
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
+import { ROUTES } from '@/lib/routes';
 
 import { Button } from '../ui/Button';
 
 export default function LandingBanner() {
+  const router = useRouter();
+
   return (
     <div className="bg-primary-01 flex h-620 items-center justify-center gap-189">
       <div className="flex flex-col gap-42">
@@ -16,16 +23,31 @@ export default function LandingBanner() {
           </span>
         </div>
         <div className="flex gap-20">
-          <Button variant="secondary" text="secondary">
+          <Button
+            variant="secondary"
+            text="secondary"
+            disabled={false}
+            onClick={() => router.push(ROUTES.AUTH.LOGIN)}
+          >
             로그인
           </Button>
-          <Button variant="secondary" text="secondary">
+          <Button
+            variant="secondary"
+            text="secondary"
+            disabled={false}
+            onClick={() => router.push(ROUTES.AUTH.SIGNUP)}
+          >
             회원가입
           </Button>
         </div>
       </div>
       <div className="">
-        <Image src="/assets/images/landing_img.svg" alt="배너 이미지" width={569} height={569} />
+        <Image
+          src="/assets/images/dashboard.svg"
+          alt="대쉬보드 이미지"
+          width={699.78}
+          height={399.88}
+        />
       </div>
     </div>
   );
