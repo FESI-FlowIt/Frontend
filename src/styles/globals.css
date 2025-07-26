@@ -258,6 +258,16 @@
   font-weight: 500;
 }
 
+@utility text-banner-44 {
+  font-size: 44px;
+  font-weight: 500;
+}
+
+@utility text-banner-44-bold {
+  font-size: 44px;
+  font-weight: 700;
+}
+
 /* ========================================================================
    Custom Border Radius Utilities (커스텀 보더 라디우스 유틸리티)
    ======================================================================== */
