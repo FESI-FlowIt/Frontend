@@ -9,7 +9,7 @@ import { GetGoalsRequestParams } from '@/interfaces/goal';
 interface GoalsFilterControlsProps {
   params: GetGoalsRequestParams;
   // eslint-disable-next-line no-unused-vars
-  onSortChange: (sortBy: 'latest' | 'dueDate') => void;
+  onSortChange: (sortBy: 'latest' | 'deadlineDate') => void;
   // eslint-disable-next-line no-unused-vars
   onFilterChange: (isPinned?: boolean) => void;
 }
@@ -25,14 +25,14 @@ const GoalsFilterControls = ({
   // 정렬 옵션 상수
   const SORT_OPTIONS = {
     latest: '최신 등록순',
-    dueDate: '마감 임박순',
+    deadlineDate: '마감 임박순',
   } as const;
 
-  const getSortText = (sortBy: 'latest' | 'dueDate' | undefined) => {
-    return sortBy === 'dueDate' ? SORT_OPTIONS.dueDate : SORT_OPTIONS.latest;
+  const getSortText = (sortBy: 'latest' | 'deadlineDate' | undefined) => {
+    return sortBy === 'deadlineDate' ? SORT_OPTIONS.deadlineDate : SORT_OPTIONS.latest;
   };
 
-  const handleSortOptionClick = (sortBy: 'latest' | 'dueDate') => {
+  const handleSortOptionClick = (sortBy: 'latest' | 'deadlineDate') => {
     onSortChange(sortBy);
     setIsSortDropdownOpen(false);
   };
@@ -82,12 +82,14 @@ const GoalsFilterControls = ({
                 {SORT_OPTIONS.latest}
               </button>
               <button
-                onClick={() => handleSortOptionClick('dueDate')}
+                onClick={() => handleSortOptionClick('deadlineDate')}
                 className={`text-body-sb-20 w-full rounded-b-[20px] px-12 py-13 text-left transition-colors ${
-                  params.sortBy === 'dueDate' ? 'bg-ui-background text-primary-01' : 'text-text-03'
+                  params.sortBy === 'deadlineDate'
+                    ? 'bg-ui-background text-primary-01'
+                    : 'text-text-03'
                 }`}
               >
-                {SORT_OPTIONS.dueDate}
+                {SORT_OPTIONS.deadlineDate}
               </button>
             </div>
           </DropdownMenu>
