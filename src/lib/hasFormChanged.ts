@@ -26,12 +26,12 @@ export const hasGoalFormChanged = (
   // Date 객체는 별도로 비교
   const initialWithStringDate = {
     ...initialState,
-    dueDate: initialState.dueDate.toISOString(),
+    deadlineDate: initialState.deadlineDate.toISOString(),
   };
 
   const watchedWithStringDate = {
     ...watchedValues,
-    dueDate: watchedValues.dueDate.toISOString(),
+    deadlineDate: watchedValues.deadlineDate.toISOString(),
   };
 
   return JSON.stringify(watchedWithStringDate) !== JSON.stringify(initialWithStringDate);
