@@ -1,5 +1,7 @@
 import Image from 'next/image';
 
+import { LANDINGPAGEFEATURES } from '@/constants/landingPageFeatures';
+
 export default function LandingIntroduction() {
   return (
     <div>
@@ -10,7 +12,14 @@ export default function LandingIntroduction() {
         </span>
         <span>FlowIt은 작업 패턴 분석을 통해 개인의 생산성을 극대화하는 서비스 입니다.</span>
       </div>
-      <div>기능 이미지들의 배열</div>
+      <div>
+        {LANDINGPAGEFEATURES.map(feature => (
+          <div key={feature.name}>
+            <Image src={feature.imgUrl} alt={feature.name} width={200} height={200} />
+            <span>{feature.name}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
