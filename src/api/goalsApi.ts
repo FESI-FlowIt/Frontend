@@ -32,7 +32,7 @@ export const goalsApi = {
     const requestData: CreateGoalRequest = {
       title: goalData.title,
       color: goalData.color,
-      dueDate: goalData.dueDate.toISOString(),
+      deadlineDate: goalData.deadlineDate.toISOString(),
     };
 
     return postRequest('/goals', requestData);
@@ -43,7 +43,7 @@ export const goalsApi = {
     const requestData: Omit<UpdateGoalRequest, 'goalId'> = {
       ...(goalData.title && { title: goalData.title }),
       ...(goalData.color && { color: goalData.color }),
-      ...(goalData.dueDate && { dueDate: goalData.dueDate.toISOString() }),
+      ...(goalData.deadlineDate && { deadlineDate: goalData.deadlineDate.toISOString() }),
     };
 
     return putRequest(`/goals/${goalId}`, requestData);
