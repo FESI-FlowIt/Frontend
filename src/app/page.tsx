@@ -1,9 +1,3 @@
-import LandingBanner from '@/components/landing/LandingBanner';
-
 export default function Home() {
-  return (
-    <div>
-      <LandingBanner />
-    </div>
-  );
+  return <div>안녕하세요.</div>;
 }
