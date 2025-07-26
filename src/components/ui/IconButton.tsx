@@ -63,7 +63,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
       <button
         className={cn(
           'inline-flex h-24 w-24 cursor-pointer items-center justify-center',
-          isNavigation && 'rounded-8 border-line border',
+          isNavigation ? 'rounded-8 border-line h-24 w-24 border md:h-44 md:w-44' : 'h-24 w-24',
           className,
         )}
         aria-label={ariaLabel}
