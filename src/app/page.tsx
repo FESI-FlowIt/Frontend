@@ -4,7 +4,7 @@ import LandingIntroduction from '@/components/landing/LandingIntroduction';
 
 export default function Home() {
   return (
-    <div>
+    <>
       <section className="mb-200">
         <LandingBanner />
       </section>
@@ -16,6 +16,6 @@ export default function Home() {
       <section className="mb-300">
         <LandingFeaturesDetail />
       </section>
-    </div>
+    </>
   );
 }
