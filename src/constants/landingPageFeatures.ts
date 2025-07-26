@@ -24,7 +24,7 @@ export const LANDINGPAGEFEATURES = [
 export const LANDINGPAGEFEATUREDETAILS = [
   {
     name: '작업 시간 히트맵 분석',
-    content: [
+    contents: [
       {
         name: '시간대 별 작업 패턴을 시각화',
       },
@@ -36,7 +36,7 @@ export const LANDINGPAGEFEATUREDETAILS = [
   },
   {
     name: '목표 중심의 할 일 정리',
-    content: [
+    contents: [
       {
         name: '8가지 색상으로 목표를 구분 관리',
       },
@@ -51,7 +51,7 @@ export const LANDINGPAGEFEATUREDETAILS = [
   },
   {
     name: '스마트 타이머 & 자동 추적',
-    content: [
+    contents: [
       {
         name: '정확한 작업 시간 측정',
       },
@@ -66,7 +66,7 @@ export const LANDINGPAGEFEATUREDETAILS = [
   },
   {
     name: '마감일 캘린더',
-    content: [
+    contents: [
       {
         name: '목표별 색상 뱃지로 한 눈에 확인',
       },
@@ -81,7 +81,7 @@ export const LANDINGPAGEFEATUREDETAILS = [
   },
   {
     name: '드래그앤드롭 일정 관리',
-    content: [
+    contents: [
       {
         name: '시간대 별 할 일 배치',
       },
