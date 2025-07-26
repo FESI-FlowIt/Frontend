@@ -34,7 +34,6 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
         className="rounded-20 relative flex h-340 w-303 cursor-pointer flex-col overflow-hidden bg-white md:w-596 lg:w-480"
         onClick={() => router.push(ROUTES.GOALS.DETAIL(goal.goalId))}
       >
-        <div className="bg-goal-orange absolute top-0 left-0 h-full w-12" />
         <div className="flex flex-1 flex-col justify-between px-32 pt-20 pb-20">
           <div className="flex flex-col gap-12">
             <h3 className="text-text-01 text-body-sb-20 max-w-296 truncate">{goal.title}</h3>
