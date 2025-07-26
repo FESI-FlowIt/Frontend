@@ -41,12 +41,15 @@ export default function LandingBanner() {
           </Button>
         </div>
       </div>
-      <div className="">
+
+      <div className="relative flex items-center justify-center">
+        <div className="rounded-tl-50 rounded-bl-50 bg-landing-blue absolute h-343 w-850 -translate-x-[2%]" />
         <Image
           src="/assets/images/dashboard.svg"
           alt="대쉬보드 이미지"
           width={699.78}
           height={399.88}
+          className="relative z-10"
         />
       </div>
     </div>
