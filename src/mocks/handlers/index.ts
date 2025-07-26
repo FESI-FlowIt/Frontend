@@ -1,4 +1,5 @@
 import { authHandlers } from './authHandlers';
+import { calendarHandlers } from './calendarHandlers';
 import { goalHandlers } from './goalHandlers';
 import { heatmapHandlers } from './heatmapHandlers';
 import { insightsHandlers } from './insightHandlers';
@@ -10,4 +11,5 @@ export const handlers = [
   ...heatmapHandlers,
   ...todoHandlers,
   ...insightsHandlers,
+  ...calendarHandlers,
 ];

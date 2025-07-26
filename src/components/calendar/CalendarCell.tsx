@@ -1,4 +1,5 @@
 import { Goal } from '@/interfaces/calendar';
+import { hexToGoalColor } from '@/lib/calendar';
 import { cn } from '@/lib/utils';
 
 interface CalendarCellProps {
@@ -10,6 +11,7 @@ interface CalendarCellProps {
 
 const CalendarCell = ({ date, goals = [], onClick, className }: CalendarCellProps) => {
   const firstGoal = goals[0];
+  const goalColorName = firstGoal ? hexToGoalColor(firstGoal.color) : null;
 
   return (
     <button
@@ -23,8 +25,7 @@ const CalendarCell = ({ date, goals = [], onClick, className }: CalendarCellProp
 
       {firstGoal && (
         <div
-          className="text-body-16 rounded-4 w-full truncate px-2 text-center text-white"
-          style={{ backgroundColor: firstGoal.color }}
+          className={`text-body-16 rounded-4 bg-goal-${goalColorName} w-full truncate px-2 text-center text-white`}
         >
           {firstGoal.title}
         </div>

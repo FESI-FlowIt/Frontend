@@ -27,7 +27,7 @@ const ArrowNavigation = ({
         disabled={isDisabledPrev}
         className="disabled:opacity-30"
       />
-      <span className="text-body-b-16 text-text-02">{label}</span>
+      <span className="text-body-b-16 md:text-body-sb-20 text-text-02">{label}</span>
       <IconButton
         variant="next"
         aria-label="다음"
