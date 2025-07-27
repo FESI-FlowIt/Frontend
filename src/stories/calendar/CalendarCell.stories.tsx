@@ -49,7 +49,7 @@ export const WithGoal: Story = {
         id: 'goal_1',
         title: '포트폴리오 완성하기',
         due_date: '2025-07-10',
-        color: 'red',
+        color: '#FF6B6B',
         created_at: '2024-07-10T09:00:00Z',
       },
     ],
