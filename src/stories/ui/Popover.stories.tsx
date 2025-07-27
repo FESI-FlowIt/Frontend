@@ -3,20 +3,38 @@ import { useRef, useState } from 'react';
 import Image from 'next/image';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { IconButton } from '@/components/ui/IconButton';
+import LegendSection from '@/components/heatmaps/LegendSection';
 import Popover from '@/components/ui/Popover';
+import { MONTHLY_LEGEND, WEEKLY_LEGEND } from '@/constants/heatmap';
+import { hexToGoalColor } from '@/lib/calendar';
 
 const meta: Meta<typeof Popover> = {
   title: 'Components/ui/Popover',
   component: Popover,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'variant 시스템을 지원하는 팝오버 컴포넌트입니다. heatmap과 calendar 두 가지 스타일을 제공합니다.',
+      },
+    },
+  },
   argTypes: {
+    variant: {
+      description: '팝오버 스타일 variant',
+      control: 'select',
+      options: ['heatmap', 'calendar'],
+      table: {
+        defaultValue: { summary: 'heatmap' },
+      },
+    },
     title: {
       description: '팝오버 상단에 표시할 제목',
       control: 'text',
     },
     icon: {
-      description: '제목 왼쪽에 표시할 아이콘 (선택)',
+      description: '제목 왼쪽에 표시할 아이콘 (heatmap variant에서만 사용)',
       control: false,
     },
     children: {
@@ -39,8 +57,8 @@ const meta: Meta<typeof Popover> = {
 export default meta;
 type Story = StoryObj<typeof Popover>;
 
-// 기본 팝오버
-export const Default: Story = {
+// 기본 히트맵 팝오버
+export const HeatmapDefault: Story = {
   render: () => {
     const [isOpen, setIsOpen] = useState(false);
     const [position, setPosition] = useState({ top: 0, left: 0 });
@@ -64,26 +82,38 @@ export const Default: Story = {
           onClick={handleClick}
           className="bg-primary-01 rounded-8 px-12 py-6 text-white"
         >
-          팝오버 열기
+          히트맵 팝오버 열기
         </button>
 
         <Popover
           isOpen={isOpen}
           position={position}
-          title="기본 팝오버"
+          title="기본 히트맵 팝오버"
+          variant="heatmap"
           onClose={() => setIsOpen(false)}
+          icon={
+            <Image src="/assets/icons/timerIcon.svg" alt="타이머 아이콘" width={24} height={24} />
+          }
         >
-          <div className="text-body-m-16 text-text-03">
-            버튼을 클릭하면 나타나는 기본 팝오버입니다.
+          <div className="flex flex-row gap-76">
+            <LegendSection title="[주간]" data={WEEKLY_LEGEND} />
+            <LegendSection title="[월간]" data={MONTHLY_LEGEND} />
           </div>
         </Popover>
       </div>
     );
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'heatmap variant를 사용한 기본 팝오버입니다. 고정된 width, height을 가집니다.',
+      },
+    },
+  },
 };
 
-// 아이콘 포함 팝오버
-export const WithIcon: Story = {
+// 캘린더 팝오버
+export const CalendarPopover: Story = {
   render: () => {
     const [isOpen, setIsOpen] = useState(false);
     const [position, setPosition] = useState({ top: 0, left: 0 });
@@ -94,36 +124,54 @@ export const WithIcon: Story = {
         const rect = buttonRef.current.getBoundingClientRect();
         setPosition({
           top: rect.bottom + window.scrollY + 8,
-          left: rect.left + window.scrollX,
+          left: rect.left + window.scrollX - 100, // 중앙 정렬을 위해 조정
         });
         setIsOpen(true);
       }
     };
 
+    const singleGoal = [{ id: '1', title: '여름 휴가 계획', color: '#FF6B6B' }];
+
     return (
       <div style={{ padding: '120px' }}>
-        <IconButton ref={buttonRef} variant="info" aria-label="팝오버 열기" onClick={handleClick} />
+        <button
+          ref={buttonRef}
+          onClick={handleClick}
+          className="bg-secondary-01 rounded-8 px-12 py-6 text-white"
+        >
+          캘린더 팝오버 열기
+        </button>
 
         <Popover
           isOpen={isOpen}
           position={position}
-          title="작업 시간 분석"
-          icon={
-            <Image
-              src="/assets/icons/timerIcon.svg"
-              alt="타이머 아이콘"
-              width={24}
-              height={24}
-              className="text-gray-01"
-            />
-          }
+          title="7월 14일 마감"
+          variant="calendar"
           onClose={() => setIsOpen(false)}
         >
-          <div className="text-body-m-16 text-text-03">
-            아이콘이 포함된 팝오버입니다. 작업 시간 정보를 시각적으로 보여줍니다.
+          <div className="flex flex-col">
+            {singleGoal.map(goal => (
+              <div
+                key={goal.id}
+                className="hover:bg-tertiary-01-press flex h-52 cursor-pointer items-center gap-20 px-20"
+              >
+                <div
+                  className={`h-12 w-12 flex-shrink-0 rounded-full bg-goal-${hexToGoalColor(goal.color)}`}
+                />
+                <span className="text-text-02 text-body-m-20 flex-1">{goal.title}</span>
+              </div>
+            ))}
           </div>
         </Popover>
       </div>
     );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'calendar variant를 사용한 목표 리스트 팝오버입니다. 고정된 width를 가지며, height은 목표 리스트의 개수에 따라 달라집니다.',
+      },
+    },
   },
 };
