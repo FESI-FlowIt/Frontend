@@ -50,7 +50,7 @@ export const postEmailCheck = async (email: string) => {
 
 export const getUser = async () => {
   try {
-    const data = await getRequest('/user');
+    const data = await getRequest('/users/me');
     return data;
   } catch (err) {
     console.error('Fetch user error', err);
