@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from '@/components/ui/Modal';
 import { goalSummariesRes } from '@/mocks/mockResponses/goals/goalsResponse';
 import ScheduleFooter from './ScheduleFooter';
@@ -12,6 +12,8 @@ import type { Task, AssignedTask } from '@/interfaces/schedule';
 interface ScheduleModalProps {
   isOpen: boolean;
   onClose: () => void;
+  assignedTasks: AssignedTask[];
+  setAssignedTasks: React.Dispatch<React.SetStateAction<AssignedTask[]>>;
 }
 
 const extractTasksFromGoals = (): Task[] => {
@@ -26,18 +28,24 @@ const extractTasksFromGoals = (): Task[] => {
   );
 };
 
-export default function ScheduleModal({ isOpen, onClose }: ScheduleModalProps) {
+export default function ScheduleModal({
+  isOpen,
+  onClose,
+  assignedTasks: externalAssigned,
+  setAssignedTasks: setExternalAssigned,
+}: ScheduleModalProps) {
   const [originalTasks] = useState<Task[]>(() => extractTasksFromGoals());
 
-  // 현재 화면에서 보고 있는 상태
-  const [unassignedTasks, setUnassignedTasks] = useState<Task[]>(() => extractTasksFromGoals());
   const [assignedTasks, setAssignedTasks] = useState<AssignedTask[]>([]);
+  const [unassignedTasks, setUnassignedTasks] = useState<Task[]>([]);
 
-  // "저장"을 누른 시점의 상태 저장
-  const [savedUnassignedTasks, setSavedUnassignedTasks] = useState<Task[]>(() =>
-    extractTasksFromGoals(),
-  );
-  const [savedAssignedTasks, setSavedAssignedTasks] = useState<AssignedTask[]>([]);
+  useEffect(() => {
+    if (isOpen) {
+      const assignedIds = new Set(externalAssigned.map(a => a.task.id));
+      setAssignedTasks(externalAssigned);
+      setUnassignedTasks(originalTasks.filter(t => !assignedIds.has(t.id)));
+    }
+  }, [isOpen]);
 
   const handleDrop = (taskId: string, time: string) => {
     const task = unassignedTasks.find(t => t.id === taskId);
@@ -61,13 +69,13 @@ export default function ScheduleModal({ isOpen, onClose }: ScheduleModalProps) {
   };
 
   const handleCancel = () => {
-    setAssignedTasks(savedAssignedTasks);
-    setUnassignedTasks(savedUnassignedTasks);
+    const assignedIds = new Set(externalAssigned.map(a => a.task.id));
+    setAssignedTasks(externalAssigned);
+    setUnassignedTasks(originalTasks.filter(t => !assignedIds.has(t.id)));
   };
 
   const handleSave = () => {
-    setSavedAssignedTasks(assignedTasks);
-    setSavedUnassignedTasks(unassignedTasks);
+    setExternalAssigned(assignedTasks);
   };
 
   return (

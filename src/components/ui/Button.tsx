@@ -34,7 +34,8 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       emptytodoCard: 'h-40 w-200',
       addgoal: 'h-48 w-260',
       authModal: 'h-48 w-120',
-      schedule: 'h-48 w-[120px] sm:w-[165.5px]',
+      schedule: 'h-48 w-120 sm:w-165.5',
+      scheduleDashboard: 'h-40 w-120 sm:w-160',
     },
     rounded: {
       none: 'rounded-none',

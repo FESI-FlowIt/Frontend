@@ -12,6 +12,8 @@ const meta: Meta<typeof ScheduleModal> = {
   args: {
     isOpen: true,
     onClose: () => {},
+    assignedTasks: [],
+    setAssignedTasks: () => {},
   },
 };
 
