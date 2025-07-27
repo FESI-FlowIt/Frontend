@@ -1,6 +1,6 @@
 import ArrowNavigation from '@/components/ui/ArrowNavigation';
 
-import { AssignedTask, Task } from './ScheduleModal';
+import { AssignedTask, Task } from '@/interfaces/schedule';
 import TimeSlotRow from './TimeSlotRow';
 
 interface TimeTableProps {
@@ -24,13 +24,15 @@ export default function TimeTable({ assignedTasks, onDropTask, onDeleteTask }: T
       {/* 시간대 영역 */}
       <div className="h-220 overflow-y-auto pr-1 md:h-524">
         <div className="flex flex-col">
-          {timeSlots.map(time => (
+          {timeSlots.map((time, index) => (
             <TimeSlotRow
               key={time}
               time={time}
               assignedTasks={assignedTasks.filter(a => a.time === time)}
               onDropTask={onDropTask}
               onDeleteTask={onDeleteTask}
+              isFirst={index === 0}
+              isLast={index === timeSlots.length - 1}
             />
           ))}
         </div>

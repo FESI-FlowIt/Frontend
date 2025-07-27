@@ -1,6 +1,6 @@
 import TodoIcon from '@/../public/assets/icons/todoIcon.svg';
 
-import { Task } from './ScheduleModal';
+import { Task } from '@/interfaces/schedule';
 import TaskCard from './TaskCard';
 
 interface UnassignedTaskListProps {

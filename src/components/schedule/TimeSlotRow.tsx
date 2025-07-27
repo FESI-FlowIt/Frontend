@@ -1,6 +1,5 @@
 import { IconButton } from '@/components/ui/IconButton';
-
-import { AssignedTask, Task } from './ScheduleModal';
+import { AssignedTask, Task } from '@/interfaces/schedule';
 import TaskCard from './TaskCard';
 
 interface TimeSlotRowProps {
@@ -8,6 +7,8 @@ interface TimeSlotRowProps {
   assignedTasks: AssignedTask[];
   onDropTask: (taskId: string, time: string) => void;
   onDeleteTask: (task: Task, time: string) => void;
+  isFirst?: boolean;
+  isLast?: boolean;
 }
 
 export default function TimeSlotRow({
@@ -15,23 +16,32 @@ export default function TimeSlotRow({
   assignedTasks,
   onDropTask,
   onDeleteTask,
+  isFirst = false,
+  isLast = false,
 }: TimeSlotRowProps) {
+  // 🔧 handleDrop 함수 누락되어 있어 추가함
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const taskId = e.dataTransfer.getData('text/plain');
     onDropTask(taskId, time);
   };
 
+  const containerClass = [
+    'border-line flex h-74 w-280 flex-col items-center justify-center gap-1 border md:w-300',
+    isFirst && 'rounded-t-10',
+    isLast && 'rounded-b-10',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
     <div className="flex h-74" onDragOver={e => e.preventDefault()} onDrop={handleDrop}>
-      {/* 시간 텍스트 */}
       <div className="text-body-m-16 text-text-04 flex w-60 items-center justify-center">
         {time}
       </div>
 
-      {/* 드롭 영역 */}
       <div className="h-full flex-1 px-4">
-        <div className="border-line flex h-74 w-280 flex-col items-center justify-center gap-1 border md:w-300">
+        <div className={containerClass}>
           {assignedTasks.map(({ task }) => (
             <div key={task.id} className="group relative h-54 w-260 md:w-280">
               <TaskCard task={task} isDraggable={false} isAssigned />
