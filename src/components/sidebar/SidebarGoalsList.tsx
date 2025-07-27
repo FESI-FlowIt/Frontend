@@ -37,7 +37,7 @@ export default function SidebarGoalsList() {
             className="flex h-52 w-260 items-center justify-between px-10 sm:h-40 sm:w-248 md:h-52 md:w-260"
           >
             <div
-              onClick={() => router.push(ROUTES.GOALS.DETAIL(goal.goalId))}
+              onClick={() => router.push(ROUTES.GOALS.DETAIL('goal.goalId'))}
               className="flex cursor-pointer items-center gap-20"
             >
               <div className={`h-12 w-12 rounded-full ${goalColor}`} />

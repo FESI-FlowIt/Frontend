@@ -7,6 +7,6 @@ export const ROUTES = {
   DASHBOARD: '/dashboard',
   GOALS: {
     LIST: '/goal',
-    DETAIL: (goalId: number) => `/goal/${goalId}`,
+    DETAIL: (goalId: string) => `/goal/${goalId}`,
   },
 };
