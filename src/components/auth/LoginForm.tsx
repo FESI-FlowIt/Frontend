@@ -18,8 +18,6 @@ import PasswordInput from './PasswordInput';
 export type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
-  const [emailServerError, setEmailServerError] = useState<string | null>(null);
-  const [passwordServerError, setPasswordServerError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCloseModal = () => setIsModalOpen(false);
@@ -38,38 +36,20 @@ export default function LoginForm() {
   const isFormValid = email.trim() !== '' && password.trim() !== '';
 
   const login = useLogin({
-    onError: error => {
+    onError: () => {
       setIsModalOpen(true);
-      if (error?.errorField === 'email') {
-        setEmailServerError('error.message');
-      }
-      if (error?.errorField === 'password') {
-        setPasswordServerError(error.message);
-      }
     },
   });
 
   const onSubmit = (formData: LoginFormData) => {
-    setEmailServerError(null);
-    setPasswordServerError(null);
     setIsModalOpen(false);
     login.mutate(formData);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20 sm:gap-12 md:gap-20">
-      <EmailInput
-        placeholder="이메일"
-        register={register}
-        email={email}
-        serverError={emailServerError}
-      />
-      <PasswordInput
-        placeholder="비밀번호"
-        register={register}
-        name="password"
-        error={passwordServerError}
-      />
+      <EmailInput placeholder="이메일" register={register} email={email} />
+      <PasswordInput placeholder="비밀번호" register={register} name="password" />
       <Button disabled={!isFormValid}>로그인</Button>
       {isModalOpen && <AuthModal isOpen={isModalOpen} closeModal={handleCloseModal} mode="login" />}
     </form>
