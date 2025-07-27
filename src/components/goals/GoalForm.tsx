@@ -60,9 +60,9 @@ const GoalForm = ({ editingGoal, onSubmit, onFormChange, isLoading }: GoalFormPr
           />
         </FormField>
 
-        <FormField label="마감 기한" htmlFor="dueDate">
+        <FormField label="마감 기한" htmlFor="deadlineDate">
           <Controller
-            name="dueDate"
+            name="deadlineDate"
             control={control}
             render={({ field }) => (
               <div className="relative">
