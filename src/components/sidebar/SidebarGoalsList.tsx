@@ -11,7 +11,7 @@ import { useUserStore } from '@/store/userStore';
 export default function SidebarGoalsList() {
   const user = useUserStore(state => state.user);
   const { data } = useSidebarGoals(user?.id ?? '');
-  const updatePinStatus = useSidebarGoalPinned();
+  const updatePinStatus = useSidebarGoalPinned(user?.id ?? '');
   const router = useRouter();
 
   const handlePinClick = ({
@@ -27,7 +27,7 @@ export default function SidebarGoalsList() {
 
   return (
     <div className="flex flex-col gap-12 sm:gap-8 md:gap-12">
-      {data.map((goal: SidebarGoals) => (
+      {data?.map((goal: SidebarGoals) => (
         <div
           key={goal.goalId}
           className="flex h-52 w-260 items-center justify-between px-10 sm:h-40 sm:w-248 md:h-52 md:w-260"
