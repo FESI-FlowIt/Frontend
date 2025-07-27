@@ -3,12 +3,15 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { useGoals, useUpdateGoalPinStatus } from '@/hooks/useGoals';
+import { useDashboardGoalPinned, useDashboardGoals } from '@/hooks/useSidebar';
+import { SidebarGoals } from '@/interfaces/sidebar';
 import { ROUTES } from '@/lib/routes';
+import { useUserStore } from '@/store/userStore';
 
 export default function SidebarGoalsList() {
-  const { data } = useGoals();
-  const updatePinStatus = useUpdateGoalPinStatus();
+  const user = useUserStore(state => state.user);
+  const { data } = useDashboardGoals(user?.id ?? '');
+  const updatePinStatus = useDashboardGoalPinned();
   const router = useRouter();
 
   const handlePinClick = async ({
@@ -24,7 +27,7 @@ export default function SidebarGoalsList() {
 
   return (
     <div className="flex flex-col gap-12 sm:gap-8 md:gap-12">
-      {data?.goals?.map(goal => (
+      {data.map((goal: SidebarGoals) => (
         <div
           key={goal.goalId}
           className="flex h-52 w-260 items-center justify-between px-10 sm:h-40 sm:w-248 md:h-52 md:w-260"
@@ -33,9 +36,9 @@ export default function SidebarGoalsList() {
             onClick={() => router.push(ROUTES.GOALS.DETAIL(goal.goalId))}
             className="flex cursor-pointer items-center gap-20"
           >
-            <div className={`h-12 w-12 rounded-full bg-goal-${goal.color}`} />
+            <div className={`h-12 w-12 rounded-full bg-[${goal.color}]`} />
             <span className="text-text-02 text-body-m-20 md:text-body-sb-20 sm:text-body-b-16 w-170 overflow-hidden overflow-ellipsis whitespace-nowrap">
-              {goal.title}
+              {goal.name}
             </span>
           </div>
           <button
