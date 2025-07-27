@@ -38,7 +38,7 @@ const GoalsClientContent = () => {
     setParams(prev => ({ ...prev, page: newPage }));
   };
 
-  const handleSortChange = (sortBy: 'latest' | 'dueDate') => {
+  const handleSortChange = (sortBy: 'latest' | 'deadlineDate') => {
     setParams(prev => ({ ...prev, sortBy, page: 1 }));
   };
 

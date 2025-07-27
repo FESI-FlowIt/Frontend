@@ -5,9 +5,12 @@ import React, { useRef, useState } from 'react';
 import clsx from 'clsx';
 
 import DropdownMenu from '@/components/ui/DropdownMenu';
+import { IconButton } from '@/components/ui/IconButton';
 import { useDeleteTodo, useToggleTodo } from '@/hooks/useTodos';
 import { Todo } from '@/interfaces/todo';
 import { useModalStore } from '@/store/modalStore';
+
+import ConfirmDialog from './ConfirmDialog';
 
 interface TodoItemProps {
   todo: Todo;
@@ -15,6 +18,7 @@ interface TodoItemProps {
 
 const TodoItem = ({ todo }: TodoItemProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const kebabButtonRef = useRef<HTMLButtonElement>(null);
 
   const toggleTodoMutation = useToggleTodo();
@@ -39,60 +43,50 @@ const TodoItem = ({ todo }: TodoItemProps) => {
   };
 
   const handleDelete = () => {
-    if (window.confirm('정말로 이 할 일을 삭제하시겠습니까?')) {
-      deleteTodoMutation.mutate(todo.todoId, {
-        onSuccess: () => {
-          console.log('할일 삭제 성공');
-        },
-        onError: error => {
-          console.error('할일 삭제 실패:', error);
-        },
-      });
-    }
+    setShowDeleteConfirm(true);
     setIsMenuOpen(false);
   };
 
+  const handleConfirmDelete = async () => {
+    try {
+      await deleteTodoMutation.mutateAsync(todo.todoId);
+      setShowDeleteConfirm(false);
+    } catch (error) {
+      console.error('할일 삭제 실패:', error);
+      setShowDeleteConfirm(false);
+    }
+  };
+
   return (
-    <div className="bg-tertiary-01 relative flex items-center gap-12 rounded-lg p-16">
-      <input
-        type="checkbox"
-        checked={todo.isDone}
-        onChange={handleToggle}
+    <div className="relative flex items-center gap-8">
+      {/* 체크박스 */}
+      <IconButton
+        variant={todo.isDone ? 'checkboxChecked' : 'checkboxUnchecked'}
+        onClick={handleToggle}
         disabled={toggleTodoMutation.isPending}
-        className="text-primary-01 h-16 w-16 rounded"
+        aria-label={todo.isDone ? '완료됨' : '미완료'}
+        className="h-24 w-24"
       />
 
       <div className="flex-1">
         <h3
-          className={clsx('text-body-m-16', {
-            'text-text-04 line-through': todo.isDone,
+          className={clsx('text-body-m-20', {
+            'text-primary-01-hover line-through': todo.isDone,
             'text-text-01': !todo.isDone,
           })}
         >
           {todo.title}
         </h3>
-        <div className="mt-4 flex items-center gap-16">
-          <span className="text-body-12 text-text-04">
-            생성일: {new Date(todo.createdAt).toLocaleDateString('ko-KR')}
-          </span>
-          {todo.attachment && todo.attachment.length > 0 && (
-            <span className="text-body-12 text-primary-01">📎 {todo.attachment.length}개 첨부</span>
-          )}
-          <span className="text-body-12 text-text-04">
-            누적 시간: {Math.round(todo.accumulatedMs / 1000 / 60)}분
-          </span>
-        </div>
       </div>
 
-      {/* 케밥 버튼 추후 디자인에 나오면 추가 예정 */}
-      <button
+      {/* 케밥 버튼 */}
+      <IconButton
         ref={kebabButtonRef}
+        variant="kebab"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="rounded-lg p-8 transition-colors hover:bg-gray-100"
+        className="transition-colors hover:bg-gray-100"
         aria-label="할 일 메뉴"
-      >
-        O
-      </button>
+      />
 
       {/* 드롭다운 메뉴 */}
       <DropdownMenu
@@ -100,37 +94,41 @@ const TodoItem = ({ todo }: TodoItemProps) => {
         onClose={() => setIsMenuOpen(false)}
         triggerRef={kebabButtonRef}
         position="bottom-right"
-        size="sm"
-        animation="fade"
-        shadow="md"
+        size="full"
+        className="!rounded-8 !min-w-80 border border-gray-200 shadow-lg"
       >
-        <div className="py-1">
+        <div className="">
           <button
             onClick={handleEdit}
-            className="flex w-full items-center gap-2 px-4 py-2 text-left text-gray-900 transition-colors hover:bg-gray-50"
+            className="text-body-m-16 text-text-03 flex items-center px-12 py-6 text-left hover:bg-gray-50"
           >
-            <span>✏️</span>
             수정하기
           </button>
-
-          <div className="my-1 h-px bg-gray-200" />
-
           <button
             onClick={handleDelete}
             disabled={deleteTodoMutation.isPending}
             className={clsx(
-              'flex w-full items-center gap-2 px-4 py-2 text-left transition-colors',
+              'text-body-m-16 text-text-03 flex items-center px-12 py-6 text-left hover:bg-gray-50',
               {
-                'cursor-not-allowed text-gray-400': deleteTodoMutation.isPending,
-                'text-red-600 hover:bg-red-50': !deleteTodoMutation.isPending,
+                'cursor-not-allowed opacity-50': deleteTodoMutation.isPending,
               },
             )}
           >
-            <span>🗑️</span>
             {deleteTodoMutation.isPending ? '삭제 중...' : '삭제하기'}
           </button>
         </div>
       </DropdownMenu>
+
+      {/* 삭제 확인 다이얼로그 */}
+      <ConfirmDialog
+        isOpen={showDeleteConfirm}
+        onClose={() => setShowDeleteConfirm(false)}
+        onConfirm={handleConfirmDelete}
+        title="할 일을 삭제하실건가요?"
+        message="삭제된 할 일은 복구할 수 없어요"
+        confirmText="확인"
+        cancelText="취소"
+      />
     </div>
   );
 };

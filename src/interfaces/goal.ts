@@ -6,11 +6,10 @@ export interface Goal {
   goalId: string;
   title: string;
   color: string;
-  dueDate: string;
+  deadlineDate: string;
   createdAt: string;
   updatedAt: string;
   isPinned: boolean;
-  progress: number;
   todos?: Todo[];
 }
 
@@ -20,7 +19,7 @@ export const goalFormSchema = z.object({
     .min(1, { message: '목표명을 입력해 주세요.' })
     .max(30, { message: '30자 이내로 입력해 주세요.' }),
   color: z.string().min(1, { message: '색상을 선택해 주세요.' }),
-  dueDate: z
+  deadlineDate: z
     .date({
       required_error: '마감일을 선택해주세요.',
     })
@@ -45,7 +44,7 @@ export interface GoalSummary {
 export interface GetGoalsRequestParams {
   page?: number;
   limit?: number;
-  sortBy?: 'latest' | 'dueDate';
+  sortBy?: 'latest' | 'deadlineDate';
   isPinned?: boolean;
 }
 
@@ -63,14 +62,14 @@ export interface GetGoalsResponse {
 export interface CreateGoalRequest {
   title: string;
   color: string;
-  dueDate: string;
+  deadlineDate: string;
 }
 
 export interface UpdateGoalRequest {
   goalId: string;
   title?: string;
   color?: string;
-  dueDate?: string;
+  deadlineDate?: string;
   isPinned?: boolean;
 }
 
