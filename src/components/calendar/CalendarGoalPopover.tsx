@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import Popover from '@/components/ui/Popover';
 import { Goal } from '@/interfaces/calendar';
 import { hexToGoalColor } from '@/lib/calendar';
+import { ROUTES } from '@/lib/routes';
 import { cn } from '@/lib/utils';
 
 interface CalendarGoalPopoverProps {
@@ -27,7 +28,7 @@ const CalendarGoalPopover = ({
   const router = useRouter();
 
   const handleGoalClick = (goalId: string) => {
-    router.push(`/goals/${goalId}`);
+    router.push(ROUTES.GOALS.DETAIL(goalId));
     onClose();
   };
 
