@@ -41,8 +41,13 @@ export const useUpdateGoal = () => {
   return useMutation({
     mutationFn: ({ goalId, data }: { goalId: string; data: Partial<GoalFormData> }) =>
       goalsApi.updateGoal(goalId, data),
-    onSuccess: () => {
+    onSuccess: (updatedGoal, { goalId }) => {
+      // 전체 목표 목록 캐시 무효화
       queryClient.invalidateQueries({ queryKey: GOALS_QUERY_KEY });
+      // 개별 목표 캐시 무효화
+      queryClient.invalidateQueries({ queryKey: [...GOALS_QUERY_KEY, goalId] });
+      // 강제로 모든 관련 쿼리 리패치
+      queryClient.refetchQueries({ queryKey: [...GOALS_QUERY_KEY, goalId] });
     },
   });
 };
@@ -66,8 +71,11 @@ export const useDeleteGoal = () => {
 
   return useMutation({
     mutationFn: (goalId: string) => goalsApi.deleteGoal(goalId),
-    onSuccess: () => {
+    onSuccess: (result, goalId) => {
+      // 전체 목표 목록 캐시 무효화
       queryClient.invalidateQueries({ queryKey: GOALS_QUERY_KEY });
+      // 개별 목표 캐시 무효화
+      queryClient.invalidateQueries({ queryKey: [...GOALS_QUERY_KEY, goalId] });
     },
   });
 };

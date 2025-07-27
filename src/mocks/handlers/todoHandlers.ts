@@ -37,8 +37,9 @@ export const todoHandlers = [
       accumulatedMs: 0,
     };
 
-    // 실제 환경에서는 새로 생성된 Todo가 DB에 저장되겠지만,
-    // Mock 환경에서는 단순히 생성된 Todo만 반환
+    // Mock 환경에서 실제 목 데이터에 새로운 Todo 추가
+    todosRes.todos.push(newTodo);
+
     return HttpResponse.json(newTodo);
   }),
 
