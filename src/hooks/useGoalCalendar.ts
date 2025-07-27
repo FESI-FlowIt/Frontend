@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
+import { getCalendarData } from '@/api/calendarApi';
 import { CalendarData, CalendarResponse } from '@/interfaces/calendar';
 import { getCalendarInfo, groupGoalsByDate } from '@/lib/calendar';
 
@@ -25,9 +26,6 @@ export const useCalendarData = (data: CalendarData) => {
 export const useDeadlineCalendar = (month: string) => {
   return useQuery<CalendarResponse>({
     queryKey: ['calendar', month],
-    queryFn: async () => {
-      const res = await fetch(`/calendar?month=${month}`);
-      return res.json();
-    },
+    queryFn: () => getCalendarData(month),
   });
 };
