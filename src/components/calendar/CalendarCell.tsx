@@ -1,21 +1,31 @@
 import { Goal } from '@/interfaces/calendar';
+import { hexToGoalColor } from '@/lib/calendar';
 import { cn } from '@/lib/utils';
 
 interface CalendarCellProps {
   date: number;
   goals?: Goal[];
-  onClick?: () => void;
+  onClick?: (date: number, goals: Goal[], event: React.MouseEvent) => void;
   className?: string;
 }
 
 const CalendarCell = ({ date, goals = [], onClick, className }: CalendarCellProps) => {
   const firstGoal = goals[0];
+  const goalColorName = firstGoal ? hexToGoalColor(firstGoal.color) : null;
+  const hasGoals = goals.length > 0;
+
+  const handleClick = (event: React.MouseEvent) => {
+    if (hasGoals && onClick) {
+      onClick(date, goals, event);
+    }
+  };
 
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
       className={cn(
-        'rounded-4 hover:bg-tertiary-01 flex h-44 w-40 cursor-pointer flex-col items-center transition md:h-44 md:w-88',
+        'rounded-4 flex h-44 w-40 cursor-pointer flex-col items-center transition md:h-44 md:w-88',
+        hasGoals && 'hover:bg-tertiary-01',
         className,
       )}
     >
@@ -23,8 +33,7 @@ const CalendarCell = ({ date, goals = [], onClick, className }: CalendarCellProp
 
       {firstGoal && (
         <div
-          className="text-body-16 rounded-4 w-full truncate px-2 text-center text-white"
-          style={{ backgroundColor: firstGoal.color }}
+          className={`text-body-16 rounded-4 bg-goal-${goalColorName} w-full truncate px-2 text-center text-white`}
         >
           {firstGoal.title}
         </div>
