@@ -27,5 +27,6 @@ export const useEmailCheck = (email: string): UseQueryResult<useEmailCheckProps>
   return useQuery({
     queryKey: ['email-check', email],
     queryFn: () => getEmailCheck(email),
+    enabled: false,
   });
 };
