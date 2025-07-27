@@ -3,15 +3,15 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { useDashboardGoalPinned, useDashboardGoals } from '@/hooks/useSidebar';
+import { useSidebarGoalPinned, useSidebarGoals } from '@/hooks/useSidebar';
 import { SidebarGoals } from '@/interfaces/sidebar';
 import { ROUTES } from '@/lib/routes';
 import { useUserStore } from '@/store/userStore';
 
 export default function SidebarGoalsList() {
   const user = useUserStore(state => state.user);
-  const { data } = useDashboardGoals(user?.id ?? '');
-  const updatePinStatus = useDashboardGoalPinned();
+  const { data } = useSidebarGoals(user?.id ?? '');
+  const updatePinStatus = useSidebarGoalPinned();
   const router = useRouter();
 
   const handlePinClick = async ({
