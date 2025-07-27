@@ -9,7 +9,7 @@ export const postLogin = async (email: string, password: string) => {
   };
 
   try {
-    const data = await postRequest('/auth/signIn', params);
+    const data = await postRequest('/auths/signIn', params);
     useAuthStore.getState().setAccessToken(data.accessToken);
     return data;
   } catch (err) {
@@ -26,7 +26,7 @@ export const postSignup = async (name: string, email: string, password: string) 
   };
 
   try {
-    const data = await postRequest('/user', params);
+    const data = await postRequest('/users', params);
     return data;
   } catch (err) {
     console.error('Fetch signup Error', err);
@@ -34,13 +34,13 @@ export const postSignup = async (name: string, email: string, password: string) 
   }
 };
 
-export const postEmailCheck = async (email: string) => {
+export const getEmailCheck = async (email: string) => {
   const params = {
     email: email,
   };
 
   try {
-    const data = await postRequest('/auth/check-email', params);
+    const data = await getRequest('/auth', params);
     return data;
   } catch (err) {
     console.error('Fetch email check error', err);
@@ -50,7 +50,7 @@ export const postEmailCheck = async (email: string) => {
 
 export const getUser = async () => {
   try {
-    const data = await getRequest('/user');
+    const data = await getRequest('/users/me');
     return data;
   } catch (err) {
     console.error('Fetch user error', err);
