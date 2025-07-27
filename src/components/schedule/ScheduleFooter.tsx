@@ -3,8 +3,8 @@
 import { Button } from '@/components/ui/Button';
 
 interface ScheduleFooterProps {
-  onCancel: () => void; // 초기 상태로 되돌리기 (모달 닫지 않음)
-  onSave: () => void; // 현재 상태 저장 (모달 닫지 않음)
+  onCancel: () => void;
+  onSave: () => void;
 }
 
 export default function ScheduleFooter({ onCancel, onSave }: ScheduleFooterProps) {
