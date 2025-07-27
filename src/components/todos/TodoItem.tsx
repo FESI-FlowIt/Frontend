@@ -5,6 +5,7 @@ import React, { useRef, useState } from 'react';
 import clsx from 'clsx';
 
 import DropdownMenu from '@/components/ui/DropdownMenu';
+import { IconButton } from '@/components/ui/IconButton';
 import { useDeleteTodo, useToggleTodo } from '@/hooks/useTodos';
 import { Todo } from '@/interfaces/todo';
 import { useModalStore } from '@/store/modalStore';
@@ -53,46 +54,35 @@ const TodoItem = ({ todo }: TodoItemProps) => {
   };
 
   return (
-    <div className="bg-tertiary-01 relative flex items-center gap-12 rounded-lg p-16">
-      <input
-        type="checkbox"
-        checked={todo.isDone}
-        onChange={handleToggle}
+    <div className="relative flex items-center gap-8">
+      {/* 체크박스 */}
+      <IconButton
+        variant={todo.isDone ? 'checkboxChecked' : 'checkboxUnchecked'}
+        onClick={handleToggle}
         disabled={toggleTodoMutation.isPending}
-        className="text-primary-01 h-16 w-16 rounded"
+        aria-label={todo.isDone ? '완료됨' : '미완료'}
+        className="h-24 w-24"
       />
 
       <div className="flex-1">
         <h3
-          className={clsx('text-body-m-16', {
-            'text-text-04 line-through': todo.isDone,
+          className={clsx('text-body-m-20', {
+            'text-primary-01-hover line-through': todo.isDone,
             'text-text-01': !todo.isDone,
           })}
         >
           {todo.title}
         </h3>
-        <div className="mt-4 flex items-center gap-16">
-          <span className="text-body-12 text-text-04">
-            생성일: {new Date(todo.createdAt).toLocaleDateString('ko-KR')}
-          </span>
-          {todo.attachment && todo.attachment.length > 0 && (
-            <span className="text-body-12 text-primary-01">📎 {todo.attachment.length}개 첨부</span>
-          )}
-          <span className="text-body-12 text-text-04">
-            누적 시간: {Math.round(todo.accumulatedMs / 1000 / 60)}분
-          </span>
-        </div>
       </div>
 
-      {/* 케밥 버튼 추후 디자인에 나오면 추가 예정 */}
-      <button
+      {/* 케밥 버튼 */}
+      <IconButton
         ref={kebabButtonRef}
+        variant="kebab"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="rounded-lg p-8 transition-colors hover:bg-gray-100"
+        className="transition-colors hover:bg-gray-100"
         aria-label="할 일 메뉴"
-      >
-        O
-      </button>
+      />
 
       {/* 드롭다운 메뉴 */}
       <DropdownMenu
