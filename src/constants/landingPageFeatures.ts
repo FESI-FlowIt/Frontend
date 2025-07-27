@@ -19,7 +19,7 @@ export const LANDINGPAGEFEATURES = [
     imgUrl: '/assets/images/landing_calendar.svg',
     bgColor: 'bg-[#DBF5E4]',
   },
-];
+] as const;
 
 export const LANDINGPAGEFEATUREDETAILS = [
   {
@@ -94,4 +94,4 @@ export const LANDINGPAGEFEATUREDETAILS = [
     ],
     imgUrl: '/assets/images/landing_todos-detail.svg',
   },
-];
+] as const;

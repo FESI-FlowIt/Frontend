@@ -60,6 +60,7 @@
   --color-heatmap-accent: #eeba06;
 
   --color-sidebar-hover: #f7f7f7;
+  --color-landing-blue: #3875f9;
 
   --color-insight-container: #eef4ff;
 
@@ -291,4 +292,12 @@
 
 @utility rounded-br-50 {
   border-bottom-right-radius: 50px;
+}
+
+@utility rounded-tl-50 {
+  border-top-left-radius: 200px;
+}
+
+@utility rounded-bl-50 {
+  border-bottom-left-radius: 200px;
 }
