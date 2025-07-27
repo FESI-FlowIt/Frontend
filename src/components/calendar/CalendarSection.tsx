@@ -73,7 +73,7 @@ export default function CalendarSection() {
     const popoverLeft = scrollLeft + gridCenterX - popoverWidth / 2;
 
     // 세로 위치: 클릭한 셀 아래 12px
-    const popoverTop = scrollTop + cellRect.bottom + 12;
+    const popoverTop = scrollTop + cellRect.bottom + 8;
 
     setPopoverPosition({ top: popoverTop, left: popoverLeft });
     setSelectedGoals({ date, goals });
