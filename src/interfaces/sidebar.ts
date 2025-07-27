@@ -1,5 +1,5 @@
 export interface SidebarGoals {
-  goalId: string;
+  goalId: number;
   name: string;
   color: string;
   isPinned: boolean;

@@ -20,12 +20,12 @@ export const signupSchema = z
 export interface User {
   name: string;
   email: string;
-  id: string;
+  id: number;
 }
 
 export interface UserResponse {
   result: {
-    id: string;
+    id: number;
     email: string;
     name: string;
   };

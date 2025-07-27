@@ -11,15 +11,15 @@ import { useUserStore } from '@/store/userStore';
 
 export default function SidebarGoalsList() {
   const user = useUserStore(state => state.user);
-  const { data } = useSidebarGoals(user?.id ?? '');
-  const updatePinStatus = useSidebarGoalPinned(user?.id ?? '');
+  const { data } = useSidebarGoals(user?.id ?? 0);
+  const updatePinStatus = useSidebarGoalPinned(user?.id ?? 0);
   const router = useRouter();
 
   const handlePinClick = ({
     goalId,
     currentPinned,
   }: {
-    goalId: string;
+    goalId: number;
     currentPinned: boolean;
   }) => {
     const nextPinned = !currentPinned;

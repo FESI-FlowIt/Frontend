@@ -1,6 +1,6 @@
 import { getRequest, patchRequest } from '.';
 
-export const getGoalsSidebar = async (userId: string) => {
+export const getGoalsSidebar = async (userId: number) => {
   try {
     const data = await getRequest('/goals', { userId });
     return data;
@@ -10,7 +10,7 @@ export const getGoalsSidebar = async (userId: string) => {
   }
 };
 
-export const patchGoalSidebarisPinned = async (goalId: string, isPinned: boolean) => {
+export const patchGoalSidebarisPinned = async (goalId: number, isPinned: boolean) => {
   try {
     const data = await patchRequest(`/goals/${goalId}`, { isPinned });
     return data;
