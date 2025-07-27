@@ -33,6 +33,17 @@ export const GOAL_TEXT_COLOR_MAP: Record<GoalColor, string> = {
   purple: 'text-goal-purple',
 } as const;
 
+// 목표 테두리 색상 매핑
+export const GOAL_BORDER_COLOR_MAP: Record<GoalColor, string> = {
+  orange: 'border-goal-orange',
+  red: 'border-goal-red',
+  green: 'border-goal-green',
+  yellow: 'border-goal-yellow',
+  pink: 'border-goal-pink',
+  blue: 'border-goal-blue',
+  purple: 'border-goal-purple',
+} as const;
+
 export const getGoalColorClass = (colorName: string): string => {
   return GOAL_COLOR_MAP[colorName as GoalColor] || 'bg-gray-400';
 };
@@ -43,6 +54,10 @@ export const getGoalColorHex = (colorName: string): string => {
 
 export const getGoalTextColorClass = (colorName: string): string => {
   return GOAL_TEXT_COLOR_MAP[colorName as GoalColor] || 'text-gray-400';
+};
+
+export const getGoalBorderColorClass = (colorName: string): string => {
+  return GOAL_BORDER_COLOR_MAP[colorName as GoalColor] || 'border-gray-400';
 };
 
 // 유효한 GoalColor인지 확인하는 타입 가드
