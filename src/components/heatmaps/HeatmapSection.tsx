@@ -122,6 +122,7 @@ export default function HeatmapSection() {
         extra={<Tab items={periodTabs} value={period} onChange={setPeriod} />}
         backgroundColor="white"
         size="heatmap"
+        flexWrapExtra={true}
       >
         <div className="flex flex-col gap-12">
           <div className="flex justify-center">{renderHeatmap()}</div>
