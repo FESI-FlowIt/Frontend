@@ -6,7 +6,7 @@ import { LoginFormData } from '@/components/auth/LoginForm';
 import { ROUTES } from '@/lib/routes';
 
 type Options = {
-  onError: (error: any) => void;
+  onError: () => void;
 };
 
 export default function useLogin({ onError }: Options) {

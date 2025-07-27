@@ -19,7 +19,7 @@ export const useGoalForm = ({ editingGoal, onFormChange }: UseGoalFormProps) => 
     (): GoalFormData => ({
       title: editingGoal?.title || '',
       color: editingGoal?.color || '',
-      dueDate: editingGoal?.dueDate ? new Date(editingGoal.dueDate) : new Date(),
+      deadlineDate: editingGoal?.deadlineDate ? new Date(editingGoal.deadlineDate) : new Date(),
     }),
     [editingGoal],
   );

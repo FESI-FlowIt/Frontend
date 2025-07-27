@@ -60,6 +60,7 @@
   --color-heatmap-accent: #eeba06;
 
   --color-sidebar-hover: #f7f7f7;
+  --color-landing-blue: #3875f9;
 
   --color-insight-container: #eef4ff;
 
@@ -258,6 +259,16 @@
   font-weight: 500;
 }
 
+@utility text-banner-44 {
+  font-size: 44px;
+  font-weight: 500;
+}
+
+@utility text-banner-44-bold {
+  font-size: 44px;
+  font-weight: 700;
+}
+
 /* ========================================================================
    Custom Border Radius Utilities (커스텀 보더 라디우스 유틸리티)
    ======================================================================== */
@@ -281,4 +292,12 @@
 
 @utility rounded-br-50 {
   border-bottom-right-radius: 50px;
+}
+
+@utility rounded-tl-50 {
+  border-top-left-radius: 200px;
+}
+
+@utility rounded-bl-50 {
+  border-bottom-left-radius: 200px;
 }

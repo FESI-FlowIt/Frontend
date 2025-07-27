@@ -21,11 +21,14 @@ interface TodoModalProps {
 const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
-  const { todoModalIsOpen, closeTodoModal } = useModalStore();
+  const { todoModalIsOpen, closeTodoModal, defaultGoalId: storeDefaultGoalId } = useModalStore();
+
+  // store에서 가져온 defaultGoalId를 우선 사용하고, 없으면 props로 받은 것을 사용
+  const effectiveDefaultGoalId = storeDefaultGoalId || defaultGoalId;
 
   const { form, hasChanges, isEditMode, handleFormSubmit, isLoading } = useTodoForm({
     todoToEdit,
-    defaultGoalId,
+    defaultGoalId: effectiveDefaultGoalId,
   });
 
   const handleModalClose = () => {
