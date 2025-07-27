@@ -3,7 +3,16 @@ import dayjs from 'dayjs';
 import { Goal } from '@/interfaces/calendar';
 import { GoalColor } from '@/interfaces/goal';
 
-// 목표 배열을 날짜별로 그룹핑
+// 목표를 생성일 기준으로 정렬 (최신순)
+export function sortGoalsByCreatedAt(goals: Goal[]): Goal[] {
+  return [...goals].sort((a, b) => {
+    const dateA = new Date(a.created_at);
+    const dateB = new Date(b.created_at);
+    return dateB.getTime() - dateA.getTime(); // 최신 생성일이 먼저 오도록
+  });
+}
+
+// 목표 배열을 날짜별로 그룹핑하고 각 날짜의 목표들을 생성일 기준으로 정렬
 export function groupGoalsByDate(goals: Goal[]): Record<number, Goal[]> {
   const grouped: Record<number, Goal[]> = {};
 
@@ -17,6 +26,11 @@ export function groupGoalsByDate(goals: Goal[]): Record<number, Goal[]> {
 
     if (!grouped[date]) grouped[date] = [];
     grouped[date].push(goal);
+  });
+
+  // 각 날짜의 목표들을 생성일 기준으로 정렬 (최신순)
+  Object.keys(grouped).forEach(date => {
+    grouped[Number(date)] = sortGoalsByCreatedAt(grouped[Number(date)]);
   });
 
   return grouped;
