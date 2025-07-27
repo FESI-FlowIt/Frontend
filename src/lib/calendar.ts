@@ -37,13 +37,13 @@ export function getCalendarInfo(month: string) {
 
 // HEX 코드를 색상 이름으로 매핑
 export const HEX_TO_GOAL_COLOR_MAP: Record<string, GoalColor> = {
-  '#FF8C00': 'orange',
-  '#FF4444': 'red',
-  '#4CAF50': 'green',
-  '#FFEB3B': 'yellow',
-  '#E91E63': 'pink',
-  '#2196F3': 'blue',
-  '#9C27B0': 'purple',
+  '#FF6B6B': 'red',
+  '#FFA94D': 'orange',
+  '#FFE17A': 'yellow',
+  '#5EDC8D': 'green',
+  '#3774F8': 'blue',
+  '#9E80FF': 'purple',
+  '#FF72B6': 'pink',
 } as const;
 
 // HEX 코드를 받아서 GoalColor로 변환하는 함수
