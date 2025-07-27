@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+
 import ScheduleIcon from '@/../public/assets/icons/scheduleIcon.svg';
 import { Button } from '@/components/ui/Button';
-import ScheduleModal from './ScheduleModal';
 import type { AssignedTask } from '@/interfaces/schedule';
 import { scheduleRes } from '@/mocks/mockResponses/schedule/scheduleResponse';
+
+import ScheduleModal from './ScheduleModal';
 
 export default function ScheduleCard() {
   const [isModalOpen, setIsModalOpen] = useState(false);

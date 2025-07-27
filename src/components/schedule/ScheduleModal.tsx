@@ -1,13 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import Modal from '@/components/ui/Modal';
+import type { AssignedTask, Task } from '@/interfaces/schedule';
 import { goalSummariesRes } from '@/mocks/mockResponses/goals/goalsResponse';
+
 import ScheduleFooter from './ScheduleFooter';
 import ScheduleHeader from './ScheduleHeader';
 import TimeTable from './TimeTable';
 import UnassignedTaskList from './UnassignedTaskList';
-import type { Task, AssignedTask } from '@/interfaces/schedule';
 
 interface ScheduleModalProps {
   isOpen: boolean;

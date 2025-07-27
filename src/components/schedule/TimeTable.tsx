@@ -1,6 +1,6 @@
 import ArrowNavigation from '@/components/ui/ArrowNavigation';
-
 import { AssignedTask, Task } from '@/interfaces/schedule';
+
 import TimeSlotRow from './TimeSlotRow';
 
 interface TimeTableProps {

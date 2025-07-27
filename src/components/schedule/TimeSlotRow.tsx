@@ -1,5 +1,6 @@
 import { IconButton } from '@/components/ui/IconButton';
 import { AssignedTask, Task } from '@/interfaces/schedule';
+
 import TaskCard from './TaskCard';
 
 interface TimeSlotRowProps {
@@ -19,7 +20,6 @@ export default function TimeSlotRow({
   isFirst = false,
   isLast = false,
 }: TimeSlotRowProps) {
-  // 🔧 handleDrop 함수 누락되어 있어 추가함
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const taskId = e.dataTransfer.getData('text/plain');
