@@ -1,8 +1,9 @@
 import { useRouter } from 'next/navigation';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery, UseQueryResult } from '@tanstack/react-query';
 
-import { postEmailCheck, postSignup } from '@/api/authApi';
+import { getEmailCheck, postSignup } from '@/api/authApi';
 import { SignupFormData } from '@/components/auth/SignUpForm';
+import { useEmailCheckProps } from '@/interfaces/auth';
 import { ROUTES } from '@/lib/routes';
 
 type Options = {
@@ -22,10 +23,9 @@ export function useSignup({ onError }: Options) {
   });
 }
 
-export function useEmailCheck({ onError, onSuccess }: Options) {
-  return useMutation({
-    mutationFn: ({ email }: { email: string }) => postEmailCheck(email),
-    onSuccess,
-    onError,
+export const useEmailCheck = (email: string): UseQueryResult<useEmailCheckProps> => {
+  return useQuery({
+    queryKey: ['email-check', email],
+    queryFn: () => getEmailCheck(email),
   });
-}
+};

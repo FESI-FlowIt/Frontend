@@ -21,3 +21,9 @@ export interface User {
   name: string;
   email: string;
 }
+
+export interface useEmailCheckProps {
+  result: {
+    exists: boolean;
+  };
+}

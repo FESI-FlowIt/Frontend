@@ -40,7 +40,7 @@ export const getEmailCheck = async (email: string) => {
   };
 
   try {
-    const data = await getRequest('/auth', params);
+    const data = await getRequest('/users', params);
     return data;
   } catch (err) {
     console.error('Fetch email check error', err);
