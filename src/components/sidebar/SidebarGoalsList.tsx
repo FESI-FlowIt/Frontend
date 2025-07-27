@@ -14,7 +14,7 @@ export default function SidebarGoalsList() {
   const updatePinStatus = useSidebarGoalPinned();
   const router = useRouter();
 
-  const handlePinClick = async ({
+  const handlePinClick = ({
     goalId,
     currentPinned,
   }: {
