@@ -44,6 +44,17 @@ export const GOAL_BORDER_COLOR_MAP: Record<GoalColor, string> = {
   purple: 'border-goal-purple',
 } as const;
 
+// 사이드바 목표 색상 매핑
+export const colorHexToVar: Record<string, string> = {
+  '#ff6b6b': 'bg-goal-red',
+  '#ffa94d': 'bg-goal-orange',
+  '#ffe17a': 'bg-goal-yellow',
+  '#5edc8d': 'bg-goal-green',
+  '#3774f8': 'bg-goal-blue',
+  '#9e80ff': 'bg-goal-purple',
+  '#ff72b6': 'bg-goal-pink',
+} as const;
+
 // CSS 변수 형태의 색상값을 GoalColor로 변환하는 함수
 const normalizeColorName = (colorName: string): string => {
   // CSS 변수 형태인 경우 (예: --color-goal-blue -> blue)
