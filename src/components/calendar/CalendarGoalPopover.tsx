@@ -1,3 +1,5 @@
+import { useRouter } from 'next/navigation';
+
 import Popover from '@/components/ui/Popover';
 import { Goal } from '@/interfaces/calendar';
 import { hexToGoalColor } from '@/lib/calendar';
@@ -22,6 +24,13 @@ const CalendarGoalPopover = ({
   isOpen,
   className,
 }: CalendarGoalPopoverProps) => {
+  const router = useRouter();
+
+  const handleGoalClick = (goalId: string) => {
+    router.push(`/goals/${goalId}`);
+    onClose();
+  };
+
   return (
     <Popover
       title={`${month}월 ${date}일 마감`}
@@ -35,6 +44,7 @@ const CalendarGoalPopover = ({
           <div
             key={goal.id}
             className="hover:bg-tertiary-01-press flex h-52 cursor-pointer items-center gap-20 px-20"
+            onClick={() => handleGoalClick(goal.id)}
           >
             <div
               className={`h-12 w-12 flex-shrink-0 rounded-full bg-goal-${hexToGoalColor(goal.color)}`}
