@@ -32,7 +32,7 @@ export async function fetchWrapper(url: string, options: RequestInit = {}) {
 
     if (!response.ok) {
       if (response.status === 401 && accessToken) {
-        const refreshResponse = await fetch(`${BASE_URL}/auth/tokens`, {
+        const refreshResponse = await fetch(`${BASE_URL}/auths/tokens`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

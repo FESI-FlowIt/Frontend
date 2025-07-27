@@ -30,3 +30,9 @@ export interface UserResponse {
     name: string;
   };
 }
+
+export interface useEmailCheckProps {
+  result: {
+    exists: boolean;
+  };
+}

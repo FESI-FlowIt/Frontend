@@ -9,6 +9,7 @@ import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
 import DoneSection from '@/components/goals/goalDetail/DoneSection';
 import GoalDetailHeader from '@/components/goals/goalDetail/GoalDetailHeader';
 import TodoSection from '@/components/goals/goalDetail/TodoSection';
+import GoalModal from '@/components/goals/GoalModal';
 import TodoModal from '@/components/todos/TodoModal';
 import { useGoal } from '@/hooks/useGoals';
 import { useTodos } from '@/hooks/useTodos';
@@ -84,8 +85,9 @@ const GoalDetailClient = ({ goalId }: GoalDetailClientProps) => {
         </div>
       </div>
 
-      {/* 할일 추가 모달 */}
       <TodoModal defaultGoalId={goalId} />
+
+      <GoalModal />
     </div>
   );
 };

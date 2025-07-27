@@ -28,7 +28,7 @@ export default function LandingIntroduction() {
             <div
               key={feature.name}
               className={cn(
-                `rounded-20 flex h-400 w-365 flex-col items-center justify-center gap-36 ${feature.bgColor}`,
+                `rounded-20 flex h-360 w-325 flex-col items-center justify-center gap-36 ${feature.bgColor}`,
               )}
             >
               <Image src={feature.imgUrl} alt={feature.name} width={200} height={200} />

@@ -161,4 +161,27 @@ export const goalHandlers = [
       todos: [],
     });
   }),
+
+  // 목표 삭제
+  http.delete('/goals/:goalId', async ({ params }) => {
+    const { goalId } = params;
+
+    console.log('목표 삭제 요청:', goalId);
+    console.log(
+      '현재 목표 목록:',
+      goalSummariesRes.goals.map(g => g.goalId),
+    );
+
+    const goalIndex = goalSummariesRes.goals.findIndex(g => g.goalId === goalId);
+    if (goalIndex === -1) {
+      console.log('목표를 찾을 수 없음:', goalId);
+      return HttpResponse.json({ message: '목표를 찾을 수 없습니다.' }, { status: 404 });
+    }
+
+    // 목표를 목록에서 제거
+    const deletedGoal = goalSummariesRes.goals.splice(goalIndex, 1)[0];
+    console.log('목표 삭제 완료:', deletedGoal);
+
+    return HttpResponse.json({ message: '목표가 삭제되었습니다.' });
+  }),
 ];

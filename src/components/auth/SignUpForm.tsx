@@ -56,21 +56,23 @@ export default function SignUpForm() {
     setIsEmailChecked(false);
   }, [email]);
 
-  const emailCheck = useEmailCheck({
-    onSuccess: () => {
-      setIsEmailChecked(true);
-    },
-    onError: () => {
-      setIsCheckOpen(true);
-      setEmailServerError('이미 사용 중인 이메일입니다');
-    },
-  });
+  const { refetch } = useEmailCheck(email);
 
-  const handleCheckEmail = async (email: string) => {
+  const handleCheckEmail = async () => {
     setIsEmailChecked(false);
     setEmailServerError(null);
 
-    emailCheck.mutate({ email });
+    try {
+      const { data } = await refetch();
+      if (data?.result.exists) {
+        setIsCheckOpen(true);
+        setEmailServerError('이미 사용 중인 이메일입니다');
+      } else {
+        setIsEmailChecked(true);
+      }
+    } catch {
+      setEmailServerError('이메일 확인 중 오류가 발생했습니다.');
+    }
   };
 
   const signup = useSignup({
@@ -95,7 +97,7 @@ export default function SignUpForm() {
         email={email}
         serverError={emailServerError}
         isChecked={isEmailChecked}
-        onCheck={() => handleCheckEmail(email)}
+        onCheck={handleCheckEmail}
         showCheckButton={true}
       />
       <PasswordInput
