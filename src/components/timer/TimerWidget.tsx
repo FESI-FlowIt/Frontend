@@ -5,12 +5,17 @@ import { useState } from 'react';
 import SelectTodoModal from '@/components/timer/SelectTodoModal';
 import TimerButton from '@/components/timer/TimerButton';
 import TimerModal from '@/components/timer/TimerModal';
+import { useGoalsDashboard } from '@/hooks/useGoalDashboard';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
 import { getGoalColorClass } from '@/lib/goalColorUtils';
 import { useTimerStore } from '@/store/timerStore';
+import { useUserStore } from '@/store/userStore';
 
-export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
+export default function TimerWidget() {
+  const userId = useUserStore(state => state.user?.id ?? 0);
+  const { data: goals = [] } = useGoalsDashboard(userId);
+
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const [isTimerModalOpen, setIsTimerModalOpen] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<GoalSummary | null>(null);
