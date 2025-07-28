@@ -1,6 +1,11 @@
 import { getRequest } from '@/api';
-import { CalendarResponse } from '@/interfaces/calendar';
+import { ApiCalendarResponse, CalendarResponse } from '@/interfaces/calendar';
+import { mapApiResponseToCalendar } from '@/lib/calendarMapper';
 
-export const getCalendarData = async (month: string): Promise<CalendarResponse> => {
-  return getRequest('/calendar', { month });
+export const getCalendarData = async (userId: number, date: string): Promise<CalendarResponse> => {
+  const apiResponse: ApiCalendarResponse = await getRequest('/goals/todos/due-monthly', {
+    userId,
+    date,
+  });
+  return mapApiResponseToCalendar(apiResponse);
 };

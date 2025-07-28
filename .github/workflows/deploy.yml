@@ -23,4 +23,19 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          ssh -i fe-keypair.pem -o StrictHostKeyChecking=no ubuntu@3.35.108.14 'cd ~/Frontend && git pull origin main && npm install && npm run build && pm2 restart FlowIt'
+          ssh -i fe-keypair.pem -o StrictHostKeyChecking=no ubuntu@3.35.108.14 << 'EOF'
+            cd ~/Frontend
+            git pull origin main
+            npm install
+
+            if [ ! -f /swapfile ]; then
+              sudo fallocate -l 2G /swapfile
+              sudo chmod 600 /swapfile
+              sudo mkswap /swapfile
+              sudo swapon /swapfile
+            fi
+
+            NEXT_DISABLE_ESLINT=1 NEXT_DISABLE_TSC_CHECK=1 NODE_OPTIONS=--max-old-space-size=8192 npm run build
+
+            pm2 restart FlowIt
+          EOF

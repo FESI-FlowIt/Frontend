@@ -1,5 +1,7 @@
 import { fetchWrapper } from './apiWrapper';
 
+//TODO: 현재 이 컴포넌트는 클라이언트 컴포넌트이기 때문에 서버 컴포넌트에 api 호출하면 에러가 납니다!
+
 type Params = {
   [key: string]: string | number | undefined;
 };

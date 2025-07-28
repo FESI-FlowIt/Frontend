@@ -1,9 +1,31 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+
 import Image from 'next/image';
 
 import { LANDINGPAGEFEATURES } from '@/constants/landingPageFeatures';
 import { cn } from '@/lib/utils';
 
 export default function LandingIntroduction() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      { threshold: 0.2 },
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="flex flex-col items-center gap-96">
       <div className="flex flex-col items-center gap-36">
@@ -22,13 +44,18 @@ export default function LandingIntroduction() {
         </span>
       </div>
 
-      <div className="flex items-center gap-20">
-        {LANDINGPAGEFEATURES.map(feature => {
+      <div ref={containerRef} className="flex items-center gap-20">
+        {LANDINGPAGEFEATURES.map((feature, index) => {
+          const delayClasses = ['delay-0', 'delay-150', 'delay-300', 'delay-450'];
           return (
             <div
               key={feature.name}
               className={cn(
-                `rounded-20 flex h-360 w-325 flex-col items-center justify-center gap-36 ${feature.bgColor}`,
+                `rounded-20 flex h-360 w-325 flex-col items-center justify-center gap-36 ${feature.bgColor} ${delayClasses[index]} transform transition-all duration-700 ease-out`,
+                {
+                  'translate-y-0 opacity-100': inView,
+                  'translate-y-30 opacity-0': !inView,
+                },
               )}
             >
               <Image src={feature.imgUrl} alt={feature.name} width={200} height={200} />

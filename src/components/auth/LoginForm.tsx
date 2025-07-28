@@ -1,15 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
 import useLogin from '@/hooks/auth/useLogin';
+import { useUser } from '@/hooks/auth/useUser';
 import { loginSchema } from '@/interfaces/auth';
+import { useUserStore } from '@/store/userStore';
 
 import { Button } from '../ui/Button';
+import CustomLoading from '../ui/CustomLoading';
 
 import AuthModal from './AuthModal';
 import EmailInput from './EmailInput';
@@ -19,6 +22,7 @@ export type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const setUser = useUserStore(state => state.setUser);
 
   const handleCloseModal = () => setIsModalOpen(false);
 
@@ -45,6 +49,22 @@ export default function LoginForm() {
     setIsModalOpen(false);
     login.mutate(formData);
   };
+
+  const { data } = useUser({
+    enabled: login.isSuccess,
+  });
+
+  useEffect(() => {
+    if (data) {
+      setUser(data);
+    }
+  }, [data, setUser]);
+
+  const shouldShowLoading = login.isPending || login.isSuccess;
+
+  if (shouldShowLoading) {
+    return <CustomLoading />;
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20 sm:gap-12 md:gap-20">

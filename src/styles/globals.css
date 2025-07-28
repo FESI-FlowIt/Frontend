@@ -68,6 +68,23 @@
      Font Family (글꼴)
      ======================================================================== */
   --font-family-sans: var(--font-pretendard), sans-serif;
+
+  --animate-custom-spin: custom-spin 1s linear infinite;
+
+  @keyframes custom-spin {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(0.5);
+      opacity: 0.3;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
 }
 
 /* 3. @layer base 블록에 CSS Reset과 기본 스타일을 정의합니다. */
@@ -284,6 +301,9 @@
 }
 @utility rounded-20 {
   border-radius: 20px;
+}
+@utility rounded-24 {
+  border-radius: 24px;
 }
 
 @utility rounded-tr-50 {

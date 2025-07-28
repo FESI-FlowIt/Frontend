@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import CheckIcon from '@/assets/CheckIcon.svg';
+import CheckIcon from '@/../public/assets/icons/checkIcon.svg';
 import { GOAL_COLOR_OPTIONS } from '@/constants/goalColorOptions';
 
 interface ColorChipSelectorProps {

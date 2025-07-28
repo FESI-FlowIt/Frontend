@@ -7,7 +7,7 @@ import {
 } from '@/mocks/mockResponses/calendar/calendarResponse';
 
 export const calendarHandlers = [
-  http.get('/calendar', ({ request }) => {
+  http.get('/goals/todos/due-monthly', ({ request }) => {
     const url = new URL(request.url);
     const month = url.searchParams.get('month');
 

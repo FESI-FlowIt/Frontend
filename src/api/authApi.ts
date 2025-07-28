@@ -1,5 +1,3 @@
-import { useAuthStore } from '@/store/authStore';
-
 import { getRequest, postRequest } from '.';
 
 export const postLogin = async (email: string, password: string) => {
@@ -10,7 +8,6 @@ export const postLogin = async (email: string, password: string) => {
 
   try {
     const data = await postRequest('/auths/signIn', params);
-    useAuthStore.getState().setAccessToken(data.accessToken);
     return data;
   } catch (err) {
     console.error('Fetch login Error', err);

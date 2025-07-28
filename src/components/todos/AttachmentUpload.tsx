@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 
-import SelectFileUploadIcon from '@/assets/SelectFileUploadIcon.svg';
-import SelectLinkUploadIcon from '@/assets/SelectLinkUploadIcon.svg';
+import SelectFileUploadIcon from '@/../public/assets/icons/selectFileUploadIcon.svg';
+import SelectLinkUploadIcon from '@/../public/assets/icons/selectLinkUploadIcon.svg';
 import { Attachment } from '@/interfaces/todo';
 import { useAttachmentStore } from '@/store/attachmentStore';
 

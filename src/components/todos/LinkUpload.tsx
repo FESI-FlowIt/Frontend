@@ -2,8 +2,8 @@
 
 import React from 'react';
 
-import CloseIcon from '@/assets/CloseIcon.svg';
-import SelectLinkUploadIcon from '@/assets/SelectLinkUploadIcon.svg';
+import CloseIcon from '@/../public/assets/icons/closeIcon.svg';
+import SelectLinkUploadIcon from '@/../public/assets/icons/selectLinkUploadIcon.svg';
 import { Attachment } from '@/interfaces/todo';
 import { useModalStore } from '@/store/modalStore';
 
