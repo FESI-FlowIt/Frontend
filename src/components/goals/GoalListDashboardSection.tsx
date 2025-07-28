@@ -10,6 +10,7 @@ import { useUserStore } from '@/store/userStore';
 
 import GoalListDashboardCard from './GoalListDashboardCard';
 import NoGoalsGuide from './NoGoalsGuide';
+import { ROUTES } from '@/lib/routes';
 
 export default function GoalListDashboardSection() {
   const userId = useUserStore(state => state.user?.id ?? 0);
@@ -32,7 +33,7 @@ export default function GoalListDashboardSection() {
           <span className="text-body-sb-20 text-text-01">목표 별 할 일</span>
         </div>
         <button
-          onClick={() => router.push('/goals')}
+          onClick={() => router.push(ROUTES.GOALS.LIST)}
           className="text-text-03 flex items-center gap-8 hover:underline"
         >
           <span className="text-body-sb-20 hidden md:inline">모든 목표 보기</span>
