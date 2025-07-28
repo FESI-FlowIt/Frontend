@@ -28,7 +28,7 @@ jobs:
             git pull origin main
             npm install
 
-            echo "${{ secrets.ENV_PRODUCTION }}" > .env.production
+            echo "${{ secrets.ENV_PRODUCTION }}" > .env
 
             if [ ! -f /swapfile ]; then
               sudo fallocate -l 2G /swapfile
