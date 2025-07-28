@@ -15,6 +15,8 @@ export default function SidebarGoalsList() {
   const updatePinStatus = useSidebarGoalPinned(user?.id ?? 0);
   const router = useRouter();
 
+  const goals = Array.isArray(data) ? data : [];
+
   const handlePinClick = ({
     goalId,
     currentPinned,
@@ -28,7 +30,7 @@ export default function SidebarGoalsList() {
 
   return (
     <div className="flex flex-col gap-12 sm:gap-8 md:gap-12">
-      {data?.map((goal: SidebarGoals) => {
+      {goals.map((goal: SidebarGoals) => {
         const goalColor = colorHexToVar[goal.color.toLowerCase()];
 
         return (
@@ -37,7 +39,7 @@ export default function SidebarGoalsList() {
             className="flex h-52 w-260 items-center justify-between px-10 sm:h-40 sm:w-248 md:h-52 md:w-260"
           >
             <div
-              onClick={() => router.push(ROUTES.GOALS.DETAIL('goal.goalId'))}
+              onClick={() => router.push(ROUTES.GOALS.DETAIL(`${goal.goalId}`))}
               className="flex cursor-pointer items-center gap-20"
             >
               <div className={`h-12 w-12 rounded-full ${goalColor}`} />

@@ -2,8 +2,8 @@ import { getRequest, patchRequest } from '.';
 
 export const getGoalsSidebar = async (userId: number) => {
   try {
-    const data = await getRequest('/goals', { userId });
-    return data;
+    const response = await getRequest('/goals', { userId });
+    return response.result || [];
   } catch (err) {
     console.error('Fetch goals-dashboard error', err);
     throw err;
