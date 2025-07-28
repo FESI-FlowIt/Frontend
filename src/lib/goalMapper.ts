@@ -15,6 +15,7 @@ export const goalMapper = {
     color: apiGoal.color,
     deadlineDate: apiGoal.dueDateTime,
     createdAt: apiGoal.createDateTime,
+    updatedAt: '',
     isPinned: apiGoal.isPinned,
     todos: apiGoal.todos?.map(todo => ({
       todoId: todo.todoId,
