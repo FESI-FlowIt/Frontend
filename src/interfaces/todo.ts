@@ -58,3 +58,21 @@ export interface TodoSummary {
   title: string;
   isDone: boolean;
 }
+
+// API Response
+export interface ApiTodo {
+  todoId: number;
+  goalId: number;
+  title: string;
+  name: string;
+  isDone: boolean;
+  createdAt: string;
+  updatedAt: string;
+  accumulatedMs: number;
+}
+
+export interface ApiTodoSummary {
+  todoId: number;
+  todoName: string;
+  isDone: boolean;
+}

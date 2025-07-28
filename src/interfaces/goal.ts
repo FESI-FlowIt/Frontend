@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { Todo, TodoSummary } from './todo';
+import { ApiTodoSummary, Todo, TodoSummary } from './todo';
 
 export interface Goal {
   goalId: string;
