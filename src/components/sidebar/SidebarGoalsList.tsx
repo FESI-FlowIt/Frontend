@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import { useSidebarGoalPinned, useSidebarGoals } from '@/hooks/useSidebar';
 import { SidebarGoals } from '@/interfaces/sidebar';
-import { colorHexToVar } from '@/lib/goalColorUtils';
+import { getGoalColorClass } from '@/lib/goalColorUtils';
 import { ROUTES } from '@/lib/routes';
 import { useUserStore } from '@/store/userStore';
 
@@ -31,8 +31,6 @@ export default function SidebarGoalsList() {
   return (
     <div className="flex flex-col gap-12 sm:gap-8 md:gap-12">
       {goals.map((goal: SidebarGoals) => {
-        const goalColor = colorHexToVar[goal.color.toLowerCase()];
-
         return (
           <div
             key={goal.goalId}
@@ -42,7 +40,7 @@ export default function SidebarGoalsList() {
               onClick={() => router.push(ROUTES.GOALS.DETAIL(`${goal.goalId}`))}
               className="flex cursor-pointer items-center gap-20"
             >
-              <div className={`h-12 w-12 rounded-full ${goalColor}`} />
+              <div className={`h-12 w-12 rounded-full ${getGoalColorClass(goal.color)}`} />
               <span className="text-text-02 text-body-m-20 md:text-body-sb-20 sm:text-body-b-16 w-170 overflow-hidden overflow-ellipsis whitespace-nowrap">
                 {goal.name}
               </span>
