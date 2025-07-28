@@ -20,10 +20,8 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
     if (goal) setTodos(goal.todos);
   }, [goal]);
 
-  const handleToggle = (id: string) => {
-    setTodos(prev =>
-      prev.map(todo => (String(todo.id) === id ? { ...todo, isDone: !todo.isDone } : todo)),
-    );
+  const handleToggle = (id: number) => {
+    setTodos(prev => prev.map(todo => (todo.id === id ? { ...todo, isDone: !todo.isDone } : todo)));
   };
 
   if (!goal) {
