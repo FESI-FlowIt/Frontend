@@ -33,7 +33,6 @@ export async function fetchWrapper(url: string, options: RequestInit = {}) {
     const isLoginRequest = url.includes('/auths/signIn');
 
     if (isLoginRequest) {
-      console.log(headers);
       const tokenHeader = response.headers.get('Authorization');
       const token = tokenHeader?.startsWith('Bearer ') ? tokenHeader.split(' ')[1] : null;
 
