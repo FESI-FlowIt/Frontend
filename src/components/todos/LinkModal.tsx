@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import CloseIcon from '@/assets/CloseIcon.svg';
+import CloseIcon from '@/../public/assets/icons/closeIcon.svg';
 import { Attachment } from '@/interfaces/todo';
 import { useModalStore } from '@/store/modalStore';
 
