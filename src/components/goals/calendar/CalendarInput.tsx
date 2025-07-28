@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import CalendarIcon from '@/assets/CalendarIcon.svg';
+import CalendarIcon from '@/../public/assets/icons/calendarIcon.svg';
 import { formatDisplayDate } from '@/lib/calendarUtils';
 import { cn } from '@/lib/cn';
 
