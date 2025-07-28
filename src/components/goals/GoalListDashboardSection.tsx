@@ -2,12 +2,12 @@
 
 import { useRouter } from 'next/navigation';
 
-import { useGoalsDashboard } from '@/hooks/useGoalDashboard';
-import { useUserStore } from '@/store/userStore';
-
 import DashboardGoalIcon from '@/../public/assets/icons/dashborad-goal.svg';
 import GoIcon from '@/../public/assets/icons/go.svg';
 import Card from '@/components/ui/Card';
+import { useGoalsDashboard } from '@/hooks/useGoalDashboard';
+import { useUserStore } from '@/store/userStore';
+
 import GoalListDashboardCard from './GoalListDashboardCard';
 import NoGoalsGuide from './NoGoalsGuide';
 
