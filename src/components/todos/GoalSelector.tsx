@@ -9,9 +9,9 @@ import { useGoals } from '@/hooks/useGoals';
 import DropdownPortal from '../ui/DropdownMenu';
 
 interface GoalSelectorProps {
-  selectedGoalId: string;
+  selectedGoalId: number;
   // eslint-disable-next-line no-unused-vars
-  onSelectGoal: (goalId: string) => void;
+  onSelectGoal: (goalId: number) => void;
   error?: boolean;
 }
 

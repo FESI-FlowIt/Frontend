@@ -3,12 +3,11 @@ import { z } from 'zod';
 import { ApiTodoSummary, Todo, TodoSummary } from './todo';
 
 export interface Goal {
-  goalId: string;
+  goalId: number;
   title: string;
   color: string;
   deadlineDate: string;
   createdAt: string;
-  updatedAt: string;
   isPinned: boolean;
   todos?: Todo[];
 }
@@ -31,7 +30,7 @@ export const goalFormSchema = z.object({
 export type GoalFormData = z.infer<typeof goalFormSchema>;
 
 export interface GoalSummary {
-  goalId: string;
+  goalId: number;
   title: string;
   color: string;
   dDay: number;
@@ -60,13 +59,14 @@ export interface GetGoalsResponse {
 }
 
 export interface CreateGoalRequest {
-  title: string;
+  userId: number;
+  name: string;
   color: string;
-  deadlineDate: string;
+  dueDateTime: string;
 }
 
 export interface UpdateGoalRequest {
-  goalId: string;
+  goalId: number;
   title?: string;
   color?: string;
   deadlineDate?: string;
@@ -74,16 +74,16 @@ export interface UpdateGoalRequest {
 }
 
 export interface UpdateGoalPinStatusRequest {
-  goalId: string;
+  goalId: number;
   isPinned: boolean;
 }
 
 export interface DeleteGoalRequest {
-  goalId: string;
+  goalId: number;
 }
 
 export interface ApiGoalSummary {
-  goalId: string;
+  goalId: number;
   goalName: string;
   color: string;
   createDateTime: string;

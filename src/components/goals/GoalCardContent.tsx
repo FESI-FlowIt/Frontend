@@ -26,7 +26,8 @@ export default function GoalCardContent({
 }: {
   goal: GoalSummary;
   todos: TodoSummary[];
-  onToggle: (id: string) => void;
+  // eslint-disable-next-line no-unused-vars
+  onToggle: (id: number) => void;
 }) {
   const router = useRouter();
 

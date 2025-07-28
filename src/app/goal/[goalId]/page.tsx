@@ -4,7 +4,7 @@ import GoalDetailClient from '@/components/goals/goalDetail/GoalDetailClient';
 
 interface GoalDetailPageProps {
   params: Promise<{
-    goalId: string;
+    goalId: number;
   }>;
 }
 

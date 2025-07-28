@@ -12,16 +12,13 @@ import TodoSection from '@/components/goals/goalDetail/TodoSection';
 import GoalModal from '@/components/goals/GoalModal';
 import TodoModal from '@/components/todos/TodoModal';
 import { useGoal } from '@/hooks/useGoals';
-import { useTodos } from '@/hooks/useTodos';
 
 interface GoalDetailClientProps {
-  goalId: string;
+  goalId: number;
 }
 
 const GoalDetailClient = ({ goalId }: GoalDetailClientProps) => {
   const { data: goal, isLoading: goalLoading } = useGoal(goalId);
-  const { data: todosData, isLoading: todosLoading } = useTodos(goalId);
-
   if (goalLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -48,8 +45,8 @@ const GoalDetailClient = ({ goalId }: GoalDetailClientProps) => {
         </div>
         <GoalDetailHeader
           goal={goal}
-          todosCount={todosData?.totalCount || 0}
-          completedCount={todosData?.todos ? todosData.todos.filter(todo => todo.isDone).length : 0}
+          todosCount={goal.todos ? goal.todos.length : 0}
+          completedCount={goal.todos ? goal.todos.filter(todo => todo.isDone).length : 0}
         />
 
         {/* 할일 섹션 */}
@@ -61,7 +58,7 @@ const GoalDetailClient = ({ goalId }: GoalDetailClientProps) => {
               <div className="text-body-sb-20 text-text-01 font-semibold">To do</div>
             </div>
             <div className="flex-1 overflow-hidden">
-              <TodoSection todos={todosData?.todos || []} isLoading={todosLoading} />
+              <TodoSection todos={goal.todos || []} isLoading={false} goalId={goal.goalId} />
             </div>
           </div>
 
@@ -79,7 +76,7 @@ const GoalDetailClient = ({ goalId }: GoalDetailClientProps) => {
               <div className="text-body-sb-20 text-text-01 font-semibold">Done</div>
             </div>
             <div className="flex-1 overflow-hidden">
-              <DoneSection todos={todosData?.todos || []} isLoading={todosLoading} />
+              <DoneSection todos={goal.todos || []} isLoading={false} />
             </div>
           </div>
         </div>
