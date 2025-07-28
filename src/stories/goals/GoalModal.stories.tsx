@@ -74,7 +74,7 @@ export const EditGoal: Story = {
     const handleEditGoal = () => {
       // 편집할 목표 데이터 예시 (Goal 인터페이스에 맞춤)
       const sampleGoal = {
-        goalId: '1',
+        goalId: 1,
         title: '기존 목표 제목',
         color: '#FF6B6B',
         deadlineDate: '2024-12-31',
@@ -83,7 +83,6 @@ export const EditGoal: Story = {
         createdAt: '2024-01-01',
         updatedAt: '2024-01-01',
       };
-
       openGoalEditModal(sampleGoal);
     };
 
@@ -116,7 +115,7 @@ export const Features: Story = {
 
     const handleEditGoal = () => {
       const sampleGoal = {
-        goalId: '1',
+        goalId: 1,
         title: '샘플 목표',
         color: '#4ECDC4',
         deadlineDate: '2024-12-31',

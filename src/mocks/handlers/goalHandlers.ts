@@ -67,15 +67,13 @@ export const goalHandlers = [
     return HttpResponse.json({ message: '목표 데이터를 불러오지 못했습니다.' }, { status: 500 });
   }),
 
-  // 목표 상세 조회
-  http.get('/goals/:goalId', async ({ params }) => {
-    const { goalId } = params;
-
+  // 목표 상세 조회 (GET /goals/:goalId/summary)
+  http.get('/goals/:goalId/summary', async ({ params }) => {
+    const goalId = Number(params.goalId);
     const goal = goalSummariesRes.goals.find(g => g.goalId === goalId);
     if (!goal) {
       return HttpResponse.json({ message: '목표를 찾을 수 없습니다.' }, { status: 404 });
     }
-
     // Goal 형태로 반환 (상세 정보 포함)
     const detailGoal = {
       goalId: goal.goalId,
@@ -85,103 +83,100 @@ export const goalHandlers = [
       createdAt: goal.createdAt,
       updatedAt: goal.createdAt,
       isPinned: goal.isPinned,
+      todos: goal.todos || [],
     };
-
-    return HttpResponse.json(detailGoal);
+    return HttpResponse.json({ result: detailGoal });
   }),
 
+  // 목표 수정 (PATCH /goals/:goalId)
   http.patch('/goals/:goalId', async ({ params, request }) => {
-    const { goalId } = params;
-    const body = (await request.json()) as { isPinned: boolean };
-
+    const goalId = Number(params.goalId);
+    const body = (await request.json()) as Partial<UpdateGoalRequest> | null;
     const goal = goalSummariesRes.goals.find(g => g.goalId === goalId);
     if (!goal) {
       return HttpResponse.json({ message: '목표를 찾을 수 없습니다.' }, { status: 404 });
     }
+    if (body && body.title) goal.title = body.title;
+    if (body && body.color) goal.color = body.color;
+    if (body && body.deadlineDate) {
+      goal.dDay = Math.ceil(
+        (new Date(body.deadlineDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
+      );
+      goal.deadlineDate = body.deadlineDate;
+    }
+    return HttpResponse.json({ result: goal });
+  }),
 
-    goal.isPinned = body.isPinned;
-
-    return HttpResponse.json(goal);
+  // 목표 고정 상태 변경 (PATCH /goals/:goalId/pin)
+  http.patch('/goals/:goalId/pin', async ({ params, request }) => {
+    const goalId = Number(params.goalId);
+    const body = (await request.json()) as { isPinned?: boolean } | null;
+    const goal = goalSummariesRes.goals.find(g => g.goalId === goalId);
+    if (!goal) {
+      return HttpResponse.json({ message: '목표를 찾을 수 없습니다.' }, { status: 404 });
+    }
+    if (body && typeof body.isPinned === 'boolean') {
+      goal.isPinned = body.isPinned;
+    }
+    return HttpResponse.json({ result: goal });
   }),
 
   // 목표 생성
   http.post('/goals', async ({ request }) => {
-    const body = (await request.json()) as CreateGoalRequest;
-
+    const body = (await request.json()) as CreateGoalRequest | null;
+    if (!body) {
+      return HttpResponse.json({ message: '잘못된 요청입니다.' }, { status: 400 });
+    }
     const newGoal = {
-      goalId: `goal-${Date.now()}`,
-      title: body.title,
+      goalId: Date.now(),
+      title: body.name,
       color: body.color,
-      deadlineDate: body.deadlineDate,
+      deadlineDate: body.dueDateTime,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       isPinned: false,
       progress: 0,
       todos: [],
     };
-
-    return HttpResponse.json(newGoal, { status: 201 });
+    return HttpResponse.json({ result: newGoal }, { status: 201 });
   }),
 
   // 목표 수정
   http.put('/goals/:goalId', async ({ params, request }) => {
-    const { goalId } = params;
-    const body = (await request.json()) as Omit<UpdateGoalRequest, 'goalId'>;
-
+    const goalId = Number(params.goalId);
+    const body = (await request.json()) as Partial<UpdateGoalRequest> | null;
     const goal = goalSummariesRes.goals.find(g => g.goalId === goalId);
     if (!goal) {
       return HttpResponse.json({ message: '목표를 찾을 수 없습니다.' }, { status: 404 });
     }
-
-    // 목 데이터에서 직접 업데이트
-    if (body.title) goal.title = body.title;
-    if (body.color) goal.color = body.color;
-    if (body.deadlineDate) {
+    if (body && body.title) goal.title = body.title;
+    if (body && body.color) goal.color = body.color;
+    if (body && body.deadlineDate) {
       goal.dDay = Math.ceil(
         (new Date(body.deadlineDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
       );
-      goal.deadlineDate = new Date(body.deadlineDate)
-        .toLocaleDateString('ko-KR', {
-          month: '2-digit',
-          day: '2-digit',
-        })
-        .replace('.', '/')
-        .slice(0, -1);
+      goal.deadlineDate = body.deadlineDate;
     }
-
-    // API response format으로 반환
     return HttpResponse.json({
       goalId: goal.goalId,
       title: goal.title,
       color: goal.color,
-      deadlineDate: body.deadlineDate || new Date().toISOString(),
+      deadlineDate: goal.deadlineDate,
       createdAt: goal.createdAt,
       updatedAt: new Date().toISOString(),
       isPinned: goal.isPinned,
-      todos: [],
+      todos: goal.todos || [],
     });
   }),
 
   // 목표 삭제
   http.delete('/goals/:goalId', async ({ params }) => {
-    const { goalId } = params;
-
-    console.log('목표 삭제 요청:', goalId);
-    console.log(
-      '현재 목표 목록:',
-      goalSummariesRes.goals.map(g => g.goalId),
-    );
-
+    const goalId = Number(params.goalId);
     const goalIndex = goalSummariesRes.goals.findIndex(g => g.goalId === goalId);
     if (goalIndex === -1) {
-      console.log('목표를 찾을 수 없음:', goalId);
       return HttpResponse.json({ message: '목표를 찾을 수 없습니다.' }, { status: 404 });
     }
-
-    // 목표를 목록에서 제거
-    const deletedGoal = goalSummariesRes.goals.splice(goalIndex, 1)[0];
-    console.log('목표 삭제 완료:', deletedGoal);
-
+    goalSummariesRes.goals.splice(goalIndex, 1);
     return HttpResponse.json({ message: '목표가 삭제되었습니다.' });
   }),
 ];
