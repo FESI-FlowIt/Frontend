@@ -26,6 +26,9 @@ const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {
   // store에서 가져온 defaultGoalId를 우선 사용하고, 없으면 props로 받은 것을 사용
   const effectiveDefaultGoalId = storeDefaultGoalId || defaultGoalId;
 
+  // key를 통해 props가 변경될 때마다 폼을 재초기화
+  const modalKey = `${todoToEdit?.todoId || 'new'}-${effectiveDefaultGoalId}`;
+
   const { form, hasChanges, isEditMode, handleFormSubmit, isLoading } = useTodoForm({
     todoToEdit,
     defaultGoalId: effectiveDefaultGoalId,
@@ -83,6 +86,7 @@ const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {
   return (
     <>
       <Modal
+        key={modalKey}
         isOpen={todoModalIsOpen}
         onClose={handleModalClose}
         size="todo"
