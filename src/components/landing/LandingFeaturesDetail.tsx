@@ -46,7 +46,7 @@ export default function LandingFeaturesDetail() {
       {LANDINGPAGEFEATUREDETAILS.map((detail, index) => {
         const isOdd = index % 2 === 1;
         const isVisible = visibleIndexes.includes(index);
-        const delayClasses = ['delay-0', 'delay-150', 'delay-300', 'delay-450'];
+        const delayClasses = ['delay-0', 'delay-100', 'delay-200', 'delay-300', 'delay-400'];
 
         return (
           <div
