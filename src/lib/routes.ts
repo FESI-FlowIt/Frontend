@@ -7,6 +7,7 @@ export const ROUTES = {
   DASHBOARD: '/dashboard',
   GOALS: {
     LIST: '/goal',
-    DETAIL: (goalId: number) => `/goal/${goalId}`,
+    //todo goalId는 number로 변경
+    DETAIL: (goalId: string) => `/goal/${goalId}`,
   },
 };

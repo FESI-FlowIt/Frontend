@@ -28,7 +28,7 @@ const GoalCard = ({ goal }: GoalCardProps) => {
   const router = useRouter();
 
   const handleCardClick = () => {
-    router.push(ROUTES.GOALS.DETAIL(goal.goalId));
+    router.push(ROUTES.GOALS.DETAIL(String(goal.goalId)));
   };
 
   const handleTogglePin = async (e: React.MouseEvent) => {
