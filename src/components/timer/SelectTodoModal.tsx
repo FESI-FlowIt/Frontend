@@ -39,7 +39,7 @@ export default function SelectTodoModal({
 
       <div className="max-h-[60vh] space-y-12 overflow-x-hidden overflow-y-auto pr-16">
         {goals.map(goal => {
-          const isSelected = selectedGoalId === goal.goalId;
+          const isSelected = selectedGoalId === String(goal.goalId);
 
           return (
             <div
@@ -49,7 +49,9 @@ export default function SelectTodoModal({
               <button
                 className="flex w-full cursor-pointer items-center justify-between text-left"
                 onClick={() =>
-                  setSelectedGoalId(prev => (prev === goal.goalId ? null : goal.goalId))
+                  setSelectedGoalId(prev =>
+                    prev === goal.goalId.toString() ? null : goal.goalId.toString(),
+                  )
                 }
               >
                 <span className="text-body-m-20 text-text-02 flex items-center gap-12">
