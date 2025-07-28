@@ -48,7 +48,7 @@ export default function LandingBanner() {
         ref={btnRef}
         className={cn('flex transform flex-col gap-42 transition-all duration-1000 ease-out', {
           'translate-x-0 opacity-100': btnInView,
-          '-translate-x-50 opacity-0': !btnInView,
+          '-translate-x-10 opacity-0': !btnInView,
         })}
       >
         <div className="bg-text-01 p-6.67 rounded-12 flex h-80 w-80 items-center justify-center">
@@ -86,7 +86,7 @@ export default function LandingBanner() {
           'relative flex transform items-center justify-center transition-all duration-1000 ease-out',
           {
             'translate-x-0 opacity-100': imgInView,
-            'translate-x-50 opacity-0': !imgInView,
+            '-translate-x-10 opacity-0': !imgInView,
           },
         )}
       >
