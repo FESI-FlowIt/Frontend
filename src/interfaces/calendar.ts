@@ -17,3 +17,17 @@ export interface CalendarResponse {
 }
 
 export const DAYS = ['일', '월', '화', '수', '목', '금', '토'] as const;
+
+// API 명세서 기반 응답 타입
+export interface ApiGoal {
+  id: string;
+  name: string;
+  color: string;
+  createdDateTime: string;
+  dueDateTime: string;
+}
+
+export interface ApiCalendarResponse {
+  date: string;
+  goals: ApiGoal[];
+}
