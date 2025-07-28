@@ -1,10 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-
 import Image from 'next/image';
 
 import SidebarOpen from '@/../public/assets/icons/menu-right.svg';
+import { useSidebar } from '@/app/providers/SidebarProvider';
 import { useModalStore } from '@/store/modalStore';
 
 import GoalModal from '../goals/GoalModal';
@@ -16,11 +15,11 @@ import SidebarMenu from './SidebarMenu';
 import SidebarUser from './SidebarUser';
 
 export default function Sidebar() {
-  const [isOpen, setIsOpen] = useState(true);
+  const { isOpen, setIsOpen } = useSidebar();
   const { openGoalModal } = useModalStore();
 
   return isOpen ? (
-    <div className="border-line rounded-tr-50 rounded-br-50 flex h-screen w-320 flex-col items-center border-r bg-white py-40 sm:w-280 sm:py-8 md:w-320 md:py-40">
+    <div className="border-line rounded-tr-50 rounded-br-50 flex min-h-screen w-320 flex-col items-center border-r bg-white py-40 sm:w-280 sm:py-8 md:w-320 md:py-40">
       <section className="mb-40 shrink-0 px-20">
         <SidebarHeader setIsOpen={setIsOpen} />
       </section>
@@ -49,7 +48,7 @@ export default function Sidebar() {
     </div>
   ) : (
     <>
-      <div className="border-line rounded-tr-50 rounded-br-50 h-screen w-100 flex-col items-center gap-36 border-r bg-white px-18 pt-40 sm:hidden md:flex md:w-80 lg:flex">
+      <div className="border-line rounded-tr-50 rounded-br-50 min-h-screen w-100 flex-col items-center gap-36 border-r bg-white px-18 pt-40 sm:hidden md:flex md:w-80 lg:flex">
         <div className="relative h-36 w-36 sm:h-28 sm:w-28 md:h-36 md:w-36">
           <Image src="/assets/images/logoIcon.svg" alt="로고 이미지" fill />
         </div>

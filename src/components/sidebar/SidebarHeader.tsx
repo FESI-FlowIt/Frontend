@@ -7,7 +7,7 @@ import Image from 'next/image';
 import SidebarHide from '@/../public/assets/icons/menu-left.svg';
 
 type SidebarHeaderProps = {
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpen: (value: boolean) => void;
 };
 
 export default function SidebarHeader({ setIsOpen }: SidebarHeaderProps) {
