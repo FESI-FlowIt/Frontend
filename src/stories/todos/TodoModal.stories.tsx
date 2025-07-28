@@ -79,7 +79,7 @@ export const DefaultGoalSelected: Story = {
     );
   },
   args: {
-    defaultGoalId: 'goal-1',
+    defaultGoalId: 1,
   },
 };
 
@@ -88,8 +88,8 @@ export const TodoEditModal: Story = {
     const { openTodoEditModal } = useModalStore();
 
     const mockTodo: Todo = {
-      todoId: '1',
-      goalId: 'goal-1',
+      todoId: 1,
+      goalId: 1,
       title: '수정할 할 일입니다',
       isDone: false,
       attachment: [

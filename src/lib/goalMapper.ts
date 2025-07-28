@@ -15,7 +15,6 @@ export const goalMapper = {
     color: apiGoal.color,
     deadlineDate: apiGoal.dueDateTime,
     createdAt: apiGoal.createDateTime,
-    updatedAt: '',
     isPinned: apiGoal.isPinned,
     todos: apiGoal.todos?.map(todo => ({
       todoId: todo.todoId,
@@ -36,18 +35,18 @@ export const goalMapper = {
 
     const goals: GoalSummary[] = contents.map(goal => ({
       goalId: goal.goalId,
-      title: goal.goalName, // goalName → title 변환
+      title: goal.goalName,
       color: goal.color,
       dDay: Math.ceil(
         (new Date(goal.dueDateTime).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
-      ), // dDay 계산
-      deadlineDate: goal.dueDateTime, // dueDateTime → deadlineDate 변환
-      createdAt: goal.createDateTime, // createDateTime → createdAt 변환
+      ),
+      deadlineDate: goal.dueDateTime,
       isPinned: goal.isPinned,
+      createdAt: goal.createDateTime,
       todos:
         goal.todos?.map(todo => ({
           id: todo.todoId,
-          title: todo.todoName, // todoName → title 변환
+          title: todo.todoName,
           isDone: todo.isDone,
         })) || [],
     }));

@@ -8,13 +8,15 @@ import { Attachment, Todo, TodoFormData, todoFormSchema } from '@/interfaces/tod
 import { hasFormChanged } from '@/lib/hasFormChanged';
 import { useAttachmentStore } from '@/store/attachmentStore';
 import { useModalStore } from '@/store/modalStore';
+import { useUserStore } from '@/store/userStore';
 
 interface UseTodoFormProps {
   todoToEdit?: Todo;
-  defaultGoalId?: string;
+  defaultGoalId?: number;
 }
 
 export const useTodoForm = ({ todoToEdit, defaultGoalId }: UseTodoFormProps) => {
+  const { user } = useUserStore();
   const [initialState, setInitialState] = useState<{
     form: TodoFormData;
     attachments: Attachment[];
@@ -55,7 +57,7 @@ export const useTodoForm = ({ todoToEdit, defaultGoalId }: UseTodoFormProps) => 
       } else {
         const formData = {
           title: '',
-          goalId: defaultGoalId || '',
+          goalId: defaultGoalId || 0,
         };
         reset(formData);
         resetAttachments();
@@ -76,14 +78,18 @@ export const useTodoForm = ({ todoToEdit, defaultGoalId }: UseTodoFormProps) => 
   ]);
 
   const handleFormSubmit = (data: TodoFormData) => {
+    if (!user) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
     if (isEditMode && currentTodo) {
       updateTodoMutation.mutate(
         {
           todoId: currentTodo.todoId,
           data: {
-            title: data.title,
+            userId: user.id,
+            name: data.title,
             goalId: data.goalId, // goalId 업데이트 추가
-            attachments: attachments,
           },
         },
         {
@@ -96,9 +102,9 @@ export const useTodoForm = ({ todoToEdit, defaultGoalId }: UseTodoFormProps) => 
     } else {
       createTodoMutation.mutate(
         {
+          userId: user.id,
           goalId: data.goalId,
-          title: data.title,
-          attachments: attachments,
+          name: data.title,
         },
         {
           onSuccess: () => {

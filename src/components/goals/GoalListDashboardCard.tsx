@@ -20,7 +20,7 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
     if (goal) setTodos(goal.todos);
   }, [goal]);
 
-  const handleToggle = (id: string) => {
+  const handleToggle = (id: number) => {
     setTodos(prev => prev.map(todo => (todo.id === id ? { ...todo, isDone: !todo.isDone } : todo)));
   };
 
@@ -32,7 +32,7 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
     return (
       <div
         className="rounded-20 relative flex h-340 w-303 cursor-pointer flex-col overflow-hidden bg-white md:w-596 lg:w-480"
-        onClick={() => router.push(ROUTES.GOALS.DETAIL(goal.goalId))}
+        onClick={() => router.push(ROUTES.GOALS.DETAIL(String(goal.goalId)))}
       >
         <div className="flex flex-1 flex-col justify-between px-32 pt-20 pb-20">
           <div className="flex flex-col gap-12">
@@ -43,7 +43,7 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
             </div>
           </div>
 
-          <EmptyTodo goalId={goal.goalId} />
+          <EmptyTodo goalId={String(goal.goalId)} />
         </div>
       </div>
     );

@@ -18,9 +18,10 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
   const { getTimerState, startTimer, pauseTimer, stopTimer, runningTodoId } = useTimerStore();
 
   const activeTimerState = runningTodoId ? getTimerState(runningTodoId) : null;
-  const selectedTimerState = selectedTodo ? getTimerState(selectedTodo.id) : null;
+  const selectedTimerState = selectedTodo ? getTimerState(String(selectedTodo.id)) : null;
 
-  const isBlocked: boolean = !!activeTimerState?.isRunning && selectedTodo?.id !== runningTodoId;
+  const isBlocked: boolean =
+    !!activeTimerState?.isRunning && selectedTodo?.id.toString() !== runningTodoId;
 
   const handleWidgetClick = () => {
     if (activeTimerState?.isRunning && selectedGoal && selectedTodo) {
@@ -58,9 +59,9 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
         <TimerModal
           isRunning={selectedTimerState.isRunning}
           isBlocked={isBlocked}
-          onStart={() => startTimer(selectedTodo.id)}
-          onPause={() => pauseTimer(selectedTodo.id)}
-          onStop={() => stopTimer(selectedTodo.id)}
+          onStart={() => startTimer(String(selectedTodo.id))}
+          onPause={() => pauseTimer(String(selectedTodo.id))}
+          onStop={() => stopTimer(String(selectedTodo.id))}
           onClose={() => setIsTimerModalOpen(false)}
           onBack={() => {
             setIsTimerModalOpen(false);
@@ -69,7 +70,7 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
           goalTitle={selectedGoal.title}
           goalColor={selectedGoal.color}
           todoContent={selectedTodo.title}
-          todoId={selectedTodo.id}
+          todoId={String(selectedTodo.id)}
           minutes={selectedTimerState.minutes}
           seconds={selectedTimerState.seconds}
           accumulatedSeconds={selectedTimerState.accumulatedSeconds}

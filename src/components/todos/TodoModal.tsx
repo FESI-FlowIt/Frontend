@@ -15,7 +15,7 @@ import TodoForm from './TodoForm';
 
 interface TodoModalProps {
   todoToEdit?: Todo;
-  defaultGoalId?: string;
+  defaultGoalId?: number;
 }
 
 const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {

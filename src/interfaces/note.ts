@@ -1,6 +1,6 @@
 export interface Note {
-  noteId: string;
-  todoId: string;
+  noteId: number;
+  todoId: number;
   title: string;
   content: string;
   link?: string;

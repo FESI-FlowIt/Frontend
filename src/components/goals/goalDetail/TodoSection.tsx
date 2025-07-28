@@ -11,12 +11,12 @@ import { useModalStore } from '@/store/modalStore';
 interface TodoSectionProps {
   todos: Todo[];
   isLoading: boolean;
+  goalId: number;
 }
 
-const TodoSection = ({ todos, isLoading }: TodoSectionProps) => {
+const TodoSection = ({ todos, isLoading, goalId }: TodoSectionProps) => {
   const incompleteTodos = todos.filter(todo => !todo.isDone);
-  const openTodoModal = useModalStore(state => state.openTodoModal);
-
+  const openTodoModalWithGoal = useModalStore(state => state.openTodoModalWithGoal);
   if (isLoading) {
     return (
       <div className="py-32 text-center">
@@ -50,7 +50,7 @@ const TodoSection = ({ todos, isLoading }: TodoSectionProps) => {
       {/* 할 일 추가 버튼 */}
       <div className="flex justify-center">
         <Button
-          onClick={openTodoModal}
+          onClick={() => openTodoModalWithGoal(goalId)}
           icon={<PlusIcon />}
           disabled={false}
           variant="gray"

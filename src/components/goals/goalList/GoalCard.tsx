@@ -28,7 +28,7 @@ const GoalCard = ({ goal }: GoalCardProps) => {
   const router = useRouter();
 
   const handleCardClick = () => {
-    router.push(ROUTES.GOALS.DETAIL(goal.goalId));
+    router.push(ROUTES.GOALS.DETAIL(String(goal.goalId)));
   };
 
   const handleTogglePin = async (e: React.MouseEvent) => {
@@ -101,7 +101,9 @@ const GoalCard = ({ goal }: GoalCardProps) => {
           {/* D-Day 정보 */}
           <div className="flex items-baseline gap-12">
             <h3 className={`text-body-sb-20`}>D-{goal.dDay}</h3>
-            <span className="text-body-m-16 text-text-03">({goal.deadlineDate} 마감)</span>
+            <span className="text-body-m-16 text-text-03">
+              ({goal.deadlineDate.slice(0, 10)} 마감)
+            </span>
           </div>
 
           {/* 진행률 정보 및 진행률 바: todo가 있을 때만 표시 */}

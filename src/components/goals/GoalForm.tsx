@@ -5,6 +5,7 @@ import { Controller } from 'react-hook-form';
 import { Button } from '@/components/ui/Button';
 import { useGoalForm } from '@/hooks/useGoalForm';
 import { Goal, GoalFormData } from '@/interfaces/goal';
+import { getGoalColorHex } from '@/lib/goalColorUtils';
 
 import FormField from '../ui/FormField';
 import { Input } from '../ui/Input';
@@ -28,7 +29,27 @@ const GoalForm = ({ editingGoal, onSubmit, onFormChange, isLoading }: GoalFormPr
   });
 
   const handleFormSubmit = async (data: GoalFormData) => {
-    await onSubmit(data);
+    let formattedDeadlineDate = '';
+    let dateObj: Date | null = null;
+    if (data.deadlineDate instanceof Date && !isNaN(data.deadlineDate.getTime())) {
+      dateObj = new Date(data.deadlineDate);
+    } else if (typeof data.deadlineDate === 'string') {
+      dateObj = new Date(data.deadlineDate);
+    }
+    if (dateObj) {
+      const pad = (n: number) => n.toString().padStart(2, '0');
+      const yyyy = dateObj.getFullYear();
+      const mm = pad(dateObj.getMonth() + 1);
+      const dd = pad(dateObj.getDate());
+      formattedDeadlineDate = `${yyyy}-${mm}-${dd}T23:59:59`;
+    }
+
+    const hexColor = getGoalColorHex(data.color);
+    await onSubmit({
+      ...data,
+      deadlineDate: formattedDeadlineDate,
+      color: hexColor,
+    } as unknown as GoalFormData);
   };
 
   return (
