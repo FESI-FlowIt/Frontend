@@ -61,8 +61,8 @@ export interface TodoSummary {
 
 // API Response
 export interface ApiTodo {
-  todoId: number;
-  goalId: number;
+  todoId: string;
+  goalId: string;
   title: string;
   name: string;
   isDone: boolean;
@@ -72,7 +72,7 @@ export interface ApiTodo {
 }
 
 export interface ApiTodoSummary {
-  todoId: number;
+  todoId: string;
   todoName: string;
   isDone: boolean;
 }

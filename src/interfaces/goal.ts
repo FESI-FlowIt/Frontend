@@ -83,7 +83,7 @@ export interface DeleteGoalRequest {
 }
 
 export interface ApiGoalSummary {
-  goalId: number;
+  goalId: string;
   goalName: string;
   color: string;
   createDateTime: string;
