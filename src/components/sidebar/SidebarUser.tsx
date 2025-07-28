@@ -1,21 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
-
 import { useLogout } from '@/hooks/auth/useLogout';
-import { useUser } from '@/hooks/auth/useUser';
 import { useUserStore } from '@/store/userStore';
 
 export default function SidebarUser() {
-  const { user, setUser } = useUserStore();
+  const user = useUserStore(state => state.user);
   const logout = useLogout();
-  const { data } = useUser();
-
-  useEffect(() => {
-    if (data) {
-      setUser(data);
-    }
-  }, [data, setUser]);
 
   return (
     <div className="flex flex-col gap-12">

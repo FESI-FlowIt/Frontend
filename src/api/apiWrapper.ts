@@ -1,5 +1,8 @@
+'use client';
+
 import { RequestInit } from 'next/dist/server/web/spec-extension/request';
 
+import { ROUTES } from '@/lib/routes';
 import { useAuthStore } from '@/store/authStore';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000';
@@ -33,7 +36,6 @@ export async function fetchWrapper(url: string, options: RequestInit = {}) {
     const isLoginRequest = url.includes('/auths/signIn');
 
     if (isLoginRequest) {
-      console.log(headers);
       const tokenHeader = response.headers.get('Authorization');
       const token = tokenHeader?.startsWith('Bearer ') ? tokenHeader.split(' ')[1] : null;
 
@@ -53,6 +55,8 @@ export async function fetchWrapper(url: string, options: RequestInit = {}) {
         });
 
         if (!refreshResponse.ok) {
+          useAuthStore.getState().clearTokens();
+          window.location.href = ROUTES.AUTH.LOGIN;
           throw new CustomError('Failed to refresh token', await refreshResponse.json());
         }
 
