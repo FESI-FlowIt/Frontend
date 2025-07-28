@@ -30,6 +30,18 @@ export async function fetchWrapper(url: string, options: RequestInit = {}) {
       headers,
     });
 
+    const isLoginRequest = url.includes('/auths/signIn');
+
+    if (isLoginRequest) {
+      console.log(headers);
+      const tokenHeader = response.headers.get('Authorization');
+      const token = tokenHeader?.startsWith('Bearer ') ? tokenHeader.split(' ')[1] : null;
+
+      if (token) {
+        useAuthStore.getState().setAccessToken(token);
+      }
+    }
+
     if (!response.ok) {
       if (response.status === 401 && accessToken) {
         const refreshResponse = await fetch(`${BASE_URL}/auths/tokens`, {
@@ -46,10 +58,8 @@ export async function fetchWrapper(url: string, options: RequestInit = {}) {
 
         const { accessToken: newAccessToken } = await refreshResponse.json();
 
-        // zustand에 새로운 토큰 저장
         useAuthStore.getState().setAccessToken(newAccessToken);
 
-        // 새 accessToken으로 재시도
         headers.Authorization = `Bearer ${newAccessToken}`;
 
         response = await fetch(`${BASE_URL}${url}`, {
@@ -61,16 +71,12 @@ export async function fetchWrapper(url: string, options: RequestInit = {}) {
           throw new CustomError(`HTTP error! status: ${response.status}`, await response.json());
         }
       } else {
-        console.error('Response not OK:', {
-          status: response.status,
-          statusText: response.statusText,
-          url: response.url,
-        });
         throw new CustomError(`HTTP error! status: ${response.status}`, await response.json());
       }
     }
 
     if (response.status === 204) return;
+
     return response.json();
   } catch (error) {
     console.error('Fetch error:', error);
