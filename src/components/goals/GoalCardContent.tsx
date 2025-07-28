@@ -1,8 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import CheckDefaultIcon from '@/../public/assets/icons/check_default.svg';
 import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
 import { Button } from '@/components/ui/Button';
 import { GoalSummary } from '@/interfaces/goal';
@@ -88,7 +88,12 @@ export default function GoalCardContent({
                     }}
                     className="flex h-24 w-24 items-center justify-center rounded transition hover:bg-gray-100"
                   >
-                    <CheckDefaultIcon className="h-24 w-24" />
+                    <Image
+                      src="assets/icons/check_default.svg"
+                      alt="Checked Icon"
+                      width={24}
+                      height={24}
+                    />
                   </button>
                   <span className="text-text-02 text-body-m-16">{todo.title}</span>
                 </div>

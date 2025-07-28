@@ -1,10 +1,6 @@
 'use client';
 
-import React from 'react';
-
-import PauseIcon from '@/../public/assets/icons/pauseIcon.svg';
-import StartIcon from '@/../public/assets/icons/startIcon.svg';
-import StopIcon from '@/../public/assets/icons/stopIcon.svg';
+import Image from 'next/image';
 
 interface TimerControlsProps {
   isRunning: boolean;
@@ -22,7 +18,7 @@ export default function TimerControls({
   onStop,
 }: TimerControlsProps) {
   return (
-    <div className="mt-60 mb-80 flex justify-center gap-32">
+    <div className="mt-88 mb-80 flex justify-center gap-32">
       {!isRunning ? (
         <button
           aria-label="시작"
@@ -30,7 +26,7 @@ export default function TimerControls({
           disabled={isBlocked}
           className="flex h-88 w-88 cursor-pointer items-center justify-center disabled:opacity-40"
         >
-          <StartIcon className="h-full w-full" />
+          <Image src="/assets/icons/startIcon.svg" alt="Start Icon" width={88} height={88} />
         </button>
       ) : (
         <>
@@ -39,7 +35,7 @@ export default function TimerControls({
             onClick={onPause}
             className="flex h-88 w-88 cursor-pointer items-center justify-center"
           >
-            <StopIcon className="h-full w-full" />
+            <Image src="/assets/icons/stopIcon.svg" alt="Stop Icon" width={88} height={88} />
           </button>
 
           <button
@@ -47,7 +43,7 @@ export default function TimerControls({
             onClick={onStop}
             className="flex h-88 w-88 cursor-pointer items-center justify-center"
           >
-            <PauseIcon className="h-full w-full" />
+            <Image src="/assets/icons/pauseIcon.svg" alt="Pause Icon" width={88} height={88} />
           </button>
         </>
       )}

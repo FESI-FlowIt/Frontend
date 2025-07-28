@@ -1,8 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import DashboardGoalIcon from '@/../public/assets/icons/dashborad-goal.svg';
 import GoIcon from '@/../public/assets/icons/go.svg';
 import Card from '@/components/ui/Card';
 import { useGoalsDashboard } from '@/hooks/useGoalDashboard';
@@ -29,7 +29,12 @@ export default function GoalListDashboardSection() {
     <Card backgroundColor="cardContainer" size="goal">
       <div className="mb-16 flex items-center justify-between">
         <div className="flex items-center gap-8">
-          <DashboardGoalIcon width={24} height={24} />
+          <Image
+            src="/assets/icons/dashborad-goal.svg"
+            alt="목표별할일 아이콘"
+            width={24}
+            height={24}
+          />{' '}
           <span className="text-body-sb-20 text-text-01">목표 별 할 일</span>
         </div>
         <button
