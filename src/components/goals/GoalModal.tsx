@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 
-import AddNewGoalIcon from '@/assets/AddNewGoalIcon.svg';
-import CloseIcon from '@/assets/CloseIcon.svg';
+import CloseIcon from '@/../public/assets/icons/closeIcon.svg';
+import AddNewGoalIcon from '@/../public/assets/icons/goalIcon.svg';
 import { useCreateGoal, useUpdateGoal } from '@/hooks/useGoals';
 import { GoalFormData } from '@/interfaces/goal';
 import { useModalStore } from '@/store/modalStore';

@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react';
 
 import clsx from 'clsx';
 
-import FileUploadIcon from '@/assets/FileUploadIcon.svg';
+import FileUploadIcon from '@/../public/assets/icons/fileUploadIcon.svg';
 import { Attachment } from '@/interfaces/todo';
 import validateFile from '@/lib/fileValidation';
 

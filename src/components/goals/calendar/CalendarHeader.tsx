@@ -4,8 +4,8 @@ import React from 'react';
 
 import dayjs from 'dayjs';
 
-import ArrowBack from '@/assets/ArrowBack.svg';
-import ArrowForward from '@/assets/ArrowForward.svg';
+import ArrowForward from '@/../public/assets/icons/nextIcon.svg';
+import ArrowBack from '@/../public/assets/icons/prevIcon.svg';
 
 interface CalendarHeaderProps {
   currentMonth: dayjs.Dayjs;

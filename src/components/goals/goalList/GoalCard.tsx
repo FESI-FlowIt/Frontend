@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
 import PinIconOff from '@/../public/assets/icons/pinIcon_off.svg';
 import PinIcon from '@/../public/assets/icons/pinIcon_on.svg';
-import PlusIcon from '@/assets/PlusIcon.svg';
+import PlusIcon from '@/../public/assets/icons/PlusIcon.svg';
 import { useUpdateGoalPinStatus } from '@/hooks/useGoals';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';

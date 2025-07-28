@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 
-import AddNewTodoIcon from '@/assets/AddNewTodoIcon.svg';
-import CloseIcon from '@/assets/CloseIcon.svg';
+import AddNewTodoIcon from '@/../public/assets/icons/addNewTodoIcon.svg';
+import CloseIcon from '@/../public/assets/icons/closeIcon.svg';
 import { useTodoForm } from '@/hooks/useTodoForm';
 import { Todo } from '@/interfaces/todo';
 import { useModalStore } from '@/store/modalStore';
