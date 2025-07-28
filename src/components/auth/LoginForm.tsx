@@ -12,6 +12,7 @@ import { loginSchema } from '@/interfaces/auth';
 import { useUserStore } from '@/store/userStore';
 
 import { Button } from '../ui/Button';
+import CustomLoading from '../ui/CustomLoading';
 
 import AuthModal from './AuthModal';
 import EmailInput from './EmailInput';
@@ -58,6 +59,12 @@ export default function LoginForm() {
       setUser(data);
     }
   }, [data, setUser]);
+
+  const shouldShowLoading = login.isPending || login.isSuccess;
+
+  if (shouldShowLoading) {
+    return <CustomLoading />;
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20 sm:gap-12 md:gap-20">

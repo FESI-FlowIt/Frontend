@@ -10,6 +10,7 @@ import { useEmailCheck, useSignup } from '@/hooks/auth/useSignup';
 import { signupSchema } from '@/interfaces/auth';
 
 import { Button } from '../ui/Button';
+import CustomLoading from '../ui/CustomLoading';
 
 import AuthModal from './AuthModal';
 import EmailInput from './EmailInput';
@@ -86,6 +87,12 @@ export default function SignUpForm() {
       signup.mutate(formData);
     }
   };
+
+  const shouldShowLoading = signup.isPending || signup.isSuccess;
+
+  if (shouldShowLoading) {
+    return <CustomLoading />;
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20 sm:gap-12 md:gap-20">
