@@ -1,5 +1,5 @@
 import { Goal } from '@/interfaces/calendar';
-import { hexToGoalColor } from '@/lib/calendar';
+import { getGoalColorClass } from '@/lib/goalColorUtils';
 import { cn } from '@/lib/utils';
 
 interface CalendarCellProps {
@@ -11,7 +11,7 @@ interface CalendarCellProps {
 
 const CalendarCell = ({ date, goals = [], onClick, className }: CalendarCellProps) => {
   const firstGoal = goals[0];
-  const goalColorName = firstGoal ? hexToGoalColor(firstGoal.color) : null;
+  const goalColorName = firstGoal ? getGoalColorClass(firstGoal.color) : null;
   const hasGoals = goals.length > 0;
 
   const handleClick = (event: React.MouseEvent) => {
@@ -33,7 +33,7 @@ const CalendarCell = ({ date, goals = [], onClick, className }: CalendarCellProp
 
       {firstGoal && (
         <div
-          className={`text-body-16 rounded-4 bg-goal-${goalColorName} w-full truncate px-2 text-center text-white`}
+          className={`text-body-16 rounded-4 ${goalColorName} w-full truncate px-2 text-center text-white`}
         >
           {firstGoal.title}
         </div>
