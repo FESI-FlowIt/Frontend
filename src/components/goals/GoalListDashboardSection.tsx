@@ -6,11 +6,11 @@ import DashboardGoalIcon from '@/../public/assets/icons/dashborad-goal.svg';
 import GoIcon from '@/../public/assets/icons/go.svg';
 import Card from '@/components/ui/Card';
 import { useGoalsDashboard } from '@/hooks/useGoalDashboard';
+import { ROUTES } from '@/lib/routes';
 import { useUserStore } from '@/store/userStore';
 
 import GoalListDashboardCard from './GoalListDashboardCard';
 import NoGoalsGuide from './NoGoalsGuide';
-import { ROUTES } from '@/lib/routes';
 
 export default function GoalListDashboardSection() {
   const userId = useUserStore(state => state.user?.id ?? 0);
