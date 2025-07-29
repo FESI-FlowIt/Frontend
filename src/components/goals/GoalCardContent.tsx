@@ -70,7 +70,10 @@ export default function GoalCardContent({
               text="todoCard"
               type="button"
               disabled={false}
-              onClick={handleCreateTodo}
+              onClick={e => {
+                e.stopPropagation();
+                openTodoModalWithGoal(goal.goalId);
+              }}
             >
               + 할 일
             </Button>
