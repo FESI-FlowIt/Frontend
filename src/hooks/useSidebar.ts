@@ -2,9 +2,13 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { getGoalsSidebar, patchGoalSidebarisPinned } from '@/api/sidebarApi';
 
+import { GOALS_QUERY_KEY } from './useGoals';
+
+export const GOALS_SIDEBAR_QUERY_KEY = ['goals-sidebar'];
+
 export const useSidebarGoals = (userId: number) => {
   return useQuery({
-    queryKey: ['goals-sidebar', userId],
+    queryKey: [GOALS_SIDEBAR_QUERY_KEY, userId],
     queryFn: () => getGoalsSidebar(userId),
   });
 };
@@ -14,9 +18,10 @@ export const useSidebarGoalPinned = (userId: number) => {
 
   return useMutation({
     mutationFn: ({ isPinned, goalId }: { goalId: number; isPinned: boolean }) =>
-      patchGoalSidebarisPinned(goalId, isPinned),
+      patchGoalSidebarisPinned(goalId, isPinned, userId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['goals-sidebar', userId] });
+      queryClient.invalidateQueries({ queryKey: [GOALS_SIDEBAR_QUERY_KEY, userId] });
+      queryClient.invalidateQueries({ queryKey: GOALS_QUERY_KEY });
     },
   });
 };

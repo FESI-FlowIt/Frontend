@@ -10,9 +10,13 @@ export const getGoalsSidebar = async (userId: number) => {
   }
 };
 
-export const patchGoalSidebarisPinned = async (goalId: number, isPinned: boolean) => {
+export const patchGoalSidebarisPinned = async (
+  goalId: number,
+  isPinned: boolean,
+  userId: number,
+) => {
   try {
-    const data = await patchRequest(`/goals/${goalId}`, { isPinned });
+    const data = await patchRequest(`/goals/${goalId}/pin`, { userId, isPinned });
     return data;
   } catch (err) {
     console.error('Fetch updating isPinned of goal error', err);

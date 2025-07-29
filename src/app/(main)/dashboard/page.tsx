@@ -18,7 +18,7 @@ export default function DashboardPage() {
       </div>
 
       {/* PC: 복합 레이아웃 */}
-      <div className="hidden lg:flex lg:h-full lg:flex-col lg:gap-24">
+      <div className="mx-auto hidden max-w-1504 lg:flex lg:h-full lg:flex-col lg:gap-24">
         <div className="flex flex-1 gap-24">
           <HeatmapSection />
           <div className="flex flex-col gap-12">
