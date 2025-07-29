@@ -29,9 +29,7 @@ export default function GoalCardContent({
   const progressPercent = totalCount === 0 ? 0 : Math.round((doneCount / totalCount) * 100);
   const bgClass = getGoalColorClass(goal.color);
   const { openTodoModalWithGoal } = useModalStore();
-  const handleCreateTodo = () => {
-    openTodoModalWithGoal(goal.goalId);
-  };
+
   return (
     <div
       className="rounded-20 relative flex h-340 w-303 cursor-pointer flex-col overflow-hidden bg-white md:w-596 lg:w-480"
