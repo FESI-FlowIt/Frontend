@@ -1,7 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import { Button } from '@/components/ui/Button';
 import { GoalSummary } from '@/interfaces/goal';
 import { getGoalColorClass } from '@/lib/goalColorUtils';
@@ -12,13 +10,7 @@ interface EmptyTodoProps {
 }
 
 export default function EmptyTodoMessage({ goal }: EmptyTodoProps) {
-  const router = useRouter();
   const { openTodoModalWithGoal } = useModalStore();
-
-  const handleCreateTodo = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    openTodoModalWithGoal(goal.goalId);
-  };
 
   return (
     <>
@@ -36,8 +28,8 @@ export default function EmptyTodoMessage({ goal }: EmptyTodoProps) {
           type="button"
           disabled={false}
           onClick={e => {
-            e.stopPropagation(); // ✅ 여기에서만 막기
-            openTodoModalWithGoal(goal.goalId);
+            e.stopPropagation(); // 카드 클릭 이벤트 방지
+            openTodoModalWithGoal(goal.goalId); // 모달 열기
           }}
         >
           + 할 일 만들기
