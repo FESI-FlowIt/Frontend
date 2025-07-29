@@ -28,8 +28,8 @@ export default function EmptyTodoMessage({ goal }: EmptyTodoProps) {
           type="button"
           disabled={false}
           onClick={e => {
-            e.stopPropagation(); // 카드 클릭 이벤트 방지
-            openTodoModalWithGoal(goal.goalId); // 모달 열기
+            e.stopPropagation();
+            openTodoModalWithGoal(goal.goalId);
           }}
         >
           + 할 일 만들기

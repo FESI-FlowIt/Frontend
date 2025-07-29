@@ -29,7 +29,7 @@ export default function GoalCardContent({
   const progressPercent = totalCount === 0 ? 0 : Math.round((doneCount / totalCount) * 100);
   const bgClass = getGoalColorClass(goal.color);
   const { openTodoModalWithGoal } = useModalStore();
-  const handleCreateTodo = (e: React.MouseEvent) => {
+  const handleCreateTodo = () => {
     openTodoModalWithGoal(goal.goalId);
   };
   return (
