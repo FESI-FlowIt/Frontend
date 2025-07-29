@@ -8,7 +8,9 @@ import { Button } from '@/components/ui/Button';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
 import { getGoalColorClass } from '@/lib/goalColorUtils';
+import { getGoalTextColorClass } from '@/lib/goalColorUtils';
 import { ROUTES } from '@/lib/routes';
+import { useModalStore } from '@/store/modalStore';
 
 export default function GoalCardContent({
   goal,
@@ -26,7 +28,10 @@ export default function GoalCardContent({
   const totalCount = todos.length;
   const progressPercent = totalCount === 0 ? 0 : Math.round((doneCount / totalCount) * 100);
   const bgClass = getGoalColorClass(goal.color);
-
+  const { openTodoModalWithGoal } = useModalStore();
+  const handleCreateTodo = (e: React.MouseEvent) => {
+    openTodoModalWithGoal(goal.goalId);
+  };
   return (
     <div
       className="rounded-20 relative flex h-340 w-303 cursor-pointer flex-col overflow-hidden bg-white md:w-596 lg:w-480"
@@ -37,7 +42,7 @@ export default function GoalCardContent({
         <div className="flex flex-col gap-20">
           <div className="flex flex-col gap-12">
             <div className="flex items-center gap-8">
-              <GoalIcon className={`h-24 w-24`} />
+              <GoalIcon className={`h-24 w-24 ${getGoalTextColorClass(goal.color)}`} />
               <h3 className="text-text-01 text-body-sb-20 max-w-296 truncate">{goal.title}</h3>
             </div>
             <div className="flex items-baseline gap-12">
@@ -65,10 +70,7 @@ export default function GoalCardContent({
               text="todoCard"
               type="button"
               disabled={false}
-              onClick={e => {
-                e.stopPropagation();
-                router.push(`/goals/${goal.goalId}/todos/create`);
-              }}
+              onClick={handleCreateTodo}
             >
               + 할 일
             </Button>
