@@ -10,8 +10,8 @@ export interface Attachment {
 }
 
 export interface Todo {
-  todoId: string;
-  goalId: string;
+  todoId: number;
+  goalId: number;
   title: string;
   isDone: boolean;
   attachment?: Attachment[];
@@ -26,7 +26,7 @@ export const todoFormSchema = z.object({
     .string()
     .min(1, { message: '할 일 제목을 입력해 주세요.' })
     .max(30, { message: '30자 이내로 입력해 주세요.' }),
-  goalId: z.string().min(1, { message: '목표를 선택해 주세요.' }),
+  goalId: z.number().min(1, { message: '목표를 선택해 주세요.' }),
   attachments: z
     .array(
       z.object({
@@ -41,28 +41,30 @@ export const todoFormSchema = z.object({
 export type TodoFormData = z.infer<typeof todoFormSchema>;
 
 export interface TodoCreateRequest {
-  goalId: string;
-  title: string;
+  userId: number;
+  goalId: number;
+  name: string;
   attachments?: Attachment[];
 }
 
 export interface TodoUpdateRequest {
-  title?: string;
+  userId: number;
+  goalId?: number;
+  name?: string;
   isDone?: boolean;
   attachments?: Attachment[];
-  goalId?: string;
 }
 
 export interface TodoSummary {
-  id: string;
+  id: number;
   title: string;
   isDone: boolean;
 }
 
 // API Response
 export interface ApiTodo {
-  todoId: string;
-  goalId: string;
+  todoId: number;
+  goalId: number;
   title: string;
   name: string;
   isDone: boolean;
@@ -72,7 +74,7 @@ export interface ApiTodo {
 }
 
 export interface ApiTodoSummary {
-  todoId: string;
+  todoId: number;
   todoName: string;
   isDone: boolean;
 }

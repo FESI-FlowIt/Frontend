@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import { useSidebarGoalPinned, useSidebarGoals } from '@/hooks/useSidebar';
 import { SidebarGoals } from '@/interfaces/sidebar';
-import { colorHexToVar } from '@/lib/goalColorUtils';
+import { getGoalColorClass } from '@/lib/goalColorUtils';
 import { ROUTES } from '@/lib/routes';
 import { useUserStore } from '@/store/userStore';
 
@@ -14,6 +14,8 @@ export default function SidebarGoalsList() {
   const { data } = useSidebarGoals(user?.id ?? 0);
   const updatePinStatus = useSidebarGoalPinned(user?.id ?? 0);
   const router = useRouter();
+
+  const goals = Array.isArray(data) ? data : [];
 
   const handlePinClick = ({
     goalId,
@@ -28,19 +30,17 @@ export default function SidebarGoalsList() {
 
   return (
     <div className="flex flex-col gap-12 sm:gap-8 md:gap-12">
-      {data?.map((goal: SidebarGoals) => {
-        const goalColor = colorHexToVar[goal.color.toLowerCase()];
-
+      {goals.map((goal: SidebarGoals) => {
         return (
           <div
             key={goal.goalId}
             className="flex h-52 w-260 items-center justify-between px-10 sm:h-40 sm:w-248 md:h-52 md:w-260"
           >
             <div
-              onClick={() => router.push(ROUTES.GOALS.DETAIL('goal.goalId'))}
+              onClick={() => router.push(ROUTES.GOALS.DETAIL(`${goal.goalId}`))}
               className="flex cursor-pointer items-center gap-20"
             >
-              <div className={`h-12 w-12 rounded-full ${goalColor}`} />
+              <div className={`h-12 w-12 rounded-full ${getGoalColorClass(goal.color)}`} />
               <span className="text-text-02 text-body-m-20 md:text-body-sb-20 sm:text-body-b-16 w-170 overflow-hidden overflow-ellipsis whitespace-nowrap">
                 {goal.name}
               </span>

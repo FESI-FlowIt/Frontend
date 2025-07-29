@@ -7,6 +7,7 @@ import { IconButton } from '@/components/ui/IconButton';
 import Modal from '@/components/ui/Modal';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
+import { getGoalColorClass } from '@/lib/goalColorUtils';
 
 interface SelectTodoModalProps {
   goals: GoalSummary[];
@@ -39,7 +40,7 @@ export default function SelectTodoModal({
 
       <div className="max-h-[60vh] space-y-12 overflow-x-hidden overflow-y-auto pr-16">
         {goals.map(goal => {
-          const isSelected = selectedGoalId === goal.goalId;
+          const isSelected = selectedGoalId === String(goal.goalId);
 
           return (
             <div
@@ -49,11 +50,13 @@ export default function SelectTodoModal({
               <button
                 className="flex w-full cursor-pointer items-center justify-between text-left"
                 onClick={() =>
-                  setSelectedGoalId(prev => (prev === goal.goalId ? null : goal.goalId))
+                  setSelectedGoalId(prev =>
+                    prev === goal.goalId.toString() ? null : goal.goalId.toString(),
+                  )
                 }
               >
                 <span className="text-body-m-20 text-text-02 flex items-center gap-12">
-                  <span className={`h-12 w-12 rounded-full bg-goal-${goal.color}`} />
+                  <span className={`h-12 w-12 rounded-full ${getGoalColorClass(goal.color)}`} />
                   {goal.title}
                 </span>
                 <span className="text-gray-500">{isSelected ? '▲' : '▼'}</span>

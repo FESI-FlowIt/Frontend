@@ -1,61 +1,96 @@
 import {
+  ApiGetGoalsResponse,
+  ApiGoalSummary,
   CreateGoalRequest,
   GetGoalsRequestParams,
-  GetGoalsResponse,
-  Goal,
   GoalFormData,
-  UpdateGoalRequest,
 } from '@/interfaces/goal';
 
-import { deleteRequest, getRequest, patchRequest, postRequest, putRequest } from '.';
+import { deleteRequest, getRequest, patchRequest, postRequest } from '.';
 
 export const goalsApi = {
-  // 목표 목록 조회
-  getGoals: async (params?: GetGoalsRequestParams): Promise<GetGoalsResponse> => {
+  getGoals: async (
+    userId: number,
+    params?: GetGoalsRequestParams,
+  ): Promise<ApiGetGoalsResponse> => {
     const requestParams = {
-      page: params?.page ?? 1,
-      limit: params?.limit ?? 6,
-      sortBy: params?.sortBy ?? 'latest',
-      ...(params?.isPinned !== undefined && { isPinned: params.isPinned.toString() }),
+      userId: userId,
+      isPinned: params?.isPinned?.toString() ?? 'false',
+      sortedBy: params?.sortBy === 'latest' ? 'LATEST' : 'DUE_DATE',
+      page: (params?.page ?? 1) - 1, // 0-based indexing
+      size: params?.limit ?? 6,
     };
 
-    return getRequest('/goals', requestParams);
+    return getRequest('/goals/summaries', requestParams);
   },
 
   // 목표 상세 조회
-  getGoal: async (goalId: string): Promise<Goal> => {
-    return getRequest(`/goals/${goalId}`);
+  getGoal: async (userId: number, goalId: number): Promise<ApiGoalSummary> => {
+    const res = await getRequest(`/goals/${goalId}/summary`, { userId });
+    return res.result;
   },
 
   // 목표 생성
-  createGoal: async (goalData: GoalFormData): Promise<Goal> => {
+  createGoal: async (userId: number, goalData: GoalFormData): Promise<ApiGoalSummary> => {
     const requestData: CreateGoalRequest = {
-      title: goalData.title,
+      userId: userId,
+      name: goalData.title,
       color: goalData.color,
-      deadlineDate: goalData.deadlineDate.toISOString(),
+      dueDateTime:
+        typeof goalData.deadlineDate === 'string'
+          ? goalData.deadlineDate
+          : goalData.deadlineDate.toISOString(),
     };
-
     return postRequest('/goals', requestData);
   },
 
   // 목표 수정
-  updateGoal: async (goalId: string, goalData: Partial<GoalFormData>): Promise<Goal> => {
-    const requestData: Omit<UpdateGoalRequest, 'goalId'> = {
-      ...(goalData.title && { title: goalData.title }),
-      ...(goalData.color && { color: goalData.color }),
-      ...(goalData.deadlineDate && { deadlineDate: goalData.deadlineDate.toISOString() }),
+  updateGoal: async (
+    goalId: number,
+    userId: number,
+    goalData: Partial<GoalFormData>,
+  ): Promise<ApiGoalSummary> => {
+    const requestData: {
+      userId: number;
+      name?: string;
+      color?: string;
+      dueDateTime?: string;
+    } = {
+      userId: userId,
     };
 
-    return putRequest(`/goals/${goalId}`, requestData);
+    if (goalData.title) {
+      requestData.name = goalData.title;
+    }
+    if (goalData.color) {
+      requestData.color = goalData.color;
+    }
+    if (goalData.deadlineDate) {
+      requestData.dueDateTime =
+        typeof goalData.deadlineDate === 'string'
+          ? goalData.deadlineDate
+          : goalData.deadlineDate.toISOString();
+    }
+
+    return patchRequest(`/goals/${goalId}`, requestData);
   },
 
   // 목표 고정 상태 변경
-  updateGoalPinStatus: async (goalId: string, isPinned: boolean): Promise<Goal> => {
-    return patchRequest(`/goals/${goalId}`, { isPinned });
+  updateGoalPinStatus: async (
+    goalId: number,
+    userId: number,
+    isPinned: boolean,
+  ): Promise<ApiGoalSummary> => {
+    const requestData = {
+      userId: userId,
+      isPinned: isPinned,
+    };
+
+    return patchRequest(`/goals/${goalId}/pin`, requestData);
   },
 
   // 목표 삭제
-  deleteGoal: async (goalId: string): Promise<void> => {
-    return deleteRequest(`/goals/${goalId}`);
+  deleteGoal: async (goalId: number, userId: number): Promise<void> => {
+    return deleteRequest(`/goals/${goalId}?userId=${userId}`);
   },
 };

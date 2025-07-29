@@ -5,11 +5,17 @@ import { useState } from 'react';
 import SelectTodoModal from '@/components/timer/SelectTodoModal';
 import TimerButton from '@/components/timer/TimerButton';
 import TimerModal from '@/components/timer/TimerModal';
+import { useGoalsDashboard } from '@/hooks/useGoalDashboard';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
+import { getGoalColorClass } from '@/lib/goalColorUtils';
 import { useTimerStore } from '@/store/timerStore';
+import { useUserStore } from '@/store/userStore';
 
-export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
+export default function TimerWidget() {
+  const userId = useUserStore(state => state.user?.id ?? 0);
+  const { data: goals = [] } = useGoalsDashboard(userId);
+
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const [isTimerModalOpen, setIsTimerModalOpen] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<GoalSummary | null>(null);
@@ -18,9 +24,10 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
   const { getTimerState, startTimer, pauseTimer, stopTimer, runningTodoId } = useTimerStore();
 
   const activeTimerState = runningTodoId ? getTimerState(runningTodoId) : null;
-  const selectedTimerState = selectedTodo ? getTimerState(selectedTodo.id) : null;
+  const selectedTimerState = selectedTodo ? getTimerState(String(selectedTodo.id)) : null;
 
-  const isBlocked: boolean = !!activeTimerState?.isRunning && selectedTodo?.id !== runningTodoId;
+  const isBlocked: boolean =
+    !!activeTimerState?.isRunning && selectedTodo?.id.toString() !== runningTodoId;
 
   const handleWidgetClick = () => {
     if (activeTimerState?.isRunning && selectedGoal && selectedTodo) {
@@ -58,18 +65,18 @@ export default function TimerWidget({ goals }: { goals: GoalSummary[] }) {
         <TimerModal
           isRunning={selectedTimerState.isRunning}
           isBlocked={isBlocked}
-          onStart={() => startTimer(selectedTodo.id)}
-          onPause={() => pauseTimer(selectedTodo.id)}
-          onStop={() => stopTimer(selectedTodo.id)}
+          onStart={() => startTimer(String(selectedTodo.id))}
+          onPause={() => pauseTimer(String(selectedTodo.id))}
+          onStop={() => stopTimer(String(selectedTodo.id))}
           onClose={() => setIsTimerModalOpen(false)}
           onBack={() => {
             setIsTimerModalOpen(false);
             setIsSelectModalOpen(true);
           }}
           goalTitle={selectedGoal.title}
-          goalColor={selectedGoal.color}
+          goalColor={getGoalColorClass(selectedGoal.color)}
           todoContent={selectedTodo.title}
-          todoId={selectedTodo.id}
+          todoId={String(selectedTodo.id)}
           minutes={selectedTimerState.minutes}
           seconds={selectedTimerState.seconds}
           accumulatedSeconds={selectedTimerState.accumulatedSeconds}

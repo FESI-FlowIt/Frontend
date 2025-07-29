@@ -14,7 +14,7 @@ export const todoHandlers = [
 
     let filteredTodos = todos;
     if (goalId) {
-      filteredTodos = todos.filter(todo => todo.goalId === goalId);
+      filteredTodos = todos.filter(todo => todo.goalId === Number(goalId));
     }
     return HttpResponse.json({
       todos: filteredTodos,
@@ -26,9 +26,9 @@ export const todoHandlers = [
     const requestData = (await request.json()) as TodoCreateRequest;
 
     const newTodo: MockTodo = {
-      todoId: Date.now().toString(),
+      todoId: todosRes.todos.length + 1,
       goalId: requestData.goalId,
-      title: requestData.title,
+      title: requestData.name,
       isDone: false,
       attachment: requestData.attachments || [],
       notes: [],
@@ -37,7 +37,7 @@ export const todoHandlers = [
       accumulatedMs: 0,
     };
 
-    // Mock 환경에서 실제 목 데이터에 새로운 Todo 추가
+    // 목 데이터에 새로운 Todo 추가
     todosRes.todos.push(newTodo);
 
     return HttpResponse.json(newTodo);
@@ -47,8 +47,9 @@ export const todoHandlers = [
     const { todoId } = params as { todoId: string };
     const updateData = (await request.json()) as TodoUpdateRequest;
     const todos = todosRes.todos;
+    const todoIdNumber = Number(todoId);
 
-    const todoIndex = todos.findIndex(todo => todo.todoId === todoId);
+    const todoIndex = todos.findIndex(todo => todo.todoId === todoIdNumber);
     if (todoIndex === -1) {
       return HttpResponse.json({ error: 'Todo not found' }, { status: 404 });
     }
@@ -71,14 +72,14 @@ export const todoHandlers = [
   http.delete('/todos/:todoId', ({ params }) => {
     const { todoId } = params as { todoId: string };
     const todos = todosRes.todos;
-
-    const todoIndex = todos.findIndex(todo => todo.todoId === todoId);
+    const todoIdNumber = Number(todoId);
+    const todoIndex = todos.findIndex(todo => todo.todoId === todoIdNumber);
     if (todoIndex === -1) {
       return HttpResponse.json({ error: 'Todo not found' }, { status: 404 });
     }
 
     // Mock 환경에서는 실제 목 데이터에서 제거
-    todosRes.todos = todos.filter(todo => todo.todoId !== todoId);
+    todosRes.todos = todos.filter(todo => todo.todoId !== todoIdNumber);
 
     return HttpResponse.json({ success: true });
   }),
@@ -86,8 +87,9 @@ export const todoHandlers = [
   http.patch('/todos/:todoId/toggle', ({ params }) => {
     const { todoId } = params as { todoId: string };
     const todos = todosRes.todos;
+    const todoIdNumber = Number(todoId);
 
-    const todoIndex = todos.findIndex(todo => todo.todoId === todoId);
+    const todoIndex = todos.findIndex(todo => todo.todoId === todoIdNumber);
     if (todoIndex === -1) {
       return HttpResponse.json({ error: 'Todo not found' }, { status: 404 });
     }

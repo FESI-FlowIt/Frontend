@@ -67,7 +67,6 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
 
   // progress 계산
   const progress = todosCount > 0 ? Math.round((completedCount / todosCount) * 100) : 0;
-
   return (
     <>
       <div

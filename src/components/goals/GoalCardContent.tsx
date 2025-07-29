@@ -1,23 +1,14 @@
 'use client';
 
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import CheckDefaultIcon from '@/../public/assets/icons/check_default.svg';
 import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
 import { Button } from '@/components/ui/Button';
-import { GoalColor, GoalSummary } from '@/interfaces/goal';
+import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
+import { getGoalColorClass } from '@/lib/goalColorUtils';
 import { ROUTES } from '@/lib/routes';
-
-export const goalColorVariants: Record<GoalColor, { background: string; text: string }> = {
-  red: { background: 'bg-goal-red', text: 'text-goal-red' },
-  orange: { background: 'bg-goal-orange', text: 'text-goal-orange' },
-  yellow: { background: 'bg-goal-yellow', text: 'text-goal-yellow' },
-  green: { background: 'bg-goal-green', text: 'text-goal-green' },
-  blue: { background: 'bg-goal-blue', text: 'text-goal-blue' },
-  purple: { background: 'bg-goal-purple', text: 'text-goal-purple' },
-  pink: { background: 'bg-goal-pink', text: 'text-goal-pink' },
-};
 
 export default function GoalCardContent({
   goal,
@@ -26,26 +17,27 @@ export default function GoalCardContent({
 }: {
   goal: GoalSummary;
   todos: TodoSummary[];
-  onToggle: (id: string) => void;
+  // eslint-disable-next-line no-unused-vars
+  onToggle: (id: number) => void;
 }) {
   const router = useRouter();
 
   const doneCount = todos.filter(todo => todo.isDone).length;
   const totalCount = todos.length;
   const progressPercent = totalCount === 0 ? 0 : Math.round((doneCount / totalCount) * 100);
-  const { background: bgClass, text: textClass } = goalColorVariants[goal.color as GoalColor];
+  const bgClass = getGoalColorClass(goal.color);
 
   return (
     <div
       className="rounded-20 relative flex h-340 w-303 cursor-pointer flex-col overflow-hidden bg-white md:w-596 lg:w-480"
-      onClick={() => router.push(ROUTES.GOALS.DETAIL(goal.goalId))}
+      onClick={() => router.push(ROUTES.GOALS.DETAIL(String(goal.goalId)))}
     >
       <div className={`absolute top-0 left-0 h-full w-12 ${bgClass}`} />
       <div className="flex flex-col gap-20 px-32 pt-20 pb-20">
         <div className="flex flex-col gap-20">
           <div className="flex flex-col gap-12">
             <div className="flex items-center gap-8">
-              <GoalIcon className={`h-24 w-24 ${textClass}`} />
+              <GoalIcon className={`h-24 w-24`} />
               <h3 className="text-text-01 text-body-sb-20 max-w-296 truncate">{goal.title}</h3>
             </div>
             <div className="flex items-baseline gap-12">
@@ -96,7 +88,12 @@ export default function GoalCardContent({
                     }}
                     className="flex h-24 w-24 items-center justify-center rounded transition hover:bg-gray-100"
                   >
-                    <CheckDefaultIcon className="h-24 w-24" />
+                    <Image
+                      src="assets/icons/check_default.svg"
+                      alt="Checked Icon"
+                      width={24}
+                      height={24}
+                    />
                   </button>
                   <span className="text-text-02 text-body-m-16">{todo.title}</span>
                 </div>

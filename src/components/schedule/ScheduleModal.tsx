@@ -23,7 +23,7 @@ const extractTasksFromGoals = (): Task[] => {
     goal.todos
       .filter(todo => !todo.isDone)
       .map(todo => ({
-        id: todo.id,
+        id: String(todo.id),
         title: todo.title,
         color: goal.color,
       })),

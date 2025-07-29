@@ -9,12 +9,12 @@ import { scheduleRes } from '@/mocks/mockResponses/schedule/scheduleResponse';
 
 import ScheduleModal from './ScheduleModal';
 
-export default function ScheduleCard() {
+export default function ScheduleSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [assignedTasks, setAssignedTasks] = useState<AssignedTask[]>(scheduleRes);
 
   return (
-    <div className="border-line h-200 w-343 rounded-2xl border p-20 sm:h-176 sm:w-636 md:h-176 md:w-728">
+    <div className="border-line h-200 w-343 rounded-2xl border bg-white p-20 sm:h-176 sm:w-636 md:h-176 md:w-728">
       <div className="mb-20 flex items-center justify-between">
         <h3 className="text-body-sb-20 text-text-01">7월 9일 일정표</h3>
         <Button

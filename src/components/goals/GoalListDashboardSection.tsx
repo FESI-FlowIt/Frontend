@@ -1,8 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import DashboardGoalIcon from '@/../public/assets/icons/dashborad-goal.svg';
 import GoIcon from '@/../public/assets/icons/go.svg';
 import Card from '@/components/ui/Card';
 import { useGoalsDashboard } from '@/hooks/useGoalDashboard';
@@ -17,7 +17,9 @@ export default function GoalListDashboardSection() {
   const { data: goals = [], isLoading } = useGoalsDashboard(userId);
   const router = useRouter();
 
-  const sortedGoals = [...goals]
+  const safeGoals = Array.isArray(goals) ? goals : [];
+
+  const sortedGoals = [...safeGoals]
     .sort((a, b) => {
       if (a.isPinned && !b.isPinned) return -1;
       if (!a.isPinned && b.isPinned) return 1;
@@ -26,12 +28,17 @@ export default function GoalListDashboardSection() {
     .slice(0, 3);
 
   return (
-    <Card backgroundColor="cardContainer" size="goal">
-      <div className="mb-16 flex items-center justify-between">
-        <div className="flex items-center gap-8">
-          <DashboardGoalIcon width={24} height={24} />
-          <span className="text-body-sb-20 text-text-01">목표 별 할 일</span>
-        </div>
+    <Card
+      icon={
+        <Image
+          src="/assets/icons/dashborad-goal.svg"
+          alt="목표별할일 아이콘"
+          width={24}
+          height={24}
+        />
+      }
+      title="목표 별 할 일"
+      extra={
         <button
           onClick={() => router.push(ROUTES.GOALS.LIST)}
           className="text-text-03 flex items-center gap-8 hover:underline"
@@ -40,8 +47,11 @@ export default function GoalListDashboardSection() {
           <span className="text-body-mb-16 inline md:hidden">모두 보기</span>
           <GoIcon width={20} height={20} />
         </button>
-      </div>
-
+      }
+      backgroundColor="gray"
+      size="goal"
+      flexWrapExtra={false}
+    >
       {isLoading ? (
         <div className="text-text-03 text-body-m-16">로딩 중...</div>
       ) : sortedGoals.length === 0 ? (
