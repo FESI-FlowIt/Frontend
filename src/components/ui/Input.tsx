@@ -81,7 +81,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         type={type}
         className={cn(inputStyles, className)}
         ref={ref}
-        value={currentValue}
+        value={currentValue ?? ''}
         onChange={handleChange}
         {...props}
       />

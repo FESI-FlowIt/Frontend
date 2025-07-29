@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import SimpleScheduleCard from '@/components/schedule/SimpleScheduleCard';
+import ScheduleSection from '@/components/schedule/ScheduleSection';
 
-const meta: Meta<typeof SimpleScheduleCard> = {
-  title: 'Components/Schedule/SimpleScheduleCard',
-  component: SimpleScheduleCard,
+const meta: Meta<typeof ScheduleSection> = {
+  title: 'Components/schedule/SimpleScheduleCard',
+  component: ScheduleSection,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
@@ -12,7 +12,7 @@ const meta: Meta<typeof SimpleScheduleCard> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof SimpleScheduleCard>;
+type Story = StoryObj<typeof ScheduleSection>;
 
 export const Default: Story = {
   args: {

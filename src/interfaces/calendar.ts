@@ -27,7 +27,13 @@ export interface ApiGoal {
   dueDateTime: string;
 }
 
-export interface ApiCalendarResponse {
+export interface ApiCalendarData {
   date: string;
   goals: ApiGoal[];
+}
+
+export interface ApiCalendarResponse {
+  code: string;
+  message: string;
+  result: ApiCalendarData;
 }

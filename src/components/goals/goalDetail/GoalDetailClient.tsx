@@ -37,7 +37,7 @@ const GoalDetailClient = ({ goalId }: GoalDetailClientProps) => {
 
   return (
     <div className="h-screen overflow-hidden">
-      <div className="container mx-auto flex h-full max-w-1184 flex-col px-16 pt-52 pb-40">
+      <div className="container mx-auto flex h-full w-full flex-col">
         {/* 목표 정보 헤더 */}
         <div className="mb-24 flex items-center gap-8">
           <GoalIcon className="text-Gray_01 h-24 w-24" />
