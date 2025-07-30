@@ -1,7 +1,8 @@
 'use client';
 import { useState } from 'react';
 
-import Image from 'next/image';
+import VisibilityOffIcon from '@/assets/icons/visibility_off.svg';
+import VisibilityOnIcon from '@/assets/icons/visibility_on.svg';
 
 import { Input } from '../ui/Input';
 
@@ -38,13 +39,25 @@ export default function PasswordInput({
           type="button"
           onClick={() => setIsShow(prev => !prev)}
           className="absolute top-1/2 right-18 -translate-y-1/2 cursor-pointer"
+          aria-label={isShow ? '비밀번호 숨기기' : '비밀번호 보기'}
         >
-          <Image
-            src={isShow ? '/assets/images/visibility_on.svg' : '/assets/images/visibility_off.svg'}
-            alt="비밀번호 보기"
-            width={24}
-            height={24}
-          />
+          {isShow ? (
+            <VisibilityOnIcon
+              width={24}
+              height={24}
+              className="cursor-pointer"
+              fill="currentColor"
+              aria-hidden="true"
+            />
+          ) : (
+            <VisibilityOffIcon
+              width={24}
+              height={24}
+              className="cursor-pointer"
+              fill="currentColor"
+              aria-hidden="true"
+            />
+          )}
         </button>
       </div>
       {error && <p className="text-body-m-20 text-error mt-12">{error}</p>}
