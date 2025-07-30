@@ -1,9 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import GoIcon from '@/../public/assets/icons/go.svg';
+import TodoIcon from '@/assets/icons/todo.svg';
 import Card from '@/components/ui/Card';
 import { useGoalsDashboard } from '@/hooks/useGoalDashboard';
 import { ROUTES } from '@/lib/routes';
@@ -32,14 +32,7 @@ export default function GoalListDashboardSection() {
   return (
     <>
       <Card
-        icon={
-          <Image
-            src="/assets/icons/dashborad-goal.svg"
-            alt="목표별할일 아이콘"
-            width={24}
-            height={24}
-          />
-        }
+        icon={<TodoIcon className="text-snackbar" width={24} height={24} fill="currentColor" />}
         title="목표 별 할 일"
         extra={
           <button

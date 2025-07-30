@@ -1,11 +1,9 @@
 'use client';
 
-import React from 'react';
-
 import Image from 'next/image';
 
-import DashboardGoal from '@/../public/assets/icons/dashborad-goal.svg';
 import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
+import TodoIcon from '@/assets/icons/todo.svg';
 import DoneSection from '@/components/goals/goalDetail/DoneSection';
 import GoalDetailHeader from '@/components/goals/goalDetail/GoalDetailHeader';
 import TodoSection from '@/components/goals/goalDetail/TodoSection';
@@ -54,7 +52,7 @@ const GoalDetailClient = ({ goalId }: GoalDetailClientProps) => {
           {/* To do 섹션 */}
           <div className="flex h-full flex-col overflow-hidden">
             <div className="mb-24 flex items-center gap-8">
-              <DashboardGoal className="text-Gray_01 h-24 w-24" />
+              <TodoIcon className="text-snackbar" width={24} height={24} fill="currentColor" />
               <div className="text-body-sb-20 text-text-01 font-semibold">To do</div>
             </div>
             <div className="flex-1 overflow-hidden">
