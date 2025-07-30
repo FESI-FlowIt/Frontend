@@ -5,10 +5,10 @@ import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
 import PinIconOff from '@/../public/assets/icons/pinIcon_off.svg';
 import PinIcon from '@/../public/assets/icons/pinIcon_on.svg';
 import PlusIcon from '@/../public/assets/icons/PlusIcon.svg';
+import GoalIcon from '@/assets/icons/goal.svg';
 import { useUpdateGoalPinStatus } from '@/hooks/useGoals';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
@@ -94,7 +94,13 @@ const GoalCard = ({ goal }: GoalCardProps) => {
         <div className="flex flex-col">
           {/* 목표 제목 */}
           <div className="mb-16 flex items-center gap-8">
-            <GoalIcon className={getGoalTextColorClass(goal.color)} />
+            <GoalIcon
+              className={getGoalTextColorClass(goal.color)}
+              width={24}
+              height={24}
+              fill="currentColor"
+            />
+
             <div className="text-body-sb-20 text-text-01 max-w-296 truncate">{goal.title}</div>
           </div>
 

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 
-import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
+import GoalIcon from '@/assets/icons/goal.svg';
 import TodoIcon from '@/assets/icons/todo.svg';
 import DoneSection from '@/components/goals/goalDetail/DoneSection';
 import GoalDetailHeader from '@/components/goals/goalDetail/GoalDetailHeader';
@@ -38,7 +38,7 @@ const GoalDetailClient = ({ goalId }: GoalDetailClientProps) => {
       <div className="container mx-auto flex h-full w-full flex-col">
         {/* 목표 정보 헤더 */}
         <div className="mb-24 flex items-center gap-8">
-          <GoalIcon className="text-Gray_01 h-24 w-24" />
+          <GoalIcon className="text-snackbar" width={24} height={24} fill="currentColor" />
           <div className="text-body-sb-20 text-text-01 font-semibold">목표</div>
         </div>
         <GoalDetailHeader

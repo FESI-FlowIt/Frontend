@@ -4,8 +4,8 @@ import React, { useRef, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
 import KebabIcon from '@/../public/assets/icons/kebabIcon.svg';
+import GoalIcon from '@/assets/icons/goal.svg';
 import { useDeleteGoal } from '@/hooks/useGoals';
 import { Goal } from '@/interfaces/goal';
 import {
@@ -79,7 +79,12 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
         {/* 목표 헤더 */}
         <div className="mb-24 flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <GoalIcon className={`h-24 w-24 rounded-full ${getGoalTextColorClass(goal.color)}`} />
+            <GoalIcon
+              className={getGoalTextColorClass(goal.color)}
+              width={24}
+              height={24}
+              fill="currentColor"
+            />
             <h1 className="text-body-sb-20 text-text-01 font-bold">{goal.title}</h1>
           </div>
           <div className="relative">

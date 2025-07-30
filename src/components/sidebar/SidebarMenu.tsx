@@ -1,8 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
+import GoalIcon from '@/assets/icons/goal.svg';
 import HomeIcon from '@/assets/icons/home.svg';
 import { ROUTES } from '@/lib/routes';
 
@@ -25,7 +25,7 @@ export default function SidebarMenu() {
 
       <div className="flex h-52 w-260 items-center gap-12 px-10 sm:h-40 sm:w-248 sm:px-0 md:h-52 md:w-260 md:px-10">
         <div className="relative h-24 w-24 sm:h-20 sm:w-20 md:h-24 md:w-24">
-          <Image src="/assets/icons/goalIcon.svg" alt="목표 아이콘" fill />
+          <GoalIcon className="text-snackbar h-full w-full" fill="currentColor" />
         </div>
         <span className="text-text-01 text-body-sb-20 md:text-body-sb-20 sm:text-body-b-16">
           목표
