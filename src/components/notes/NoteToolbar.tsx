@@ -1,7 +1,5 @@
 import { IconButton } from '@/components/ui/IconButton';
-import { toolbarGroups } from '@/constants/toolBarGroups';
-
-const linkGroup = [['link', '링크첨부']] as const;
+import { linkGroup, toolbarGroups } from '@/constants/toolBarGroups';
 
 const NoteToolbar = () => (
   <div className="border-line rounded-12 flex h-44 w-full items-center justify-between border-1 bg-white px-16 py-10 shadow-sm">

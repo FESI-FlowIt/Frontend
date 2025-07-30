@@ -15,3 +15,5 @@ export const toolbarGroups = [
     ['coloring', '색상'],
   ],
 ] as const;
+
+export const linkGroup = [['link', '링크첨부']] as const;
