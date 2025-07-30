@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
+import HomeIcon from '@/assets/icons/home.svg';
 import { ROUTES } from '@/lib/routes';
 
 export default function SidebarMenu() {
@@ -15,7 +16,7 @@ export default function SidebarMenu() {
         className="border-line flex h-84 w-260 items-center gap-12 border-y-2 px-10 py-16 sm:h-72 sm:w-248 sm:px-0 md:h-84 md:w-260 md:px-10"
       >
         <button className="relative h-24 w-24 cursor-pointer sm:h-20 sm:w-20 md:h-24 md:w-24">
-          <Image src="/assets/icons/homeIcon.svg" alt="대쉬보드 아이콘" fill />
+          <HomeIcon className="text-snackbar" width={24} height={24} fill="currentColor" />
         </button>
         <span className="text-text-01 text-body-sb-20 md:text-body-sb-20 sm:text-body-b-16">
           대시보드
