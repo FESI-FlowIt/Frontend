@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 const iconConfig = {
   info: {
-    src: '/assets/icons/infoIcon.svg',
+    src: '@/assets/icons/infoIcon.svg',
     alt: '정보 아이콘',
     className: 'text-inactive',
   },
