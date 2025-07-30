@@ -1,10 +1,8 @@
 'use client';
 
-import React from 'react';
-
 import Image from 'next/image';
 
-import SidebarHide from '@/../public/assets/icons/menu-left.svg';
+import SidebarHideIcon from '@/assets/icons/sidebar-left.svg';
 
 type SidebarHeaderProps = {
   setIsOpen: (value: boolean) => void;
@@ -28,7 +26,10 @@ export default function SidebarHeader({ setIsOpen }: SidebarHeaderProps) {
         onClick={handleClick}
         className="rounded-12 border-line hover:bg-sidebar-hover flex h-44 w-44 cursor-pointer items-center justify-center border bg-white hover:border-none sm:h-32 sm:w-32 md:h-44 md:w-44"
       >
-        <SidebarHide className="sm:h-17.45 sm:w-17.45 h-24 w-24 md:h-24 md:w-24" />
+        <SidebarHideIcon
+          className="sm:h-17.45 sm:w-17.45 text-snackbar h-24 w-24 md:h-24 md:w-24"
+          fill="currentColor"
+        />
       </button>
     </div>
   );

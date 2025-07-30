@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 
-import SidebarOpen from '@/../public/assets/icons/menu-right.svg';
 import { useSidebar } from '@/app/providers/SidebarProvider';
+import SidebarOpenIcon from '@/assets/icons/sidebar-right.svg';
 import { useModalStore } from '@/store/modalStore';
 
 import GoalModal from '../goals/GoalModal';
@@ -57,7 +57,10 @@ export default function Sidebar() {
           onClick={() => setIsOpen(true)}
           className="rounded-12 border-line hover:bg-sidebar-hover flex h-44 w-44 cursor-pointer items-center justify-center border bg-white hover:border-none sm:h-32 sm:w-32 md:h-44 md:w-44"
         >
-          <SidebarOpen className="sm:h-17.45 sm:w-17.45 h-24 w-24 md:h-24 md:w-24" />
+          <SidebarOpenIcon
+            className="sm:h-17.45 sm:w-17.45 text-snackbar h-24 w-24 md:h-24 md:w-24"
+            fill="currentColor"
+          />
         </button>
       </div>
 
@@ -73,7 +76,7 @@ export default function Sidebar() {
           onClick={() => setIsOpen(true)}
           className="sm:rounded-12 sm:border-line hover:bg-sidebar-hover bg-white hover:border-none sm:flex sm:h-32 sm:w-32 sm:cursor-pointer sm:items-center sm:justify-center sm:border"
         >
-          <SidebarOpen className="sm:h-17.45 sm:w-17.45" />
+          <SidebarOpenIcon className="sm:h-17.45 sm:w-17.45" fill="currentColor" />
         </button>
       </div>
     </>
