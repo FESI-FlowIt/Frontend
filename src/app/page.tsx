@@ -9,7 +9,7 @@ export default function Home() {
         <LandingBanner />
       </section>
 
-      <section className="mb-240">
+      <section className="sm:mb-100 md:mb-200 lg:mb-240">
         <LandingIntroduction />
       </section>
 
