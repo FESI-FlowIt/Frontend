@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
-import GoIcon from '@/../public/assets/icons/go.svg';
+import GoIcon from '@/assets/icons/arrow-right.svg';
 import TodoIcon from '@/assets/icons/todo.svg';
 import Card from '@/components/ui/Card';
 import { useGoalsDashboard } from '@/hooks/useGoalDashboard';
@@ -41,7 +41,7 @@ export default function GoalListDashboardSection() {
           >
             <span className="text-body-sb-20 hidden md:inline">모든 목표 보기</span>
             <span className="text-body-mb-16 inline md:hidden">모두 보기</span>
-            <GoIcon width={20} height={20} />
+            <GoIcon className="text-snackbar" width={20} height={20} fill="currentColor" />
           </button>
         }
         backgroundColor="gray"

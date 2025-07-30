@@ -28,7 +28,7 @@ const iconConfig = {
   next: {
     src: '/assets/icons/nextIcon.svg',
     alt: '다음 아이콘',
-    className: 'text-gray-01',
+    className: 'text-snackbar',
   },
   paginationArrowPrev: {
     src: '/assets/icons/prevIcon.svg',

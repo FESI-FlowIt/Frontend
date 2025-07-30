@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-import DownArrow from '@/../public/assets/icons/downArrow.svg';
+import DownArrowIcon from '@/assets/icons/arrow-down.svg';
 import PinOnIcon from '@/assets/icons/pin-on.svg';
 import DropdownMenu from '@/components/ui/DropdownMenu';
 import ToggleButton from '@/components/ui/ToggleButton';
@@ -62,7 +62,7 @@ const GoalsFilterControls = ({
           >
             {getSortText(params.sortBy)}
             <div className="flex h-24 w-24 items-center justify-center">
-              <DownArrow className="text-snackbar" />
+              <DownArrowIcon className="text-snackbar" width={24} height={24} fill="currentColor" />
             </div>
           </button>
           <DropdownMenu
