@@ -92,7 +92,7 @@ export default function LandingBanner() {
       >
         <div className="rounded-tl-50 rounded-bl-50 bg-landing-blue absolute h-343 w-850 -translate-x-[2%]" />
         <Image
-          src="/assets/images/dashboard.svg"
+          src="/assets/images/landing_dashboard.svg"
           alt="대쉬보드 이미지"
           width={699.78}
           height={399.88}
