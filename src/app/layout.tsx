@@ -16,6 +16,9 @@ const pretendard = localFont({
 export const metadata: Metadata = {
   title: 'FlowIt',
   description: '작업 패턴 분석을 통해 개인의 생산성을 극대화하는 서비스입니다.',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
