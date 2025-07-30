@@ -25,8 +25,8 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       todoCard: 'text-body-m-16 text-white',
       schedulecheck: 'text-body-sb-20 text-white',
       schedulecancel: 'text-body-sb-20 text-primary-01',
-      noteHeader: 'text-body-b-16 text-primary-01 font-bold',
-      noteHeaderWhite: 'text-body-sb-20 text-white',
+      noteHeader: 'md:text-body-b-16 text-body-m-16 text-primary-01',
+      noteHeaderWhite: 'md:text-body-sb-20 text-body-m-16 text-white',
     },
     size: {
       auth: 'h-62 w-600 px-20 py-24 sm:h-44 sm:w-full sm:max-w-343 md:h-62 md:w-full md:max-w-600',
@@ -38,6 +38,7 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       emptytodoCard: 'h-40 w-200',
       addgoal: 'h-48 w-260',
       authModal: 'h-48 w-120',
+      noteHeader: 'sm:h-40 sm:w-84 md:h-44 md:w-118',
       schedule: 'h-48 w-120 sm:w-165.5',
       scheduleDashboard: 'h-40 w-120 sm:w-160',
     },

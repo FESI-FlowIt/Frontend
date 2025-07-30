@@ -21,7 +21,7 @@ const toolbarGroups = [
 const linkGroup = [['link', '링크첨부']] as const;
 
 const NoteToolbar = () => (
-  <div className="border-line rounded-12 flex h-44 items-center justify-between border-1 bg-white px-16 py-10 shadow-sm">
+  <div className="border-line rounded-12 flex h-44 w-full items-center justify-between border-1 bg-white px-16 py-10 shadow-sm">
     <div className="flex items-center gap-4">
       {toolbarGroups.map((group, i) => (
         <div key={i} className={i > 0 ? 'ml-16 flex gap-4' : 'flex gap-4'}>

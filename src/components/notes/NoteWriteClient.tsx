@@ -6,8 +6,8 @@ import NoteToolbar from './NoteToolbar';
 
 const NoteWriteClient = () => {
   return (
-    <div className="w-full">
-      <div className="relative mx-auto max-w-793">
+    <div className="relative h-full w-full">
+      <div className="relative h-full max-w-793 sm:max-w-343 md:max-w-616 lg:max-w-793">
         <div className="mb-40">
           <NoteHeader />
         </div>
@@ -15,7 +15,7 @@ const NoteWriteClient = () => {
         <div className="my-16">
           <NoteContentEditor />
         </div>
-        <div className="fixed bottom-24 z-10 mx-auto w-full max-w-793">
+        <div className="absolute bottom-0 z-10 w-full sm:max-w-343 md:max-w-616 lg:max-w-793">
           <NoteToolbar />
         </div>
       </div>
