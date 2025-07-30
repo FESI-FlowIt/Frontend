@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 
 import DownArrow from '@/../public/assets/icons/downArrow.svg';
-import PinIcon from '@/../public/assets/icons/pinIcon_on.svg';
+import PinOnIcon from '@/assets/icons/pin-on.svg';
 import DropdownMenu from '@/components/ui/DropdownMenu';
 import ToggleButton from '@/components/ui/ToggleButton';
 import { GetGoalsRequestParams } from '@/interfaces/goal';
@@ -43,7 +43,7 @@ const GoalsFilterControls = ({
         {/* 필터링 */}
         <div className="flex items-center justify-center">
           <div className="mr-4 flex h-24 w-24 items-center justify-center p-2">
-            <PinIcon className="text-heatmap-accent" />
+            <PinOnIcon className="text-heatmap-accent" width={24} height={24} fill="currentColor" />
           </div>
           <div className="text-body-sb-20 text-text-01 pr-12 font-semibold">고정된 목표만 보기</div>
           <ToggleButton

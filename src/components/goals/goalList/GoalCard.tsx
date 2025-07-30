@@ -5,9 +5,9 @@ import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import PinIconOff from '@/../public/assets/icons/pinIcon_off.svg';
-import PinIcon from '@/../public/assets/icons/pinIcon_on.svg';
 import GoalIcon from '@/assets/icons/goal.svg';
+import PinOffIcon from '@/assets/icons/pin-off.svg';
+import PinOnIcon from '@/assets/icons/pin-on.svg';
 import PlusIcon from '@/assets/icons/plus.svg';
 import { useUpdateGoalPinStatus } from '@/hooks/useGoals';
 import { GoalSummary } from '@/interfaces/goal';
@@ -83,9 +83,9 @@ const GoalCard = ({ goal }: GoalCardProps) => {
       {/* 고정 핀 아이콘 */}
       <div className="absolute top-20 right-20 cursor-pointer" onClick={handleTogglePin}>
         {goal.isPinned ? (
-          <PinIcon className="text-heatmap-accent" />
+          <PinOnIcon className="text-heatmap-accent" width={24} height={24} fill="currentColor" />
         ) : (
-          <PinIconOff className="text-text-inactive" />
+          <PinOffIcon className="text-text-inactive" width={24} height={24} fill="currentColor" />
         )}
       </div>
 
