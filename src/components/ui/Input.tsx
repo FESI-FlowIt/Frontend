@@ -13,6 +13,7 @@ const inputVariants = cva('', {
         'border-line focus-visible:border-primary-01-hover rounded-xl border bg-white focus:border-2 focus:outline-none',
       modal:
         'border-line focus-visible:border-primary-01-hover rounded-lg border bg-white focus:border-2 focus:outline-none',
+      noteTitle: 'border-line border-0 border-t-1 border-b-1 bg-transparent',
     },
     inputSize: {
       default:
@@ -20,9 +21,11 @@ const inputVariants = cva('', {
       modal: 'h-44 w-full px-20 py-10',
       withBtn:
         'h-60 w-470 px-20 py-24 sm:h-45 sm:w-full sm:max-w-251 md:h-60 md:w-full md:max-w-470',
+      noteTitle: 'h-52 w-full px-0',
     },
     text: {
       default: 'text-body-sb-20 placeholder:text-text-inactive text-black',
+      noteTitle: 'text-body-m-20 placeholder:text-text-04 font-medium',
     },
     isError: {
       true: 'border-error border-2',
