@@ -5,6 +5,56 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
 const iconConfig = {
+  bold: {
+    src: '/assets/icons/icbold.svg',
+    alt: '굵게',
+    className: '',
+  },
+  italic: {
+    src: '/assets/icons/icitalic.svg',
+    alt: '기울임꼴',
+    className: '',
+  },
+  underline: {
+    src: '/assets/icons/icunderline.svg',
+    alt: '밑줄',
+    className: '',
+  },
+  alignmentleft: {
+    src: '/assets/icons/icAlignmentleft.svg',
+    alt: '왼쪽 정렬',
+    className: '',
+  },
+  alignmentcenter: {
+    src: '/assets/icons/icAlignmentcenter.svg',
+    alt: '가운데 정렬',
+    className: '',
+  },
+  alignmentright: {
+    src: '/assets/icons/icAlignmentright.svg',
+    alt: '오른쪽 정렬',
+    className: '',
+  },
+  bullet: {
+    src: '/assets/icons/icBullet.svg',
+    alt: '글머리 기호',
+    className: '',
+  },
+  numbering: {
+    src: '/assets/icons/icnumbering.svg',
+    alt: '번호 매기기',
+    className: '',
+  },
+  coloring: {
+    src: '/assets/icons/iccoloring.svg',
+    alt: '색상',
+    className: '',
+  },
+  link: {
+    src: '/assets/icons/linkAlt.svg',
+    alt: '링크 첨부',
+    className: '',
+  },
   info: {
     src: '/assets/icons/infoIcon.svg',
     alt: '정보 아이콘',
@@ -68,7 +118,17 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
     | 'paginationArrowNext'
     | 'kebab'
     | 'checkboxChecked'
-    | 'checkboxUnchecked';
+    | 'checkboxUnchecked'
+    | 'bold'
+    | 'italic'
+    | 'underline'
+    | 'alignmentleft'
+    | 'alignmentcenter'
+    | 'alignmentright'
+    | 'bullet'
+    | 'numbering'
+    | 'coloring'
+    | 'link';
   'aria-label': string;
 }
 
