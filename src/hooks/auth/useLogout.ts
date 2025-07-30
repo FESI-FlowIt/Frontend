@@ -11,7 +11,8 @@ export function useLogout() {
 
   return () => {
     clearTokens();
-    router.push(ROUTES.HOME);
     setUser(null);
+    document.cookie = 'accessToken=; path=/; max-age=0';
+    router.push(ROUTES.HOME);
   };
 }

@@ -41,6 +41,7 @@ export async function fetchWrapper(url: string, options: RequestInit = {}) {
 
       if (token) {
         useAuthStore.getState().setAccessToken(token);
+        document.cookie = `accessToken=${token}; path=/; max-age=3600; samesite=strict`;
       }
     }
 
