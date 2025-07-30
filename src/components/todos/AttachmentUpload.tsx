@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 
-import SelectLinkUploadIcon from '@/../public/assets/icons/selectLinkUploadIcon.svg';
 import SelectFileUploadIcon from '@/assets/icons/select-file-upload.svg';
+import SelectLinkUploadIcon from '@/assets/icons/select-link-upload.svg';
 import { Attachment } from '@/interfaces/todo';
 import { useAttachmentStore } from '@/store/attachmentStore';
 
@@ -58,7 +58,7 @@ const AttachmentUpload = () => {
           type={'link'}
           activeTab={activeTab}
           onClick={handleLinkUploadClick}
-          icon={<SelectLinkUploadIcon />}
+          icon={<SelectLinkUploadIcon className="text-white" width={24} height={24} fill="none" />}
         >
           링크 첨부
         </TodoModalButton>
