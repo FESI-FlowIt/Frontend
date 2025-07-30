@@ -7,8 +7,8 @@ import { useRouter } from 'next/navigation';
 
 import PinIconOff from '@/../public/assets/icons/pinIcon_off.svg';
 import PinIcon from '@/../public/assets/icons/pinIcon_on.svg';
-import PlusIcon from '@/../public/assets/icons/PlusIcon.svg';
 import GoalIcon from '@/assets/icons/goal.svg';
+import PlusIcon from '@/assets/icons/plus.svg';
 import { useUpdateGoalPinStatus } from '@/hooks/useGoals';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
@@ -64,7 +64,7 @@ const GoalCard = ({ goal }: GoalCardProps) => {
       variant="snackbar"
       text="snackbar"
       rounded="lg"
-      icon={<PlusIcon className="text-white" />}
+      icon={<PlusIcon className="text-white" width={24} height={24} fill="currentColor" />}
       disabled={false}
       onClick={handleCreateTodo}
     >
