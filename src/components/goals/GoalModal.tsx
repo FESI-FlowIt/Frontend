@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import CloseIcon from '@/../public/assets/icons/closeIcon.svg';
+import CloseIcon from '@/assets/icons/close.svg';
 import GoalIcon from '@/assets/icons/goal.svg';
 import { useCreateGoal, useUpdateGoal } from '@/hooks/useGoals';
 import { GoalFormData } from '@/interfaces/goal';
@@ -77,7 +77,7 @@ const GoalModal = () => {
             onClick={handleClose}
             className="text-text-03 h-12 w-12 cursor-pointer transition-colors"
           >
-            <CloseIcon className="fill-snackbar" />
+            <CloseIcon className="text-text-03" width={12} height={12} fill="currentColor" />
           </button>
         </div>
 

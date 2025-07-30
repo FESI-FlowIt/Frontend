@@ -2,8 +2,8 @@
 
 import React from 'react';
 
-import CloseIcon from '@/../public/assets/icons/closeIcon.svg';
 import SelectLinkUploadIcon from '@/../public/assets/icons/selectLinkUploadIcon.svg';
+import CloseIcon from '@/assets/icons/close.svg';
 import { Attachment } from '@/interfaces/todo';
 import { useModalStore } from '@/store/modalStore';
 
@@ -80,7 +80,12 @@ const LinkUpload = ({ attachments, onLinksChange }: LinkUploadProps) => {
                 onClick={removeLink}
                 className="text-16 cursor-pointer transition-colors"
               >
-                <CloseIcon className="text-delete hover:text-error" />
+                <CloseIcon
+                  className="text-delete hover:text-error"
+                  width={24}
+                  height={24}
+                  fill="currentColor"
+                />
               </button>
             </div>
           </div>

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import CloseIcon from '@/../public/assets/icons/closeIcon.svg';
+import CloseIcon from '@/assets/icons/close.svg';
 import TodoIcon from '@/assets/icons/todo.svg';
 import { useTodoForm } from '@/hooks/useTodoForm';
 import { Todo } from '@/interfaces/todo';
@@ -111,7 +111,7 @@ const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {
             onClick={handleModalClose}
             className="text-text-04 hover:text-text-03 h-12 w-12 cursor-pointer transition-colors"
           >
-            <CloseIcon className="fill-snackbar" />
+            <CloseIcon className="text-snackbar" width={24} height={24} fill="currentColor" />
           </button>
         </div>
 

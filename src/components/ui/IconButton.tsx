@@ -11,7 +11,7 @@ const iconConfig = {
     className: 'text-inactive',
   },
   close: {
-    src: '/assets/icons/closeIcon.svg',
+    src: '@/assets/icons/closeIcon.svg',
     alt: '닫기 아이콘',
     className: 'text-gray-02',
   },
