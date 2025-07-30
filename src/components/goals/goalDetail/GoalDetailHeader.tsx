@@ -4,8 +4,8 @@ import React, { useRef, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import KebabIcon from '@/../public/assets/icons/kebabIcon.svg';
 import GoalIcon from '@/assets/icons/goal.svg';
+import KebabIcon from '@/assets/icons/kebab.svg';
 import { useDeleteGoal } from '@/hooks/useGoals';
 import { Goal } from '@/interfaces/goal';
 import {
@@ -94,7 +94,7 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
               className="text-text-02 flex h-24 w-24 items-center justify-center rounded-full transition-colors"
               aria-label="더보기 메뉴"
             >
-              <KebabIcon className="text-Gray_01 h-20 w-20" />
+              <KebabIcon className="text-snackbar" width={20} height={20} fill="currentColor" />
             </button>
             <DropdownMenu
               isOpen={isDropdownOpen}

@@ -6,12 +6,12 @@ import { cn } from '@/lib/utils';
 
 const iconConfig = {
   info: {
-    src: '@/assets/icons/infoIcon.svg',
+    src: '@/assets/icons/info.svg',
     alt: '정보 아이콘',
     className: 'text-inactive',
   },
   close: {
-    src: '@/assets/icons/closeIcon.svg',
+    src: '@/assets/icons/close.svg',
     alt: '닫기 아이콘',
     className: 'text-gray-02',
   },
@@ -41,9 +41,9 @@ const iconConfig = {
     className: 'text-snackbar',
   },
   kebab: {
-    src: '/assets/icons/kebabIcon.svg',
+    src: '@/assets/icons/kebab.svg',
     alt: '메뉴 아이콘',
-    className: 'text-gray-01',
+    className: 'text-snackbar',
   },
   checkboxChecked: {
     src: '/assets/icons/check.svg',
