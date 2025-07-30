@@ -1,8 +1,8 @@
 'use client';
 import { useState } from 'react';
 
-import VisibilityOffIcon from '@/assets/icons/visibility_off.svg';
-import VisibilityOnIcon from '@/assets/icons/visibility_on.svg';
+import VisibilityOffIcon from '@/assets/icons/visibility-off.svg';
+import VisibilityOnIcon from '@/assets/icons/visibility-on.svg';
 
 import { Input } from '../ui/Input';
 
