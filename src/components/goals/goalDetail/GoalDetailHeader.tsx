@@ -4,8 +4,8 @@ import React, { useRef, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
-import KebabIcon from '@/../public/assets/icons/kebabIcon.svg';
+import GoalIcon from '@/assets/icons/goal.svg';
+import KebabIcon from '@/assets/icons/kebab.svg';
 import { useDeleteGoal } from '@/hooks/useGoals';
 import { Goal } from '@/interfaces/goal';
 import {
@@ -79,7 +79,12 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
         {/* 목표 헤더 */}
         <div className="mb-24 flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <GoalIcon className={`h-24 w-24 rounded-full ${getGoalTextColorClass(goal.color)}`} />
+            <GoalIcon
+              className={getGoalTextColorClass(goal.color)}
+              width={24}
+              height={24}
+              fill="currentColor"
+            />
             <h1 className="text-body-sb-20 text-text-01 font-bold">{goal.title}</h1>
           </div>
           <div className="relative">
@@ -89,7 +94,7 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
               className="text-text-02 flex h-24 w-24 items-center justify-center rounded-full transition-colors"
               aria-label="더보기 메뉴"
             >
-              <KebabIcon className="text-Gray_01 h-20 w-20" />
+              <KebabIcon className="text-snackbar" width={20} height={20} fill="currentColor" />
             </button>
             <DropdownMenu
               isOpen={isDropdownOpen}

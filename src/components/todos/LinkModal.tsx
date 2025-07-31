@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import CloseIcon from '@/../public/assets/icons/closeIcon.svg';
+import CloseIcon from '@/assets/icons/close.svg';
 import { Attachment } from '@/interfaces/todo';
 import { useModalStore } from '@/store/modalStore';
 
@@ -119,7 +119,7 @@ const LinkModal = ({ onAddLink }: LinkModalProps) => {
           onClick={handleClose}
           className="text-text-04 hover:text-text-03 h-12 w-12 cursor-pointer transition-colors"
         >
-          <CloseIcon className="fill-snackbar" />
+          <CloseIcon className="text-text-02" width={12} height={12} fill="currentColor" />
         </button>
       </div>
 

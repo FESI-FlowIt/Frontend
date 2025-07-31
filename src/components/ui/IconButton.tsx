@@ -1,59 +1,104 @@
 import React from 'react';
 
-import Image from 'next/image';
-
+import PrevIcon from '@/assets/icons/arrow-left.svg';
+import NextIcon from '@/assets/icons/arrow-right.svg';
+import CheckedIcon from '@/assets/icons/checkbox-checked-blue.svg';
+import UncheckedIcon from '@/assets/icons/checkbox-unchecked.svg';
+import CloseIcon from '@/assets/icons/close.svg';
+import AlignmentCenterIcon from '@/assets/icons/ic-alignment-center.svg';
+import AlignmentLeftIcon from '@/assets/icons/ic-alignment-left.svg';
+import AlignmentRightIcon from '@/assets/icons/ic-alignment-right.svg';
+import BoldIcon from '@/assets/icons/ic-bold.svg';
+import BUlletIcon from '@/assets/icons/ic-bullet.svg';
+import ColoringIcon from '@/assets/icons/ic-coloring.svg';
+import ItalicIcon from '@/assets/icons/ic-italic.svg';
+import NumberingIcon from '@/assets/icons/ic-numbering.svg';
+import UnderLineIcon from '@/assets/icons/ic-underline.svg';
+import InfoIcon from '@/assets/icons/info.svg';
+import KebabIcon from '@/assets/icons/kebab.svg';
+import LinkIcon from '@/assets/icons/link-alt.svg';
 import { cn } from '@/lib/utils';
 
 const iconConfig = {
+  bold: {
+    component: BoldIcon,
+    className: '',
+  },
+  italic: {
+    component: ItalicIcon,
+    className: '',
+  },
+  underline: {
+    component: UnderLineIcon,
+    className: '',
+  },
+  alignmentLeft: {
+    component: AlignmentLeftIcon,
+    className: '',
+  },
+  alignmentCenter: {
+    component: AlignmentCenterIcon,
+    className: '',
+  },
+  alignmentRight: {
+    component: AlignmentRightIcon,
+    className: '',
+  },
+  bullet: {
+    component: BUlletIcon,
+    className: '',
+  },
+  numbering: {
+    component: NumberingIcon,
+    className: '',
+  },
+  coloring: {
+    component: ColoringIcon,
+    className: '',
+  },
+  link: {
+    component: LinkIcon,
+    className: 'fill-none',
+  },
   info: {
-    src: '/assets/icons/infoIcon.svg',
-    alt: '정보 아이콘',
-    className: 'text-inactive',
+    component: InfoIcon,
+    className: 'text-text-inactive',
   },
   close: {
-    src: '/assets/icons/closeIcon.svg',
-    alt: '닫기 아이콘',
+    component: CloseIcon,
     className: 'text-gray-02',
   },
   back: {
-    src: '/assets/icons/prevIcon.svg',
-    alt: '뒤로가기 아이콘',
-    className: 'text-Gray_01',
+    component: PrevIcon,
+    className: 'fill-none',
   },
   prev: {
-    src: '/assets/icons/prevIcon.svg',
-    alt: '이전 아이콘',
-    className: 'text-gray-01',
+    component: PrevIcon,
+    className: 'fill-none',
   },
   next: {
-    src: '/assets/icons/nextIcon.svg',
-    alt: '다음 아이콘',
-    className: 'text-gray-01',
+    component: NextIcon,
+    className: 'fill-none',
   },
   paginationArrowPrev: {
-    src: '/assets/icons/prevIcon.svg',
-    alt: '페이지네이션 아이콘',
-    className: 'text-snackbar',
+    component: PrevIcon,
+    className: 'fill-none',
   },
   paginationArrowNext: {
-    src: '/assets/icons/nextIcon.svg',
-    alt: '페이지네이션 아이콘',
-    className: 'text-snackbar',
+    component: NextIcon,
+    className: 'fill-none',
   },
   kebab: {
-    src: '/assets/icons/kebabIcon.svg',
-    alt: '메뉴 아이콘',
-    className: 'text-gray-01',
+    component: KebabIcon,
+    className: 'text-snackbar',
   },
   checkboxChecked: {
-    src: '/assets/icons/check.svg',
-    alt: '체크됨',
-    className: 'text-primary-01',
+    component: CheckedIcon,
+    className: 'checkbox-checked-blue',
   },
   checkboxUnchecked: {
-    src: '/assets/icons/check_default.svg',
-    alt: '체크 안됨',
-    className: 'text-gray-300',
+    component: UncheckedIcon,
+    className: 'checkbox-unchecked',
   },
 };
 
@@ -68,13 +113,22 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
     | 'paginationArrowNext'
     | 'kebab'
     | 'checkboxChecked'
-    | 'checkboxUnchecked';
-  'aria-label': string;
+    | 'checkboxUnchecked'
+    | 'bold'
+    | 'italic'
+    | 'underline'
+    | 'alignmentLeft'
+    | 'alignmentCenter'
+    | 'alignmentRight'
+    | 'bullet'
+    | 'numbering'
+    | 'coloring'
+    | 'link';
 }
 
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   ({ className, variant, 'aria-label': ariaLabel, onClick, ...props }, ref) => {
-    const { src, alt, className: iconClassName } = iconConfig[variant];
+    const { component: IconComponent, className: iconClassName } = iconConfig[variant];
     const isNavigation = variant === 'prev' || variant === 'next';
 
     return (
@@ -89,12 +143,11 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         ref={ref}
         {...props}
       >
-        <Image
-          src={src}
-          alt={alt}
+        <IconComponent
           width={isNavigation ? 14 : 24}
           height={isNavigation ? 14 : 24}
           className={iconClassName}
+          fill="currentColor"
         />
       </button>
     );

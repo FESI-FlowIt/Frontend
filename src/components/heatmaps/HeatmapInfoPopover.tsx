@@ -1,5 +1,4 @@
-import Image from 'next/image';
-
+import TimerIcon from '@/assets/icons/timer.svg';
 import LegendSection from '@/components/heatmaps/LegendSection';
 import Popover from '@/components/ui/Popover';
 import { MONTHLY_LEGEND, WEEKLY_LEGEND } from '@/constants/heatmap';
@@ -14,7 +13,7 @@ interface HeatmapInfoPopoverProps {
 const HeatmapInfoPopover = ({ onClose, position, className }: HeatmapInfoPopoverProps) => {
   return (
     <Popover
-      icon={<Image src="/assets/icons/timerIcon.svg" alt="타이머 아이콘" width={24} height={24} />}
+      icon={<TimerIcon className="text-snackbar" width={24} height={24} fill="currentColor" />}
       title="작업 시간에 따른 히트맵 측정"
       onClose={onClose}
       className={cn('shadow-lg', className)}

@@ -2,8 +2,7 @@
 
 import { useRef, useState } from 'react';
 
-import Image from 'next/image';
-
+import SparkleIcon from '@/assets/icons/sparkle.svg';
 import HeatmapInfoPopover from '@/components/heatmaps/HeatmapInfoPopover';
 import MonthlyHeatmap from '@/components/heatmaps/MonthlyHeatmap';
 import WeeklyHeatmap from '@/components/heatmaps/WeeklyHeatmap';
@@ -115,9 +114,7 @@ export default function HeatmapSection() {
   return (
     <div>
       <Card
-        icon={
-          <Image src="/assets/icons/sparkleIcon.svg" alt="스파클 아이콘" width={24} height={24} />
-        }
+        icon={<SparkleIcon className="text-snackbar" width={24} height={24} fill="currentColor" />}
         title={cardTitle}
         extra={<Tab items={periodTabs} value={period} onChange={setPeriod} />}
         backgroundColor="white"

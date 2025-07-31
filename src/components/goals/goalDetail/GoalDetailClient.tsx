@@ -1,11 +1,8 @@
 'use client';
 
-import React from 'react';
-
-import Image from 'next/image';
-
-import DashboardGoal from '@/../public/assets/icons/dashborad-goal.svg';
-import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
+import CheckedIcon from '@/assets/icons/checkbox-checked-gray.svg';
+import GoalIcon from '@/assets/icons/goal.svg';
+import TodoIcon from '@/assets/icons/todo.svg';
 import DoneSection from '@/components/goals/goalDetail/DoneSection';
 import GoalDetailHeader from '@/components/goals/goalDetail/GoalDetailHeader';
 import TodoSection from '@/components/goals/goalDetail/TodoSection';
@@ -40,7 +37,7 @@ const GoalDetailClient = ({ goalId }: GoalDetailClientProps) => {
       <div className="container mx-auto flex h-full w-full flex-col">
         {/* 목표 정보 헤더 */}
         <div className="mb-24 flex items-center gap-8">
-          <GoalIcon className="text-Gray_01 h-24 w-24" />
+          <GoalIcon className="text-snackbar" width={24} height={24} fill="currentColor" />
           <div className="text-body-sb-20 text-text-01 font-semibold">목표</div>
         </div>
         <GoalDetailHeader
@@ -54,7 +51,7 @@ const GoalDetailClient = ({ goalId }: GoalDetailClientProps) => {
           {/* To do 섹션 */}
           <div className="flex h-full flex-col overflow-hidden">
             <div className="mb-24 flex items-center gap-8">
-              <DashboardGoal className="text-Gray_01 h-24 w-24" />
+              <TodoIcon className="text-snackbar" width={24} height={24} fill="currentColor" />
               <div className="text-body-sb-20 text-text-01 font-semibold">To do</div>
             </div>
             <div className="flex-1 overflow-hidden">
@@ -66,12 +63,7 @@ const GoalDetailClient = ({ goalId }: GoalDetailClientProps) => {
           <div className="flex h-full flex-col overflow-hidden">
             <div className="mb-24 flex items-center gap-8">
               <div className="flex h-24 w-24 items-center justify-center rounded-full">
-                <Image
-                  src="/assets/icons/doneCheck.svg"
-                  alt="Dashboard Goal Icon"
-                  width={16}
-                  height={16}
-                />
+                <CheckedIcon className="checkbox-checked-gray" width={16} height={16} />
               </div>
               <div className="text-body-sb-20 text-text-01 font-semibold">Done</div>
             </div>

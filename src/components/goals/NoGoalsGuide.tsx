@@ -10,8 +10,11 @@ export default function NoGoalsGuide() {
 
   return (
     <div className="flex flex-col items-center">
-      <Image src="/assets/images/landing_img.svg" alt="설명" width={200} height={200} />
-
+      <Image
+        src="/assets/images/landing_img.svg"
+        alt="랜딩페이지 이미지"
+        className="mb-16 h-140 w-140 md:h-200 md:w-200"
+      />
       <p className="text-text-04 text-body-m-20 mb-20 text-center">
         목표를 만들어
         <br />
