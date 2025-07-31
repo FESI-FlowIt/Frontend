@@ -65,7 +65,7 @@ export default function LandingBanner() {
         <div className="sm:mb-0 md:mb-0 lg:mb-10">
           <span className="lg:text-banner-44 md:text-banner-24 sm:text-banner-24 flex text-white sm:flex-col md:flex-col lg:block">
             목표 중심의
-            <br /> 스마트한 생산성 관리,{' '}
+            <br /> 스마트한 생산성 관리,
             <span className="lg:text-banner-44-bold md:text-logo-32 sm:text-logo-32">FlowIt</span>
           </span>
         </div>
@@ -103,7 +103,7 @@ export default function LandingBanner() {
       >
         <div className="rounded-tl-50 rounded-bl-50 bg-landing-blue absolute h-343 w-850 -translate-x-[2%]" />
         <Image
-          src="/assets/images/dashboard.svg"
+          src="/assets/images/landing_dashboard.svg"
           alt="대쉬보드 이미지"
           width={699.78}
           height={399.88}
