@@ -70,23 +70,23 @@ const iconConfig = {
   },
   back: {
     component: PrevIcon,
-    className: 'text-snackbar',
+    className: 'fill-none',
   },
   prev: {
     component: PrevIcon,
-    className: 'text-gray-01',
+    className: 'fill-none',
   },
   next: {
     component: NextIcon,
-    className: 'text-snackbar',
+    className: 'fill-none',
   },
   paginationArrowPrev: {
     component: PrevIcon,
-    className: 'text-snackbar',
+    className: 'fill-none',
   },
   paginationArrowNext: {
     component: NextIcon,
-    className: 'text-snackbar',
+    className: 'fill-none',
   },
   kebab: {
     component: KebabIcon,
