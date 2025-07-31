@@ -5,60 +5,60 @@ import NextIcon from '@/assets/icons/arrow-right.svg';
 import CheckedIcon from '@/assets/icons/checkbox-checked-blue.svg';
 import UncheckedIcon from '@/assets/icons/checkbox-unchecked.svg';
 import CloseIcon from '@/assets/icons/close.svg';
+import AlignmentCenterIcon from '@/assets/icons/ic-alignment-center.svg';
+import AlignmentLeftIcon from '@/assets/icons/ic-alignment-left.svg';
+import AlignmentRightIcon from '@/assets/icons/ic-alignment-right.svg';
+import BoldIcon from '@/assets/icons/ic-bold.svg';
+import BUlletIcon from '@/assets/icons/ic-bullet.svg';
+import ColoringIcon from '@/assets/icons/ic-coloring.svg';
+import ItalicIcon from '@/assets/icons/ic-italic.svg';
+import NumberingIcon from '@/assets/icons/ic-numbering.svg';
+import UnderLineIcon from '@/assets/icons/ic-underline.svg';
 import InfoIcon from '@/assets/icons/info.svg';
 import KebabIcon from '@/assets/icons/kebab.svg';
+import LinkIcon from '@/assets/icons/link-alt.svg';
 import { cn } from '@/lib/utils';
 
 const iconConfig = {
   bold: {
-    src: '/assets/icons/icbold.svg',
-    alt: '굵게',
+    component: BoldIcon,
     className: '',
   },
   italic: {
-    src: '/assets/icons/icitalic.svg',
-    alt: '기울임꼴',
+    component: ItalicIcon,
     className: '',
   },
   underline: {
-    src: '/assets/icons/icunderline.svg',
-    alt: '밑줄',
+    component: UnderLineIcon,
     className: '',
   },
-  alignmentleft: {
-    src: '/assets/icons/icAlignmentleft.svg',
-    alt: '왼쪽 정렬',
+  alignmentLeft: {
+    component: AlignmentLeftIcon,
     className: '',
   },
-  alignmentcenter: {
-    src: '/assets/icons/icAlignmentcenter.svg',
-    alt: '가운데 정렬',
+  alignmentCenter: {
+    component: AlignmentCenterIcon,
     className: '',
   },
-  alignmentright: {
-    src: '/assets/icons/icAlignmentright.svg',
-    alt: '오른쪽 정렬',
+  alignmentRight: {
+    component: AlignmentRightIcon,
     className: '',
   },
   bullet: {
-    src: '/assets/icons/icBullet.svg',
-    alt: '글머리 기호',
+    component: BUlletIcon,
     className: '',
   },
   numbering: {
-    src: '/assets/icons/icnumbering.svg',
-    alt: '번호 매기기',
+    component: NumberingIcon,
     className: '',
   },
   coloring: {
-    src: '/assets/icons/iccoloring.svg',
-    alt: '색상',
+    component: ColoringIcon,
     className: '',
   },
   link: {
-    src: '/assets/icons/linkAlt.svg',
-    alt: '링크 첨부',
-    className: '',
+    component: LinkIcon,
+    className: 'fill-none',
   },
   info: {
     component: InfoIcon,
@@ -117,14 +117,13 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
     | 'bold'
     | 'italic'
     | 'underline'
-    | 'alignmentleft'
-    | 'alignmentcenter'
-    | 'alignmentright'
+    | 'alignmentLeft'
+    | 'alignmentCenter'
+    | 'alignmentRight'
     | 'bullet'
     | 'numbering'
     | 'coloring'
     | 'link';
-  'aria-label': string;
 }
 
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
