@@ -62,7 +62,7 @@ const GoalsFilterControls = ({
           >
             {getSortText(params.sortBy)}
             <div className="flex h-24 w-24 items-center justify-center">
-              <DownArrowIcon className="text-snackbar" width={24} height={24} fill="currentColor" />
+              <DownArrowIcon className="text-snackbar" width={24} height={24} />
             </div>
           </button>
           <DropdownMenu

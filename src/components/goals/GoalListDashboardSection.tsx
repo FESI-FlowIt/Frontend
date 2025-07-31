@@ -41,7 +41,7 @@ export default function GoalListDashboardSection() {
           >
             <span className="text-body-sb-20 hidden md:inline">모든 목표 보기</span>
             <span className="text-body-mb-16 inline md:hidden">모두 보기</span>
-            <GoIcon className="text-snackbar" width={20} height={20} fill="currentColor" />
+            <GoIcon className="text-snackbar" width={20} height={20} />
           </button>
         }
         backgroundColor="gray"

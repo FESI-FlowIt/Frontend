@@ -52,7 +52,12 @@ export default function LandingBanner() {
         })}
       >
         <div className="bg-text-01 p-6.67 rounded-12 flex h-80 w-80 items-center justify-center">
-          <Image src="/assets/images/logoIcon.svg" alt="로고 이미지" width={66.67} height={66.67} />
+          <Image
+            src="/assets/images/flowIt-logo.svg"
+            alt="로고 이미지"
+            width={66.67}
+            height={66.67}
+          />
         </div>
         <div className="mb-10">
           <span className="text-banner-44 text-white">
