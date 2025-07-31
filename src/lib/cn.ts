@@ -4,7 +4,7 @@ import { extendTailwindMerge } from 'tailwind-merge';
 const customTwMerge = extendTailwindMerge({
   extend: {
     classGroups: {
-      // Font size group (타이포그래피) - globals.css @utility 기준
+      // Font size group (타이포그래피)
       'font-size': [
         // Title
         'text-display-32',
@@ -35,7 +35,7 @@ const customTwMerge = extendTailwindMerge({
         'text-banner-24',
       ],
 
-      // Text color group - globals.css CSS 변수 기준으로 정리
+      // Text color group
       'text-color': [
         // Base colors
         'text-white',
@@ -83,7 +83,7 @@ const customTwMerge = extendTailwindMerge({
         'text-heatmap-accent',
       ],
 
-      // Background color group - globals.css CSS 변수와 완벽 매칭
+      // Background color group
       'bg-color': [
         // Base colors
         'bg-white',
@@ -126,7 +126,7 @@ const customTwMerge = extendTailwindMerge({
         'bg-heatmap-accent',
       ],
 
-      // Border color group - 예상되는 border 클래스들
+      // Border color group
       'border-color': [
         // Base colors
         'border-white',
@@ -169,7 +169,7 @@ const customTwMerge = extendTailwindMerge({
         'border-heatmap-accent',
       ],
 
-      // Border radius group - globals.css @utility 기준
+      // Border radius group
       rounded: [
         // Standard Border Radius
         'rounded-4',
