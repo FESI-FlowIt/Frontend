@@ -1,59 +1,54 @@
 import React from 'react';
 
-import Image from 'next/image';
-
+import PrevIcon from '@/assets/icons/arrow-left.svg';
+import NextIcon from '@/assets/icons/arrow-right.svg';
+import CheckedIcon from '@/assets/icons/checkbox-checked-blue.svg';
+import UncheckedIcon from '@/assets/icons/checkbox-unchecked.svg';
+import CloseIcon from '@/assets/icons/close.svg';
+import InfoIcon from '@/assets/icons/info.svg';
+import KebabIcon from '@/assets/icons/kebab.svg';
 import { cn } from '@/lib/utils';
 
 const iconConfig = {
   info: {
-    src: '@/assets/icons/info.svg',
-    alt: '정보 아이콘',
-    className: 'text-inactive',
+    component: InfoIcon,
+    className: 'text-text-inactive',
   },
   close: {
-    src: '@/assets/icons/close.svg',
-    alt: '닫기 아이콘',
+    component: CloseIcon,
     className: 'text-gray-02',
   },
   back: {
-    src: '/assets/icons/prevIcon.svg',
-    alt: '뒤로가기 아이콘',
-    className: 'text-Gray_01',
+    component: PrevIcon,
+    className: 'text-snackbar',
   },
   prev: {
-    src: '/assets/icons/prevIcon.svg',
-    alt: '이전 아이콘',
+    component: PrevIcon,
     className: 'text-gray-01',
   },
   next: {
-    src: '/assets/icons/nextIcon.svg',
-    alt: '다음 아이콘',
+    component: NextIcon,
     className: 'text-snackbar',
   },
   paginationArrowPrev: {
-    src: '/assets/icons/prevIcon.svg',
-    alt: '페이지네이션 아이콘',
+    component: PrevIcon,
     className: 'text-snackbar',
   },
   paginationArrowNext: {
-    src: '/assets/icons/nextIcon.svg',
-    alt: '페이지네이션 아이콘',
+    component: NextIcon,
     className: 'text-snackbar',
   },
   kebab: {
-    src: '@/assets/icons/kebab.svg',
-    alt: '메뉴 아이콘',
+    component: KebabIcon,
     className: 'text-snackbar',
   },
   checkboxChecked: {
-    src: '/assets/icons/check.svg',
-    alt: '체크됨',
-    className: 'text-primary-01',
+    component: CheckedIcon,
+    className: 'checkbox-checked-blue',
   },
   checkboxUnchecked: {
-    src: '/assets/icons/check_default.svg',
-    alt: '체크 안됨',
-    className: 'text-gray-300',
+    component: UncheckedIcon,
+    className: 'checkbox-unchecked',
   },
 };
 
@@ -74,7 +69,7 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
 
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   ({ className, variant, 'aria-label': ariaLabel, onClick, ...props }, ref) => {
-    const { src, alt, className: iconClassName } = iconConfig[variant];
+    const { component: IconComponent, className: iconClassName } = iconConfig[variant];
     const isNavigation = variant === 'prev' || variant === 'next';
 
     return (
@@ -89,12 +84,11 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         ref={ref}
         {...props}
       >
-        <Image
-          src={src}
-          alt={alt}
+        <IconComponent
           width={isNavigation ? 14 : 24}
           height={isNavigation ? 14 : 24}
           className={iconClassName}
+          fill="currentColor"
         />
       </button>
     );
