@@ -11,9 +11,9 @@ interface ProvidersInterface {
 }
 
 const providers: ProvidersInterface[] = [
-  { name: 'naver', icon: '/assets/images/naverLogo.svg' },
-  { name: 'kakao', icon: '/assets/images/kakaoLogo.svg' },
-  { name: 'google', icon: '/assets/images/googleLogo.svg' },
+  { name: 'naver', icon: '/assets/images/login_naver-logo.svg' },
+  { name: 'kakao', icon: '/assets/images/login_kakao-logo.svg' },
+  { name: 'google', icon: '/assets/images/login_google-logo.svg' },
 ];
 
 export default function SocialLoginCard({ mode }: { mode: 'login' | 'signUp' }) {
