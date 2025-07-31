@@ -9,10 +9,10 @@ import KebabIcon from '@/assets/icons/kebab.svg';
 import { useDeleteGoal } from '@/hooks/useGoals';
 import { Goal } from '@/interfaces/goal';
 import {
+  getGoalBackgroundColorClass,
   getGoalBorderColorClass,
-  getGoalColorClass,
   getGoalTextColorClass,
-} from '@/lib/goalColorUtils';
+} from '@/lib/goalColors';
 import { ROUTES } from '@/lib/routes';
 import { useModalStore } from '@/store/modalStore';
 
@@ -74,7 +74,7 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
       >
         {/* 왼쪽 색상 바 */}
         <div
-          className={`absolute top-0 left-0 h-full w-12 rounded-l-full ${getGoalColorClass(goal.color)}`}
+          className={`absolute top-0 left-0 h-full w-12 rounded-l-full ${getGoalTextColorClass(goal.color)}`}
         />
         {/* 목표 헤더 */}
         <div className="mb-24 flex items-center justify-between">
@@ -148,7 +148,7 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
         </div>
         <div className="bg-line h-8 w-full rounded-full">
           <div
-            className={`h-8 rounded-full transition-all duration-300 ${getGoalColorClass(goal.color)}`}
+            className={`h-8 rounded-full transition-all duration-300 ${getGoalBackgroundColorClass(goal.color)}`}
             style={{ width: `${progress}%` }}
           />
         </div>

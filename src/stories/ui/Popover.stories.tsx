@@ -6,7 +6,7 @@ import TimerIcon from '@/assets/icons/timer.svg';
 import LegendSection from '@/components/heatmaps/LegendSection';
 import Popover from '@/components/ui/Popover';
 import { MONTHLY_LEGEND, WEEKLY_LEGEND } from '@/constants/heatmap';
-import { hexToGoalColor } from '@/lib/calendar';
+import { hexToGoalColor } from '@/lib/goalColors';
 
 const meta: Meta<typeof Popover> = {
   title: 'Components/ui/Popover',

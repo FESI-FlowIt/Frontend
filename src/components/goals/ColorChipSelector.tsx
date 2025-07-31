@@ -1,9 +1,7 @@
 'use client';
 
-import React from 'react';
-
 import CheckIcon from '@/assets/icons/check.svg';
-import { GOAL_COLOR_OPTIONS } from '@/constants/goalColorOptions';
+import { GOAL_COLOR_OPTIONS } from '@/constants/goalColors';
 
 interface ColorChipSelectorProps {
   selectedColor: string;

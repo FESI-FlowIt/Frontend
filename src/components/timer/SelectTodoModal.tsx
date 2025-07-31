@@ -7,7 +7,7 @@ import { IconButton } from '@/components/ui/IconButton';
 import Modal from '@/components/ui/Modal';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
-import { getGoalColorClass } from '@/lib/goalColorUtils';
+import { getGoalTextColorClass } from '@/lib/goalColors';
 
 interface SelectTodoModalProps {
   goals: GoalSummary[];
@@ -56,7 +56,7 @@ export default function SelectTodoModal({
                 }
               >
                 <span className="text-body-m-20 text-text-02 flex items-center gap-12">
-                  <span className={`h-12 w-12 rounded-full ${getGoalColorClass(goal.color)}`} />
+                  <span className={`h-12 w-12 rounded-full ${getGoalTextColorClass(goal.color)}`} />
                   {goal.title}
                 </span>
                 <span className="text-gray-500">{isSelected ? '▲' : '▼'}</span>
