@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 const cardVariants = cva('rounded-20 flex flex-col gap-16 px-14 py-20 md:px-20', {
   variants: {
     backgroundColor: {
-      white: 'bg-ui-background',
+      white: 'bg-white',
       gray: 'bg-cardContainer',
     },
     size: {

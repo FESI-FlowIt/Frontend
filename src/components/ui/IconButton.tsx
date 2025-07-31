@@ -62,7 +62,7 @@ const iconConfig = {
   },
   info: {
     component: InfoIcon,
-    className: 'text-text-inactive',
+    className: 'text-inactive',
   },
   close: {
     component: CloseIcon,
@@ -90,7 +90,7 @@ const iconConfig = {
   },
   kebab: {
     component: KebabIcon,
-    className: 'text-snackbar',
+    className: 'text-gray-01',
   },
   checkboxChecked: {
     component: CheckedIcon,

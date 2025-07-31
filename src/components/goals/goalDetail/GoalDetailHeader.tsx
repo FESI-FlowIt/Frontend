@@ -94,7 +94,7 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
               className="text-text-02 flex h-24 w-24 items-center justify-center rounded-full transition-colors"
               aria-label="더보기 메뉴"
             >
-              <KebabIcon className="text-snackbar" width={20} height={20} fill="currentColor" />
+              <KebabIcon className="text-gray-01" width={20} height={20} fill="currentColor" />
             </button>
             <DropdownMenu
               isOpen={isDropdownOpen}

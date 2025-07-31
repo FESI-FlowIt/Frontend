@@ -58,7 +58,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                   'ring-line ring-1': isToday && !isSelected && !isDisabled,
 
                   // 선택된 날짜
-                  'bg-primary-01 text-text-00 cursor-pointer': isSelected,
+                  'bg-primary-01 cursor-pointer text-black': isSelected,
                 },
               )}
             >

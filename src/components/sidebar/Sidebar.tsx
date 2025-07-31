@@ -58,7 +58,7 @@ export default function Sidebar() {
           className="rounded-12 border-line hover:bg-sidebar-hover flex h-44 w-44 cursor-pointer items-center justify-center border bg-white hover:border-none sm:h-32 sm:w-32 md:h-44 md:w-44"
         >
           <SidebarOpenIcon
-            className="sm:h-17.45 sm:w-17.45 text-snackbar h-24 w-24 md:h-24 md:w-24"
+            className="sm:h-17.45 sm:w-17.45 text-gray-01 h-24 w-24 md:h-24 md:w-24"
             fill="currentColor"
           />
         </button>

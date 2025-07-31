@@ -55,12 +55,7 @@ export default function SidebarGoalsList() {
                   fill="currentColor"
                 />
               ) : (
-                <PinOffIcon
-                  className="text-text-inactive"
-                  width={24}
-                  height={24}
-                  fill="currentColor"
-                />
+                <PinOffIcon className="text-inactive" width={24} height={24} fill="currentColor" />
               )}
             </button>
           </div>

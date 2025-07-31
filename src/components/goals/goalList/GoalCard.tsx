@@ -86,7 +86,7 @@ const GoalCard = ({ goal }: GoalCardProps) => {
         {goal.isPinned ? (
           <PinOnIcon className="text-heatmap-accent" width={24} height={24} fill="currentColor" />
         ) : (
-          <PinOffIcon className="text-text-inactive" width={24} height={24} fill="currentColor" />
+          <PinOffIcon className="text-inactive" width={24} height={24} fill="currentColor" />
         )}
       </div>
 
