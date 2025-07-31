@@ -2,46 +2,46 @@ import { GoalColor } from '@/interfaces/goal';
 
 // 목표 색상 매핑
 export const GOAL_COLOR_MAP: Record<GoalColor, string> = {
-  orange: 'bg-goal-orange',
   red: 'bg-goal-red',
-  green: 'bg-goal-green',
+  orange: 'bg-goal-orange',
   yellow: 'bg-goal-yellow',
-  pink: 'bg-goal-pink',
+  green: 'bg-goal-green',
   blue: 'bg-goal-blue',
   purple: 'bg-goal-purple',
+  pink: 'bg-goal-pink',
 } as const;
 
 // 목표 색상 HEX 코드 매핑 (SVG 아이콘 등에 사용)
 export const GOAL_COLOR_HEX_MAP: Record<GoalColor, string> = {
-  orange: '#FF8C00',
-  red: '#FF4444',
-  green: '#4CAF50',
-  yellow: '#FFEB3B',
-  pink: '#E91E63',
-  blue: '#2196F3',
-  purple: '#9C27B0',
+  red: '#ff6b6b',
+  orange: '#ffa94d',
+  yellow: '#ffe17a',
+  green: '#5edc8d',
+  blue: '#3774f8',
+  purple: '#9e80ff',
+  pink: '#ff72b6',
 } as const;
 
 // 목표 text 색상 매핑 (아이콘 등에 사용)
 export const GOAL_TEXT_COLOR_MAP: Record<GoalColor, string> = {
-  orange: 'text-goal-orange',
   red: 'text-goal-red',
-  green: 'text-goal-green',
+  orange: 'text-goal-orange',
   yellow: 'text-goal-yellow',
-  pink: 'text-goal-pink',
+  green: 'text-goal-green',
   blue: 'text-goal-blue',
   purple: 'text-goal-purple',
+  pink: 'text-goal-pink',
 } as const;
 
 // 목표 테두리 색상 매핑
 export const GOAL_BORDER_COLOR_MAP: Record<GoalColor, string> = {
-  orange: 'border-goal-orange',
   red: 'border-goal-red',
-  green: 'border-goal-green',
   yellow: 'border-goal-yellow',
-  pink: 'border-goal-pink',
+  orange: 'border-goal-orange',
+  green: 'border-goal-green',
   blue: 'border-goal-blue',
   purple: 'border-goal-purple',
+  pink: 'border-goal-pink',
 } as const;
 
 // 사이드바 목표 색상 매핑
