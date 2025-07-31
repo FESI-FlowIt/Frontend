@@ -5,13 +5,12 @@ import { useAuthStore } from '@/store/authStore';
 import { useUserStore } from '@/store/userStore';
 
 export function useLogout() {
-  const { clearTokens } = useAuthStore();
+  const { clearAccessToken } = useAuthStore();
   const { clearUser } = useUserStore();
   const router = useRouter();
 
   return () => {
-    clearTokens();
-    document.cookie = 'accessToken=; path=/; max-age=0';
+    clearAccessToken();
     clearUser();
     router.push(ROUTES.HOME);
   };
