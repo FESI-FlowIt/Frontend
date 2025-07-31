@@ -5,18 +5,15 @@ import { useRouter } from 'next/navigation';
 import PinOffIcon from '@/assets/icons/pin-off.svg';
 import PinOnIcon from '@/assets/icons/pin-on.svg';
 import { useSidebarGoalPinned, useSidebarGoals } from '@/hooks/useSidebar';
-import { SidebarGoals } from '@/interfaces/sidebar';
 import { getGoalColorClass } from '@/lib/goalColorUtils';
 import { ROUTES } from '@/lib/routes';
 import { useUserStore } from '@/store/userStore';
 
 export default function SidebarGoalsList() {
   const user = useUserStore(state => state.user);
-  const { data } = useSidebarGoals(user?.id ?? 0);
+  const { data: goals } = useSidebarGoals(user?.id ?? 0);
   const updatePinStatus = useSidebarGoalPinned(user?.id ?? 0);
   const router = useRouter();
-
-  const goals = Array.isArray(data) ? data : [];
 
   const handlePinClick = ({
     goalId,
@@ -31,7 +28,7 @@ export default function SidebarGoalsList() {
 
   return (
     <div className="flex flex-col gap-12 sm:gap-8 md:gap-12">
-      {goals.map((goal: SidebarGoals) => {
+      {goals?.map(goal => {
         return (
           <div
             key={goal.goalId}
