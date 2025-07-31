@@ -331,3 +331,52 @@
 @utility rounded-bl-50 {
   border-bottom-left-radius: 200px;
 }
+
+/* ========================================================================
+   Custom SVG Icon Styles (커스텀 SVG 아이콘 스타일)
+   ======================================================================== */
+
+/* 미완료 체크박스 - 흰색 바탕, 회색 체크마크 */
+.checkbox-unchecked {
+  fill: none !important;
+}
+.checkbox-unchecked rect {
+  fill: var(--color-white) !important;
+  stroke: var(--color-line) !important;
+  stroke-width: 2px !important;
+}
+.checkbox-unchecked path {
+  fill: none !important;
+  stroke: var(--color-line) !important;
+  stroke-width: 2px !important;
+}
+
+/* 완료 체크박스 - 파란색 바탕, 흰색 체크마크 */
+.checkbox-checked-blue {
+  fill: none !important;
+}
+.checkbox-checked-blue rect {
+  fill: var(--color-primary-01) !important;
+  stroke-width: 2px !important;
+}
+.checkbox-checked-blue path {
+  fill: none !important;
+  stroke: var(--color-white) !important;
+  stroke-width: 2px !important;
+}
+
+/* 완료 체크박스 - 회색 바탕, 흰색 체크마크 */
+.checkbox-checked-gray {
+  fill: none !important;
+}
+.checkbox-checked-gray rect {
+  fill: var(--color-snackbar) !important;
+  stroke: none !important;
+}
+.checkbox-checked-gray path {
+  fill: none !important;
+  stroke: var(--color-white) !important;
+  stroke-width: 1.33333px !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}

@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 
-import Image from 'next/image';
-
+import CalendarFilledIcon from '@/assets/icons/calendar-filled.svg';
 import CalendarGoalPopover from '@/components/calendar/CalendarGoalPopover';
 import CalendarGrid from '@/components/calendar/CalendarGrid';
 import ArrowNavigation from '@/components/ui/ArrowNavigation';
@@ -95,12 +94,11 @@ export default function CalendarSection() {
     <div>
       <Card
         icon={
-          <Image
-            src="/assets/icons/calendarIcon.svg"
-            alt="달력 아이콘"
+          <CalendarFilledIcon
+            className="text-snackbar"
             width={24}
             height={24}
-            className="h-full w-full object-contain"
+            fill="currentColor"
           />
         }
         title="마감일 캘린더"

@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 
-import AddNewTodoIcon from '@/../public/assets/icons/addNewTodoIcon.svg';
-import CloseIcon from '@/../public/assets/icons/closeIcon.svg';
+import CloseIcon from '@/assets/icons/close.svg';
+import TodoIcon from '@/assets/icons/todo.svg';
 import { useTodoForm } from '@/hooks/useTodoForm';
 import { Todo } from '@/interfaces/todo';
 import { useModalStore } from '@/store/modalStore';
@@ -98,7 +98,12 @@ const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {
         <div className="mb-52 flex items-center justify-between">
           <h2 className="text-display-24 text-text-01 flex items-center">
             <div className="flex items-center justify-center">
-              <AddNewTodoIcon className="fill-snackbar mr-12 h-24 w-24" />
+              <TodoIcon
+                className="text-snackbar mr-12"
+                width={24}
+                height={24}
+                fill="currentColor"
+              />
             </div>
             {isEditMode ? '할 일 수정하기' : '할 일 생성'}
           </h2>
@@ -106,7 +111,7 @@ const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {
             onClick={handleModalClose}
             className="text-text-04 hover:text-text-03 h-12 w-12 cursor-pointer transition-colors"
           >
-            <CloseIcon className="fill-snackbar" />
+            <CloseIcon className="text-snackbar" width={24} height={24} fill="currentColor" />
           </button>
         </div>
 

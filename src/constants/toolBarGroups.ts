@@ -5,9 +5,9 @@ export const toolbarGroups = [
     ['underline', '밑줄'],
   ],
   [
-    ['alignmentleft', '왼쪽 정렬'],
-    ['alignmentcenter', '가운데 정렬'],
-    ['alignmentright', '오른쪽 정렬'],
+    ['alignmentLeft', '왼쪽 정렬'],
+    ['alignmentCenter', '가운데 정렬'],
+    ['alignmentRight', '오른쪽 정렬'],
   ],
   [
     ['bullet', '글머리 기호'],
