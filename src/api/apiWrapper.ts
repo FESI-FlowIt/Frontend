@@ -1,11 +1,10 @@
-'use client';
-
 import { RequestInit } from 'next/dist/server/web/spec-extension/request';
 
-import { ROUTES } from '@/lib/routes';
 import { useAuthStore } from '@/store/authStore';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000';
+import { refreshAccessToken } from './refreshAccessToken';
+
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000';
 
 export class CustomError extends Error {
   data: any;
@@ -41,32 +40,16 @@ export async function fetchWrapper(url: string, options: RequestInit = {}) {
 
       if (token) {
         useAuthStore.getState().setAccessToken(token);
-        document.cookie = `accessToken=${token}; path=/; max-age=3600; samesite=strict`;
       }
     }
 
     if (!response.ok) {
       if (response.status === 401 && accessToken) {
-        const refreshResponse = await fetch(`${BASE_URL}/auths/tokens`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const newAccessToken = await refreshAccessToken(accessToken);
 
-        if (!refreshResponse.ok) {
-          useAuthStore.getState().clearTokens();
-          window.location.href = ROUTES.AUTH.LOGIN;
-          throw new CustomError('Failed to refresh token', await refreshResponse.json());
-        }
-
-        const { accessToken: newAccessToken } = await refreshResponse.json();
-
-        useAuthStore.getState().setAccessToken(newAccessToken);
+        if (!newAccessToken) return;
 
         headers.Authorization = `Bearer ${newAccessToken}`;
-
         response = await fetch(`${BASE_URL}${url}`, {
           ...options,
           headers,
@@ -75,8 +58,6 @@ export async function fetchWrapper(url: string, options: RequestInit = {}) {
         if (!response.ok) {
           throw new CustomError(`HTTP error! status: ${response.status}`, await response.json());
         }
-      } else {
-        throw new CustomError(`HTTP error! status: ${response.status}`, await response.json());
       }
     }
 
