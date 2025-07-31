@@ -6,12 +6,12 @@ import { useUserStore } from '@/store/userStore';
 
 export function useLogout() {
   const { clearTokens } = useAuthStore();
-  const { setUser } = useUserStore();
+  const { clearUser } = useUserStore();
   const router = useRouter();
 
   return () => {
     clearTokens();
+    clearUser();
     router.push(ROUTES.HOME);
-    setUser(null);
   };
 }
