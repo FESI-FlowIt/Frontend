@@ -27,7 +27,7 @@ export default function TimerControls({
           className="flex h-88 w-88 cursor-pointer items-center justify-center disabled:opacity-40"
         >
           <Image
-            src="/assets/icons/timer_start.svg"
+            src="/assets/images/timer_start.svg"
             alt="타이머 시작 이미지"
             width={88}
             height={88}
@@ -41,7 +41,7 @@ export default function TimerControls({
             className="flex h-88 w-88 cursor-pointer items-center justify-center"
           >
             <Image
-              src="/assets/icons/timer_stop.svg"
+              src="/assets/images/timer_stop.svg"
               alt="타이머 정지 이미지"
               width={88}
               height={88}
@@ -54,7 +54,7 @@ export default function TimerControls({
             className="flex h-88 w-88 cursor-pointer items-center justify-center"
           >
             <Image
-              src="/assets/icons/timer_pause.svg"
+              src="/assets/images/timer_pause.svg"
               alt="타이머 일시정지 이미지"
               width={88}
               height={88}
