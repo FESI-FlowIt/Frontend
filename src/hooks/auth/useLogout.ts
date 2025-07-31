@@ -6,13 +6,13 @@ import { useUserStore } from '@/store/userStore';
 
 export function useLogout() {
   const { clearTokens } = useAuthStore();
-  const { setUser } = useUserStore();
+  const { clearUser } = useUserStore();
   const router = useRouter();
 
   return () => {
     clearTokens();
-    setUser(null);
     document.cookie = 'accessToken=; path=/; max-age=0';
+    clearUser();
     router.push(ROUTES.HOME);
   };
 }
