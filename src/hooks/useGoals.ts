@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { goalsApi } from '@/api/goalsApi';
+import { goalMapper } from '@/api/mapper/goalMapper';
 import { GetGoalsRequestParams, GoalFormData } from '@/interfaces/goal';
-import { goalMapper } from '@/lib/goalMapper';
 import { useUserStore } from '@/store/userStore';
 
 import { CALENDAR_QUERY_KEY } from './useGoalCalendar';
@@ -17,11 +17,13 @@ export const useGoals = (params?: GetGoalsRequestParams) => {
   return useQuery({
     queryKey: [...GOALS_QUERY_KEY, user?.id, params],
     queryFn: async () => {
+      //TODO: api함수로 매핑
       if (!user?.id) {
         throw new Error('User not authenticated');
       }
 
       const apiResponse = await goalsApi.getGoals(user.id, params);
+
       return goalMapper.mapToGoalList(apiResponse);
     },
     enabled: !!user?.id,

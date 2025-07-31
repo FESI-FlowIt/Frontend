@@ -1,6 +1,5 @@
+import { todoMapper } from '@/api/mapper/todoMapper';
 import { ApiTodo, Todo, TodoCreateRequest, TodoUpdateRequest } from '@/interfaces/todo';
-
-import { todoMapper } from '../lib/todoMapper';
 
 import { deleteRequest, patchRequest, postRequest } from '.';
 

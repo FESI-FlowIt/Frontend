@@ -1,5 +1,5 @@
+import { mapApiResponseToGoalSummary } from '@/api/mapper/goalListDashboardMapper';
 import { GoalSummary } from '@/interfaces/goal';
-import { mapApiResponseToGoalSummary } from '@/lib/goalListDashboardMapper';
 
 import { getRequest } from '.';
 
