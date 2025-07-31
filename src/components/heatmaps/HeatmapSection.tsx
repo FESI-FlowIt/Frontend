@@ -2,8 +2,6 @@
 
 import { useRef, useState } from 'react';
 
-import Image from 'next/image';
-
 import SparkleIcon from '@/assets/icons/sparkle.svg';
 import HeatmapInfoPopover from '@/components/heatmaps/HeatmapInfoPopover';
 import MonthlyHeatmap from '@/components/heatmaps/MonthlyHeatmap';
