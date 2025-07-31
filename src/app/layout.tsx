@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
+import AuthInitProvider from './providers/AuthInitProvider';
 import { MswProvider } from './providers/MswProvider';
 import ReactQueryProvider from './providers/ReactQueryProvider';
 
@@ -55,9 +56,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko" className={pretendard.variable}>
       <body>
-        <MswProvider>
-          <ReactQueryProvider>{children}</ReactQueryProvider>
-        </MswProvider>
+        <AuthInitProvider>
+          <MswProvider>
+            <ReactQueryProvider>{children}</ReactQueryProvider>
+          </MswProvider>
+        </AuthInitProvider>
       </body>
     </html>
   );
