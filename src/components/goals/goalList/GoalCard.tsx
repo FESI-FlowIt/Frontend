@@ -2,9 +2,10 @@
 
 import React from 'react';
 
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
+import CheckedIcon from '@/assets/icons/checkbox-checked-blue.svg';
+import UncheckedIcon from '@/assets/icons/checkbox-unchecked.svg';
 import GoalIcon from '@/assets/icons/goal.svg';
 import PinOffIcon from '@/assets/icons/pin-off.svg';
 import PinOnIcon from '@/assets/icons/pin-on.svg';
@@ -141,12 +142,7 @@ const GoalCard = ({ goal }: GoalCardProps) => {
                 {incompleteTodos.map((todo, index) => (
                   <div key={todo.id || index} className="flex h-24 items-center gap-8">
                     <div className="flex h-24 w-24 items-center justify-center">
-                      <Image
-                        src="/assets/icons/check_default.svg"
-                        alt="Checked Icon"
-                        width={24}
-                        height={24}
-                      />
+                      <UncheckedIcon className="checkbox-unchecked" width={24} height={24} />
                     </div>
                     <span className="text-text-02 text-body-m-16 flex-1 truncate">
                       {todo.title}
@@ -158,7 +154,7 @@ const GoalCard = ({ goal }: GoalCardProps) => {
           ) : goal.todos.length > 0 ? (
             <div className="flex flex-col items-center justify-center pt-22">
               <div className="mb-32 flex items-center gap-8 text-center">
-                <Image src="/assets/icons/check.svg" alt="Check Icon" width={20} height={20} />
+                <CheckedIcon className="checkbox-checked-blue" width={20} height={20} />
                 <div className="text-body-sb-20 text-primary-01 font-semibold">
                   모든 할 일을 완료 했어요!
                 </div>

@@ -1,7 +1,6 @@
 'use client';
 
-import Image from 'next/image';
-
+import CheckedIcon from '@/assets/icons/checkbox-checked-gray.svg';
 import GoalIcon from '@/assets/icons/goal.svg';
 import TodoIcon from '@/assets/icons/todo.svg';
 import DoneSection from '@/components/goals/goalDetail/DoneSection';
@@ -64,12 +63,7 @@ const GoalDetailClient = ({ goalId }: GoalDetailClientProps) => {
           <div className="flex h-full flex-col overflow-hidden">
             <div className="mb-24 flex items-center gap-8">
               <div className="flex h-24 w-24 items-center justify-center rounded-full">
-                <Image
-                  src="/assets/icons/doneCheck.svg"
-                  alt="Dashboard Goal Icon"
-                  width={16}
-                  height={16}
-                />
+                <CheckedIcon className="checkbox-checked-gray" width={16} height={16} />
               </div>
               <div className="text-body-sb-20 text-text-01 font-semibold">Done</div>
             </div>

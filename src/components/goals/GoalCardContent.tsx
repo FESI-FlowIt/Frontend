@@ -1,14 +1,13 @@
 'use client';
 
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
+import UncheckedIcon from '@/assets/icons/checkbox-unchecked.svg';
 import GoalIcon from '@/assets/icons/goal.svg';
 import { Button } from '@/components/ui/Button';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
-import { getGoalColorClass } from '@/lib/goalColorUtils';
-import { getGoalTextColorClass } from '@/lib/goalColorUtils';
+import { getGoalColorClass, getGoalTextColorClass } from '@/lib/goalColorUtils';
 import { ROUTES } from '@/lib/routes';
 import { useModalStore } from '@/store/modalStore';
 
@@ -96,12 +95,7 @@ export default function GoalCardContent({
                     }}
                     className="flex h-24 w-24 items-center justify-center rounded transition hover:bg-gray-100"
                   >
-                    <Image
-                      src="assets/icons/check_default.svg"
-                      alt="Checked Icon"
-                      width={24}
-                      height={24}
-                    />
+                    <UncheckedIcon className="checkbox-unchecked" width={24} height={24} />
                   </button>
                   <span className="text-text-02 text-body-m-16">{todo.title}</span>
                 </div>
