@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { cva, VariantProps } from 'class-variance-authority';
 import { createPortal } from 'react-dom';
 
@@ -51,6 +53,20 @@ const Popover = ({
   position,
   variant,
 }: PopoverProps) => {
+  // ESC 키로 닫기 기능
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+      return () => document.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const popoverContent = (
