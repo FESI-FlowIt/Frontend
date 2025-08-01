@@ -28,7 +28,7 @@ const pageButtonVariants = cva(
         lg: 'h-52 w-52 p-14',
       },
       variant: {
-        active: 'bg-primary-01 text-text-00',
+        active: 'bg-primary-01 text-white',
         inactive: 'bg-tertiary-01 text-text-03 hover:bg-tertiary-01-press',
       },
     },

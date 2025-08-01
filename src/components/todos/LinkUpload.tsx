@@ -44,7 +44,7 @@ const LinkUpload = ({ attachments, onLinksChange }: LinkUploadProps) => {
           className="border-line text-body-m-16 text-text-03 hover:border-primary-01-hover hover:text-text-02 flex h-160 w-full cursor-pointer items-center justify-center gap-8 rounded-lg border-2 transition-colors"
         >
           <div className="flex items-center justify-center">
-            <SelectLinkUploadIcon className="text-snackbar" width={24} height={24} fill="none" />
+            <SelectLinkUploadIcon className="text-gray-01" width={24} height={24} fill="none" />
           </div>
           <span>링크 첨부하기</span>
         </button>
@@ -53,7 +53,7 @@ const LinkUpload = ({ attachments, onLinksChange }: LinkUploadProps) => {
           <div className="bg-tertiary-01 flex items-center justify-between rounded-lg p-12">
             <div className="flex items-center gap-20">
               <SelectLinkUploadIcon
-                className="text-snackbar ml-5"
+                className="text-gray-01 ml-5"
                 width={20}
                 height={20}
                 fill="none"

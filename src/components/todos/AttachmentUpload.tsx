@@ -45,7 +45,7 @@ const AttachmentUpload = () => {
           onClick={handleFileUploadClick}
           icon={
             <SelectFileUploadIcon
-              className="text-snackbar"
+              className="text-gray-01"
               width={24}
               height={24}
               fill="currentColor"

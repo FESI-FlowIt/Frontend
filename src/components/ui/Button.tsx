@@ -9,9 +9,9 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
     variant: {
       default: 'bg-primary-01 hover:bg-primary-01-hover',
       secondary: 'bg-secondary-01 hover:bg-secondary-01-hover',
-      snackbar: 'bg-snackbar hover:bg-snackbar',
+      snackbar: 'bg-gray-01 hover:bg-gray-01',
       white: 'bg-white hover:bg-white',
-      gray: 'bg-Gray_01 hover:bg-Gray_01',
+      gray: 'bg-gray-01 hover:bg-gray-01',
       primary: 'border-primary-01 border bg-white hover:bg-white',
       transparent: 'bg-transparent',
       noteHeader: 'bg-disable',

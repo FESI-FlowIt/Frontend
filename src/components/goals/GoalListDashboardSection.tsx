@@ -32,7 +32,7 @@ export default function GoalListDashboardSection() {
   return (
     <>
       <Card
-        icon={<TodoIcon className="text-snackbar" width={24} height={24} fill="currentColor" />}
+        icon={<TodoIcon className="text-gray-01" width={24} height={24} fill="currentColor" />}
         title="목표 별 할 일"
         extra={
           <button
@@ -41,7 +41,7 @@ export default function GoalListDashboardSection() {
           >
             <span className="text-body-sb-20 hidden md:inline">모든 목표 보기</span>
             <span className="text-body-mb-16 inline md:hidden">모두 보기</span>
-            <GoIcon className="text-snackbar" width={20} height={20} />
+            <GoIcon className="text-gray-01" width={20} height={20} />
           </button>
         }
         backgroundColor="gray"

@@ -62,7 +62,7 @@ const GoalsFilterControls = ({
           >
             {getSortText(params.sortBy)}
             <div className="flex h-24 w-24 items-center justify-center">
-              <DownArrowIcon className="text-snackbar" width={24} height={24} />
+              <DownArrowIcon className="text-gray-01" width={24} height={24} />
             </div>
           </button>
           <DropdownMenu
@@ -76,7 +76,7 @@ const GoalsFilterControls = ({
               <button
                 onClick={() => handleSortOptionClick('latest')}
                 className={`text-body-sb-20 w-full px-12 py-13 text-left transition-colors ${
-                  params.sortBy === 'latest' ? 'bg-ui-background text-primary-01' : 'text-text-03'
+                  params.sortBy === 'latest' ? 'text-primary-01 bg-white' : 'text-text-03'
                 }`}
               >
                 {SORT_OPTIONS.latest}
@@ -84,9 +84,7 @@ const GoalsFilterControls = ({
               <button
                 onClick={() => handleSortOptionClick('deadlineDate')}
                 className={`text-body-sb-20 w-full rounded-b-[20px] px-12 py-13 text-left transition-colors ${
-                  params.sortBy === 'deadlineDate'
-                    ? 'bg-ui-background text-primary-01'
-                    : 'text-text-03'
+                  params.sortBy === 'deadlineDate' ? 'text-primary-01 bg-white' : 'text-text-03'
                 }`}
               >
                 {SORT_OPTIONS.deadlineDate}
