@@ -37,7 +37,7 @@ const GoalDetailClient = ({ goalId }: GoalDetailClientProps) => {
       <div className="container mx-auto flex h-full w-full flex-col">
         {/* 목표 정보 헤더 */}
         <div className="mb-24 flex items-center gap-8">
-          <GoalIcon className="text-snackbar" width={24} height={24} fill="currentColor" />
+          <GoalIcon className="text-gray-01" width={24} height={24} fill="currentColor" />
           <div className="text-body-sb-20 text-text-01 font-semibold">목표</div>
         </div>
         <GoalDetailHeader
@@ -51,7 +51,7 @@ const GoalDetailClient = ({ goalId }: GoalDetailClientProps) => {
           {/* To do 섹션 */}
           <div className="flex h-full flex-col overflow-hidden">
             <div className="mb-24 flex items-center gap-8">
-              <TodoIcon className="text-snackbar" width={24} height={24} fill="currentColor" />
+              <TodoIcon className="text-gray-01" width={24} height={24} fill="currentColor" />
               <div className="text-body-sb-20 text-text-01 font-semibold">To do</div>
             </div>
             <div className="flex-1 overflow-hidden">

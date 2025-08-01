@@ -13,7 +13,7 @@ import PlusIcon from '@/assets/icons/plus.svg';
 import { useUpdateGoalPinStatus } from '@/hooks/useGoals';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
-import { getGoalColorClass, getGoalTextColorClass } from '@/lib/goalColorUtils';
+import { getGoalBackgroundColorClass, getGoalTextColorClass } from '@/lib/goalColors';
 import { ROUTES } from '@/lib/routes';
 import { useModalStore } from '@/store/modalStore';
 
@@ -79,14 +79,16 @@ const GoalCard = ({ goal }: GoalCardProps) => {
       onClick={handleCardClick}
     >
       {/* 왼쪽 색상 바 */}
-      <div className={`absolute top-0 left-0 h-full w-12 ${getGoalColorClass(goal.color)}`} />
+      <div
+        className={`absolute top-0 left-0 h-full w-12 ${getGoalBackgroundColorClass(goal.color)}`}
+      />
 
       {/* 고정 핀 아이콘 */}
       <div className="absolute top-20 right-20 cursor-pointer" onClick={handleTogglePin}>
         {goal.isPinned ? (
           <PinOnIcon className="text-heatmap-accent" width={24} height={24} fill="currentColor" />
         ) : (
-          <PinOffIcon className="text-text-inactive" width={24} height={24} fill="currentColor" />
+          <PinOffIcon className="text-inactive" width={24} height={24} fill="currentColor" />
         )}
       </div>
 
@@ -121,7 +123,7 @@ const GoalCard = ({ goal }: GoalCardProps) => {
               </span>
               <div className="bg-line h-8 w-full overflow-hidden rounded-full">
                 <div
-                  className={`h-full rounded-full transition-all duration-300 ${getGoalColorClass(goal.color)}`}
+                  className={`h-full rounded-full transition-all duration-300 ${getGoalBackgroundColorClass(goal.color)}`}
                   style={{ width: `${progress}%` }}
                 />
               </div>

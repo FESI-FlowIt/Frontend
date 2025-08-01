@@ -16,31 +16,44 @@
   /* ========================================================================
      Colors (색상)
      ======================================================================== */
+
+  /* Base Colors */
   --color-white: #ffffff;
   --color-black: #1e2128;
-  --color-ui-background: #ffffff;
-  --color-ui-background-primary-soft: #d3e3ff;
+
+  /* Primary Colors */
   --color-primary-01: #4c82f7;
   --color-primary-01-hover: #6696fa;
+
+  /* Secondary Colors */
   --color-secondary-01: #ffd84d;
   --color-secondary-01-hover: #ffe17a;
+
+  /* Tertiary Colors */
   --color-tertiary-01: #f7f8fb;
   --color-tertiary-01-press: #f4f5f9;
-  --color-text-00: #ffffff;
+
+  /* Text Colors */
   --color-text-01: #292c32;
   --color-text-02: #485057;
   --color-text-03: #667077;
   --color-text-04: #a3abb0;
-  --color-text-inactive: #c3cad6;
+
+  /* State Colors */
+  --color-inactive: #c3cad6;
   --color-disable: #b8bec3;
-  --color-line: #e4e8f0;
   --color-error: #ff5f5f;
-  --color-snackbar: #515660;
   --color-delete: #ff5f5f;
+
+  /* UI Colors */
+  --color-line: #e4e8f0;
+  --color-gray-01: #515660;
   --color-timer: #69d7c4;
-  --color-Gray_01: #515660;
   --color-background: #f4f7fb;
   --color-cardContainer: #e5ecf5;
+  --color-insightContainer: #eef4ff;
+  --color-sidebar-hover: #f7f7f7;
+  --color-landing-blue: #3875f9;
 
   /* Goal Colors */
   --color-goal-red: #ff6b6b;
@@ -59,16 +72,14 @@
   --color-heatmap-4: #1a59e1;
   --color-heatmap-accent: #eeba06;
 
-  --color-sidebar-hover: #f7f7f7;
-  --color-landing-blue: #3875f9;
-
-  --color-insight-container: #eef4ff;
-
   /* ========================================================================
      Font Family (글꼴)
      ======================================================================== */
   --font-family-sans: var(--font-pretendard), sans-serif;
 
+  /* ========================================================================
+     Animations (애니메이션)
+     ======================================================================== */
   --animate-custom-spin: custom-spin 1s linear infinite;
 
   @keyframes custom-spin {
@@ -106,7 +117,7 @@
   }
 
   body {
-    background-color: var(--color-ui-background);
+    background-color: var(--color-white);
     color: var(--color-text-01);
     font-family: var(--font-family-sans);
     line-height: 1.5;
@@ -265,32 +276,28 @@
   font-size: 52px;
   font-weight: 700;
 }
-
 @utility text-logo-31 {
   font-size: 31.2px;
   font-weight: 700;
 }
-
 @utility text-logo-32 {
   font-size: 32px;
   font-weight: 700;
 }
-
 @utility text-logo-24 {
   font-size: 24px;
   font-weight: 500;
 }
 
+/*banner*/
 @utility text-banner-44 {
   font-size: 44px;
   font-weight: 500;
 }
-
 @utility text-banner-44-bold {
   font-size: 44px;
   font-weight: 700;
 }
-
 @utility text-banner-24 {
   font-size: 24px;
   font-weight: 500;
@@ -300,6 +307,7 @@
    Custom Border Radius Utilities (커스텀 보더 라디우스 유틸리티)
    ======================================================================== */
 
+/* Standard Border Radius */
 @utility rounded-4 {
   border-radius: 4px;
 }
@@ -316,18 +324,16 @@
   border-radius: 24px;
 }
 
+/* Special Border Radius */
 @utility rounded-tr-50 {
   border-top-right-radius: 50px;
 }
-
 @utility rounded-br-50 {
   border-bottom-right-radius: 50px;
 }
-
 @utility rounded-tl-50 {
   border-top-left-radius: 200px;
 }
-
 @utility rounded-bl-50 {
   border-bottom-left-radius: 200px;
 }
@@ -370,7 +376,7 @@
   fill: none !important;
 }
 .checkbox-checked-gray rect {
-  fill: var(--color-snackbar) !important;
+  fill: var(--color-gray-01) !important;
   stroke: none !important;
 }
 .checkbox-checked-gray path {

@@ -10,13 +10,13 @@ import TimerIcon from '@/assets/icons/timer.svg';
 
 const InsightCard = ({ variant, items = [], className }: InsightCardProps) => {
   const baseClasses =
-    'rounded-20 flex w-full flex-col py-12 px-12 md:px-20 bg-insight-container gap-12';
+    'rounded-20 flex w-full flex-col py-12 px-12 md:px-20 bg-insightContainer gap-12';
 
   if (variant === 'empty') {
     return (
       <div className={cn(baseClasses, 'items-center justify-center text-center', className)}>
         <div className="text-body-m-16 text-text-03 flex flex-col items-center gap-8">
-          <TimerIcon className="text-text-inactive" width={32} height={32} fill="currentColor" />
+          <TimerIcon className="text-inactive" width={32} height={32} fill="currentColor" />
 
           <p>
             이번 주 작업 기록이 없어 <br className="md:hidden" />

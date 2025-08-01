@@ -25,7 +25,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
         onClick={onPreviousMonth}
         className="mr-8 flex h-24 w-24 cursor-pointer items-center justify-center hover:bg-gray-100"
       >
-        <ArrowBackIcon className="text-snackbar" width={24} height={24} />
+        <ArrowBackIcon className="text-gray-01" width={24} height={24} />
       </button>
 
       <span className="text-body-sb-20 text-text-02">{currentMonth.format('YYYY년 MM월')}</span>
@@ -35,7 +35,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
         onClick={onNextMonth}
         className="ml-8 flex h-24 w-24 cursor-pointer items-center justify-center hover:bg-gray-100"
       >
-        <ArrowForwardIcon className="text-snackbar" width={24} height={24} />
+        <ArrowForwardIcon className="text-gray-01" width={24} height={24} />
       </button>
     </div>
   );

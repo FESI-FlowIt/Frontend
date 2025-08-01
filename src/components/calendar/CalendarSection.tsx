@@ -94,12 +94,7 @@ export default function CalendarSection() {
     <div>
       <Card
         icon={
-          <CalendarFilledIcon
-            className="text-snackbar"
-            width={24}
-            height={24}
-            fill="currentColor"
-          />
+          <CalendarFilledIcon className="text-gray-01" width={24} height={24} fill="currentColor" />
         }
         title="마감일 캘린더"
         extra={
