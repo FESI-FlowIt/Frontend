@@ -24,7 +24,7 @@ export const useGoals = (params?: GetGoalsRequestParams) => {
 
       const apiResponse = await goalsApi.getGoals(user.id, params);
 
-      return goalMapper.mapToGoalList(apiResponse);
+      return goalMapper.mapApiToGoalList(apiResponse);
     },
     enabled: !!user?.id,
   });
@@ -42,7 +42,7 @@ export const useGoal = (goalId: number) => {
       }
 
       const apiResponse = await goalsApi.getGoal(user.id, goalId);
-      return goalMapper.mapToGoal(apiResponse);
+      return goalMapper.mapApiToGoal(apiResponse);
     },
     enabled: !!goalId && !!user?.id,
   });
@@ -60,7 +60,7 @@ export const useCreateGoal = () => {
       }
       // 토큰 및 사용자 정보 확인용 로그
       const apiResponse = await goalsApi.createGoal(user.id, goalData);
-      return goalMapper.mapToGoal(apiResponse);
+      return goalMapper.mapApiToGoal(apiResponse);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: GOALS_QUERY_KEY });
@@ -85,7 +85,7 @@ export const useUpdateGoal = () => {
       }
 
       const apiResponse = await goalsApi.updateGoal(goalId, user.id, data);
-      return goalMapper.mapToGoal(apiResponse);
+      return goalMapper.mapApiToGoal(apiResponse);
     },
     onSuccess: (updatedGoal, { goalId }) => {
       // 전체 목표 목록 캐시 무효화
@@ -114,7 +114,7 @@ export const useUpdateGoalPinStatus = () => {
       }
 
       const apiResponse = await goalsApi.updateGoalPinStatus(goalId, user.id, isPinned);
-      return goalMapper.mapToGoal(apiResponse);
+      return goalMapper.mapApiToGoal(apiResponse);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: GOALS_QUERY_KEY });
