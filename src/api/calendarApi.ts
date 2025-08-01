@@ -1,5 +1,5 @@
 import { getRequest } from '@/api';
-import { mapApiResponseToCalendar } from '@/api/mapper/calendarMapper';
+import { calendarMapper } from '@/api/mapper/calendarMapper';
 import { ApiCalendarResponse, CalendarResponse } from '@/interfaces/calendar';
 
 export const getCalendarData = async (userId: number, date: string): Promise<CalendarResponse> => {
@@ -7,5 +7,5 @@ export const getCalendarData = async (userId: number, date: string): Promise<Cal
     userId,
     date,
   });
-  return mapApiResponseToCalendar(apiResponse);
+  return calendarMapper.mapApiToCalendar(apiResponse);
 };
