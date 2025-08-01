@@ -5,11 +5,11 @@ import LandingIntroduction from '@/components/landing/LandingIntroduction';
 export default function Home() {
   return (
     <>
-      <section className="mb-200">
+      <section className="mb-200 sm:mb-140 md:mb-200">
         <LandingBanner />
       </section>
 
-      <section className="mb-240">
+      <section className="sm:mb-100 md:mb-200 lg:mb-240">
         <LandingIntroduction />
       </section>
 

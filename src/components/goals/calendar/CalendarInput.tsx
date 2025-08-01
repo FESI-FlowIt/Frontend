@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import CalendarIcon from '@/../public/assets/icons/calendarIcon.svg';
+import CalendarOutlineIcon from '@/assets/icons/calendar-outline.svg';
 import { formatDisplayDate } from '@/lib/calendarUtils';
 import { cn } from '@/lib/cn';
 
@@ -79,7 +79,7 @@ const CalendarInput: React.FC<CalendarInputProps> = ({
         className="absolute top-1/2 right-16 -translate-y-1/2 transform cursor-pointer"
         onClick={onCalendarIconClick}
       >
-        <CalendarIcon className="h-20 w-20 text-gray-400" />
+        <CalendarOutlineIcon className="text-gray-01" width={20} height={20} fill="currentColor" />
       </div>
     </>
   );

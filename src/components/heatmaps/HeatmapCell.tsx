@@ -9,11 +9,11 @@ const heatmapCellVariants = cva(
   {
     variants: {
       intensity: {
-        0: 'bg-heatmap-0 text-text-inactive',
-        1: 'bg-heatmap-1 text-text-inactive',
-        2: 'bg-heatmap-2 text-text-inactive',
-        3: 'bg-heatmap-3 text-text-inactive',
-        4: 'bg-heatmap-4 text-text-inactive border-heatmap-accent border-2',
+        0: 'bg-heatmap-0 text-inactive',
+        1: 'bg-heatmap-1 text-inactive',
+        2: 'bg-heatmap-2 text-inactive',
+        3: 'bg-heatmap-3 text-inactive',
+        4: 'bg-heatmap-4 text-inactive border-heatmap-accent border-2',
       },
     },
     defaultVariants: {
@@ -31,9 +31,7 @@ interface HeatmapCellProps extends VariantProps<typeof heatmapCellVariants> {
 const HeatmapCell = ({ minutes, intensity = 0, className }: HeatmapCellProps) => {
   return (
     <div className={cn(heatmapCellVariants({ intensity }), className)}>
-      <span className="text-text-inactive text-body-m-16">
-        {formatMinutesToHourString(minutes)}h
-      </span>
+      <span className="text-inactive text-body-m-16">{formatMinutesToHourString(minutes)}h</span>
     </div>
   );
 };

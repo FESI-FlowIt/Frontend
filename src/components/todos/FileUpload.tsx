@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react';
 
 import clsx from 'clsx';
 
-import FileUploadIcon from '@/../public/assets/icons/fileUploadIcon.svg';
+import FileUploadIcon from '@/assets/icons/file-upload.svg';
 import { Attachment } from '@/interfaces/todo';
 import validateFile from '@/lib/fileValidation';
 
@@ -90,7 +90,12 @@ const FileUpload = ({
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
       >
-        <FileUploadIcon className="text-disable mx-auto mt-10 mb-15 h-18 w-14" />
+        <FileUploadIcon
+          className="text-disable mx-auto mt-10 mb-15"
+          width={14}
+          height={18}
+          fill="currentColor"
+        />
 
         <p className="text-text-03 text-body-m-16 mb-8">
           {attachments.length > 0 ? '파일 업로드 완료!' : '파일을 업로드 해주세요'}

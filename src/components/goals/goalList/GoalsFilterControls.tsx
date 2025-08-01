@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 
-import DownArrow from '@/../public/assets/icons/downArrow.svg';
-import PinIcon from '@/../public/assets/icons/pinIcon_on.svg';
+import DownArrowIcon from '@/assets/icons/arrow-down.svg';
+import PinOnIcon from '@/assets/icons/pin-on.svg';
 import DropdownMenu from '@/components/ui/DropdownMenu';
 import ToggleButton from '@/components/ui/ToggleButton';
 import { GetGoalsRequestParams } from '@/interfaces/goal';
@@ -43,7 +43,7 @@ const GoalsFilterControls = ({
         {/* 필터링 */}
         <div className="flex items-center justify-center">
           <div className="mr-4 flex h-24 w-24 items-center justify-center p-2">
-            <PinIcon className="text-heatmap-accent" />
+            <PinOnIcon className="text-heatmap-accent" width={24} height={24} fill="currentColor" />
           </div>
           <div className="text-body-sb-20 text-text-01 pr-12 font-semibold">고정된 목표만 보기</div>
           <ToggleButton
@@ -62,7 +62,7 @@ const GoalsFilterControls = ({
           >
             {getSortText(params.sortBy)}
             <div className="flex h-24 w-24 items-center justify-center">
-              <DownArrow className="text-snackbar" />
+              <DownArrowIcon className="text-gray-01" width={24} height={24} />
             </div>
           </button>
           <DropdownMenu
@@ -76,7 +76,7 @@ const GoalsFilterControls = ({
               <button
                 onClick={() => handleSortOptionClick('latest')}
                 className={`text-body-sb-20 w-full px-12 py-13 text-left transition-colors ${
-                  params.sortBy === 'latest' ? 'bg-ui-background text-primary-01' : 'text-text-03'
+                  params.sortBy === 'latest' ? 'text-primary-01 bg-white' : 'text-text-03'
                 }`}
               >
                 {SORT_OPTIONS.latest}
@@ -84,9 +84,7 @@ const GoalsFilterControls = ({
               <button
                 onClick={() => handleSortOptionClick('deadlineDate')}
                 className={`text-body-sb-20 w-full rounded-b-[20px] px-12 py-13 text-left transition-colors ${
-                  params.sortBy === 'deadlineDate'
-                    ? 'bg-ui-background text-primary-01'
-                    : 'text-text-03'
+                  params.sortBy === 'deadlineDate' ? 'text-primary-01 bg-white' : 'text-text-03'
                 }`}
               >
                 {SORT_OPTIONS.deadlineDate}

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import PlusIcon from '@/../public/assets/icons/PlusIcon.svg';
+import PlusIcon from '@/assets/icons/plus.svg';
 import TodoItem from '@/components/todos/TodoItem';
 import { Button } from '@/components/ui/Button';
 import { Todo } from '@/interfaces/todo';
@@ -51,7 +51,7 @@ const TodoSection = ({ todos, isLoading, goalId }: TodoSectionProps) => {
       <div className="flex justify-center">
         <Button
           onClick={() => openTodoModalWithGoal(goalId)}
-          icon={<PlusIcon />}
+          icon={<PlusIcon className="text-white" width={24} height={24} fill="currentColor" />}
           disabled={false}
           variant="gray"
           size="modal"

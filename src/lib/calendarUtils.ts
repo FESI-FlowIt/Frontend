@@ -6,3 +6,7 @@ export const formatDisplayDate = (date: Date | null) => {
 };
 
 export const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
+
+export const getTodayScheduleTitle = () => {
+  return dayjs().format('M월 D일 일정표');
+};

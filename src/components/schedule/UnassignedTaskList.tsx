@@ -1,4 +1,4 @@
-import TodoIcon from '@/../public/assets/icons/todoIcon.svg';
+import TodoIcon from '@/assets/icons/todo.svg';
 import { Task } from '@/interfaces/schedule';
 
 import TaskCard from './TaskCard';
@@ -18,7 +18,7 @@ export default function UnassignedTaskList({ tasks }: UnassignedTaskListProps) {
         {/* 상단 안내 영역 */}
         <div className="mb-24 shrink-0 px-20">
           <div className="mb-8 flex items-center gap-8">
-            <TodoIcon className="h-24 w-24" />
+            <TodoIcon className="text-gray-01" width={24} height={24} fill="currentColor" />
             <p className="text-body-sb-20 text-text-02">미배치 할 일</p>
           </div>
           <p className="text-body-m-16 text-text-03">드래그해서 시간대에 배치하세요! 👉🏻</p>

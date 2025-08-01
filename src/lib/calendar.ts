@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 
 import { Goal } from '@/interfaces/calendar';
-import { GoalColor } from '@/interfaces/goal';
 
 // 목표를 생성일 기준으로 정렬 (최신순)
 export function sortGoalsByCreatedAt(goals: Goal[]): Goal[] {
@@ -48,22 +47,3 @@ export function getCalendarInfo(month: string) {
     daysInMonth,
   };
 }
-
-// HEX 코드를 색상 이름으로 매핑
-export const HEX_TO_GOAL_COLOR_MAP: Record<string, GoalColor> = {
-  '#FF6B6B': 'red',
-  '#FFA94D': 'orange',
-  '#FFE17A': 'yellow',
-  '#5EDC8D': 'green',
-  '#3774F8': 'blue',
-  '#9E80FF': 'purple',
-  '#FF72B6': 'pink',
-} as const;
-
-// HEX 코드를 받아서 GoalColor로 변환하는 함수
-export const hexToGoalColor = (hexColor: string) => {
-  const normalizedHex = hexColor.toUpperCase();
-  const matchedColor = HEX_TO_GOAL_COLOR_MAP[normalizedHex];
-
-  return matchedColor;
-};

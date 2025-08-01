@@ -4,3 +4,7 @@ export interface SidebarGoals {
   color: string;
   isPinned: boolean;
 }
+
+export interface SidebarGoalsResponse {
+  result: SidebarGoals[];
+}

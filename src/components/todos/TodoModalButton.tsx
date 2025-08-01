@@ -20,7 +20,7 @@ const TodoModalButton = ({ type, activeTab, onClick, icon, children }: TodoModal
       text={isActive ? 'secondaryModal' : 'snackbar'}
       icon={React.cloneElement(icon as React.ReactElement<React.SVGProps<SVGSVGElement>>, {
         className: clsx({
-          'text-snackbar': isActive,
+          'text-gray-01': isActive,
           'text-white': !isActive,
         }),
       })}

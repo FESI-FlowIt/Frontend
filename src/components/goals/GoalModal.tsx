@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 
-import CloseIcon from '@/../public/assets/icons/closeIcon.svg';
-import AddNewGoalIcon from '@/../public/assets/icons/goalIcon.svg';
+import CloseIcon from '@/assets/icons/close.svg';
+import GoalIcon from '@/assets/icons/goal.svg';
 import { useCreateGoal, useUpdateGoal } from '@/hooks/useGoals';
 import { GoalFormData } from '@/interfaces/goal';
 import { useModalStore } from '@/store/modalStore';
@@ -70,14 +70,14 @@ const GoalModal = () => {
       >
         <div className="mb-52 flex items-center justify-between">
           <h2 className="text-display-24 text-text-01 flex items-center font-bold">
-            <AddNewGoalIcon className="fill-snackbar mr-12 h-24 w-24" />
+            <GoalIcon className="text-gray-01 mr-12" width={24} height={24} fill="currentColor" />
             {isEditMode ? '목표 수정' : '목표 생성'}
           </h2>
           <button
             onClick={handleClose}
             className="text-text-03 h-12 w-12 cursor-pointer transition-colors"
           >
-            <CloseIcon className="fill-snackbar" />
+            <CloseIcon className="text-text-03" width={12} height={12} fill="currentColor" />
           </button>
         </div>
 

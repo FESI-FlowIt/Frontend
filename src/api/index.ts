@@ -1,6 +1,6 @@
-import { fetchWrapper } from './apiWrapper';
+import { useAuthStore } from '@/store/authStore';
 
-//TODO: 현재 이 컴포넌트는 클라이언트 컴포넌트이기 때문에 서버 컴포넌트에 api 호출하면 에러가 납니다!
+import { fetchWrapper } from './apiWrapper';
 
 type Params = {
   [key: string]: string | number | undefined;
@@ -11,6 +11,8 @@ type GetRequestOptions = {
 };
 
 export async function getRequest(url: string, params?: Params, options?: GetRequestOptions) {
+  const accessToken = useAuthStore.getState().accessToken;
+
   const queryString = params
     ? new URLSearchParams(
         Object.entries(params)
@@ -29,57 +31,85 @@ export async function getRequest(url: string, params?: Params, options?: GetRequ
     headers['Cache-Control'] = options.cacheControl;
   }
 
-  return fetchWrapper(fullUrl, {
-    method: 'GET',
-    headers,
-  });
+  return fetchWrapper(
+    fullUrl,
+    {
+      method: 'GET',
+      headers,
+    },
+    accessToken ?? undefined,
+  );
 }
 
 export async function postRequest(url: string, body: object = {}) {
-  return fetchWrapper(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
-}
-
-export async function patchRequest(url: string, body: object = {}) {
-  return fetchWrapper(url, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
-}
-
-export async function deleteRequest(url: string) {
-  return fetchWrapper(url, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-}
-
-export async function putRequest(url: string, body: File | object) {
-  if (body instanceof File) {
-    return fetchWrapper(url, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': body.type,
-      },
-      body,
-    });
-  } else {
-    return fetchWrapper(url, {
-      method: 'PUT',
+  const accessToken = useAuthStore.getState().accessToken;
+  return fetchWrapper(
+    url,
+    {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
-    });
+    },
+    accessToken ?? undefined,
+  );
+}
+
+export async function patchRequest(url: string, body: object = {}) {
+  const accessToken = useAuthStore.getState().accessToken;
+  return fetchWrapper(
+    url,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    },
+    accessToken ?? undefined,
+  );
+}
+
+export async function deleteRequest(url: string) {
+  const accessToken = useAuthStore.getState().accessToken;
+  return fetchWrapper(
+    url,
+    {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+    accessToken ?? undefined,
+  );
+}
+
+export async function putRequest(url: string, body: File | object) {
+  const accessToken = useAuthStore.getState().accessToken;
+  if (body instanceof File) {
+    return fetchWrapper(
+      url,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': body.type,
+        },
+        body,
+      },
+      accessToken ?? undefined,
+    );
+  } else {
+    return fetchWrapper(
+      url,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      },
+      accessToken ?? undefined,
+    );
   }
 }

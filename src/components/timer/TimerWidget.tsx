@@ -8,7 +8,7 @@ import TimerModal from '@/components/timer/TimerModal';
 import { useGoalsDashboard } from '@/hooks/useGoalDashboard';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
-import { getGoalColorClass } from '@/lib/goalColorUtils';
+import { getGoalTextColorClass } from '@/lib/goalColors';
 import { useTimerStore } from '@/store/timerStore';
 import { useUserStore } from '@/store/userStore';
 
@@ -74,7 +74,7 @@ export default function TimerWidget() {
             setIsSelectModalOpen(true);
           }}
           goalTitle={selectedGoal.title}
-          goalColor={getGoalColorClass(selectedGoal.color)}
+          goalColor={getGoalTextColorClass(selectedGoal.color)}
           todoContent={selectedTodo.title}
           todoId={String(selectedTodo.id)}
           minutes={selectedTimerState.minutes}

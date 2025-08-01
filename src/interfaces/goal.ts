@@ -108,5 +108,3 @@ export interface ApiGetGoalsResponse {
     hasPrev: boolean;
   };
 }
-
-export type GoalColor = 'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'purple' | 'pink';

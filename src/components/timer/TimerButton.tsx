@@ -1,5 +1,5 @@
 'use client';
-import TimerIcon from '@/../public/assets/icons/timerIcon.svg';
+import TimerIcon from '@/assets/icons/timer.svg';
 import { formatNumber } from '@/lib/format';
 
 interface TimerButtonProps {
@@ -18,7 +18,8 @@ export default function TimerButton({ isRunning, minutes, seconds, onClick }: Ti
       }`}
     >
       <div className={`flex flex-col items-center ${isRunning ? 'mt-13' : 'mt-25'}`}>
-        <TimerIcon className="h-24 w-24" />
+        <TimerIcon className="text-white" width={24} height={24} fill="currentColor" />
+
         {isRunning ? (
           <>
             <div className="text-body-sb-20 mt-4">

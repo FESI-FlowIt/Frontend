@@ -9,6 +9,7 @@ import z from 'zod';
 import useLogin from '@/hooks/auth/useLogin';
 import { useUser } from '@/hooks/auth/useUser';
 import { loginSchema } from '@/interfaces/auth';
+import { useAuthStore } from '@/store/authStore';
 import { useUserStore } from '@/store/userStore';
 
 import { Button } from '../ui/Button';
@@ -23,6 +24,7 @@ export type LoginFormData = z.infer<typeof loginSchema>;
 export default function LoginForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const setUser = useUserStore(state => state.setUser);
+  const accessToken = useAuthStore(state => state.accessToken);
 
   const handleCloseModal = () => setIsModalOpen(false);
 
@@ -51,7 +53,7 @@ export default function LoginForm() {
   };
 
   const { data } = useUser({
-    enabled: login.isSuccess,
+    enabled: Boolean(login.isSuccess && accessToken),
   });
 
   useEffect(() => {

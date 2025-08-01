@@ -5,7 +5,7 @@ import { Controller } from 'react-hook-form';
 import { Button } from '@/components/ui/Button';
 import { useGoalForm } from '@/hooks/useGoalForm';
 import { Goal, GoalFormData } from '@/interfaces/goal';
-import { getGoalColorHex } from '@/lib/goalColorUtils';
+import { getGoalColorHex } from '@/lib/goalColors';
 
 import FormField from '../ui/FormField';
 import { Input } from '../ui/Input';

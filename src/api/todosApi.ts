@@ -1,6 +1,5 @@
+import { todoMapper } from '@/api/mapper/todoMapper';
 import { ApiTodo, Todo, TodoCreateRequest, TodoUpdateRequest } from '@/interfaces/todo';
-
-import { todoMapper } from '../lib/todoMapper';
 
 import { deleteRequest, patchRequest, postRequest } from '.';
 
@@ -14,7 +13,7 @@ export const todosApi = {
     };
 
     const apiTodo: ApiTodo = await postRequest('/todos', requestData);
-    return todoMapper.mapToSingleTodo(apiTodo);
+    return todoMapper.mapApiToTodo(apiTodo);
   },
 
   // 할 일 수정
@@ -31,7 +30,7 @@ export const todosApi = {
     };
 
     const apiTodo: ApiTodo = await patchRequest(`/todos/${todoId}`, requestData);
-    return todoMapper.mapToSingleTodo(apiTodo);
+    return todoMapper.mapApiToTodo(apiTodo);
   },
 
   // 할 일 완료/미완료 토글
@@ -42,7 +41,7 @@ export const todosApi = {
     };
 
     const apiTodo: ApiTodo = await patchRequest(`/todos/${todoId}/done`, requestData);
-    return todoMapper.mapToSingleTodo(apiTodo);
+    return todoMapper.mapApiToTodo(apiTodo);
   },
 
   // 할 일 삭제
