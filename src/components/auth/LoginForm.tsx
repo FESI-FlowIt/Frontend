@@ -24,7 +24,7 @@ export type LoginFormData = z.infer<typeof loginSchema>;
 export default function LoginForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const setUser = useUserStore(state => state.setUser);
-  const { accessToken } = useAuthStore();
+  const accessToken = useAuthStore(state => state.accessToken);
 
   const handleCloseModal = () => setIsModalOpen(false);
 
