@@ -1,6 +1,6 @@
 import { RequestInit } from 'next/dist/server/web/spec-extension/request';
 
-import { useAuthStore } from '@/store/authStore';
+import { getCookie, setCookie } from '@/lib/cookies';
 
 import { refreshAccessToken } from './refreshAccessToken';
 
@@ -14,8 +14,18 @@ export class CustomError extends Error {
   }
 }
 
-export async function fetchWrapper(url: string, options: RequestInit = {}) {
-  const accessToken = useAuthStore.getState().accessToken;
+export async function fetchWrapper(
+  url: string,
+  options: RequestInit = {},
+  clientAccessToken?: string,
+) {
+  let accessToken: string | undefined;
+
+  if (typeof window === 'undefined') {
+    accessToken = await getCookie('accessToken');
+  } else {
+    accessToken = clientAccessToken;
+  }
 
   const headers: any = {
     'Cache-Control': 'no-cache',
@@ -36,10 +46,11 @@ export async function fetchWrapper(url: string, options: RequestInit = {}) {
 
     if (isLoginRequest) {
       const tokenHeader = response.headers.get('Authorization');
-      const token = tokenHeader?.startsWith('Bearer ') ? tokenHeader.split(' ')[1] : null;
+      const token = tokenHeader?.startsWith('Bearer ') ? tokenHeader.split(' ')[1] : undefined;
 
-      if (token) {
-        useAuthStore.getState().setAccessToken(token);
+      if (token !== undefined) {
+        await setCookie('accessToken', token);
+        return { accessToken: token };
       }
     }
 
