@@ -19,7 +19,6 @@ export const setCookie = async (
 ): Promise<void> => {
   const defaultOptions: CookieOptions = {
     path: '/',
-    maxAge: 24 * 60 * 60,
     httpOnly: true,
     secure: false,
     sameSite: 'lax',
