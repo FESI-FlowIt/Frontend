@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
-import AuthInitProvider from './providers/AuthInitProvider';
+import { getCookie } from '@/lib/cookies';
+
+import { AuthProvider } from './providers/AuthProvider';
 import { MswProvider } from './providers/MswProvider';
 import ReactQueryProvider from './providers/ReactQueryProvider';
 
@@ -52,15 +54,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const token = await getCookie('accessToken');
+
   return (
     <html lang="ko" className={pretendard.variable}>
       <body>
-        <AuthInitProvider>
+        <AuthProvider initialToken={token}>
           <MswProvider>
             <ReactQueryProvider>{children}</ReactQueryProvider>
           </MswProvider>
-        </AuthInitProvider>
+        </AuthProvider>
       </body>
     </html>
   );
