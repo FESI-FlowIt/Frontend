@@ -1,9 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import { useModalStore } from '@/store/modalStore';
 
 import { Button } from '@/components/ui/Button';
+import { useModalStore } from '@/store/modalStore';
+
 import GoalModal from '../goals/GoalModal';
 
 export default function NoGoalsGuide() {

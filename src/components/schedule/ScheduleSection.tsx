@@ -4,11 +4,12 @@ import { useState } from 'react';
 
 import ScheduleIcon from '@/assets/icons/schedule.svg';
 import { Button } from '@/components/ui/Button';
-import type { AssignedTask } from '@/interfaces/schedule';
-import { scheduleRes } from '@/mocks/mockResponses/schedule/scheduleResponse';
 import Card from '@/components/ui/Card';
-import ScheduleModal from './ScheduleModal';
+import type { AssignedTask } from '@/interfaces/schedule';
 import { getTodayScheduleTitle } from '@/lib/calendarUtils';
+import { scheduleRes } from '@/mocks/mockResponses/schedule/scheduleResponse';
+
+import ScheduleModal from './ScheduleModal';
 
 export default function ScheduleSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
