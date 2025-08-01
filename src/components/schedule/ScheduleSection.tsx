@@ -6,31 +6,35 @@ import ScheduleIcon from '@/assets/icons/schedule.svg';
 import { Button } from '@/components/ui/Button';
 import type { AssignedTask } from '@/interfaces/schedule';
 import { scheduleRes } from '@/mocks/mockResponses/schedule/scheduleResponse';
-
+import Card from '@/components/ui/Card';
 import ScheduleModal from './ScheduleModal';
+import { getTodayScheduleTitle } from '@/lib/calendarUtils';
 
 export default function ScheduleSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [assignedTasks, setAssignedTasks] = useState<AssignedTask[]>(scheduleRes);
 
   return (
-    <div className="border-line h-200 w-343 rounded-2xl border bg-white p-20 sm:h-176 sm:w-636 md:h-176 md:w-728">
-      <div className="mb-20 flex items-center justify-between">
-        <h3 className="text-body-sb-20 text-text-01">7월 9일 일정표</h3>
+    <Card
+      size="schedule"
+      title={getTodayScheduleTitle()}
+      icon={<ScheduleIcon className="text-icon-01" width={20} height={20} />}
+      extra={
         <Button
-          className="pl-20.5pr-20.5"
           variant="default"
-          size="scheduleDashboard"
           text="todoCard"
+          size="scheduleDashboard"
           onClick={() => setIsModalOpen(true)}
-          disabled={false}
           icon={<ScheduleIcon className="text-white" width={20} height={20} fill="currentColor" />}
+          disabled={false}
+          className="flex items-center gap-4"
         >
           <span className="block sm:hidden">일정관리</span>
           <span className="hidden sm:block">일정 관리하기</span>
         </Button>
-      </div>
-
+      }
+    >
+      {/* Content */}
       <div className="mb-20 h-80 overflow-y-scroll pr-4">
         <ul className="space-y-4">
           {assignedTasks.map(({ time, task }, idx) => (
@@ -48,6 +52,6 @@ export default function ScheduleSection() {
         assignedTasks={assignedTasks}
         setAssignedTasks={setAssignedTasks}
       />
-    </div>
+    </Card>
   );
 }
