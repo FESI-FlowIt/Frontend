@@ -2,17 +2,18 @@
 
 import React from 'react';
 
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
-import PinIconOff from '@/../public/assets/icons/pinIcon_off.svg';
-import PinIcon from '@/../public/assets/icons/pinIcon_on.svg';
-import PlusIcon from '@/../public/assets/icons/PlusIcon.svg';
+import CheckedIcon from '@/assets/icons/checkbox-checked-blue.svg';
+import UncheckedIcon from '@/assets/icons/checkbox-unchecked.svg';
+import GoalIcon from '@/assets/icons/goal.svg';
+import PinOffIcon from '@/assets/icons/pin-off.svg';
+import PinOnIcon from '@/assets/icons/pin-on.svg';
+import PlusIcon from '@/assets/icons/plus.svg';
 import { useUpdateGoalPinStatus } from '@/hooks/useGoals';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
-import { getGoalColorClass, getGoalTextColorClass } from '@/lib/goalColorUtils';
+import { getGoalBackgroundColorClass, getGoalTextColorClass } from '@/lib/goalColors';
 import { ROUTES } from '@/lib/routes';
 import { useModalStore } from '@/store/modalStore';
 
@@ -64,7 +65,7 @@ const GoalCard = ({ goal }: GoalCardProps) => {
       variant="snackbar"
       text="snackbar"
       rounded="lg"
-      icon={<PlusIcon className="text-white" />}
+      icon={<PlusIcon className="text-white" width={24} height={24} fill="currentColor" />}
       disabled={false}
       onClick={handleCreateTodo}
     >
@@ -78,14 +79,16 @@ const GoalCard = ({ goal }: GoalCardProps) => {
       onClick={handleCardClick}
     >
       {/* 왼쪽 색상 바 */}
-      <div className={`absolute top-0 left-0 h-full w-12 ${getGoalColorClass(goal.color)}`} />
+      <div
+        className={`absolute top-0 left-0 h-full w-12 ${getGoalBackgroundColorClass(goal.color)}`}
+      />
 
       {/* 고정 핀 아이콘 */}
       <div className="absolute top-20 right-20 cursor-pointer" onClick={handleTogglePin}>
         {goal.isPinned ? (
-          <PinIcon className="text-heatmap-accent" />
+          <PinOnIcon className="text-heatmap-accent" width={24} height={24} fill="currentColor" />
         ) : (
-          <PinIconOff className="text-text-inactive" />
+          <PinOffIcon className="text-inactive" width={24} height={24} fill="currentColor" />
         )}
       </div>
 
@@ -94,7 +97,13 @@ const GoalCard = ({ goal }: GoalCardProps) => {
         <div className="flex flex-col">
           {/* 목표 제목 */}
           <div className="mb-16 flex items-center gap-8">
-            <GoalIcon className={getGoalTextColorClass(goal.color)} />
+            <GoalIcon
+              className={getGoalTextColorClass(goal.color)}
+              width={24}
+              height={24}
+              fill="currentColor"
+            />
+
             <div className="text-body-sb-20 text-text-01 max-w-296 truncate">{goal.title}</div>
           </div>
 
@@ -114,7 +123,7 @@ const GoalCard = ({ goal }: GoalCardProps) => {
               </span>
               <div className="bg-line h-8 w-full overflow-hidden rounded-full">
                 <div
-                  className={`h-full rounded-full transition-all duration-300 ${getGoalColorClass(goal.color)}`}
+                  className={`h-full rounded-full transition-all duration-300 ${getGoalBackgroundColorClass(goal.color)}`}
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -135,12 +144,7 @@ const GoalCard = ({ goal }: GoalCardProps) => {
                 {incompleteTodos.map((todo, index) => (
                   <div key={todo.id || index} className="flex h-24 items-center gap-8">
                     <div className="flex h-24 w-24 items-center justify-center">
-                      <Image
-                        src="/assets/icons/check_default.svg"
-                        alt="Checked Icon"
-                        width={24}
-                        height={24}
-                      />
+                      <UncheckedIcon className="checkbox-unchecked" width={24} height={24} />
                     </div>
                     <span className="text-text-02 text-body-m-16 flex-1 truncate">
                       {todo.title}
@@ -152,7 +156,7 @@ const GoalCard = ({ goal }: GoalCardProps) => {
           ) : goal.todos.length > 0 ? (
             <div className="flex flex-col items-center justify-center pt-22">
               <div className="mb-32 flex items-center gap-8 text-center">
-                <Image src="/assets/icons/check.svg" alt="Check Icon" width={20} height={20} />
+                <CheckedIcon className="checkbox-checked-blue" width={20} height={20} />
                 <div className="text-body-sb-20 text-primary-01 font-semibold">
                   모든 할 일을 완료 했어요!
                 </div>

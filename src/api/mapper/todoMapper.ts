@@ -1,7 +1,7 @@
 import { ApiTodo, Todo } from '@/interfaces/todo';
 
 export const todoMapper = {
-  mapToTodo: (apiTodo: ApiTodo): Todo => ({
+  mapApiToTodo: (apiTodo: ApiTodo): Todo => ({
     todoId: apiTodo.todoId,
     goalId: apiTodo.goalId,
     title: apiTodo.name || apiTodo.title,
@@ -12,6 +12,4 @@ export const todoMapper = {
     attachment: undefined,
     notes: undefined,
   }),
-
-  mapToSingleTodo: (apiTodo: ApiTodo): Todo => todoMapper.mapToTodo(apiTodo),
 };

@@ -54,15 +54,18 @@ export default function LandingBanner() {
           },
         )}
       >
-        <div className="bg-text-01 p-6.67 rounded-12 flex items-center justify-center sm:h-40 sm:w-40 md:h-40 md:w-40 lg:h-80 lg:w-80">
-          <div className="relative sm:h-33 sm:w-33 md:h-33 md:w-33 lg:h-67 lg:w-67">
-            <Image src="/assets/images/logoIcon.svg" alt="로고 아이콘" fill />
-          </div>
+        <div className="bg-text-01 p-6.67 rounded-12 flex h-80 w-80 items-center justify-center">
+          <Image
+            src="/assets/images/flowIt-logo.svg"
+            alt="로고 이미지"
+            width={66.67}
+            height={66.67}
+          />
         </div>
         <div className="sm:mb-0 md:mb-0 lg:mb-10">
           <span className="lg:text-banner-44 md:text-banner-24 sm:text-banner-24 flex text-white sm:flex-col md:flex-col lg:block">
             목표 중심의
-            <br /> 스마트한 생산성 관리,{' '}
+            <br /> 스마트한 생산성 관리,
             <span className="lg:text-banner-44-bold md:text-logo-32 sm:text-logo-32">FlowIt</span>
           </span>
         </div>
@@ -98,10 +101,14 @@ export default function LandingBanner() {
           },
         )}
       >
-        <div className="rounded-tl-50 rounded-bl-50 bg-landing-blue absolute sm:hidden md:block md:h-240 md:w-400 md:-translate-x-[5%] lg:block lg:h-343 lg:w-1045 lg:translate-x-[8%]" />
-        <div className="relative z-10 sm:h-194 sm:w-340 md:h-206 md:w-361 lg:h-400 lg:w-700">
-          <Image src="/assets/images/dashboard.svg" alt="대쉬보드 이미지" fill />
-        </div>
+        <div className="rounded-tl-50 rounded-bl-50 bg-landing-blue absolute h-343 w-850 -translate-x-[2%]" />
+        <Image
+          src="/assets/images/landing_dashboard.svg"
+          alt="대쉬보드 이미지"
+          width={699.78}
+          height={399.88}
+          className="relative z-10"
+        />
       </div>
     </div>
   );

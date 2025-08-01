@@ -1,9 +1,7 @@
 'use client';
 
-import React from 'react';
-
-import CheckIcon from '@/../public/assets/icons/checkIcon.svg';
-import { GOAL_COLOR_OPTIONS } from '@/constants/goalColorOptions';
+import CheckIcon from '@/assets/icons/check.svg';
+import { GOAL_COLOR_OPTIONS } from '@/constants/goalColors';
 
 interface ColorChipSelectorProps {
   selectedColor: string;
@@ -25,7 +23,7 @@ const ColorChipSelector = ({ selectedColor, onSelectColor }: ColorChipSelectorPr
           onClick={() => onSelectColor(color)}
           aria-label={`색상 선택: ${color}`}
         >
-          {selectedColor === color && <CheckIcon className="h-16 w-16 text-white" />}
+          {selectedColor === color && <CheckIcon className="text-white" width={16} height={16} />}
         </button>
       ))}
     </div>

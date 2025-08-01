@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import ScheduleIcon from '@/../public/assets/icons/scheduleIcon.svg';
+import ScheduleIcon from '@/assets/icons/schedule.svg';
 import { Button } from '@/components/ui/Button';
 import type { AssignedTask } from '@/interfaces/schedule';
 import { scheduleRes } from '@/mocks/mockResponses/schedule/scheduleResponse';
@@ -24,7 +24,7 @@ export default function ScheduleSection() {
           text="todoCard"
           onClick={() => setIsModalOpen(true)}
           disabled={false}
-          icon={<ScheduleIcon className="h-20 w-20 text-white" />}
+          icon={<ScheduleIcon className="text-white" width={20} height={20} fill="currentColor" />}
         >
           <span className="block sm:hidden">일정관리</span>
           <span className="hidden sm:block">일정 관리하기</span>

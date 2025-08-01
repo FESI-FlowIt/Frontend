@@ -24,7 +24,7 @@ const inputVariants = cva('', {
       noteTitle: 'h-52 w-full px-0',
     },
     text: {
-      default: 'text-body-sb-20 placeholder:text-text-inactive text-black',
+      default: 'text-body-sb-20 placeholder:text-inactive text-black',
       noteTitle: 'text-body-m-20 placeholder:text-text-04 font-medium',
     },
     isError: {

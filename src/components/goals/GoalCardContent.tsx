@@ -1,14 +1,13 @@
 'use client';
 
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
+import UncheckedIcon from '@/assets/icons/checkbox-unchecked.svg';
+import GoalIcon from '@/assets/icons/goal.svg';
 import { Button } from '@/components/ui/Button';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
-import { getGoalColorClass } from '@/lib/goalColorUtils';
-import { getGoalTextColorClass } from '@/lib/goalColorUtils';
+import { getGoalBackgroundColorClass, getGoalTextColorClass } from '@/lib/goalColors';
 import { ROUTES } from '@/lib/routes';
 import { useModalStore } from '@/store/modalStore';
 
@@ -27,7 +26,7 @@ export default function GoalCardContent({
   const doneCount = todos.filter(todo => todo.isDone).length;
   const totalCount = todos.length;
   const progressPercent = totalCount === 0 ? 0 : Math.round((doneCount / totalCount) * 100);
-  const bgClass = getGoalColorClass(goal.color);
+  const bgClass = getGoalBackgroundColorClass(goal.color);
   const { openTodoModalWithGoal } = useModalStore();
 
   return (
@@ -40,7 +39,12 @@ export default function GoalCardContent({
         <div className="flex flex-col gap-20">
           <div className="flex flex-col gap-12">
             <div className="flex items-center gap-8">
-              <GoalIcon className={`h-24 w-24 ${getGoalTextColorClass(goal.color)}`} />
+              <GoalIcon
+                className={getGoalTextColorClass(goal.color)}
+                width={24}
+                height={24}
+                fill="currentColor"
+              />
               <h3 className="text-text-01 text-body-sb-20 max-w-296 truncate">{goal.title}</h3>
             </div>
             <div className="flex items-baseline gap-12">
@@ -91,12 +95,7 @@ export default function GoalCardContent({
                     }}
                     className="flex h-24 w-24 items-center justify-center rounded transition hover:bg-gray-100"
                   >
-                    <Image
-                      src="assets/icons/check_default.svg"
-                      alt="Checked Icon"
-                      width={24}
-                      height={24}
-                    />
+                    <UncheckedIcon className="checkbox-unchecked" width={24} height={24} />
                   </button>
                   <span className="text-text-02 text-body-m-16">{todo.title}</span>
                 </div>

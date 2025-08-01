@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
+import GoalIcon from '@/assets/icons/goal.svg';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
-import { getGoalTextColorClass } from '@/lib/goalColorUtils';
+import { getGoalTextColorClass } from '@/lib/goalColors';
 import { ROUTES } from '@/lib/routes';
 
 import EmptyTodo from './EmptyTodo';
@@ -41,7 +41,12 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
         <div className="flex flex-1 flex-col justify-between px-32 pt-20 pb-20">
           <div className="flex flex-col gap-12">
             <div className="flex items-center gap-8">
-              <GoalIcon className={`h-24 w-24 ${getGoalTextColorClass(goal.color)}`} />
+              <GoalIcon
+                className={getGoalTextColorClass(goal.color)}
+                width={24}
+                height={24}
+                fill="currentColor"
+              />
               <h3 className="text-text-01 text-body-sb-20 max-w-296 truncate">{goal.title}</h3>
             </div>
             <div className="flex items-baseline gap-12">
