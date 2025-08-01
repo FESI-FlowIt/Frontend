@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/Button';
 import { GoalSummary } from '@/interfaces/goal';
-import { getGoalColorClass } from '@/lib/goalColorUtils';
+import { getGoalBackgroundColorClass } from '@/lib/goalColors';
 import { useModalStore } from '@/store/modalStore';
 
 interface EmptyTodoProps {
@@ -14,7 +14,9 @@ export default function EmptyTodoMessage({ goal }: EmptyTodoProps) {
 
   return (
     <>
-      <div className={`absolute top-0 left-0 h-full w-12 ${getGoalColorClass(goal.color)}`} />
+      <div
+        className={`absolute top-0 left-0 h-full w-12 ${getGoalBackgroundColorClass(goal.color)}`}
+      />
       <div className="relative flex h-full w-full flex-col items-center justify-end px-32 pt-[40px] pb-[68px]">
         <p className="text-text-02 text-body-sb-20 mb-32 text-center leading-[34px]">
           목표를 이루기 위해

@@ -6,7 +6,7 @@ import TimerIcon from '@/assets/icons/timer.svg';
 import LegendSection from '@/components/heatmaps/LegendSection';
 import Popover from '@/components/ui/Popover';
 import { MONTHLY_LEGEND, WEEKLY_LEGEND } from '@/constants/heatmap';
-import { hexToGoalColor } from '@/lib/calendar';
+import { hexToGoalColor } from '@/lib/goalColors';
 
 const meta: Meta<typeof Popover> = {
   title: 'Components/ui/Popover',
@@ -91,7 +91,7 @@ export const HeatmapDefault: Story = {
           title="기본 히트맵 팝오버"
           variant="heatmap"
           onClose={() => setIsOpen(false)}
-          icon={<TimerIcon className="text-snackbar" width={24} height={24} fill="currentColor" />}
+          icon={<TimerIcon className="text-gray-01" width={24} height={24} fill="currentColor" />}
         >
           <div className="flex flex-row gap-76">
             <LegendSection title="[주간]" data={WEEKLY_LEGEND} />

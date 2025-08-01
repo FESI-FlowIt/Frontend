@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import GoalIcon from '@/assets/icons/goal.svg';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
-import { getGoalTextColorClass } from '@/lib/goalColorUtils';
+import { getGoalTextColorClass } from '@/lib/goalColors';
 import { ROUTES } from '@/lib/routes';
 
 import EmptyTodo from './EmptyTodo';

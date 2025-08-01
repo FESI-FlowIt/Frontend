@@ -12,7 +12,7 @@ const GoalsHeader = ({ totalCount }: GoalsHeaderProps) => {
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-8">
-            <GoalIcon className="text-snackbar" width={24} height={24} fill="currentColor" />
+            <GoalIcon className="text-gray-01" width={24} height={24} fill="currentColor" />
             <h1 className="text-display-32 text-text-01">모든 목표</h1>
           </div>
 

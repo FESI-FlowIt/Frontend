@@ -7,7 +7,7 @@ import GoalIcon from '@/assets/icons/goal.svg';
 import { Button } from '@/components/ui/Button';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
-import { getGoalColorClass, getGoalTextColorClass } from '@/lib/goalColorUtils';
+import { getGoalBackgroundColorClass, getGoalTextColorClass } from '@/lib/goalColors';
 import { ROUTES } from '@/lib/routes';
 import { useModalStore } from '@/store/modalStore';
 
@@ -26,7 +26,7 @@ export default function GoalCardContent({
   const doneCount = todos.filter(todo => todo.isDone).length;
   const totalCount = todos.length;
   const progressPercent = totalCount === 0 ? 0 : Math.round((doneCount / totalCount) * 100);
-  const bgClass = getGoalColorClass(goal.color);
+  const bgClass = getGoalBackgroundColorClass(goal.color);
   const { openTodoModalWithGoal } = useModalStore();
 
   return (

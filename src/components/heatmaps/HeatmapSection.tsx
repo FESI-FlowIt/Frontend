@@ -114,7 +114,7 @@ export default function HeatmapSection() {
   return (
     <div>
       <Card
-        icon={<SparkleIcon className="text-snackbar" width={24} height={24} fill="currentColor" />}
+        icon={<SparkleIcon className="text-gray-01" width={24} height={24} fill="currentColor" />}
         title={cardTitle}
         extra={<Tab items={periodTabs} value={period} onChange={setPeriod} />}
         backgroundColor="white"

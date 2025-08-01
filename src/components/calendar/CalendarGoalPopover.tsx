@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 
 import Popover from '@/components/ui/Popover';
 import { Goal } from '@/interfaces/calendar';
-import { getGoalColorClass } from '@/lib/goalColorUtils';
+import { getGoalBackgroundColorClass } from '@/lib/goalColors';
 import { ROUTES } from '@/lib/routes';
 import { cn } from '@/lib/utils';
 
@@ -48,7 +48,7 @@ const CalendarGoalPopover = ({
             onClick={() => handleGoalClick(goal.id)}
           >
             <div
-              className={`h-12 w-12 flex-shrink-0 rounded-full ${getGoalColorClass(goal.color)}`}
+              className={`h-12 w-12 flex-shrink-0 rounded-full ${getGoalBackgroundColorClass(goal.color)}`}
             />
             <span className="text-text-02 text-body-m-20 flex-1">{goal.title}</span>
           </div>

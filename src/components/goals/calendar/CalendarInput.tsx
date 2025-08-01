@@ -79,7 +79,7 @@ const CalendarInput: React.FC<CalendarInputProps> = ({
         className="absolute top-1/2 right-16 -translate-y-1/2 transform cursor-pointer"
         onClick={onCalendarIconClick}
       >
-        <CalendarOutlineIcon className="text-snackbar" width={20} height={20} fill="currentColor" />
+        <CalendarOutlineIcon className="text-gray-01" width={20} height={20} fill="currentColor" />
       </div>
     </>
   );

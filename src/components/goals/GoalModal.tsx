@@ -70,7 +70,7 @@ const GoalModal = () => {
       >
         <div className="mb-52 flex items-center justify-between">
           <h2 className="text-display-24 text-text-01 flex items-center font-bold">
-            <GoalIcon className="text-snackbar mr-12" width={24} height={24} fill="currentColor" />
+            <GoalIcon className="text-gray-01 mr-12" width={24} height={24} fill="currentColor" />
             {isEditMode ? '목표 수정' : '목표 생성'}
           </h2>
           <button

@@ -13,7 +13,7 @@ interface HeatmapInfoPopoverProps {
 const HeatmapInfoPopover = ({ onClose, position, className }: HeatmapInfoPopoverProps) => {
   return (
     <Popover
-      icon={<TimerIcon className="text-snackbar" width={24} height={24} fill="currentColor" />}
+      icon={<TimerIcon className="text-gray-01" width={24} height={24} fill="currentColor" />}
       title="작업 시간에 따른 히트맵 측정"
       onClose={onClose}
       className={cn('shadow-lg', className)}

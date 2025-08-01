@@ -20,7 +20,7 @@ const NoteInfo = () => {
       {/* 할 일 정보 */}
       <div className="mb-24 flex items-center gap-8">
         <div className="flex h-20 w-20 items-center justify-center">
-          <TodoIcon className="text-Gray_01" />
+          <TodoIcon className="text-gray-01" />
         </div>
         <div className="text-body-b-16 text-text-02 font-bold">To do</div>
         <span className="text-body-m-16 text-text-01 font-medium">
