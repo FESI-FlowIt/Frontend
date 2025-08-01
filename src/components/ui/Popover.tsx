@@ -5,7 +5,7 @@ import { IconButton } from '@/components/ui/IconButton';
 import { cn } from '@/lib/utils';
 
 const popoverVariants = cva(
-  'rounded-20 border-line fixed z-50 flex w-fit flex-col border-1 bg-white shadow-xl',
+  'rounded-20 border-line absolute z-50 flex w-fit flex-col border-1 bg-white shadow-xl',
   {
     variants: {
       variant: {
