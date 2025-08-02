@@ -1,19 +1,46 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 
 import ScheduleIcon from '@/assets/icons/schedule.svg';
 import { Button } from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import type { AssignedTask } from '@/interfaces/schedule';
 import { getTodayScheduleTitle } from '@/lib/calendarUtils';
-import { scheduleRes } from '@/mocks/mockResponses/schedule/scheduleResponse';
-
+import { schedulesApi } from '@/api/scheduleApi';
+import { scheduleMapper } from '@/api/mapper/scheduleMapper';
+import { useUserStore } from '@/store/userStore';
 import ScheduleModal from './ScheduleModal';
 
 export default function ScheduleSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [assignedTasks, setAssignedTasks] = useState<AssignedTask[]>(scheduleRes);
+  const [assignedTasks, setAssignedTasks] = useState<AssignedTask[]>([]);
+
+  const user = useUserStore(state => state.user);
+  const userId = user?.id ?? 0;
+  const selectedDate = dayjs().format('YYYY-MM-DD');
+
+  useEffect(() => {
+    if (user) {
+      fetchAssignedTasks();
+    }
+  }, [user, selectedDate]);
+
+  const fetchAssignedTasks = async () => {
+    try {
+      const res = await schedulesApi.getAssignedTodos(userId, selectedDate);
+      const mapped = scheduleMapper.mapAssignedTodosToAssignedTasks(res.assignedTodos);
+      setAssignedTasks(mapped);
+    } catch (err) {
+      console.error('배치 일정 불러오기 실패:', err);
+    }
+  };
+
+  // ✅ 중복 제거
+  const deduplicatedAssignedTasks = Array.from(
+    new Map(assignedTasks.map(item => [`${item.task.id}-${item.time}`, item])).values(),
+  );
 
   return (
     <Card
@@ -35,11 +62,10 @@ export default function ScheduleSection() {
         </Button>
       }
     >
-      {/* Content */}
       <div className="mb-20 h-80 overflow-y-scroll pr-4">
         <ul className="space-y-4">
-          {assignedTasks.map(({ time, task }, idx) => (
-            <li key={idx} className="flex items-start gap-12 text-sm">
+          {deduplicatedAssignedTasks.map(({ time, task }) => (
+            <li key={`${task.id}-${time}`} className="flex items-start gap-12 text-sm">
               <span className="text-text-04 text-body-m-16">{time}</span>
               <span className="text-text-02 text-body-m-16">{task.title}</span>
             </li>
@@ -47,12 +73,16 @@ export default function ScheduleSection() {
         </ul>
       </div>
 
-      <ScheduleModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        assignedTasks={assignedTasks}
-        setAssignedTasks={setAssignedTasks}
-      />
+      {user && (
+        <ScheduleModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          assignedTasks={assignedTasks}
+          setAssignedTasks={setAssignedTasks}
+          userId={userId}
+          selectedDate={selectedDate}
+        />
+      )}
     </Card>
   );
 }

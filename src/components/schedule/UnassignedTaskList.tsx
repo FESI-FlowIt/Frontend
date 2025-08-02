@@ -1,6 +1,8 @@
+// ✅ 전체 코드 수정 (API 호출 제거, props로만 받음)
+'use client';
+
 import TodoIcon from '@/assets/icons/todo.svg';
 import { Task } from '@/interfaces/schedule';
-
 import TaskCard from './TaskCard';
 
 interface UnassignedTaskListProps {
