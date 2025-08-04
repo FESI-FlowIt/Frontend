@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
@@ -15,6 +15,7 @@ import {
 } from '@/lib/goalColors';
 import { ROUTES } from '@/lib/routes';
 import { useModalStore } from '@/store/modalStore';
+import { useNoteWriteStore } from '@/store/noteWriteStore';
 
 import ConfirmDialog from '../../todos/ConfirmDialog';
 import DropdownMenu from '../../ui/DropdownMenu';
@@ -32,6 +33,14 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
   const router = useRouter();
   const deleteGoalMutation = useDeleteGoal();
   const { openGoalEditModal } = useModalStore();
+  const { setGoalTitle } = useNoteWriteStore();
+
+  // goal이 로드될 때 goalTitle을 store에 저장
+  useEffect(() => {
+    if (goal?.title) {
+      setGoalTitle(goal.title);
+    }
+  }, [goal?.title, setGoalTitle]);
 
   const handleEdit = () => {
     openGoalEditModal(goal);
@@ -74,7 +83,7 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
       >
         {/* 왼쪽 색상 바 */}
         <div
-          className={`absolute top-0 left-0 h-full w-12 rounded-l-full ${getGoalTextColorClass(goal.color)}`}
+          className={`absolute top-0 left-0 h-full w-12 rounded-l-full ${getGoalBackgroundColorClass(goal.color)}`}
         />
         {/* 목표 헤더 */}
         <div className="mb-24 flex items-center justify-between">
