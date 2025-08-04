@@ -53,7 +53,7 @@ const Popover = ({
   position,
   variant,
 }: PopoverProps) => {
-  // ESC 키로 닫기 기능
+  // ESC 키 이벤트 핸들러
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -67,33 +67,45 @@ const Popover = ({
     }
   }, [isOpen, onClose]);
 
+  // 배경 클릭 이벤트 핸들러
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   if (!isOpen) return null;
 
   const popoverContent = (
-    <div
-      className={cn(popoverVariants({ variant }), className)}
-      style={{
-        top: `${position.top}px`,
-        left: `${position.left}px`,
-      }}
-    >
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-8">
-          {icon && <div className="flex-shrink-0">{icon}</div>}
-          <div className={titleVariants({ variant })}>{title}</div>
-        </div>
-        <IconButton
-          variant="close"
-          onClick={onClose}
-          aria-label="팝오버 닫기"
-          className={variant === 'calendar' ? 'mr-20' : ''}
-        />
-      </div>
+    <>
+      {/* 투명한 배경 오버레이 */}
+      <div className="fixed inset-0 z-40" onClick={handleBackdropClick} />
 
-      {/* Content */}
-      <div className="flex-1">{children}</div>
-    </div>
+      <div
+        className={cn(popoverVariants({ variant }), className)}
+        style={{
+          top: `${position.top}px`,
+          left: `${position.left}px`,
+        }}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-8">
+            {icon && <div className="flex-shrink-0">{icon}</div>}
+            <div className={titleVariants({ variant })}>{title}</div>
+          </div>
+          <IconButton
+            variant="close"
+            onClick={onClose}
+            aria-label="팝오버 닫기"
+            className={variant === 'calendar' ? 'mr-20' : ''}
+          />
+        </div>
+
+        {/* Content */}
+        <div className="flex-1">{children}</div>
+      </div>
+    </>
   );
 
   return createPortal(popoverContent, document.body);
