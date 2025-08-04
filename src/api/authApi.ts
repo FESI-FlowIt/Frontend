@@ -1,3 +1,5 @@
+import { setCookie } from '@/lib/cookies';
+
 import { getRequest, postRequest } from '.';
 
 export const postLogin = async (email: string, password: string) => {
@@ -8,7 +10,12 @@ export const postLogin = async (email: string, password: string) => {
 
   try {
     const data = await postRequest('/auths/signIn', params);
-    return data;
+    const accessToken = data.result.accessToken;
+    const refreshToken = data.result.refreshToken;
+    if (refreshToken) await setCookie(`refreshToken_${data.result.id}`, refreshToken);
+    if (accessToken) await setCookie('accessToken', accessToken);
+
+    return { data, accessToken: accessToken };
   } catch (err) {
     console.error('Fetch login Error', err);
     throw err;
