@@ -13,16 +13,21 @@ import Tab from '@/components/ui/Tab';
 import { periodTabs } from '@/constants/heatmap';
 import { useMonthlyHeatmap, useWeeklyHeatmap } from '@/hooks/useHeatmap';
 import { useMonthlyInsight, useWeeklyInsight } from '@/hooks/useInsight';
+import usePopover from '@/hooks/usePopover';
 
 export default function HeatmapSection() {
   const [period, setPeriod] = useState('week');
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-  const [popoverPosition, setPopoverPosition] = useState({ top: 0, left: 0 });
+
+  // Refs
   const infoButtonRef = useRef<HTMLButtonElement>(null);
   const cardContainerRef = useRef<HTMLDivElement>(null);
 
-  const handleInfoClick = () => {
-    if (!infoButtonRef.current) return;
+  // popover
+  const popover = usePopover();
+
+  // 위치 계산 로직
+  const calculatePopoverPosition = () => {
+    if (!infoButtonRef.current) return { top: 0, left: 0 };
 
     const buttonRect = infoButtonRef.current.getBoundingClientRect();
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -72,14 +77,16 @@ export default function HeatmapSection() {
       popoverTop = scrollTop + buttonRect.bottom + 8;
     }
 
-    setPopoverPosition({ top: popoverTop, left: popoverLeft });
-    setIsPopoverOpen(true);
+    return { top: popoverTop, left: popoverLeft };
   };
 
-  const handlePopoverClose = () => {
-    setIsPopoverOpen(false);
+  // 이벤트 핸들러
+  const handleInfoClick = () => {
+    const position = calculatePopoverPosition();
+    popover.open(position);
   };
 
+  // API 호출
   const { data: weeklyHeatmapData } = useWeeklyHeatmap();
   const { data: monthlyHeatmapData } = useMonthlyHeatmap();
   const { data: weeklyInsightData } = useWeeklyInsight();
@@ -149,9 +156,7 @@ export default function HeatmapSection() {
         </div>
       </Card>
 
-      {isPopoverOpen && (
-        <HeatmapInfoPopover onClose={handlePopoverClose} position={popoverPosition} />
-      )}
+      {popover.isOpen && <HeatmapInfoPopover onClose={popover.close} position={popover.position} />}
     </div>
   );
 }
