@@ -1,7 +1,8 @@
 import { RequestInit } from 'next/dist/server/web/spec-extension/request';
 
-import { getCookie, setCookie } from '@/lib/cookies';
+import { getCookie } from '@/lib/cookies';
 
+import { getUser } from './authApi';
 import { refreshAccessToken } from './refreshAccessToken';
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000';
@@ -42,21 +43,12 @@ export async function fetchWrapper(
       headers,
     });
 
-    const isLoginRequest = url.includes('/auths/signIn');
-
-    if (isLoginRequest) {
-      const tokenHeader = response.headers.get('Authorization');
-      const token = tokenHeader?.startsWith('Bearer ') ? tokenHeader.split(' ')[1] : undefined;
-
-      if (token !== undefined) {
-        await setCookie('accessToken', token);
-        return { accessToken: token };
-      }
-    }
-
     if (!response.ok) {
-      if (response.status === 401 && accessToken) {
-        const newAccessToken = await refreshAccessToken(accessToken);
+      if (response.status === 401) {
+        const data = await getUser();
+        const userId = data.result.id;
+        const refreshToken = await getCookie(`refreshToken_${userId}`);
+        const newAccessToken = await refreshAccessToken(refreshToken, userId);
 
         if (!newAccessToken) return;
 
