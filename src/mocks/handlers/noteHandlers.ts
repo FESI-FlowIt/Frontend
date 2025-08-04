@@ -22,7 +22,7 @@ export const noteHandlers = [
       title: body.title,
       content: body.content,
       wordCount: body.wordCount,
-      link: body.link || null,
+      link: body.link,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
