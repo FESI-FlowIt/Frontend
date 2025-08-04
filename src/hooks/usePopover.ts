@@ -10,10 +10,15 @@ const usePopover = (type: PopoverType) => {
   const open = (triggerElement: HTMLElement, containerElement?: HTMLElement | null) => {
     let calculatedPosition: PopoverPosition;
 
-    if (type === 'heatmap') {
-      calculatedPosition = calculateHeatmapPosition(triggerElement, containerElement);
-    } else {
-      calculatedPosition = calculateCalendarPosition(triggerElement, containerElement!);
+    switch (type) {
+      case 'heatmap':
+        calculatedPosition = calculateHeatmapPosition(triggerElement, containerElement);
+        break;
+      case 'calendar':
+        calculatedPosition = calculateCalendarPosition(triggerElement, containerElement!);
+        break;
+      default:
+        throw new Error(`Unknown popover type: ${type}`);
     }
 
     setPosition(calculatedPosition);
