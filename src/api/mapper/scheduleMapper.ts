@@ -1,4 +1,3 @@
-// src/mappers/scheduleMapper.ts
 import type { Task, AssignedTask } from '@/interfaces/schedule';
 import type { UnassignedTodoApi, AssignedTodoApi } from '@/interfaces/schedule';
 

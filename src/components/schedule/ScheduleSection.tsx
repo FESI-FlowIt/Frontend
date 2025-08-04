@@ -37,7 +37,6 @@ export default function ScheduleSection() {
     }
   };
 
-  // ✅ 중복 제거 + 시간순 정렬
   const deduplicatedAssignedTasks = Array.from(
     new Map(assignedTasks.map(item => [`${item.task.id}-${item.time}`, item])).values(),
   ).sort((a, b) => a.time.localeCompare(b.time)); //

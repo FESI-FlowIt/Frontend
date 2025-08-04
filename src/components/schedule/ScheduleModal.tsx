@@ -54,7 +54,6 @@ export default function ScheduleModal({
     const task = tasks.find(t => t.id === taskId);
     if (!task) return;
 
-    // 해당 시간에 이미 배정된 할 일이 있다면 추가 금지
     const alreadyHasTaskInTimeSlot = assignedTasks.some(a => a.time === time);
     if (alreadyHasTaskInTimeSlot) return;
 
@@ -91,14 +90,14 @@ export default function ScheduleModal({
       userId,
       scheduleInfos: [
         ...deduplicated.map(({ schedId, task, time }) => ({
-          schedId, // 있을 경우 포함
+          schedId,
           todoId: Number(task.id),
           startedDateTime: `${selectedDate}T${time}:00`,
           endedDateTime: `${selectedDate}T${time}:00`,
           isRemoved: false,
         })),
         ...removedTasks.map(({ schedId, task, time }) => ({
-          schedId, // ✅ 삭제는 schedId 꼭 포함해야 함
+          schedId,
           todoId: Number(task.id),
           startedDateTime: `${selectedDate}T${time}:00`,
           endedDateTime: `${selectedDate}T${time}:00`,
