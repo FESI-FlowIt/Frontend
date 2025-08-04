@@ -2,7 +2,6 @@ import { RequestInit } from 'next/dist/server/web/spec-extension/request';
 
 import { getCookie } from '@/lib/cookies';
 
-import { getUser } from './authApi';
 import { refreshAccessToken } from './refreshAccessToken';
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000';
@@ -45,8 +44,7 @@ export async function fetchWrapper(
 
     if (!response.ok) {
       if (response.status === 401) {
-        const data = await getUser();
-        const userId = data.result.id;
+        const userId = await getCookie('userId');
         const refreshToken = await getCookie(`refreshToken_${userId}`);
         const newAccessToken = await refreshAccessToken(refreshToken, userId);
 

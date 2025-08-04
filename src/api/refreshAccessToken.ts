@@ -7,7 +7,7 @@ let refreshPromise: Promise<string | null> | null = null;
 
 export const refreshAccessToken = async (
   refreshToken: string | undefined,
-  userId: string,
+  userId: string | undefined,
 ): Promise<string | null> => {
   if (!refreshPromise) {
     refreshPromise = (async () => {

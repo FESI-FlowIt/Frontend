@@ -55,6 +55,9 @@ export const getEmailCheck = async (email: string) => {
 export const getUser = async () => {
   try {
     const data = await getRequest('/users/me');
+    const userId = data.result.id;
+    await setCookie('userId', userId);
+
     return data;
   } catch (err) {
     console.error('Fetch user error', err);
