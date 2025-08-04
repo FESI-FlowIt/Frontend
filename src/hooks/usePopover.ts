@@ -1,18 +1,22 @@
 import { useState } from 'react';
 
-export interface PopoverPosition {
-  top: number;
-  left: number;
-}
+import { PopoverPosition, PopoverType } from '@/interfaces/popover';
+import { calculateCalendarPosition, calculateHeatmapPosition } from '@/lib/popover';
 
-const usePopover = (initialPosition: PopoverPosition = { top: 0, left: 0 }) => {
+const usePopover = (type: PopoverType) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [position, setPosition] = useState<PopoverPosition>(initialPosition);
+  const [position, setPosition] = useState<PopoverPosition>({ top: 0, left: 0 });
 
-  const open = (newPosition?: PopoverPosition) => {
-    if (newPosition) {
-      setPosition(newPosition);
+  const open = (triggerElement: HTMLElement, containerElement?: HTMLElement | null) => {
+    let calculatedPosition: PopoverPosition;
+
+    if (type === 'heatmap') {
+      calculatedPosition = calculateHeatmapPosition(triggerElement, containerElement);
+    } else {
+      calculatedPosition = calculateCalendarPosition(triggerElement, containerElement!);
     }
+
+    setPosition(calculatedPosition);
     setIsOpen(true);
   };
 
@@ -20,22 +24,7 @@ const usePopover = (initialPosition: PopoverPosition = { top: 0, left: 0 }) => {
     setIsOpen(false);
   };
 
-  const toggle = (newPosition?: PopoverPosition) => {
-    if (isOpen) {
-      close();
-    } else {
-      open(newPosition);
-    }
-  };
-
-  return {
-    isOpen,
-    position,
-    setPosition,
-    open,
-    close,
-    toggle,
-  };
+  return { isOpen, position, open, close };
 };
 
 export default usePopover;

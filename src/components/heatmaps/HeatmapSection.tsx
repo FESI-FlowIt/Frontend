@@ -18,72 +18,15 @@ import usePopover from '@/hooks/usePopover';
 export default function HeatmapSection() {
   const [period, setPeriod] = useState('week');
 
-  // Refs
   const infoButtonRef = useRef<HTMLButtonElement>(null);
   const cardContainerRef = useRef<HTMLDivElement>(null);
-
-  // popover
-  const popover = usePopover();
-
-  // 위치 계산 로직
-  const calculatePopoverPosition = () => {
-    if (!infoButtonRef.current) return { top: 0, left: 0 };
-
-    const buttonRect = infoButtonRef.current.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-
-    const popoverWidth = 320;
-    const isMobile = window.innerWidth < 744;
-
-    let popoverLeft: number;
-    let popoverTop: number;
-
-    if (isMobile) {
-      // 모바일: Card 섹션의 세로 중앙선에 맞춤
-      if (cardContainerRef.current) {
-        const cardRect = cardContainerRef.current.getBoundingClientRect();
-        const cardCenterX = cardRect.left + cardRect.width / 2;
-        popoverLeft = scrollLeft + cardCenterX - popoverWidth / 2;
-
-        // 모바일에서도 최소한의 경계 검사
-        const margin = 16;
-        if (popoverLeft < margin) {
-          popoverLeft = margin;
-        } else if (popoverLeft + popoverWidth > window.innerWidth - margin) {
-          popoverLeft = window.innerWidth - popoverWidth - margin;
-        }
-      } else {
-        // fallback: 화면 중앙
-        popoverLeft = scrollLeft + (window.innerWidth - popoverWidth) / 2;
-      }
-
-      popoverTop = scrollTop + buttonRect.bottom + 8;
-    } else {
-      // PC/Tablet: 기존 로직 (버튼 중앙 기준 + 경계 검사)
-      const buttonCenterX = buttonRect.left + buttonRect.width / 2;
-      popoverLeft = scrollLeft + buttonCenterX - popoverWidth / 2;
-
-      // 화면 경계 체크
-      const viewportWidth = window.innerWidth;
-      const margin = 16;
-
-      if (popoverLeft < margin) {
-        popoverLeft = margin;
-      } else if (popoverLeft + popoverWidth > viewportWidth - margin) {
-        popoverLeft = viewportWidth - popoverWidth - margin;
-      }
-
-      popoverTop = scrollTop + buttonRect.bottom + 8;
-    }
-
-    return { top: popoverTop, left: popoverLeft };
-  };
+  const popover = usePopover('heatmap');
 
   // 이벤트 핸들러
   const handleInfoClick = () => {
-    const position = calculatePopoverPosition();
-    popover.open(position);
+    if (infoButtonRef.current) {
+      popover.open(infoButtonRef.current, cardContainerRef.current);
+    }
   };
 
   // API 호출
