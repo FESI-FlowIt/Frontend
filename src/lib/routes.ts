@@ -10,4 +10,10 @@ export const ROUTES = {
     //todo goalId는 number로 변경
     DETAIL: (goalId: string) => `/goal/${goalId}`,
   },
+  TODOS: {
+    Note: {
+      WRITE: (todoId: number) => `/todo/${todoId}/note/new`,
+      EDIT: (todoId: number, noteId: number) => `/todo/${todoId}/note/${noteId}`,
+    },
+  },
 };
