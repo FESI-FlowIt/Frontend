@@ -20,7 +20,7 @@ export const saveTempNote = async (noteData: NoteFormData) => {
   });
 
   // Redis에 직접 저장 (TTL 10시간)
-  await redis.setex(`temp:note:${noteData.todoId}`, 36000, dataString);
+  await redis.setex(`temp:note:${noteData.todoId}`, 10 * 60 * 60, dataString);
   return { success: true };
 };
 
@@ -43,7 +43,7 @@ export const saveTempNoteIfChanged = async (noteData: NoteFormData) => {
     return { success: true, saved: false, reason: 'no_change' };
   }
 
-  await redis.setex(key, 36000, newDataString);
+  await redis.setex(key, 10 * 60 * 60, newDataString);
   return { success: true, saved: true };
 };
 
