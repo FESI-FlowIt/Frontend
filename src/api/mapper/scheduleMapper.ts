@@ -1,5 +1,6 @@
 import type { Task, AssignedTask } from '@/interfaces/schedule';
 import type { UnassignedTodoApi, AssignedTodoApi } from '@/interfaces/schedule';
+import dayjs from '@/lib/dayjs';
 
 export const scheduleMapper = {
   mapUnassignedTodosToTasks: (apiTodos: UnassignedTodoApi[]): Task[] => {
@@ -10,11 +11,11 @@ export const scheduleMapper = {
     }));
   },
 
- mapAssignedTodosToAssignedTasks: (apiTodos: AssignedTodoApi[]): AssignedTask[] => {
+mapAssignedTodosToAssignedTasks: (apiTodos: AssignedTodoApi[]): AssignedTask[] => {
   return apiTodos.map(todo => {
-    const startedAt = new Date(todo.startedDateTime);
-    const time = startedAt.toISOString().slice(11, 16); // HH:mm
-    const date = startedAt.toISOString().slice(0, 10);  // YYYY-MM-DD
+    const startedAt = dayjs(todo.startedDateTime).tz('Asia/Seoul');
+    const time = startedAt.format('HH:mm'); // 한국 시간 기준
+    const date = startedAt.format('YYYY-MM-DD'); // 한국 시간 기준
 
     return {
       schedId: todo.schedId,
@@ -24,8 +25,8 @@ export const scheduleMapper = {
         color: todo.color,
       },
       time,
-      date, // ✅ 여기 들어갈 수 있게 됨
+      date,
     };
   });
-},
+}, // ← 여기!
 };

@@ -18,13 +18,13 @@ export default function ScheduleSection() {
   const [assignedTasks, setAssignedTasks] = useState<AssignedTask[]>([]);
 
   const user = useUserStore(state => state.user);
-  const userId = user?.id ?? 0;
 
   const todayDateStr = dayjs().format('YYYY-MM-DD');
 
   const fetchAssignedTasks = async () => {
     try {
-      const res = await schedulesApi.getAssignedTodos(userId, todayDateStr);
+      // ✅ userId 제거 버전
+      const res = await schedulesApi.getAssignedTodos(todayDateStr);
       const mapped = scheduleMapper.mapAssignedTodosToAssignedTasks(res.assignedTodos);
       setAssignedTasks(mapped);
     } catch (err) {
@@ -84,7 +84,6 @@ export default function ScheduleSection() {
           }}
           assignedTasks={assignedTasks}
           setAssignedTasks={setAssignedTasks}
-          userId={userId}
           selectedDate={todayDateStr}
         />
       )}

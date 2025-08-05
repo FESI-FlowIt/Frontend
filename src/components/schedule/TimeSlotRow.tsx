@@ -4,15 +4,17 @@ import TaskCard from './TaskCard';
 
 interface TimeSlotRowProps {
   time: string;
+  date: string; // ✅ 추가
   assignedTasks: AssignedTask[];
   onDropTask: (taskId: string, time: string) => void;
-  onDeleteTask: (task: Task, time: string) => void;
+  onDeleteTask: (task: Task, time: string, date: string) => void; // ✅ 수정
   isFirst?: boolean;
   isLast?: boolean;
 }
 
 export default function TimeSlotRow({
   time,
+  date,
   assignedTasks,
   onDropTask,
   onDeleteTask,
@@ -54,7 +56,7 @@ export default function TimeSlotRow({
                 <IconButton
                   variant="close"
                   aria-label="삭제"
-                  onClick={() => onDeleteTask(taskInThisSlot.task, time)}
+                  onClick={() => onDeleteTask(taskInThisSlot.task, time, date)} // ✅ 여기!
                 />
               </div>
             </div>

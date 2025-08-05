@@ -18,7 +18,6 @@ interface ScheduleModalProps {
   onClose: (saved?: boolean) => void;
   assignedTasks: AssignedTask[];
   setAssignedTasks: React.Dispatch<React.SetStateAction<AssignedTask[]>>;
-  userId: number;
   selectedDate: string; // "YYYY-MM-DD"
 }
 
@@ -27,7 +26,6 @@ export default function ScheduleModal({
   onClose,
   assignedTasks: externalAssigned,
   setAssignedTasks: setExternalAssigned,
-  userId,
   selectedDate,
 }: ScheduleModalProps) {
   const [assignedTasks, setAssignedTasks] = useState<AssignedTask[]>([]);
@@ -39,11 +37,12 @@ export default function ScheduleModal({
       fetchUnassignedTasks();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, externalAssigned, userId, selectedDate]);
+  }, [isOpen, externalAssigned, selectedDate]);
 
   const fetchUnassignedTasks = async () => {
     try {
-      const res = await schedulesApi.getUnassignedTodos(userId, selectedDate);
+      // ✅ userId 제거
+      const res = await schedulesApi.getUnassignedTodos(selectedDate);
       const mapped = scheduleMapper.mapUnassignedTodosToTasks(res.unassignedTodos);
       setTasks(mapped);
     } catch (err) {
@@ -61,8 +60,10 @@ export default function ScheduleModal({
     setAssignedTasks(prev => [...prev, { task, time, date }]);
   };
 
-  const handleDelete = (task: Task, time: string) => {
-    setAssignedTasks(prev => prev.filter(a => a.task.id !== task.id || a.time !== time));
+  const handleDelete = (task: Task, time: string, date: string) => {
+    setAssignedTasks(prev =>
+      prev.filter(a => !(a.task.id === task.id && a.time === time && a.date === date)),
+    );
   };
 
   const handleCancel = () => {
@@ -78,48 +79,73 @@ export default function ScheduleModal({
     });
     return Array.from(map.values());
   };
-
-  const toLocalISOString = (dateStr: string, timeStr: string): string =>
-    dayjs.tz(`${dateStr}T${timeStr}`, 'Asia/Seoul').format('YYYY-MM-DDTHH:mm:ss');
-
+  //한국 시간으로 수정해야함
+  // const toLocalISOString = (dateStr: string, timeStr: string): string =>
+  //dayjs.tz(`${dateStr}T${timeStr}`, 'Asia/Seoul').format('YYYY-MM-DDTHH:mm:ssZ');
+  const toLocalISOString = (dateStr: string, timeStr: string): string => {
+    return dayjs.tz(`${dateStr}T${timeStr}:00`, 'Asia/Seoul').format('YYYY-MM-DDTHH:mm:ss');
+  };
   const handleSave = async () => {
     const merged = [...externalAssigned, ...assignedTasks];
     const dedup = getDeduplicatedTasks(merged);
 
     const removed = externalAssigned.filter(
       prev =>
-        !dedup.some(
+        prev.schedId && // 🔴 schedId가 있는 것만 삭제 대상으로 인정
+        !assignedTasks.some(
           curr =>
             curr.task.id === prev.task.id && curr.time === prev.time && curr.date === prev.date,
         ),
     );
 
     const payload: SaveScheduleRequest = {
-      userId,
       scheduleInfos: [
-        ...dedup.map(({ schedId, task, time, date }) => ({
-          schedId,
-          todoId: Number(task.id),
-          startedDateTime: toLocalISOString(date, time),
-          endedDateTime: toLocalISOString(date, time),
-          isRemoved: false,
-        })),
-        ...removed.map(({ schedId, task, time, date }) => ({
-          schedId,
-          todoId: Number(task.id),
-          startedDateTime: toLocalISOString(date, time),
-          endedDateTime: toLocalISOString(date, time),
-          isRemoved: true,
-        })),
+        ...dedup.map(({ schedId, task, time, date }) => {
+          const base = {
+            todoId: Number(task.id),
+            startedDateTime: toLocalISOString(date, time),
+            endedDateTime: toLocalISOString(date, time),
+            isRemoved: false,
+          };
+          return schedId !== undefined ? { ...base, schedId } : base;
+        }),
+        ...removed
+          .filter(({ schedId }) => schedId !== undefined)
+          .map(({ schedId, task, time, date }) => {
+            return {
+              schedId: schedId!, // ! 붙여도 안전함 (위에서 걸렀으니까)
+              todoId: Number(task.id),
+              startedDateTime: toLocalISOString(date, time),
+              endedDateTime: toLocalISOString(date, time),
+              isRemoved: true,
+            };
+          }),
       ],
     };
 
+    console.log('🧩 externalAssigned:', externalAssigned);
+    console.log('🧩 assignedTasks:', assignedTasks);
+    console.log('📌 dedup:', dedup);
+    console.log('❌ removed:', removed);
+    console.log('📦 최종 payload:', payload);
+
     try {
       await schedulesApi.saveSchedules(payload);
-      setExternalAssigned(dedup);
-      onClose();
+
+      // ✅ 삭제된 일정 제외하고 반영
+      const dedupWithoutRemoved = dedup.filter(
+        d =>
+          !removed.some(
+            r => Number(r.task.id) === Number(d.task.id) && r.time === d.time && r.date === d.date,
+          ),
+      );
+
+      // 🔽 이 줄 추가!!!
+      setExternalAssigned(dedupWithoutRemoved);
+
+      onClose(true);
     } catch (error) {
-      console.error('일정 저장 실패:', error);
+      console.error('❌ 일정 저장 실패:', error);
     }
   };
 

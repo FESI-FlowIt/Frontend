@@ -11,7 +11,7 @@ import TimeSlotRow from './TimeSlotRow';
 interface TimeTableProps {
   assignedTasks: AssignedTask[];
   onDropTask: (taskId: string, time: string, date: string) => void;
-  onDeleteTask: (task: Task, time: string) => void;
+  onDeleteTask: (task: Task, time: string, date: string) => void; // ✅ 수정
 }
 
 const timeSlots = Array.from({ length: 24 }, (_, i) => `${i.toString().padStart(2, '0')}:00`);
@@ -49,11 +49,12 @@ export default function TimeTable({ assignedTasks, onDropTask, onDeleteTask }: T
             <TimeSlotRow
               key={time}
               time={time}
+              date={currentDateStr}
               assignedTasks={assignedTasks.filter(
                 a => a.time === time && a.date === currentDateStr,
               )}
               onDropTask={taskId => onDropTask(taskId, time, currentDateStr)}
-              onDeleteTask={onDeleteTask}
+              onDeleteTask={(task, time) => onDeleteTask(task, time, currentDateStr)} // ✅ 수정
               isFirst={index === 0}
               isLast={index === timeSlots.length - 1}
             />

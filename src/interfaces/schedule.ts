@@ -20,14 +20,13 @@ export interface ScheduleInfoRequest {
   startedDateTime: string;
   endedDateTime: string;  
   isRemoved: boolean;     
+    
 }
 
 
 export interface SaveScheduleRequest {
-  userId: number;                      
-  scheduleInfos: ScheduleInfoRequest[]; 
+  scheduleInfos: ScheduleInfoRequest[];
 }
-
 
 export interface AssignedTodoApi {
   schedId: number;          

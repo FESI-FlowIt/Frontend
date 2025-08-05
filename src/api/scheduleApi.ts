@@ -12,22 +12,21 @@ interface GetUnassignedTodosResponse {
 
 export const schedulesApi = {
   getUnassignedTodos: async (
-    userId: number,
     date: string
   ): Promise<GetUnassignedTodosResponse> => {
-    const res = await getRequest('/schedules/unassigned', { userId, date });
+    const res = await getRequest('/schedules/unassigned', { date });
     return res.result;
   },
 
   getAssignedTodos: async (
-    userId: number,
     date: string
   ): Promise<GetAssignedTodosResponse> => {
-    const res = await getRequest('/schedules/assigned', { userId, date });
+    const res = await getRequest('/schedules/assigned', { date });
     return res.result;
   },
 
   saveSchedules: async (data: SaveScheduleRequest): Promise<void> => {
-    await postRequest('/schedules', data);
+    await postRequest('/schedules', data); 
   },
 };
+
