@@ -7,12 +7,10 @@ import PinOnIcon from '@/assets/icons/pin-on.svg';
 import { useSidebarGoalPinned, useSidebarGoals } from '@/hooks/useSidebar';
 import { getGoalBackgroundColorClass } from '@/lib/goalColors';
 import { ROUTES } from '@/lib/routes';
-import { useUserStore } from '@/store/userStore';
 
 export default function SidebarGoalsList() {
-  const user = useUserStore(state => state.user);
-  const { data: goals } = useSidebarGoals(user?.id ?? 0);
-  const updatePinStatus = useSidebarGoalPinned(user?.id ?? 0);
+  const { data: goals } = useSidebarGoals();
+  const updatePinStatus = useSidebarGoalPinned();
   const router = useRouter();
 
   const handlePinClick = ({
