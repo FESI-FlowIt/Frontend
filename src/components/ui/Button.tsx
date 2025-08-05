@@ -27,6 +27,7 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       schedulecancel: 'text-body-sb-20 text-primary-01',
       noteHeader: 'md:text-body-b-16 text-body-m-16 text-primary-01',
       noteHeaderWhite: 'md:text-body-sb-20 text-body-m-16 text-white',
+      tempNote: 'md:text-body-m-16 sm:text-body-m-12 text-white',
     },
     size: {
       auth: 'h-62 w-600 px-20 py-24 sm:h-44 sm:w-full sm:max-w-343 md:h-62 md:w-full md:max-w-600',
@@ -41,6 +42,7 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       noteHeader: 'sm:h-40 sm:w-84 md:h-44 md:w-118',
       schedule: 'h-48 w-120 sm:w-165.5',
       scheduleDashboard: 'h-40 w-120 sm:w-160',
+      tempNote: 'h-40 w-84',
     },
     rounded: {
       none: 'rounded-none',

@@ -44,9 +44,8 @@ export async function fetchWrapper(
 
     if (!response.ok) {
       if (response.status === 401) {
-        const userId = await getCookie('userId');
-        const refreshToken = await getCookie(`refreshToken_${userId}`);
-        const newAccessToken = await refreshAccessToken(refreshToken, userId);
+        const refreshToken = await getCookie('refreshToken');
+        const newAccessToken = await refreshAccessToken(refreshToken);
 
         if (!newAccessToken) return;
 

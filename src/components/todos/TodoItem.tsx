@@ -2,13 +2,16 @@
 
 import React, { useRef, useState } from 'react';
 
+import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
 
 import DropdownMenu from '@/components/ui/DropdownMenu';
 import { IconButton } from '@/components/ui/IconButton';
 import { useDeleteTodo, useToggleTodo } from '@/hooks/useTodos';
 import { Todo } from '@/interfaces/todo';
+import { ROUTES } from '@/lib/routes';
 import { useModalStore } from '@/store/modalStore';
+import { useNoteWriteStore } from '@/store/noteWriteStore';
 
 import ConfirmDialog from './ConfirmDialog';
 
@@ -24,6 +27,9 @@ const TodoItem = ({ todo }: TodoItemProps) => {
   const toggleTodoMutation = useToggleTodo();
   const deleteTodoMutation = useDeleteTodo();
   const { openTodoEditModal } = useModalStore();
+  const goalTitle = useNoteWriteStore(state => state.goalTitle);
+
+  const router = useRouter();
 
   const handleToggle = async () => {
     if (toggleTodoMutation.isPending) return;
@@ -44,6 +50,16 @@ const TodoItem = ({ todo }: TodoItemProps) => {
 
   const handleDelete = () => {
     setShowDeleteConfirm(true);
+    setIsMenuOpen(false);
+  };
+
+  const handleWriteNote = () => {
+    const searchParams = new URLSearchParams({
+      todoTitle: todo.title,
+      goalTitle: goalTitle || '',
+    });
+
+    router.push(`${ROUTES.TODOS.Note.WRITE(todo.todoId)}?${searchParams.toString()}`);
     setIsMenuOpen(false);
   };
 
@@ -115,6 +131,12 @@ const TodoItem = ({ todo }: TodoItemProps) => {
             )}
           >
             {deleteTodoMutation.isPending ? '삭제 중...' : '삭제하기'}
+          </button>
+          <button
+            onClick={handleWriteNote}
+            className="text-body-m-16 text-text-03 flex items-center px-12 py-6 text-left hover:bg-gray-50"
+          >
+            노트 작성하기
           </button>
         </div>
       </DropdownMenu>

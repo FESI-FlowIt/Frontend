@@ -8,6 +8,8 @@ type SidebarHeaderProps = {
   setIsOpen: (value: boolean) => void;
 };
 
+const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`;
+
 export default function SidebarHeader({ setIsOpen }: SidebarHeaderProps) {
   const handleClick = () => {
     setIsOpen(false);
@@ -17,7 +19,7 @@ export default function SidebarHeader({ setIsOpen }: SidebarHeaderProps) {
     <div className="flex items-center gap-56 sm:gap-117 md:gap-56">
       <div className="sm:gap-4.6 flex items-center gap-6 md:gap-6">
         <div className="relative h-36 w-36 sm:h-28 sm:w-28 md:h-36 md:w-36">
-          <Image src="/assets/images/flowIt-logo.svg" alt="로고 이미지" fill />
+          <Image src={`${CLOUDFRONT_URL}/assets/images/flowIt-logo.svg`} alt="로고 이미지" fill />
         </div>
         <span className="text-logo-31 md:text-logo-31 sm:text-logo-24 text-black">FlowIt</span>
       </div>

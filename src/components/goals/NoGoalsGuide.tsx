@@ -7,6 +7,8 @@ import { useModalStore } from '@/store/modalStore';
 
 import GoalModal from '../goals/GoalModal';
 
+const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`;
+
 export default function NoGoalsGuide() {
   const { openGoalModal } = useModalStore();
 
@@ -14,7 +16,7 @@ export default function NoGoalsGuide() {
     <div className="flex flex-col items-center">
       <div className="relative mb-16 h-140 w-140 md:h-200 md:w-200">
         <Image
-          src="/assets/images/landing_img.svg"
+          src={`${CLOUDFRONT_URL}/assets/images/landing_img.svg`}
           alt="랜딩페이지 이미지"
           fill
           className="object-contain"

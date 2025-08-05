@@ -41,14 +41,12 @@ export const todoFormSchema = z.object({
 export type TodoFormData = z.infer<typeof todoFormSchema>;
 
 export interface TodoCreateRequest {
-  userId: number;
   goalId: number;
   name: string;
   attachments?: Attachment[];
 }
 
 export interface TodoUpdateRequest {
-  userId: number;
   goalId?: number;
   name?: string;
   isDone?: boolean;

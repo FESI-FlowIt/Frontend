@@ -14,6 +14,8 @@ import SidebarHeader from './SidebarHeader';
 import SidebarMenu from './SidebarMenu';
 import SidebarUser from './SidebarUser';
 
+const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`;
+
 export default function Sidebar() {
   const { isOpen, setIsOpen } = useSidebar();
   const { openGoalModal } = useModalStore();
@@ -50,7 +52,7 @@ export default function Sidebar() {
     <>
       <div className="border-line rounded-tr-50 rounded-br-50 min-h-screen w-100 flex-col items-center gap-36 border-r bg-white px-18 pt-40 sm:hidden md:flex md:w-80 lg:flex">
         <div className="relative h-36 w-36 sm:h-28 sm:w-28 md:h-36 md:w-36">
-          <Image src="/assets/images/flowIt-logo.svg" alt="로고 이미지" fill />
+          <Image src={`${CLOUDFRONT_URL}/assets/images/flowIt-logo.svg`} alt="로고 이미지" fill />
         </div>
 
         <button
@@ -67,7 +69,7 @@ export default function Sidebar() {
       <div className="sm:flex sm:items-center sm:gap-12 sm:bg-white sm:px-16 md:hidden lg:hidden">
         <div className="sm:gap-4.6 sm:flex sm:items-center">
           <div className="sm:relative sm:h-28 sm:w-28">
-            <Image src="/assets/images/flowIt-logo.svg" alt="로고 이미지" fill />
+            <Image src={`${CLOUDFRONT_URL}/assets/images/flowIt-logo.svg`} alt="로고 이미지" fill />
           </div>
           <span className="sm:text-logo-24 sm:text-black">FlowIt</span>
         </div>
