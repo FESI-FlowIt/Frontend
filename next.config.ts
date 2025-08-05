@@ -17,7 +17,7 @@ const svgrOptions = {
 
 const nextConfig: NextConfig = {
   images: {
-    domains: [process.env.CLOUDFRONT_IMAGE_URL!],
+    domains: [process.env.CLOUDFRONT_IMAGE_URL || 'localhost'],
   },
   // TurboPack 설정
   experimental: {
