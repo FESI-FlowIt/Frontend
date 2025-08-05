@@ -59,7 +59,6 @@ export interface GetGoalsResponse {
 }
 
 export interface CreateGoalRequest {
-  userId: number;
   name: string;
   color: string;
   dueDateTime: string;

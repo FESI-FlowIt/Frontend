@@ -19,38 +19,60 @@ export default function HeatmapSection() {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [popoverPosition, setPopoverPosition] = useState({ top: 0, left: 0 });
   const infoButtonRef = useRef<HTMLButtonElement>(null);
+  const cardContainerRef = useRef<HTMLDivElement>(null);
 
   const handleInfoClick = () => {
     if (!infoButtonRef.current) return;
 
-    const rect = infoButtonRef.current.getBoundingClientRect();
+    const buttonRect = infoButtonRef.current.getBoundingClientRect();
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
 
-    // 팝오버 예상 너비 (주간 + 월간 범례 + 간격)
     const popoverWidth = 320;
+    const isMobile = window.innerWidth < 744;
 
-    // 버튼의 중앙점 계산
-    const buttonCenterX = rect.left + rect.width / 2;
+    let popoverLeft: number;
+    let popoverTop: number;
 
-    // 팝오버 왼쪽 위치 계산 (버튼 중앙선과 팝오버 중앙선 일치)
-    let popoverLeft = scrollLeft + buttonCenterX - popoverWidth / 2;
+    if (isMobile) {
+      // 모바일: Card 섹션의 세로 중앙선에 맞춤
+      if (cardContainerRef.current) {
+        const cardRect = cardContainerRef.current.getBoundingClientRect();
+        const cardCenterX = cardRect.left + cardRect.width / 2;
+        popoverLeft = scrollLeft + cardCenterX - popoverWidth / 2;
 
-    // 화면 경계 체크
-    const viewportWidth = window.innerWidth;
-    const margin = 16; // 화면 가장자리 여백
+        // 모바일에서도 최소한의 경계 검사
+        const margin = 16;
+        if (popoverLeft < margin) {
+          popoverLeft = margin;
+        } else if (popoverLeft + popoverWidth > window.innerWidth - margin) {
+          popoverLeft = window.innerWidth - popoverWidth - margin;
+        }
+      } else {
+        // fallback: 화면 중앙
+        popoverLeft = scrollLeft + (window.innerWidth - popoverWidth) / 2;
+      }
 
-    if (popoverLeft < margin) {
-      popoverLeft = margin; // 왼쪽 경계
-    } else if (popoverLeft + popoverWidth > viewportWidth - margin) {
-      popoverLeft = viewportWidth - popoverWidth - margin; // 오른쪽 경계
+      popoverTop = scrollTop + buttonRect.bottom + 8;
+    } else {
+      // PC/Tablet: 기존 로직 (버튼 중앙 기준 + 경계 검사)
+      const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+      popoverLeft = scrollLeft + buttonCenterX - popoverWidth / 2;
+
+      // 화면 경계 체크
+      const viewportWidth = window.innerWidth;
+      const margin = 16;
+
+      if (popoverLeft < margin) {
+        popoverLeft = margin;
+      } else if (popoverLeft + popoverWidth > viewportWidth - margin) {
+        popoverLeft = viewportWidth - popoverWidth - margin;
+      }
+
+      popoverTop = scrollTop + buttonRect.bottom + 8;
     }
 
-    setPopoverPosition({
-      top: rect.bottom + scrollTop + 8, // 버튼 아래쪽 + 8px 간격
-      left: popoverLeft,
-    });
-
+    setPopoverPosition({ top: popoverTop, left: popoverLeft });
     setIsPopoverOpen(true);
   };
 
@@ -112,7 +134,7 @@ export default function HeatmapSection() {
   );
 
   return (
-    <div>
+    <div ref={cardContainerRef}>
       <Card
         icon={<SparkleIcon className="text-gray-01" width={24} height={24} fill="currentColor" />}
         title={cardTitle}
