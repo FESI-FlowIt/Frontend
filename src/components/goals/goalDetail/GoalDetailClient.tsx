@@ -33,41 +33,43 @@ const GoalDetailClient = ({ goalId }: GoalDetailClientProps) => {
   }
 
   return (
-    <div className="h-screen overflow-hidden">
-      <div className="container mx-auto flex h-full w-full flex-col">
+    <div className="h-full overflow-hidden">
+      <div className="container mx-auto flex h-full w-full flex-col p-6">
         {/* 목표 정보 헤더 */}
-        <div className="mb-24 flex items-center gap-8">
+        <div className="mb-24 flex flex-shrink-0 items-center gap-8">
           <GoalIcon className="text-gray-01" width={24} height={24} fill="currentColor" />
           <div className="text-body-sb-20 text-text-01 font-semibold">목표</div>
         </div>
-        <GoalDetailHeader
-          goal={goal}
-          todosCount={goal.todos ? goal.todos.length : 0}
-          completedCount={goal.todos ? goal.todos.filter(todo => todo.isDone).length : 0}
-        />
+        <div className="mb-24 flex-shrink-0">
+          <GoalDetailHeader
+            goal={goal}
+            todosCount={goal.todos ? goal.todos.length : 0}
+            completedCount={goal.todos ? goal.todos.filter(todo => todo.isDone).length : 0}
+          />
+        </div>
 
         {/* 할일 섹션 */}
-        <div className="grid flex-1 grid-cols-1 gap-24 overflow-hidden md:grid-cols-2">
+        <div className="grid h-full min-h-0 flex-1 grid-cols-1 gap-24 md:grid-cols-2">
           {/* To do 섹션 */}
-          <div className="flex h-full flex-col overflow-hidden">
-            <div className="mb-24 flex items-center gap-8">
+          <div className="flex h-full min-h-0 flex-col">
+            <div className="mb-24 flex flex-shrink-0 items-center gap-8">
               <TodoIcon className="text-gray-01" width={24} height={24} fill="currentColor" />
               <div className="text-body-sb-20 text-text-01 font-semibold">To do</div>
             </div>
-            <div className="flex-1 overflow-hidden">
+            <div className="min-h-0 flex-1">
               <TodoSection todos={goal.todos || []} isLoading={false} goalId={goal.goalId} />
             </div>
           </div>
 
           {/* Done 섹션 */}
-          <div className="flex h-full flex-col overflow-hidden">
-            <div className="mb-24 flex items-center gap-8">
+          <div className="flex h-full min-h-0 flex-col">
+            <div className="mb-24 flex flex-shrink-0 items-center gap-8">
               <div className="flex h-24 w-24 items-center justify-center rounded-full">
                 <CheckedIcon className="checkbox-checked-gray" width={16} height={16} />
               </div>
               <div className="text-body-sb-20 text-text-01 font-semibold">Done</div>
             </div>
-            <div className="flex-1 overflow-hidden">
+            <div className="min-h-0 flex-1">
               <DoneSection todos={goal.todos || []} isLoading={false} />
             </div>
           </div>

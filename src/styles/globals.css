@@ -1,5 +1,6 @@
 /* 1. Tailwind의 모든 기능을 활성화하는 통합 지시어입니다. */
 @import 'tailwindcss';
+@plugin '@tailwindcss/typography';
 
 /* 2. @theme 블록 안에 프로젝트의 전체 디자인 시스템을 CSS 변수로 정의합니다. */
 @theme {
@@ -136,9 +137,10 @@
     font-weight: inherit;
   }
 
-  ul,
-  ol,
-  li {
+  /* 기본 리스트 스타일 제거를 TipTap에서만 제외 */
+  ul:not(.ProseMirror ul),
+  ol:not(.ProseMirror ol),
+  li:not(.ProseMirror li) {
     list-style: none;
   }
 
@@ -171,6 +173,60 @@
   table {
     border-collapse: collapse;
     border-spacing: 0;
+  }
+}
+
+@layer utilities {
+  /* Tiptap placeholder 스타일 */
+  .is-editor-empty::before {
+    color: #a3abb0;
+    content: attr(data-placeholder);
+    pointer-events: none;
+    float: left;
+    height: 0;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+
+  .prose,
+  .prose p,
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose ul,
+  .prose ol {
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .prose ul {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+    padding-left: 0;
+  }
+
+  /* 불릿 색상 진하게 */
+  .prose ul li::marker {
+    color: var(--color-text-01);
+  }
+
+  /* 번호도 진하게 */
+  .prose ol li::marker {
+    color: var(--color-text-01);
+    font-weight: 600;
+  }
+
+  .prose ol {
+    list-style-type: decimal;
+    margin-left: 1.5rem;
+    padding-left: 0;
+  }
+
+  .prose li {
+    display: list-item;
+    margin: 0.25rem 0;
   }
 }
 
@@ -385,4 +441,51 @@
   stroke-width: 1.33333px !important;
   stroke-linecap: round !important;
   stroke-linejoin: round !important;
+}
+
+/* 삭제 아이콘 - 파랑 배경, 흰색 체크마크 */
+.delete-icon rect {
+  fill: var(--color-gray-01) !important;
+  stroke: none !important;
+}
+.delete-icon path {
+  fill: none !important;
+  stroke: var(--color-white) !important;
+  stroke-width: 1.33333px !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+.delete-icon circle {
+  fill: var(--color-primary-01) !important;
+}
+
+/* 링크카드 아이콘 - 파랑 배경, 흰색 아이콘 */
+.embed-icon {
+  fill: none !important;
+}
+.embed-icon circle {
+  fill: var(--color-primary-01) !important;
+}
+.embed-icon rect {
+  stroke: var(--color-white) !important;
+  fill: transparent !important;
+}
+.embed-icon rect[fill='#D3E3FF'] {
+  fill: #d3e3ff !important;
+}
+.embed-icon path {
+  stroke: var(--color-white) !important;
+  fill: none !important;
+}
+
+/* 삭제 버튼 아이콘 - 회색 바탕, 흰색 X */
+.delete-button-icon {
+  fill: none !important;
+}
+.delete-button-icon circle {
+  fill: var(--color-gray-01) !important;
+}
+.delete-button-icon path {
+  stroke: var(--color-white) !important;
+  fill: none !important;
 }
