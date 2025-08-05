@@ -45,11 +45,11 @@ export default function LandingBanner() {
   }, []);
 
   return (
-    <div className="bg-primary-01 flex h-620 items-center sm:flex-col sm:justify-center sm:gap-30 md:flex-row md:justify-between md:gap-30 md:pl-32 lg:justify-center lg:gap-140">
+    <div className="bg-primary-01 flex h-620 items-center sm:flex-col sm:justify-center sm:gap-30 md:flex-row md:justify-between md:gap-30 md:pl-32 lg:gap-52">
       <div
         ref={btnRef}
         className={cn(
-          'flex transform flex-col transition-all duration-1000 ease-out sm:gap-24 md:gap-32 lg:gap-42',
+          'flex w-2/3 transform flex-col flex-nowrap transition-all duration-1000 ease-out sm:gap-24 md:gap-32 lg:gap-42',
           {
             'translate-x-0 opacity-100': btnInView,
             '-translate-x-10 opacity-0': !btnInView,
@@ -65,10 +65,12 @@ export default function LandingBanner() {
           />
         </div>
         <div className="sm:mb-0 md:mb-0 lg:mb-10">
-          <span className="lg:text-banner-44 md:text-banner-24 sm:text-banner-24 flex text-white sm:flex-col md:flex-col lg:block">
+          <span className="lg:text-banner-32 xl:text-banner-44 md:text-banner-24 sm:text-banner-24 flex text-white sm:flex-col md:flex-col lg:block">
             목표 중심의
             <br /> 스마트한 생산성 관리,
-            <span className="lg:text-banner-44-bold md:text-logo-32 sm:text-logo-32">FlowIt</span>
+            <span className="lg:text-banner-32-bold xl:text-banner-44-bold md:text-logo-32 sm:text-logo-32">
+              FlowIt
+            </span>
           </span>
         </div>
         <div className="flex sm:gap-12 md:gap-12 lg:gap-20">
@@ -96,22 +98,22 @@ export default function LandingBanner() {
       <div
         ref={imgRef}
         className={cn(
-          'relative flex transform items-center justify-center transition-all duration-1000 ease-out',
+          'relative flex transform items-center transition-all duration-1000 ease-out md:w-full md:max-w-full',
           {
             'translate-x-0 opacity-100': imgInView,
             '-translate-x-10 opacity-0': !imgInView,
           },
         )}
       >
-        <div className="rounded-tl-50 rounded-bl-50 bg-landing-blue absolute h-343 w-850 -translate-x-[2%]" />
-        <Image
-          src={`${CLOUDFRONT_URL}/assets/images/landing_dashboard.svg`}
-          alt="대쉬보드 이미지"
-          width={699.78}
-          height={399.88}
-          className="relative z-10"
-          priority
-        />
+        <div className="rounded-tl-50 rounded-bl-50 bg-landing-blue absolute w-full sm:hidden md:block md:h-240 lg:block lg:h-300 xl:h-343" />
+        <div className="relative z-10 w-full sm:h-194 sm:w-340 md:ml-40 md:h-206 md:w-361 lg:ml-60 lg:h-400 lg:w-full lg:max-w-700 xl:ml-80">
+          <Image
+            src={`${CLOUDFRONT_URL}/assets/images/landing_dashboard.svg`}
+            alt="대쉬보드 이미지"
+            fill
+            priority
+          />
+        </div>
       </div>
     </div>
   );

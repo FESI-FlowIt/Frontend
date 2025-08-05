@@ -13,11 +13,10 @@
   --breakpoint-sm: 375px;
   --breakpoint-md: 744px;
   --breakpoint-lg: 1024px;
-
+  --breakpoint-xl: 1337px;
   /* ========================================================================
      Colors (색상)
      ======================================================================== */
-
   /* Base Colors */
   --color-white: #ffffff;
   --color-black: #1e2128;
@@ -349,6 +348,14 @@
 @utility text-banner-44 {
   font-size: 44px;
   font-weight: 500;
+}
+@utility text-banner-32 {
+  font-size: 32px;
+  font-weight: 500;
+}
+@utility text-banner-32-bold {
+  font-size: 32px;
+  font-weight: 700;
 }
 @utility text-banner-44-bold {
   font-size: 44px;
