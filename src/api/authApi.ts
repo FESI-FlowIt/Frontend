@@ -12,7 +12,7 @@ export const postLogin = async (email: string, password: string) => {
     const data = await postRequest('/auths/signIn', params);
     const accessToken = data.result.accessToken;
     const refreshToken = data.result.refreshToken;
-    if (refreshToken) await setCookie(`refreshToken_${data.result.id}`, refreshToken);
+    if (refreshToken) await setCookie('refreshToken', refreshToken);
     if (accessToken) await setCookie('accessToken', accessToken);
 
     return { data, accessToken: accessToken };
@@ -55,9 +55,6 @@ export const getEmailCheck = async (email: string) => {
 export const getUser = async () => {
   try {
     const data = await getRequest('/users/me');
-    const userId = data.result.id;
-    await setCookie('userId', userId);
-
     return data;
   } catch (err) {
     console.error('Fetch user error', err);
