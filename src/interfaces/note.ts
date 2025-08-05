@@ -10,7 +10,7 @@ export const noteFormSchema = z.object({
 
 export type NoteFormData = z.infer<typeof noteFormSchema> & {
   todoId: number;
-  link?: string; // 링크 필드 추가
+  link?: string;
 };
 export interface Note {
   noteId: number;
@@ -26,5 +26,5 @@ export interface CreateNoteRequest {
   title: string;
   content: string;
   wordCount: number;
-  link?: string; // 링크 필드 추가
+  link?: string;
 }

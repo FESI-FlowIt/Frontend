@@ -16,7 +16,8 @@ interface NoteWriteStore {
   link: string | null;
   setLink: (link: string | null) => void;
   reset: () => void;
-  todo: Todo;
+  todo: Todo | null;
+  setTodo: (todo: Todo) => void;
 }
 
 const initialState = {
@@ -26,17 +27,17 @@ const initialState = {
   todoId: null,
   goalTitle: '',
   link: null,
-  todo: {} as Todo,
+  todo: null,
 };
 
 export const useNoteWriteStore = create<NoteWriteStore>(set => ({
   ...initialState,
-  setTitle: title => set({ title }),
-  setContent: content => set({ content }),
-  setWordCount: wordCount => set({ wordCount }),
-  setTodoId: todoId => set({ todoId }),
-  setGoalTitle: goalTitle => set({ goalTitle }),
-  setLink: link => set({ link }),
+  setTitle: (title: string) => set({ title }),
+  setContent: (content: string) => set({ content }),
+  setWordCount: (wordCount: number) => set({ wordCount }),
+  setTodoId: (todoId: number) => set({ todoId }),
+  setGoalTitle: (goalTitle: string) => set({ goalTitle }),
+  setLink: (link: string | null) => set({ link }),
   reset: () => set({ ...initialState }),
   setTodo: (todo: Todo) => set({ todo }),
 }));
