@@ -9,7 +9,7 @@ export const formatMinutesToHourString = (minutes: number): string => {
   return hours.toFixed(1);
 };
 
-// 📅 "8월 4일 (월)" 형태로 변환
+// "0월 0일 (0)" 형태로 변환
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
 
 export const formatScheduleDate = (date: Date): string => {

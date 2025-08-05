@@ -20,12 +20,11 @@ export default function ScheduleSection() {
   const user = useUserStore(state => state.user);
   const userId = user?.id ?? 0;
 
-  // 고정된 오늘 날짜
   const todayDateStr = dayjs().format('YYYY-MM-DD');
 
   const fetchAssignedTasks = async () => {
     try {
-      const res = await schedulesApi.getAssignedTodos(userId, todayDateStr); // 오늘 기준만
+      const res = await schedulesApi.getAssignedTodos(userId, todayDateStr);
       const mapped = scheduleMapper.mapAssignedTodosToAssignedTasks(res.assignedTodos);
       setAssignedTasks(mapped);
     } catch (err) {
@@ -81,7 +80,7 @@ export default function ScheduleSection() {
           isOpen={isModalOpen}
           onClose={(saved?: boolean) => {
             setIsModalOpen(false);
-            if (saved) fetchAssignedTasks(); // ✅ 저장한 경우에만 오늘 일정 재조회
+            if (saved) fetchAssignedTasks();
           }}
           assignedTasks={assignedTasks}
           setAssignedTasks={setAssignedTasks}

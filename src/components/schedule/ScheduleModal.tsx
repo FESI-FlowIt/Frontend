@@ -15,7 +15,7 @@ import type { SaveScheduleRequest } from '@/interfaces/schedule';
 
 interface ScheduleModalProps {
   isOpen: boolean;
-  onClose: (saved?: boolean) => void; // ✅ 저장 여부 넘겨받기
+  onClose: (saved?: boolean) => void;
   assignedTasks: AssignedTask[];
   setAssignedTasks: React.Dispatch<React.SetStateAction<AssignedTask[]>>;
   userId: number;
@@ -26,7 +26,7 @@ export default function ScheduleModal({
   isOpen,
   onClose,
   assignedTasks: externalAssigned,
-  setAssignedTasks: setExternalAssigned, // (현재 미사용)
+  setAssignedTasks: setExternalAssigned,
   userId,
   selectedDate,
 }: ScheduleModalProps) {
@@ -51,7 +51,6 @@ export default function ScheduleModal({
     }
   };
 
-  // 드롭 시 보고 있는 날짜(date)까지 반드시 함께 전달
   const handleDrop = (taskId: string, time: string, date: string) => {
     const task = tasks.find(t => t.id === taskId);
     if (!task) return;
@@ -68,7 +67,7 @@ export default function ScheduleModal({
 
   const handleCancel = () => {
     setAssignedTasks(externalAssigned);
-    onClose(false); // 저장 아님
+    onClose(false);
   };
 
   const getDeduplicatedTasks = (list: AssignedTask[]): AssignedTask[] => {
@@ -80,16 +79,13 @@ export default function ScheduleModal({
     return Array.from(map.values());
   };
 
-  /** ⏰ 서버가 기대하는 로컬(KST) 문자열: 'YYYY-MM-DDTHH:mm:ss' (Z 없음) */
   const toLocalISOString = (dateStr: string, timeStr: string): string =>
     dayjs.tz(`${dateStr}T${timeStr}`, 'Asia/Seoul').format('YYYY-MM-DDTHH:mm:ss');
 
   const handleSave = async () => {
-    // ✅ 이전 값 + 현재 드롭된 것 병합
     const merged = [...externalAssigned, ...assignedTasks];
     const dedup = getDeduplicatedTasks(merged);
 
-    // ✅ 삭제된 항목만 필터
     const removed = externalAssigned.filter(
       prev =>
         !dedup.some(
@@ -120,8 +116,8 @@ export default function ScheduleModal({
 
     try {
       await schedulesApi.saveSchedules(payload);
-      setExternalAssigned(dedup); // ✅ 저장 후 베이스를 갱신
-      onClose(); // ✅ 모달은 닫기
+      setExternalAssigned(dedup);
+      onClose();
     } catch (error) {
       console.error('일정 저장 실패:', error);
     }
@@ -141,7 +137,7 @@ export default function ScheduleModal({
           <UnassignedTaskList tasks={tasks} />
           <TimeTable
             assignedTasks={assignedTasks}
-            onDropTask={handleDrop} // (taskId, time, date)
+            onDropTask={handleDrop}
             onDeleteTask={handleDelete}
           />
         </div>
