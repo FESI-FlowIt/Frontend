@@ -1,12 +1,17 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
+
 import { SidebarProvider } from '@/app/providers/SidebarProvider';
 import Sidebar from '@/components/sidebar/Sidebar';
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isTodoNoteNewPage = /^\/todo\/[^/]+\/note\/new$/.test(pathname);
+
   return (
     <SidebarProvider>
-      <div className="bg-background flex min-h-screen">
+      <div className={`${isTodoNoteNewPage ? 'bg-white' : 'bg-background'} flex min-h-screen`}>
         <Sidebar />
         <MainContent>{children}</MainContent>
       </div>
