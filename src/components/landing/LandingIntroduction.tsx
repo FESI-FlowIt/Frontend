@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { LANDINGPAGEFEATURES } from '@/constants/landingPageFeatures';
 import { cn } from '@/lib/utils';
 
+const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`;
+
 export default function LandingIntroduction() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
@@ -31,7 +33,7 @@ export default function LandingIntroduction() {
       <div className="flex flex-col items-center sm:gap-24 md:gap-36 lg:gap-36">
         <div className="relative sm:h-200 sm:w-200 md:h-280 md:w-280 lg:h-360 lg:w-360">
           <Image
-            src={`${process.env.CLOUDFRONT_IMAGE_URL}/public/assets/images/landing_img.svg`}
+            src={`${CLOUDFRONT_URL}/assets/images/landing_img.svg`}
             alt="랜딩페이지 이미지"
             fill
           />
