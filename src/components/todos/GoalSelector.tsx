@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react';
 
 import clsx from 'clsx';
 
+import ArrowDownIcon from '@/assets/icons/arrow-down.svg';
 import ArrowDownFullIcon from '@/assets/icons/arrow-down-full.svg';
 import GoalIcon from '@/assets/icons/goal.svg';
 import { useGoals } from '@/hooks/useGoals';
@@ -88,16 +89,11 @@ const GoalSelector = ({
         </div>
 
         {variant === 'default' && (
-          <svg
+          <ArrowDownIcon
             className={clsx('h-16 w-16 transform transition-transform', {
               'rotate-180': isOpen,
             })}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
+          />
         )}
 
         {variant === 'notes' && (

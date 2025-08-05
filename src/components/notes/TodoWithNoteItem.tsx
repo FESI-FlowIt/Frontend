@@ -18,9 +18,9 @@ const TodoWithNoteItem = ({ todo }: TodoWithNoteItemProps) => {
           </div>
           <div className="text-body-m-20 text-text-02">{todo.title}</div>
         </div>
-        <button className="text-primary-01 text-body-b-16 bg-heatmap-1 rounded-[5px] p-8 font-medium">
+        <div className="text-primary-01 text-body-b-16 bg-heatmap-1 rounded-[5px] p-8 font-medium">
           노트 3개
-        </button>
+        </div>
       </div>
     </div>
   );
