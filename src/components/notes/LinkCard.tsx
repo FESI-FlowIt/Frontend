@@ -29,7 +29,7 @@ const LinkCard = ({ url, onRemove }: LinkCardProps) => {
         {/* 링크 카드 메인 영역 */}
         <div onClick={handleLinkClick} className="flex h-24 cursor-pointer items-center">
           {/* 링크 아이콘 */}
-          <EmbedIcon width={24} height={24} className="[&_circle]:!fill-primary-01 text-white" />
+          <EmbedIcon width={24} height={24} className="embed-icon" />
 
           {/* 링크 정보 */}
           <div className="min-w-0 flex-1">
@@ -43,12 +43,7 @@ const LinkCard = ({ url, onRemove }: LinkCardProps) => {
               className="rounded-4 p-4 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500"
               aria-label="링크 삭제"
             >
-              <DeleteIcon
-                fill="currentColor"
-                width={24}
-                height={24}
-                className="[&_circle]:!fill-gray-01 text-white"
-              />
+              <DeleteIcon width={24} height={24} className="delete-button-icon" />
             </button>
           </div>
         </div>

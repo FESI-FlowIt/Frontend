@@ -442,3 +442,50 @@
   stroke-linecap: round !important;
   stroke-linejoin: round !important;
 }
+
+/* 삭제 아이콘 - 파랑 배경, 흰색 체크마크 */
+.delete-icon rect {
+  fill: var(--color-gray-01) !important;
+  stroke: none !important;
+}
+.delete-icon path {
+  fill: none !important;
+  stroke: var(--color-white) !important;
+  stroke-width: 1.33333px !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+.delete-icon circle {
+  fill: var(--color-primary-01) !important;
+}
+
+/* 링크카드 아이콘 - 파랑 배경, 흰색 아이콘 */
+.embed-icon {
+  fill: none !important;
+}
+.embed-icon circle {
+  fill: var(--color-primary-01) !important;
+}
+.embed-icon rect {
+  stroke: var(--color-white) !important;
+  fill: transparent !important;
+}
+.embed-icon rect[fill='#D3E3FF'] {
+  fill: #d3e3ff !important;
+}
+.embed-icon path {
+  stroke: var(--color-white) !important;
+  fill: none !important;
+}
+
+/* 삭제 버튼 아이콘 - 회색 바탕, 흰색 X */
+.delete-button-icon {
+  fill: none !important;
+}
+.delete-button-icon circle {
+  fill: var(--color-gray-01) !important;
+}
+.delete-button-icon path {
+  stroke: var(--color-white) !important;
+  fill: none !important;
+}

@@ -57,7 +57,7 @@ const NoteInfo = ({ hasTemp }: NoteInfoProps) => {
         <div className="h-24 w-24">
           <GoalIcon className="text-goal-red" />
         </div>
-        <div className="text-body-b-16 bold text-text-01">{goalTitle || '디자인 시스템 구축'}</div>
+        <div className="text-body-b-16 bold text-text-01">{goalTitle}</div>
       </div>
       {/* 할 일 정보 */}
       <div className="mb-24 flex items-center gap-8">
@@ -72,11 +72,7 @@ const NoteInfo = ({ hasTemp }: NoteInfoProps) => {
         <div className="bg-secondary-01-hover rounded-12 my-24 flex h-56 items-center">
           <div className="flex w-full justify-between gap-16">
             <div className="flex items-center gap-12 pl-16">
-              <IconDelete
-                className="[&_circle]:!fill-primary-01 text-white"
-                width={24}
-                height={24}
-              />
+              <IconDelete className="delete-icon" width={24} height={24} />
               <h4 className="text-primary-01 text-body-m-16 font-medium">
                 임시저장된 노트가 있어요. 저장된 노트를 불러오시겠어요?
               </h4>
