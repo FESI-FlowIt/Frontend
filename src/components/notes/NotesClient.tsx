@@ -11,12 +11,13 @@ const NotesClient = () => {
 
   return (
     <div className="mx-auto h-full max-w-1184">
-      <header className="mb-44">
+      <header className="mb-32 sm:mb-44">
         <div className="flex items-center">
-          <h1 className="text-text-01 text-display-32 font-bold">노트 모아보기</h1>
+          <h1 className="text-text-01 text-display-24 sm:text-display-32 font-bold">
+            노트 모아보기
+          </h1>
         </div>
       </header>
-
       <div className="flex">
         <main className="flex-1">
           <div className="mb-32">
