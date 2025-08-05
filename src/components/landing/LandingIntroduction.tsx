@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 
-import { LANDINGPAGEFEATURES } from '@/constants/landingPageFeatures';
+import { LANDINGPAGE_FEATURES } from '@/constants/landingPageFeatures';
 import { cn } from '@/lib/utils';
 
 const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`;
@@ -52,7 +52,7 @@ export default function LandingIntroduction() {
         ref={containerRef}
         className="md:grid-row-2 sm:grid-row-2 items-center gap-20 sm:grid sm:grid-cols-2 sm:gap-4 md:grid md:grid-cols-2 md:gap-20 lg:flex"
       >
-        {LANDINGPAGEFEATURES.map((feature, index) => {
+        {LANDINGPAGE_FEATURES.map((feature, index) => {
           const delayClasses = ['delay-0', 'delay-150', 'delay-300', 'delay-450'];
           return (
             <div
