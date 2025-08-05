@@ -78,13 +78,14 @@ export default function ScheduleSection() {
       {user && (
         <ScheduleModal
           isOpen={isModalOpen}
-          onClose={(saved?: boolean) => {
-            setIsModalOpen(false);
-            if (saved) fetchAssignedTasks();
-          }}
+          onClose={() => setIsModalOpen(false)}
           assignedTasks={assignedTasks}
           setAssignedTasks={setAssignedTasks}
           selectedDate={todayDateStr}
+          onSaved={updatedTasks => {
+            setAssignedTasks(updatedTasks); // ✅ 저장된 결과 반영
+            fetchAssignedTasks(); // ✅ 서버 동기화 (선택)
+          }}
         />
       )}
     </Card>

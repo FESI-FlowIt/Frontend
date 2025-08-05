@@ -15,10 +15,11 @@ import type { SaveScheduleRequest } from '@/interfaces/schedule';
 
 interface ScheduleModalProps {
   isOpen: boolean;
-  onClose: (saved?: boolean) => void;
+  onClose: () => void;
   assignedTasks: AssignedTask[];
   setAssignedTasks: React.Dispatch<React.SetStateAction<AssignedTask[]>>;
-  selectedDate: string; // "YYYY-MM-DD"
+  selectedDate: string;
+  onSaved: (updated: AssignedTask[]) => void; // ✅ 추가됨
 }
 
 export default function ScheduleModal({
@@ -27,21 +28,20 @@ export default function ScheduleModal({
   assignedTasks: externalAssigned,
   setAssignedTasks: setExternalAssigned,
   selectedDate,
+  onSaved, // ✅ 추가됨
 }: ScheduleModalProps) {
   const [assignedTasks, setAssignedTasks] = useState<AssignedTask[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
     if (isOpen) {
-      setAssignedTasks(externalAssigned);
+      setAssignedTasks([...externalAssigned]);
       fetchUnassignedTasks();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, externalAssigned, selectedDate]);
 
   const fetchUnassignedTasks = async () => {
     try {
-      // ✅ userId 제거
       const res = await schedulesApi.getUnassignedTodos(selectedDate);
       const mapped = scheduleMapper.mapUnassignedTodosToTasks(res.unassignedTodos);
       setTasks(mapped);
@@ -68,7 +68,7 @@ export default function ScheduleModal({
 
   const handleCancel = () => {
     setAssignedTasks(externalAssigned);
-    onClose(false);
+    onClose();
   };
 
   const getDeduplicatedTasks = (list: AssignedTask[]): AssignedTask[] => {
@@ -79,19 +79,17 @@ export default function ScheduleModal({
     });
     return Array.from(map.values());
   };
-  //한국 시간으로 수정해야함
-  // const toLocalISOString = (dateStr: string, timeStr: string): string =>
-  //dayjs.tz(`${dateStr}T${timeStr}`, 'Asia/Seoul').format('YYYY-MM-DDTHH:mm:ssZ');
+
   const toLocalISOString = (dateStr: string, timeStr: string): string => {
     return dayjs.tz(`${dateStr}T${timeStr}:00`, 'Asia/Seoul').format('YYYY-MM-DDTHH:mm:ss');
   };
+
   const handleSave = async () => {
-    const merged = [...externalAssigned, ...assignedTasks];
-    const dedup = getDeduplicatedTasks(merged);
+    const dedup = getDeduplicatedTasks(assignedTasks);
 
     const removed = externalAssigned.filter(
       prev =>
-        prev.schedId && // 🔴 schedId가 있는 것만 삭제 대상으로 인정
+        prev.schedId &&
         !assignedTasks.some(
           curr =>
             curr.task.id === prev.task.id && curr.time === prev.time && curr.date === prev.date,
@@ -111,28 +109,19 @@ export default function ScheduleModal({
         }),
         ...removed
           .filter(({ schedId }) => schedId !== undefined)
-          .map(({ schedId, task, time, date }) => {
-            return {
-              schedId: schedId!, // ! 붙여도 안전함 (위에서 걸렀으니까)
-              todoId: Number(task.id),
-              startedDateTime: toLocalISOString(date, time),
-              endedDateTime: toLocalISOString(date, time),
-              isRemoved: true,
-            };
-          }),
+          .map(({ schedId, task, time, date }) => ({
+            schedId: schedId!,
+            todoId: Number(task.id),
+            startedDateTime: toLocalISOString(date, time),
+            endedDateTime: toLocalISOString(date, time),
+            isRemoved: true,
+          })),
       ],
     };
-
-    console.log('🧩 externalAssigned:', externalAssigned);
-    console.log('🧩 assignedTasks:', assignedTasks);
-    console.log('📌 dedup:', dedup);
-    console.log('❌ removed:', removed);
-    console.log('📦 최종 payload:', payload);
 
     try {
       await schedulesApi.saveSchedules(payload);
 
-      // ✅ 삭제된 일정 제외하고 반영
       const dedupWithoutRemoved = dedup.filter(
         d =>
           !removed.some(
@@ -140,25 +129,19 @@ export default function ScheduleModal({
           ),
       );
 
-      // 🔽 이 줄 추가!!!
+      // ✅ 외부에 최신 반영
       setExternalAssigned(dedupWithoutRemoved);
-
-      onClose(true);
+      onSaved(dedupWithoutRemoved); // 💡 부모 컴포넌트 반영
+      onClose();
     } catch (error) {
       console.error('❌ 일정 저장 실패:', error);
     }
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={() => onClose(false)}
-      size="schedule"
-      padding="none"
-      rounded="schedule"
-    >
+    <Modal isOpen={isOpen} onClose={handleCancel} size="schedule" padding="none" rounded="schedule">
       <div className="flex h-full w-full flex-col">
-        <ScheduleHeader onClose={() => onClose(false)} />
+        <ScheduleHeader onClose={handleCancel} />
         <div className="flex h-full w-full flex-col md:flex-row">
           <UnassignedTaskList tasks={tasks} />
           <TimeTable
