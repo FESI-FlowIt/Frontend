@@ -1,7 +1,5 @@
 import type { NextConfig } from 'next';
 
-export const CLOUDFRONT_URL = 'd2eip3q853u04k.cloudfront.net';
-
 const svgrOptions = {
   svgoConfig: {
     plugins: [
@@ -17,7 +15,7 @@ const svgrOptions = {
 
 const nextConfig: NextConfig = {
   images: {
-    domains: [CLOUDFRONT_URL],
+    domains: [process.env.CLOUDFRONT_IMAGE_URL!],
   },
   // TurboPack 설정
   experimental: {

@@ -56,7 +56,7 @@ export default function LandingBanner() {
       >
         <div className="bg-text-01 p-6.67 rounded-12 flex h-80 w-80 items-center justify-center">
           <Image
-            src="/assets/images/flowIt-logo.svg"
+            src={`${process.env.CLOUDFRONT_IMAGE_URL}/public/assets/images/flowIt-logo.svg`}
             alt="로고 이미지"
             width={66.67}
             height={66.67}
@@ -103,7 +103,7 @@ export default function LandingBanner() {
       >
         <div className="rounded-tl-50 rounded-bl-50 bg-landing-blue absolute h-343 w-850 -translate-x-[2%]" />
         <Image
-          src="/assets/images/landing_dashboard.svg"
+          src={`${process.env.CLOUDFRONT_IMAGE_URL}/public/assets/images/landing_dashboard.svg`}
           alt="대쉬보드 이미지"
           width={699.78}
           height={399.88}
