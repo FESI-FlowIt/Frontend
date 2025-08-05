@@ -55,7 +55,7 @@ export default function LandingFeaturesDetail() {
               containerRefs.current[index] = el;
             }}
             className={cn(
-              `flex transform transition-all duration-700 ease-out sm:flex-col sm:gap-40 md:flex-col md:gap-64 lg:flex-row lg:gap-120 ${delayClasses[index % delayClasses.length]}`,
+              `flex transform transition-all duration-700 ease-out sm:flex-col sm:gap-40 md:flex-col md:gap-64 lg:flex-row lg:gap-90 xl:gap-120 ${delayClasses[index % delayClasses.length]}`,
               {
                 'lg:ml-124 lg:flex-row-reverse': isOdd,
                 'lg:flex-row': !isOdd,
@@ -66,14 +66,14 @@ export default function LandingFeaturesDetail() {
               },
             )}
           >
-            <div className="relative sm:h-263 sm:w-338 md:h-525 md:w-525 lg:h-700 lg:w-700">
+            <div className="relative sm:h-263 sm:w-338 md:h-525 md:w-525 lg:h-580 lg:w-580 xl:h-700 xl:w-700">
               <Image src={detail.imgUrl} alt={detail.name} fill />
             </div>
             <div className="flex flex-col gap-40 sm:mt-0 sm:gap-24 md:mt-0 md:gap-40 lg:mt-80">
-              <span className="text-banner-44-bold md:text-banner-44-bold sm:text-display-24 text-text-01">
+              <span className="xl:text-banner-44-bold lg:text-banner-32-bold md:text-banner-44-bold sm:text-display-24 text-text-01">
                 {detail.name}
               </span>
-              <div className="text-text-03 text-display-24 md:text-display-24 sm:text-body-b-16 flex flex-col gap-24 sm:gap-12 md:gap-24">
+              <div className="text-text-03 xl:text-display-24 lg:text-display-18 md:text-display-24 sm:text-body-b-16 flex flex-col gap-24 sm:gap-12 md:gap-24">
                 {detail.contents.map(content => (
                   <span key={content.name}>{content.name}</span>
                 ))}
