@@ -19,17 +19,13 @@ export default function ScheduleSection() {
 
   const user = useUserStore(state => state.user);
   const userId = user?.id ?? 0;
-  const selectedDate = dayjs().format('YYYY-MM-DD');
 
-  useEffect(() => {
-    if (user) {
-      fetchAssignedTasks();
-    }
-  }, [user, selectedDate]);
+  // 고정된 오늘 날짜
+  const todayDateStr = dayjs().format('YYYY-MM-DD');
 
   const fetchAssignedTasks = async () => {
     try {
-      const res = await schedulesApi.getAssignedTodos(userId, selectedDate);
+      const res = await schedulesApi.getAssignedTodos(userId, todayDateStr); // 오늘 기준만
       const mapped = scheduleMapper.mapAssignedTodosToAssignedTasks(res.assignedTodos);
       setAssignedTasks(mapped);
     } catch (err) {
@@ -37,9 +33,17 @@ export default function ScheduleSection() {
     }
   };
 
+  useEffect(() => {
+    if (user) fetchAssignedTasks();
+  }, [user]);
+
+  // 오늘 날짜만 필터링
+  const todayAssigned = assignedTasks.filter(task => task.date === todayDateStr);
+
+  // 중복 제거 + 시간순 정렬
   const deduplicatedAssignedTasks = Array.from(
-    new Map(assignedTasks.map(item => [`${item.task.id}-${item.time}`, item])).values(),
-  ).sort((a, b) => a.time.localeCompare(b.time)); //
+    new Map(todayAssigned.map(item => [`${item.task.id}-${item.time}`, item])).values(),
+  ).sort((a, b) => a.time.localeCompare(b.time));
 
   return (
     <Card
@@ -75,11 +79,14 @@ export default function ScheduleSection() {
       {user && (
         <ScheduleModal
           isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          onClose={(saved?: boolean) => {
+            setIsModalOpen(false);
+            if (saved) fetchAssignedTasks(); // ✅ 저장한 경우에만 오늘 일정 재조회
+          }}
           assignedTasks={assignedTasks}
           setAssignedTasks={setAssignedTasks}
           userId={userId}
-          selectedDate={selectedDate}
+          selectedDate={todayDateStr}
         />
       )}
     </Card>

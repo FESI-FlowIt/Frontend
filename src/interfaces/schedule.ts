@@ -7,9 +7,10 @@ export interface Task {
 
 
 export interface AssignedTask {
-  schedId?: number;  
-  task: Task;        
-  time: string;      
+  schedId?: number;
+  task: Task;
+  time: string;   // HH:mm
+  date: string;   // YYYY-MM-DD ✅ 추가
 }
 
 
