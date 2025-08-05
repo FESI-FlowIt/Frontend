@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { LANDINGPAGEFEATURES } from '@/constants/landingPageFeatures';
 import { cn } from '@/lib/utils';
 
+const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`;
+
 export default function LandingIntroduction() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
@@ -30,7 +32,11 @@ export default function LandingIntroduction() {
     <div className="flex flex-col items-center sm:gap-100 md:gap-90 lg:gap-97">
       <div className="flex flex-col items-center sm:gap-24 md:gap-36 lg:gap-36">
         <div className="relative sm:h-200 sm:w-200 md:h-280 md:w-280 lg:h-360 lg:w-360">
-          <Image src="/assets/images/landing_img.svg" alt="랜딩페이지 이미지" fill />
+          <Image
+            src={`${CLOUDFRONT_URL}/assets/images/landing_img.svg`}
+            alt="랜딩페이지 이미지"
+            fill
+          />
         </div>
         <div className="lg:text-banner-44-bold md:text-display-32 sm:text-display-24 text-text-01 text-center lg:leading-52">
           <span className="text-primary-01">목표</span>를 체계적으로
