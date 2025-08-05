@@ -7,7 +7,6 @@ let refreshPromise: Promise<string | null> | null = null;
 
 export const refreshAccessToken = async (
   refreshToken: string | undefined,
-  userId: string | undefined,
 ): Promise<string | null> => {
   if (!refreshPromise) {
     refreshPromise = (async () => {
@@ -34,7 +33,7 @@ export const refreshAccessToken = async (
 
         if (result?.result.refreshToken) {
           const refreshToken = result?.result.refreshToken;
-          await setCookie(`refreshToken_${userId}`, refreshToken);
+          await setCookie('refreshToken', refreshToken);
         }
 
         return newAccessToken;

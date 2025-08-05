@@ -7,7 +7,7 @@ export async function POST() {
     expires: new Date(0),
   });
 
-  response.cookies.set('userId', '', {
+  response.cookies.set('refreshToken', '', {
     path: '/',
     expires: new Date(0),
   });
