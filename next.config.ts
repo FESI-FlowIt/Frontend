@@ -1,6 +1,6 @@
 import type { NextConfig } from 'next';
 
-export const CLOUDFRONT_URL = 'd2eip3q853u04k.cloudfront.net/public';
+export const CLOUDFRONT_URL = 'd2eip3q853u04k.cloudfront.net';
 
 const svgrOptions = {
   svgoConfig: {
