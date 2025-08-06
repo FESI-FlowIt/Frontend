@@ -1,12 +1,13 @@
 'use client';
 
 import Modal from '@/components/ui/Modal';
+import { useScheduleTasks } from '@/hooks/useSchedule';
+import type { AssignedTask } from '@/interfaces/schedule';
+
 import ScheduleFooter from './ScheduleFooter';
 import ScheduleHeader from './ScheduleHeader';
 import TimeTable from './TimeTable';
 import UnassignedTaskList from './UnassignedTaskList';
-import type { AssignedTask } from '@/interfaces/schedule';
-import { useScheduleTasks } from '@/hooks/useSchedule';
 
 interface ScheduleModalProps {
   isOpen: boolean;

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import { scheduleMapper } from '@/api/mapper/scheduleMapper';
 import { schedulesApi } from '@/api/scheduleApi';
 import type { AssignedTask, SaveScheduleRequest, Task } from '@/interfaces/schedule';
@@ -65,12 +66,13 @@ export function useScheduleTasks({
 
   useEffect(() => {
     setAssignedTasks(
-      externalAssigned.filter(task =>
-        task.date === selectedDate &&
-        !removedTasks.some(r =>
-          r.task.id === task.task.id && r.time === task.time && r.date === task.date
-        )
-      )
+      externalAssigned.filter(
+        task =>
+          task.date === selectedDate &&
+          !removedTasks.some(
+            r => r.task.id === task.task.id && r.time === task.time && r.date === task.date,
+          ),
+      ),
     );
   }, [externalAssigned, selectedDate, removedTasks]);
 
@@ -86,32 +88,41 @@ export function useScheduleTasks({
     const task = tasks.find(t => t.id === taskId);
     if (!task) return;
 
-    const dup = externalAssigned.some(a => a.task.id === task.id && a.time === time && a.date === date);
+    const dup = externalAssigned.some(
+      a => a.task.id === task.id && a.time === time && a.date === date,
+    );
     if (dup) return;
 
     const newTask: AssignedTask = { task, time, date };
 
     setAssignedTasks(prev => [...prev, newTask]);
     setExternalAssigned(prev => [...prev, newTask]);
-    setRemovedTasks(prev => prev.filter(a => !(a.task.id === task.id && a.time === time && a.date === date)));
+    setRemovedTasks(prev =>
+      prev.filter(a => !(a.task.id === task.id && a.time === time && a.date === date)),
+    );
     setLocalChanges(prev => new Set(prev).add(date));
   };
 
   const handleDelete = (task: Task, time: string, date: string) => {
-    setAssignedTasks(prev => prev.filter(a => !(a.task.id === task.id && a.time === time && a.date === date)));
-    const matched = externalAssigned.find(a => a.task.id === task.id && a.time === time && a.date === date);
+    setAssignedTasks(prev =>
+      prev.filter(a => !(a.task.id === task.id && a.time === time && a.date === date)),
+    );
+    const matched = externalAssigned.find(
+      a => a.task.id === task.id && a.time === time && a.date === date,
+    );
     if (matched) setRemovedTasks(prev => [...prev, matched]);
     setLocalChanges(prev => new Set(prev).add(date));
   };
 
   const handleCancel = () => {
     setAssignedTasks(
-      externalAssigned.filter(task =>
-        task.date === selectedDate &&
-        !removedTasks.some(r =>
-          r.task.id === task.task.id && r.time === task.time && r.date === task.date
-        )
-      )
+      externalAssigned.filter(
+        task =>
+          task.date === selectedDate &&
+          !removedTasks.some(
+            r => r.task.id === task.task.id && r.time === task.time && r.date === task.date,
+          ),
+      ),
     );
     setRemovedTasks([]);
     setLocalChanges(new Set());
@@ -137,7 +148,9 @@ export function useScheduleTasks({
       ...removedTasks.map(task => task.date),
     ]);
 
-    const allCurrent = externalAssigned.filter(task => !changedDates.has(task.date)).concat(assignedTasks);
+    const allCurrent = externalAssigned
+      .filter(task => !changedDates.has(task.date))
+      .concat(assignedTasks);
     const dedup = getDeduplicatedTasks(allCurrent);
 
     const payload: SaveScheduleRequest = {
@@ -165,7 +178,7 @@ export function useScheduleTasks({
       await schedulesApi.saveSchedules(payload);
 
       const changedDates = Array.from(
-        new Set([...dedup.map(task => task.date), ...removedTasks.map(task => task.date)])
+        new Set([...dedup.map(task => task.date), ...removedTasks.map(task => task.date)]),
       );
 
       setExternalAssigned(prev => {
