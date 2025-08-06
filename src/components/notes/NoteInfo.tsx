@@ -16,10 +16,22 @@ import LinkCard from './LinkCard';
 
 const MAX_LENGTH = 30;
 interface NoteInfoProps {
-  hasTemp: boolean;
+  hasTemp?: boolean;
+  goalTitle?: string;
+  todoTitle?: string;
+  mode?: 'edit' | 'readonly';
+  noteTitle?: string; // 읽기 모드일 때 표시할 노트 제목
+  noteLink?: string; // 읽기 모드일 때 표시할 노트 링크
 }
 
-const NoteInfo = ({ hasTemp }: NoteInfoProps) => {
+const NoteInfo = ({
+  hasTemp,
+  goalTitle: propGoalTitle,
+  todoTitle: propTodoTitle,
+  mode = 'edit',
+  noteTitle,
+  noteLink,
+}: NoteInfoProps) => {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [showLoadDialog, setShowLoadDialog] = useState(false);
   const searchParams = useSearchParams();
@@ -30,9 +42,9 @@ const NoteInfo = ({ hasTemp }: NoteInfoProps) => {
   const link = useNoteWriteStore(state => state.link);
   const setLink = useNoteWriteStore(state => state.setLink);
 
-  // URL에서 todo 정보 가져오기
-  const todoTitle = searchParams.get('todoTitle') || '';
-  const goalTitle = searchParams.get('goalTitle') || '';
+  // props가 있으면 props 사용, 없으면 URL에서 가져오기 (기존 호환성 유지)
+  const todoTitle = propTodoTitle || searchParams.get('todoTitle') || '';
+  const goalTitle = propGoalTitle || searchParams.get('goalTitle') || '';
 
   const { loadTempToForm } = useTempNote(todoId);
 
@@ -89,6 +101,8 @@ const NoteInfo = ({ hasTemp }: NoteInfoProps) => {
           </div>
         </div>
       )}
+
+      {/* 노트 제목 영역 - 모드에 따라 다르게 렌더링 */}
       <div className="relative">
         <Input
           variant="noteTitle"
@@ -96,20 +110,26 @@ const NoteInfo = ({ hasTemp }: NoteInfoProps) => {
           text="noteTitle"
           type="text"
           maxLength={MAX_LENGTH}
-          value={title}
+          value={mode === 'readonly' ? noteTitle || '' : title}
           onChange={e => setTitle(e.target.value)}
           placeholder="노트의 제목을 입력해주세요"
+          disabled={mode === 'readonly'}
         />
         <div className="absolute top-16 right-0 flex items-center gap-1 text-xs font-medium">
-          <span className="text-text-01">{title.length}/</span>
+          <span className="text-text-01">
+            {mode === 'readonly' ? (noteTitle || '').length : title.length}/
+          </span>
           <span className="text-primary-01">{MAX_LENGTH}</span>
         </div>
       </div>
 
       {/* 링크 카드 표시 */}
-      {link && (
+      {(mode === 'readonly' ? noteLink : link) && (
         <div className="mt-16">
-          <LinkCard url={link} onRemove={() => setLink(null)} />
+          <LinkCard
+            url={mode === 'readonly' ? noteLink! : link!}
+            onRemove={mode === 'readonly' ? undefined : () => setLink(null)}
+          />
         </div>
       )}
 
