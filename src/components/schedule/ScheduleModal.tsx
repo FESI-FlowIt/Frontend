@@ -1,16 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
 import Modal from '@/components/ui/Modal';
-import { useScheduleTasks } from '@/hooks/useSchedule';
-import type { AssignedTask } from '@/interfaces/schedule';
-import dayjs from '@/lib/dayjs';
-
 import ScheduleFooter from './ScheduleFooter';
 import ScheduleHeader from './ScheduleHeader';
 import TimeTable from './TimeTable';
 import UnassignedTaskList from './UnassignedTaskList';
+import type { AssignedTask } from '@/interfaces/schedule';
+import { useScheduleTasks } from '@/hooks/useSchedule';
 
 interface ScheduleModalProps {
   isOpen: boolean;
@@ -24,55 +20,29 @@ interface ScheduleModalProps {
 export default function ScheduleModal({
   isOpen,
   onClose,
-  assignedTasks: externalAssigned,
-  setAssignedTasks: setExternalAssigned,
-  selectedDate: initialDate,
+  assignedTasks,
+  setAssignedTasks,
+  selectedDate,
   onSaved,
 }: ScheduleModalProps) {
-  const [selectedDate, setSelectedDate] = useState(initialDate);
-
   const {
+    assignedTasks: currentAssigned,
     tasks,
-    assignedTasks,
-    fetchUnassignedTasks,
-    fetchAssignedTasksByDate,
+    selectedDate: date,
+    handlePrevDate,
+    handleNextDate,
     handleDrop,
     handleDelete,
+    handleCancel,
     handleSave,
   } = useScheduleTasks({
-    initialDate,
-    externalAssigned,
-    setExternalAssigned,
-    onSaved,
+    isOpen,
+    initialDate: selectedDate,
+    externalAssigned: assignedTasks,
+    setExternalAssigned: setAssignedTasks,
     onClose,
+    onSaved,
   });
-
-  useEffect(() => {
-    if (isOpen) {
-      setSelectedDate(initialDate);
-    }
-  }, [isOpen, initialDate]);
-
-  useEffect(() => {
-    if (isOpen && selectedDate) {
-      fetchUnassignedTasks(selectedDate);
-      fetchAssignedTasksByDate(selectedDate);
-    }
-  }, [isOpen, selectedDate]);
-
-  const handlePrevDate = () => {
-    setSelectedDate(prev => dayjs(prev).subtract(1, 'day').format('YYYY-MM-DD'));
-  };
-
-  const handleNextDate = () => {
-    setSelectedDate(prev => dayjs(prev).add(1, 'day').format('YYYY-MM-DD'));
-  };
-
-  const handleCancel = () => {
-    onClose();
-  };
-
-  const filteredAssignedTasks = assignedTasks.filter(task => task.date === selectedDate);
 
   return (
     <Modal isOpen={isOpen} onClose={handleCancel} size="schedule" padding="none" rounded="schedule">
@@ -81,10 +51,10 @@ export default function ScheduleModal({
         <div className="flex h-full w-full flex-col md:flex-row">
           <UnassignedTaskList tasks={tasks} />
           <TimeTable
-            selectedDate={selectedDate}
+            selectedDate={date}
             onPrevDate={handlePrevDate}
             onNextDate={handleNextDate}
-            assignedTasks={filteredAssignedTasks}
+            assignedTasks={currentAssigned}
             onDropTask={handleDrop}
             onDeleteTask={handleDelete}
           />
