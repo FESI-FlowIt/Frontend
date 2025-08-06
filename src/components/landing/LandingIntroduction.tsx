@@ -58,17 +58,17 @@ export default function LandingIntroduction() {
             <div
               key={feature.name}
               className={cn(
-                `rounded-20 flex h-360 w-325 flex-col items-center justify-center gap-36 sm:h-190 sm:w-172 sm:gap-12 md:h-360 md:w-325 md:gap-36 ${feature.bgColor} ${delayClasses[index]} transform transition-all duration-700 ease-out`,
+                `rounded-20 flex flex-col items-center justify-center sm:h-190 sm:w-172 sm:gap-12 md:h-360 md:w-325 md:gap-36 lg:h-260 lg:w-225 lg:gap-20 xl:h-340 xl:w-305 xl:gap-36 ${feature.bgColor} ${delayClasses[index]} transform transition-all duration-700 ease-out`,
                 {
                   'translate-y-0 opacity-100': inView,
                   'translate-y-30 opacity-0': !inView,
                 },
               )}
             >
-              <div className="relative h-200 w-200 sm:h-100 sm:w-100 md:h-200 md:w-200">
+              <div className="relative sm:h-100 sm:w-100 md:h-200 md:w-200 lg:h-160 lg:w-160 xl:h-200 xl:w-200">
                 <Image src={feature.imgUrl} alt={feature.name} fill />
               </div>
-              <span className="text-text-02 text-display-24 md:text-display-24 sm:text-body-m-16">
+              <span className="text-text-02 xl:text-display-24 lg:text-display-18 md:text-display-24 sm:text-body-m-16">
                 {feature.name}
               </span>
             </div>
