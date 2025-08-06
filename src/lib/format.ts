@@ -12,8 +12,8 @@ export const formatMinutesToHourString = (minutes: number): string => {
 // "0월 0일 (0)" 형태로 변환
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토'];
 
-export const formatScheduleDate = (date: Date): string => {
-  const d = dayjs(date);
+export const formatScheduleDate = (date: string | Date): string => {
+  const d = dayjs(date); // dayjs는 string이든 Date든 처리 가능
   const month = d.month() + 1;
   const day = d.date();
   const weekday = WEEKDAYS[d.day()];

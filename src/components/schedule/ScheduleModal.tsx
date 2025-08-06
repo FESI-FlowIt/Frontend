@@ -19,7 +19,7 @@ interface ScheduleModalProps {
   assignedTasks: AssignedTask[];
   setAssignedTasks: React.Dispatch<React.SetStateAction<AssignedTask[]>>;
   selectedDate: string;
-  onSaved: (updated: AssignedTask[]) => void; // ✅ 추가됨
+  onSaved: (updated: AssignedTask[], changedDates: string[]) => void;
 }
 
 export default function ScheduleModal({
@@ -27,27 +27,59 @@ export default function ScheduleModal({
   onClose,
   assignedTasks: externalAssigned,
   setAssignedTasks: setExternalAssigned,
-  selectedDate,
-  onSaved, // ✅ 추가됨
+  selectedDate: initialDate,
+  onSaved,
 }: ScheduleModalProps) {
   const [assignedTasks, setAssignedTasks] = useState<AssignedTask[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [selectedDate, setSelectedDate] = useState(initialDate);
 
-  useEffect(() => {
-    if (isOpen) {
-      setAssignedTasks([...externalAssigned]);
-      fetchUnassignedTasks();
-    }
-  }, [isOpen, externalAssigned, selectedDate]);
-
-  const fetchUnassignedTasks = async () => {
+  const fetchUnassignedTasks = async (date: string) => {
     try {
-      const res = await schedulesApi.getUnassignedTodos(selectedDate);
+      const res = await schedulesApi.getUnassignedTodos(date);
       const mapped = scheduleMapper.mapUnassignedTodosToTasks(res.unassignedTodos);
       setTasks(mapped);
     } catch (err) {
       console.error('미배치 할 일 불러오기 실패:', err);
     }
+  };
+
+  const fetchAssignedTasksByDate = async (date: string) => {
+    try {
+      const res = await schedulesApi.getAssignedTodos(date);
+      const mapped = scheduleMapper.mapAssignedTodosToAssignedTasks(res.assignedTodos);
+      setExternalAssigned(prev => {
+        const filtered = prev.filter(task => task.date !== date);
+        return [...filtered, ...mapped];
+      });
+    } catch (err) {
+      console.error(`${date} 일정 불러오기 실패:`, err);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedDate(initialDate);
+    }
+  }, [isOpen, initialDate]);
+
+  useEffect(() => {
+    if (isOpen && selectedDate) {
+      fetchUnassignedTasks(selectedDate);
+      fetchAssignedTasksByDate(selectedDate);
+    }
+  }, [isOpen, selectedDate]);
+
+  useEffect(() => {
+    setAssignedTasks(externalAssigned.filter(task => task.date === selectedDate));
+  }, [externalAssigned, selectedDate]);
+
+  const handlePrevDate = () => {
+    setSelectedDate(prev => dayjs(prev).subtract(1, 'day').format('YYYY-MM-DD'));
+  };
+
+  const handleNextDate = () => {
+    setSelectedDate(prev => dayjs(prev).add(1, 'day').format('YYYY-MM-DD'));
   };
 
   const handleDrop = (taskId: string, time: string, date: string) => {
@@ -67,7 +99,7 @@ export default function ScheduleModal({
   };
 
   const handleCancel = () => {
-    setAssignedTasks(externalAssigned);
+    setAssignedTasks(externalAssigned.filter(task => task.date === selectedDate));
     onClose();
   };
 
@@ -89,8 +121,9 @@ export default function ScheduleModal({
 
     const removed = externalAssigned.filter(
       prev =>
-        prev.schedId &&
-        !assignedTasks.some(
+        prev.schedId !== undefined &&
+        prev.date === selectedDate &&
+        !dedup.some(
           curr =>
             curr.task.id === prev.task.id && curr.time === prev.time && curr.date === prev.date,
         ),
@@ -107,34 +140,33 @@ export default function ScheduleModal({
           };
           return schedId !== undefined ? { ...base, schedId } : base;
         }),
-        ...removed
-          .filter(({ schedId }) => schedId !== undefined)
-          .map(({ schedId, task, time, date }) => ({
-            schedId: schedId!,
-            todoId: Number(task.id),
-            startedDateTime: toLocalISOString(date, time),
-            endedDateTime: toLocalISOString(date, time),
-            isRemoved: true,
-          })),
+        ...removed.map(({ schedId, task, time, date }) => ({
+          schedId: schedId!,
+          todoId: Number(task.id),
+          startedDateTime: toLocalISOString(date, time),
+          endedDateTime: toLocalISOString(date, time),
+          isRemoved: true,
+        })),
       ],
     };
 
     try {
       await schedulesApi.saveSchedules(payload);
 
-      const dedupWithoutRemoved = dedup.filter(
-        d =>
-          !removed.some(
-            r => Number(r.task.id) === Number(d.task.id) && r.time === d.time && r.date === d.date,
-          ),
+      const nextAssigned = [...dedup];
+      const changedDates = Array.from(
+        new Set([...dedup.map(task => task.date), ...removed.map(task => task.date)]),
       );
 
-      // ✅ 외부에 최신 반영
-      setExternalAssigned(dedupWithoutRemoved);
-      onSaved(dedupWithoutRemoved); // 💡 부모 컴포넌트 반영
+      setExternalAssigned(prev => {
+        const filtered = prev.filter(task => !changedDates.includes(task.date));
+        return [...filtered, ...nextAssigned];
+      });
+
+      onSaved([...dedup], changedDates);
       onClose();
-    } catch (error) {
-      console.error('❌ 일정 저장 실패:', error);
+    } catch (err) {
+      console.error('❌ 일정 저장 실패:', err);
     }
   };
 
@@ -145,6 +177,9 @@ export default function ScheduleModal({
         <div className="flex h-full w-full flex-col md:flex-row">
           <UnassignedTaskList tasks={tasks} />
           <TimeTable
+            selectedDate={selectedDate}
+            onPrevDate={handlePrevDate}
+            onNextDate={handleNextDate}
             assignedTasks={assignedTasks}
             onDropTask={handleDrop}
             onDeleteTask={handleDelete}
