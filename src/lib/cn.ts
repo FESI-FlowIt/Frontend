@@ -179,7 +179,9 @@ const customTwMerge = extendTailwindMerge({
         'rounded-24',
         // Special Border Radius
         'rounded-tr-50',
+        'rounded-tr-30',
         'rounded-br-50',
+        'rounded-br-30',
         'rounded-tl-50',
         'rounded-bl-50',
       ],
