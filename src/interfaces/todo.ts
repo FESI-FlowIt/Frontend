@@ -59,6 +59,13 @@ export interface TodoSummary {
   isDone: boolean;
 }
 
+export interface TodoWithNotes {
+  todoId: number;
+  title: string;
+  isDone: boolean;
+  notes: Note[];
+}
+
 // API Response
 export interface ApiTodo {
   todoId: number;

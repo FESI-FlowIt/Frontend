@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 
-import { LANDINGPAGEFEATUREDETAILS } from '@/constants/landingPageFeatures';
+import { LANDINGPAGE_FEATURE_DETAILS } from '@/constants/landingPageFeatures';
 import { cn } from '@/lib/utils';
 
 export default function LandingFeaturesDetail() {
@@ -43,7 +43,7 @@ export default function LandingFeaturesDetail() {
 
   return (
     <div className="flex flex-col items-center sm:gap-100 md:gap-160 lg:gap-240">
-      {LANDINGPAGEFEATUREDETAILS.map((detail, index) => {
+      {LANDINGPAGE_FEATURE_DETAILS.map((detail, index) => {
         const isOdd = index % 2 === 1;
         const isVisible = visibleIndexes.includes(index);
         const delayClasses = ['delay-0', 'delay-100', 'delay-200', 'delay-300', 'delay-400'];
