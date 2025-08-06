@@ -28,7 +28,11 @@ export default function ScheduleSection() {
       const res = await schedulesApi.getAssignedTodos(date);
       const mapped = scheduleMapper.mapAssignedTodosToAssignedTasks(res.assignedTodos);
       setAssignedTasks(prev => [...prev.filter(task => task.date !== date), ...mapped]);
-    } catch {}
+    } catch (err) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error(' 일정 불러오기 실패:', err);
+      }
+    }
   };
 
   const fetchTodayAssignedTasks = async () => {
