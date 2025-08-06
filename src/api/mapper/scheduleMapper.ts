@@ -14,8 +14,8 @@ export const scheduleMapper = {
 mapAssignedTodosToAssignedTasks: (apiTodos: AssignedTodoApi[]): AssignedTask[] => {
   return apiTodos.map(todo => {
     const startedAt = dayjs(todo.startedDateTime).tz('Asia/Seoul');
-    const time = startedAt.format('HH:mm'); // 한국 시간 기준
-    const date = startedAt.format('YYYY-MM-DD'); // 한국 시간 기준
+    const time = startedAt.format('HH:mm'); 
+    const date = startedAt.format('YYYY-MM-DD');
 
     return {
       schedId: todo.schedId,
@@ -28,5 +28,5 @@ mapAssignedTodosToAssignedTasks: (apiTodos: AssignedTodoApi[]): AssignedTask[] =
       date,
     };
   });
-}, // ← 여기!
+}, 
 };

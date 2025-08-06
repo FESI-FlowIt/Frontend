@@ -20,20 +20,15 @@ export default function ScheduleSection() {
   const user = useUserStore(state => state.user);
   const todayDateStr = dayjs().format('YYYY-MM-DD');
 
-  // ✅ 특정 날짜의 할 일 다시 불러오기
+  // 특정 날짜의 할 일 다시 불러오기
   const fetchAssignedTasksByDate = async (date: string) => {
     try {
       const res = await schedulesApi.getAssignedTodos(date);
       const mapped = scheduleMapper.mapAssignedTodosToAssignedTasks(res.assignedTodos);
-
-      // 🔥 같은 날짜 데이터만 새로 반영
       setAssignedTasks(prev => [...prev.filter(task => task.date !== date), ...mapped]);
-    } catch (err) {
-      console.error(`${date} 일정 불러오기 실패:`, err);
-    }
+    } catch {}
   };
 
-  // ✅ 초기에는 오늘 날짜만 불러오기
   const fetchTodayAssignedTasks = async () => {
     await fetchAssignedTasksByDate(todayDateStr);
   };
@@ -42,10 +37,9 @@ export default function ScheduleSection() {
     if (user) fetchTodayAssignedTasks();
   }, [user]);
 
-  // ✅ 오늘만 필터링해서 보여줌
   const todayAssigned = assignedTasks.filter(task => task.date === todayDateStr);
 
-  // ✅ 중복 제거 및 정렬
+  // 중복 제거 및 정렬
   const deduplicatedAssignedTasks = Array.from(
     new Map(todayAssigned.map(item => [`${item.task.id}-${item.time}`, item])).values(),
   ).sort((a, b) => a.time.localeCompare(b.time));

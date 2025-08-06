@@ -4,10 +4,10 @@ import TaskCard from './TaskCard';
 
 interface TimeSlotRowProps {
   time: string;
-  date: string; // ✅ 추가
+  date: string;
   assignedTasks: AssignedTask[];
   onDropTask: (taskId: string, time: string) => void;
-  onDeleteTask: (task: Task, time: string, date: string) => void; // ✅ 수정
+  onDeleteTask: (task: Task, time: string, date: string) => void;
   isFirst?: boolean;
   isLast?: boolean;
 }

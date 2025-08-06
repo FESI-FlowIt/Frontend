@@ -39,9 +39,7 @@ export default function ScheduleModal({
       const res = await schedulesApi.getUnassignedTodos(date);
       const mapped = scheduleMapper.mapUnassignedTodosToTasks(res.unassignedTodos);
       setTasks(mapped);
-    } catch (err) {
-      console.error('미배치 할 일 불러오기 실패:', err);
-    }
+    } catch {}
   };
 
   const fetchAssignedTasksByDate = async (date: string) => {
@@ -52,9 +50,7 @@ export default function ScheduleModal({
         const filtered = prev.filter(task => task.date !== date);
         return [...filtered, ...mapped];
       });
-    } catch (err) {
-      console.error(`${date} 일정 불러오기 실패:`, err);
-    }
+    } catch {}
   };
 
   useEffect(() => {
@@ -165,9 +161,7 @@ export default function ScheduleModal({
 
       onSaved([...dedup], changedDates);
       onClose();
-    } catch (err) {
-      console.error('❌ 일정 저장 실패:', err);
-    }
+    } catch {}
   };
 
   return (

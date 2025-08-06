@@ -1,4 +1,3 @@
-// src/api/schedulesApi.ts
 import { getRequest, postRequest } from '.';
 import type {
   SaveScheduleRequest,
