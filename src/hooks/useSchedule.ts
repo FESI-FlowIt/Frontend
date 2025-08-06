@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import dayjs from '@/lib/dayjs';
 
-import { schedulesApi } from '@/api/scheduleApi';
 import { scheduleMapper } from '@/api/mapper/scheduleMapper';
-import type { AssignedTask, Task, SaveScheduleRequest } from '@/interfaces/schedule';
+import { schedulesApi } from '@/api/scheduleApi';
+import type { AssignedTask, SaveScheduleRequest, Task } from '@/interfaces/schedule';
+import dayjs from '@/lib/dayjs';
 
 interface UseScheduleTasksProps {
   initialDate: string;
@@ -86,9 +86,7 @@ export function useScheduleTasks({
         prev.schedId !== undefined &&
         !dedup.some(
           curr =>
-            curr.task.id === prev.task.id &&
-            curr.time === prev.time &&
-            curr.date === prev.date,
+            curr.task.id === prev.task.id && curr.time === prev.time && curr.date === prev.date,
         ),
     );
 

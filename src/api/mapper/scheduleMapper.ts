@@ -1,5 +1,5 @@
-import type { Task, AssignedTask } from '@/interfaces/schedule';
-import type { UnassignedTodoApi, AssignedTodoApi } from '@/interfaces/schedule';
+import type { AssignedTask, Task } from '@/interfaces/schedule';
+import type { AssignedTodoApi, UnassignedTodoApi } from '@/interfaces/schedule';
 import dayjs from '@/lib/dayjs';
 
 export const scheduleMapper = {
@@ -11,22 +11,22 @@ export const scheduleMapper = {
     }));
   },
 
-mapAssignedTodosToAssignedTasks: (apiTodos: AssignedTodoApi[]): AssignedTask[] => {
-  return apiTodos.map(todo => {
-    const startedAt = dayjs(todo.startedDateTime).tz('Asia/Seoul');
-    const time = startedAt.format('HH:mm'); 
-    const date = startedAt.format('YYYY-MM-DD');
+  mapAssignedTodosToAssignedTasks: (apiTodos: AssignedTodoApi[]): AssignedTask[] => {
+    return apiTodos.map(todo => {
+      const startedAt = dayjs(todo.startedDateTime).tz('Asia/Seoul');
+      const time = startedAt.format('HH:mm');
+      const date = startedAt.format('YYYY-MM-DD');
 
-    return {
-      schedId: todo.schedId,
-      task: {
-        id: String(todo.todoId),
-        title: todo.name,
-        color: todo.color,
-      },
-      time,
-      date,
-    };
-  });
-}, 
+      return {
+        schedId: todo.schedId,
+        task: {
+          id: String(todo.todoId),
+          title: todo.name,
+          color: todo.color,
+        },
+        time,
+        date,
+      };
+    });
+  },
 };

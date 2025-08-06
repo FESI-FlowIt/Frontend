@@ -1,8 +1,9 @@
 'use client';
 
-import { AssignedTask, Task } from '@/interfaces/schedule';
 import ArrowNavigation from '@/components/ui/ArrowNavigation';
+import { AssignedTask, Task } from '@/interfaces/schedule';
 import { formatScheduleDate } from '@/lib/format';
+
 import TimeSlotRow from './TimeSlotRow';
 
 interface TimeTableProps {

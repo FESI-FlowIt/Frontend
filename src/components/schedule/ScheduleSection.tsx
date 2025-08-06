@@ -1,16 +1,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import dayjs from 'dayjs';
 
+import { scheduleMapper } from '@/api/mapper/scheduleMapper';
+import { schedulesApi } from '@/api/scheduleApi';
 import ScheduleIcon from '@/assets/icons/schedule.svg';
 import { Button } from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import type { AssignedTask } from '@/interfaces/schedule';
 import { getTodayScheduleTitle } from '@/lib/calendarUtils';
-import { schedulesApi } from '@/api/scheduleApi';
-import { scheduleMapper } from '@/api/mapper/scheduleMapper';
 import { useUserStore } from '@/store/userStore';
+
 import ScheduleModal from './ScheduleModal';
 
 export default function ScheduleSection() {

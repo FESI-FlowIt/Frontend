@@ -1,9 +1,10 @@
 'use client';
 
-import SelectTodoModalEmpty from './SelectTodoModalEmpty';
-import { getGoalTextColorClass } from '@/lib/goalColors';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
+import { getGoalTextColorClass } from '@/lib/goalColors';
+
+import SelectTodoModalEmpty from './SelectTodoModalEmpty';
 
 interface BodyProps {
   goals: GoalSummary[];

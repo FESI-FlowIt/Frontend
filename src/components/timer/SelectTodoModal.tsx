@@ -7,8 +7,8 @@ import Modal from '@/components/ui/Modal';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
 
-import SelectTodoModalHeader from './SelectTodoModalHeader';
 import SelectTodoModalBody from './SelectTodoModalBody';
+import SelectTodoModalHeader from './SelectTodoModalHeader';
 
 interface SelectTodoModalProps {
   goals: GoalSummary[];

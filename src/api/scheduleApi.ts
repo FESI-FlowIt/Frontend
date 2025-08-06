@@ -1,8 +1,10 @@
-import { getRequest, postRequest } from '.';
 import type {
+  GetAssignedTodosResponse,
   SaveScheduleRequest,
-  GetAssignedTodosResponse,UnassignedTodoApi
+  UnassignedTodoApi,
 } from '@/interfaces/schedule';
+
+import { getRequest, postRequest } from '.';
 
 interface GetUnassignedTodosResponse {
   date: string;
@@ -10,22 +12,17 @@ interface GetUnassignedTodosResponse {
 }
 
 export const schedulesApi = {
-  getUnassignedTodos: async (
-    date: string
-  ): Promise<GetUnassignedTodosResponse> => {
+  getUnassignedTodos: async (date: string): Promise<GetUnassignedTodosResponse> => {
     const res = await getRequest('/schedules/unassigned', { date });
     return res.result;
   },
 
-  getAssignedTodos: async (
-    date: string
-  ): Promise<GetAssignedTodosResponse> => {
+  getAssignedTodos: async (date: string): Promise<GetAssignedTodosResponse> => {
     const res = await getRequest('/schedules/assigned', { date });
     return res.result;
   },
 
   saveSchedules: async (data: SaveScheduleRequest): Promise<void> => {
-    await postRequest('/schedules', data); 
+    await postRequest('/schedules', data);
   },
 };
-
