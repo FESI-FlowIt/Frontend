@@ -30,7 +30,6 @@ export default function ScheduleModal({
   selectedDate: initialDate,
   onSaved,
 }: ScheduleModalProps) {
-  const [assignedTasks, setAssignedTasks] = useState<AssignedTask[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [selectedDate, setSelectedDate] = useState(initialDate);
 
@@ -43,9 +42,14 @@ export default function ScheduleModal({
   };
 
   const fetchAssignedTasksByDate = async (date: string) => {
+    // ✅ 이미 배치된 값이 있으면 fetch 안 함
+    const alreadyAssigned = externalAssigned.some(task => task.date === date);
+    if (alreadyAssigned) return;
+
     try {
       const res = await schedulesApi.getAssignedTodos(date);
       const mapped = scheduleMapper.mapAssignedTodosToAssignedTasks(res.assignedTodos);
+
       setExternalAssigned(prev => {
         const filtered = prev.filter(task => task.date !== date);
         return [...filtered, ...mapped];
@@ -66,10 +70,6 @@ export default function ScheduleModal({
     }
   }, [isOpen, selectedDate]);
 
-  useEffect(() => {
-    setAssignedTasks(externalAssigned.filter(task => task.date === selectedDate));
-  }, [externalAssigned, selectedDate]);
-
   const handlePrevDate = () => {
     setSelectedDate(prev => dayjs(prev).subtract(1, 'day').format('YYYY-MM-DD'));
   };
@@ -82,20 +82,21 @@ export default function ScheduleModal({
     const task = tasks.find(t => t.id === taskId);
     if (!task) return;
 
-    const dup = assignedTasks.some(a => a.time === time && a.date === date);
+    const dup = externalAssigned.some(
+      a => a.task.id === task.id && a.time === time && a.date === date,
+    );
     if (dup) return;
 
-    setAssignedTasks(prev => [...prev, { task, time, date }]);
+    setExternalAssigned(prev => [...prev, { task, time, date }]);
   };
 
   const handleDelete = (task: Task, time: string, date: string) => {
-    setAssignedTasks(prev =>
+    setExternalAssigned(prev =>
       prev.filter(a => !(a.task.id === task.id && a.time === time && a.date === date)),
     );
   };
 
   const handleCancel = () => {
-    setAssignedTasks(externalAssigned.filter(task => task.date === selectedDate));
     onClose();
   };
 
@@ -113,12 +114,11 @@ export default function ScheduleModal({
   };
 
   const handleSave = async () => {
-    const dedup = getDeduplicatedTasks(assignedTasks);
+    const dedup = getDeduplicatedTasks(externalAssigned);
 
     const removed = externalAssigned.filter(
       prev =>
         prev.schedId !== undefined &&
-        prev.date === selectedDate &&
         !dedup.some(
           curr =>
             curr.task.id === prev.task.id && curr.time === prev.time && curr.date === prev.date,
@@ -149,20 +149,21 @@ export default function ScheduleModal({
     try {
       await schedulesApi.saveSchedules(payload);
 
-      const nextAssigned = [...dedup];
       const changedDates = Array.from(
         new Set([...dedup.map(task => task.date), ...removed.map(task => task.date)]),
       );
 
       setExternalAssigned(prev => {
         const filtered = prev.filter(task => !changedDates.includes(task.date));
-        return [...filtered, ...nextAssigned];
+        return [...filtered, ...dedup];
       });
 
       onSaved([...dedup], changedDates);
       onClose();
     } catch {}
   };
+
+  const assignedTasks = externalAssigned.filter(task => task.date === selectedDate);
 
   return (
     <Modal isOpen={isOpen} onClose={handleCancel} size="schedule" padding="none" rounded="schedule">
