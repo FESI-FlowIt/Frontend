@@ -4,6 +4,7 @@ import Image from 'next/image';
 
 import { useSidebar } from '@/app/providers/SidebarProvider';
 import SidebarOpenIcon from '@/assets/icons/sidebar-right.svg';
+import { cn } from '@/lib/utils';
 import { useModalStore } from '@/store/modalStore';
 
 import GoalModal from '../goals/GoalModal';
@@ -21,7 +22,15 @@ export default function Sidebar() {
   const { openGoalModal } = useModalStore();
 
   return isOpen ? (
-    <div className="border-line rounded-tr-50 rounded-br-50 flex min-h-screen w-320 flex-col items-center border-r bg-white py-40 sm:w-280 sm:py-8 md:w-320 md:py-40">
+    <div
+      className={cn(
+        `border-line md:rounded-tr-50 md:rounded-br-50 sm:rounded-tr-30 sm:rounded-br-30 flex min-h-screen w-320 transform flex-col items-center border-r bg-white py-40 transition-all duration-300 ease-in-out sm:w-280 sm:py-8 md:w-320 md:py-40`,
+        {
+          'translate-x-0 opacity-100': isOpen,
+          'pointer-events-none -translate-x-full opacity-0': !isOpen,
+        },
+      )}
+    >
       <section className="mb-40 shrink-0 px-20">
         <SidebarHeader setIsOpen={setIsOpen} />
       </section>
@@ -50,7 +59,15 @@ export default function Sidebar() {
     </div>
   ) : (
     <>
-      <div className="border-line rounded-tr-50 rounded-br-50 min-h-screen w-100 flex-col items-center gap-36 border-r bg-white px-18 pt-40 sm:hidden md:flex md:w-80 lg:flex">
+      <div
+        className={cn(
+          `border-line rounded-tr-50 rounded-br-50 min-h-screen w-100 transform flex-col items-center gap-36 border-r bg-white px-18 pt-40 transition-all duration-300 ease-in-out sm:hidden md:flex md:w-80 lg:flex`,
+          {
+            'translate-x-0 opacity-100': !isOpen,
+            'pointer-events-none -translate-x-full opacity-0': isOpen,
+          },
+        )}
+      >
         <div className="relative h-36 w-36 sm:h-28 sm:w-28 md:h-36 md:w-36">
           <Image src={`${CLOUDFRONT_URL}/assets/images/flowIt-logo.svg`} alt="로고 이미지" fill />
         </div>
@@ -66,7 +83,7 @@ export default function Sidebar() {
         </button>
       </div>
 
-      <div className="sm:flex sm:items-center sm:gap-12 sm:bg-white sm:px-16 md:hidden lg:hidden">
+      <div className="h-48 sm:flex sm:items-center sm:gap-12 sm:bg-white sm:px-16 md:hidden lg:hidden">
         <div className="sm:gap-4.6 sm:flex sm:items-center">
           <div className="sm:relative sm:h-28 sm:w-28">
             <Image src={`${CLOUDFRONT_URL}/assets/images/flowIt-logo.svg`} alt="로고 이미지" fill />
