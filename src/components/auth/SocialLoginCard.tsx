@@ -18,12 +18,16 @@ const providers: ProvidersInterface[] = [
   { name: 'google', icon: `${CLOUDFRONT_URL}/assets/images/login_google-logo.svg` },
 ];
 
+const KAKAO_AUTH_URL =
+  'https://kauth.kakao.com/oauth/authorize' +
+  `?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}` +
+  `&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}` +
+  '&response_type=code';
+
 export default function SocialLoginCard({ mode }: { mode: 'login' | 'signUp' }) {
   const router = useRouter();
-
-  //TODO: 소셜로그인 api가 나오면 post 요청 및 router 설정
-  const handleNavigation = (provider: 'google' | 'kakao' | 'naver') => {
-    router.push(`/${provider}`);
+  const handleKakaoLogin = () => {
+    window.location.href = KAKAO_AUTH_URL;
   };
 
   return (
@@ -41,7 +45,7 @@ export default function SocialLoginCard({ mode }: { mode: 'login' | 'signUp' }) 
             icon && (
               <div
                 key={name}
-                onClick={() => handleNavigation(name as 'naver' | 'kakao' | 'google')}
+                onClick={handleKakaoLogin}
                 className="relative h-52 w-52 cursor-pointer sm:h-44 sm:w-44 md:h-52 md:w-52"
               >
                 <Image
