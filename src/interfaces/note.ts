@@ -17,8 +17,16 @@ export interface Note {
   todoId: number;
   title: string;
   content: string;
+  wordCount: number;
   link?: string;
   createdAt: string;
+  updatedAt: string;
+}
+
+export interface NoteSummary {
+  noteId: number;
+  todoId: number;
+  title: string;
   updatedAt: string;
 }
 
@@ -27,4 +35,21 @@ export interface CreateNoteRequest {
   content: string;
   wordCount: number;
   link?: string;
+}
+
+export interface UpdateNoteRequest {
+  title: string;
+  content: string;
+  wordCount: number;
+  link?: string;
+}
+
+// API Response 인터페이스들
+export interface ApiNoteResponse {
+  result: Note;
+}
+
+export interface ApiNoteSummaryListResponse {
+  result: NoteSummary[];
+  count: number;
 }

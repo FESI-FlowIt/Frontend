@@ -76,12 +76,6 @@ export const useTempNote = (todoId: number | null) => {
         setLink(cachedData.link);
       }
       setHasLoadedToForm(true);
-
-      console.log('임시저장 불러오기 성공:', {
-        title: cachedData.title,
-        contentSize: new Blob([cachedData.content]).size,
-        link: cachedData.link,
-      });
     } catch (error) {
       console.error('임시저장 불러오기 실패:', error);
     }
