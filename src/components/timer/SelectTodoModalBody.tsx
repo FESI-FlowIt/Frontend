@@ -2,7 +2,7 @@
 
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
-import { getGoalTextColorClass } from '@/lib/goalColors';
+import { getGoalBackgroundColorClass } from '@/lib/goalColors';
 
 import SelectTodoModalEmpty from './SelectTodoModalEmpty';
 
@@ -41,7 +41,9 @@ export default function SelectTodoModalBody({
               }
             >
               <span className="text-body-m-20 text-text-02 flex items-center gap-12">
-                <span className={`h-12 w-12 rounded-full ${getGoalTextColorClass(goal.color)}`} />
+                <span
+                  className={`h-12 w-12 rounded-full ${getGoalBackgroundColorClass(goal.color)}`}
+                />
                 {goal.title}
               </span>
               <span className="text-gray-500">{isSelected ? '▲' : '▼'}</span>
