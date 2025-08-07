@@ -72,7 +72,9 @@ export default function LoginForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20 sm:gap-12 md:gap-20">
       <EmailInput placeholder="이메일" register={register} email={email} />
       <PasswordInput placeholder="비밀번호" register={register} name="password" />
-      <Button disabled={!isFormValid}>로그인</Button>
+      <Button type="submit" disabled={!isFormValid}>
+        로그인
+      </Button>
       {isModalOpen && <AuthModal isOpen={isModalOpen} closeModal={handleCloseModal} mode="login" />}
     </form>
   );
