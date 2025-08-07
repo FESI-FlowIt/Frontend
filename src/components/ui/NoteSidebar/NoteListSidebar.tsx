@@ -1,5 +1,6 @@
 import Todo from '@/assets/icons/todo.svg';
-import { Note } from '@/interfaces/note';
+import { useNotesByTodoId } from '@/hooks/useNotes';
+import { NoteSummary } from '@/interfaces/note';
 import { TodoWithNotes } from '@/interfaces/todo';
 
 import { IconButton } from '../IconButton';
@@ -7,10 +8,11 @@ import { IconButton } from '../IconButton';
 interface NoteListSidebarProps {
   todo: TodoWithNotes;
   onClose: () => void;
-  onNoteClick: (note: Note) => void;
+  onNoteClick: (noteId: number) => void;
 }
 
 const NoteListSidebar = ({ todo, onClose, onNoteClick }: NoteListSidebarProps) => {
+  const { data: notes = [] } = useNotesByTodoId(todo.todoId);
   return (
     <div className="h-full bg-white px-20 py-40">
       {/* 헤더 */}
@@ -33,16 +35,16 @@ const NoteListSidebar = ({ todo, onClose, onNoteClick }: NoteListSidebarProps) =
       {/* 노트 리스트 */}
       <div>
         <div className="space-y-36">
-          {todo.notes?.map(note => (
+          {notes?.map((note: NoteSummary) => (
             <button
               key={note.noteId}
-              onClick={() => onNoteClick(note)}
+              onClick={() => onNoteClick(note.noteId)}
               className="w-full text-left"
             >
               <div className="text-body-sb-20 text-text-01 mb-12">{note.title}</div>
               <div className="text-body-m-12 text-text-03">
-                {new Date(note.createdAt).toLocaleDateString()}
-                {new Date(note.createdAt).toLocaleTimeString()} 저장
+                {new Date(note.updatedAt).toLocaleDateString()}
+                {new Date(note.updatedAt).toLocaleTimeString()} 저장
               </div>
             </button>
           )) || <div className="text-text-04 py-20 text-center">작성된 노트가 없습니다</div>}

@@ -2,8 +2,30 @@ import React, { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { MOCK_TODOS_WITH_NOTES } from '@/components/notes/constants';
 import NoteSidebar from '@/components/ui/NoteSidebar/NoteSidebar';
+import { TodoWithNotes } from '@/interfaces/todo';
+
+const mockTodoWithNotes: TodoWithNotes = {
+  todoId: 1,
+  title: '자바스크립트 기초 렌더링 통과',
+  isDone: false,
+  goalId: 1,
+  goalTitle: '프론트엔드 개발자 되기',
+  notes: [
+    {
+      noteId: 1,
+      todoId: 1,
+      title: '자바스크립트 기초 정리',
+      updatedAt: '2024-01-15T10:30:00.000Z',
+    },
+    {
+      noteId: 2,
+      todoId: 1,
+      title: 'DOM 조작 실습',
+      updatedAt: '2024-01-16T14:20:00.000Z',
+    },
+  ],
+};
 
 const meta: Meta<typeof NoteSidebar> = {
   title: 'Components/ui/NoteSidebar',
@@ -21,7 +43,6 @@ type Story = StoryObj<typeof NoteSidebar>;
 export const FullFlow: Story = {
   render: () => {
     const [isOpen, setIsOpen] = useState(true);
-    const selectedNote = MOCK_TODOS_WITH_NOTES[0].notes[0];
 
     return (
       <div className="relative h-screen w-full bg-gray-100">
@@ -40,8 +61,7 @@ export const FullFlow: Story = {
 
         <NoteSidebar
           isOpen={isOpen}
-          todo={MOCK_TODOS_WITH_NOTES[0]}
-          selectedNote={selectedNote}
+          todo={mockTodoWithNotes}
           goalTitle="프론트엔드 개발자 되기"
           onClose={() => setIsOpen(false)}
         />
