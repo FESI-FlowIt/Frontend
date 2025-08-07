@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useState } from 'react';
 
 import NoteSidebar from '@/components/ui/NoteSidebar/NoteSidebar';
 import { TodoWithNotes } from '@/interfaces/todo';
