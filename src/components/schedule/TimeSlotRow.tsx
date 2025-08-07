@@ -57,7 +57,7 @@ export default function TimeSlotRow({
                 <IconButton
                   variant="close"
                   aria-label="삭제"
-                  onClick={() => onDeleteTask(taskInThisSlot.task, time, date)} // ✅ 여기!
+                  onClick={() => onDeleteTask(taskInThisSlot.task, time, date)}
                 />
               </div>
             </div>

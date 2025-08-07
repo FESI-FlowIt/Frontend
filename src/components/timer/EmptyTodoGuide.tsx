@@ -1,4 +1,3 @@
-// components/empty/EmptyTodoGuide.tsx
 'use client';
 
 import EmptyIcon from '@/assets/icons/timer.svg';

@@ -22,7 +22,6 @@ export default function ScheduleSection() {
   const user = useUserStore(state => state.user);
   const todayDateStr = dayjs().format('YYYY-MM-DD');
 
-  // 특정 날짜의 할 일 다시 불러오기
   const fetchAssignedTasksByDate = async (date: string) => {
     try {
       const res = await schedulesApi.getAssignedTodos(date);
@@ -45,7 +44,6 @@ export default function ScheduleSection() {
 
   const todayAssigned = assignedTasks.filter(task => task.date === todayDateStr);
 
-  // 중복 제거 및 정렬
   const deduplicatedAssignedTasks = Array.from(
     new Map(todayAssigned.map(item => [`${item.task.id}-${item.time}`, item])).values(),
   ).sort((a, b) => a.time.localeCompare(b.time));

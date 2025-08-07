@@ -1,4 +1,3 @@
-// components/modals/SelectTodoModal.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -17,7 +16,6 @@ interface SelectTodoModalProps {
   defaultSelectedGoalId?: string | null;
 }
 
-// ✅ 전체 모달 컴포넌트
 export default function SelectTodoModal({
   goals,
   onClose,
@@ -35,10 +33,8 @@ export default function SelectTodoModal({
   return (
     <Modal isOpen onClose={onClose} size="timer" padding="default">
       <div className="flex h-full w-full flex-col">
-        {/* ✅ 헤더 영역 */}
         <SelectTodoModalHeader onClose={onClose} />
 
-        {/* ✅ 본문 영역 */}
         <SelectTodoModalBody
           goals={goals}
           allTodosEmpty={allTodosEmpty}
