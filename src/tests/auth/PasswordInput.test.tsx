@@ -2,12 +2,24 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import PasswordInput from '@/components/auth/PasswordInput';
 
+jest.mock('@/assets/icons/visibility-off.svg', () => {
+  const VisibilityOffIcon = () => <svg data-testid="visibility-off-icon" />;
+  VisibilityOffIcon.displayName = 'VisibilityOffIcon';
+  return VisibilityOffIcon;
+});
+
+jest.mock('@/assets/icons/visibility-on.svg', () => {
+  const VisibilityOnIcon = () => <svg data-testid="visibility-on-icon" />;
+  VisibilityOnIcon.displayName = 'VisibilityOnIcon';
+  return VisibilityOnIcon;
+});
+
 describe('PasswordInput', () => {
   const setup = (propsOverride = {}) => {
     const defaultProps = {
       label: '비밀번호',
       placeholder: '비밀번호를 입력해주세요',
-      register: jest.fn(() => ({ name: 'password', onChange: jest.fn, ref: jest.fn() })),
+      register: jest.fn(() => ({ name: 'password', onChange: jest.fn(), ref: jest.fn() })),
       name: 'password',
       error: null,
     };
