@@ -13,9 +13,9 @@ interface ProvidersInterface {
 const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`;
 
 const providers: ProvidersInterface[] = [
-  { name: 'naver', icon: `${CLOUDFRONT_URL}/assets/images/login_naver-logo.svg` },
   { name: 'kakao', icon: `${CLOUDFRONT_URL}/assets/images/login_kakao-logo.svg` },
-  { name: 'google', icon: `${CLOUDFRONT_URL}/assets/images/login_google-logo.svg` },
+  /*{ name: 'naver', icon: `${CLOUDFRONT_URL}/assets/images/login_naver-logo.svg` },
+  { name: 'google', icon: `${CLOUDFRONT_URL}/assets/images/login_google-logo.svg` },*/
 ];
 
 const KAKAO_AUTH_URL =
