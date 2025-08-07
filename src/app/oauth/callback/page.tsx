@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 
 import { useSearchParams } from 'next/navigation';
 
 import CustomLoading from '@/components/ui/CustomLoading';
 import useSocialLogin from '@/hooks/auth/useSocialLogin';
 
-export default function OAuthCallbackPage() {
+function OAuthCallbackPage() {
   const searchParams = useSearchParams();
   const hasRequested = useRef(false);
 
@@ -27,9 +27,13 @@ export default function OAuthCallbackPage() {
     socialLogin.mutate({ code });
   }, [searchParams, socialLogin]);
 
-  if (socialLogin.isPending) {
-    return <CustomLoading />;
-  }
+  return socialLogin.isPending ? <CustomLoading /> : null;
+}
 
-  return null;
+export default function Page() {
+  return (
+    <Suspense fallback={<CustomLoading />}>
+      <OAuthCallbackPage />
+    </Suspense>
+  );
 }
