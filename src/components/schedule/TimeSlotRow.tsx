@@ -36,7 +36,6 @@ export default function TimeSlotRow({
     .filter(Boolean)
     .join(' ');
 
-  // 시간당 하나의 할 일만 표시
   const taskInThisSlot = assignedTasks.find(a => a.time === time);
 
   return (

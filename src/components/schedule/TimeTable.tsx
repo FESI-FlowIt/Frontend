@@ -27,7 +27,6 @@ export default function TimeTable({
 }: TimeTableProps) {
   return (
     <div className="h-284 w-375 md:h-600 md:w-2/3 md:pl-4">
-      {/* 날짜 네비게이션 */}
       <div className="mb-8 flex h-63 justify-start pt-16 pl-24">
         <div className="h-44 w-full">
           <ArrowNavigation
@@ -38,7 +37,6 @@ export default function TimeTable({
         </div>
       </div>
 
-      {/* 시간대 영역 */}
       <div className="h-220 overflow-y-auto pr-1 md:h-524">
         <div className="flex flex-col">
           {timeSlots.map((time, index) => (
