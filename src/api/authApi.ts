@@ -15,7 +15,7 @@ export const postLogin = async (email: string, password: string) => {
     if (refreshToken) await setCookie('refreshToken', refreshToken);
     if (accessToken) await setCookie('accessToken', accessToken);
 
-    return { data, accessToken: accessToken };
+    return { accessToken };
   } catch (err) {
     console.error('Fetch login Error', err);
     throw err;
@@ -58,6 +58,22 @@ export const getUser = async () => {
     return data;
   } catch (err) {
     console.error('Fetch user error', err);
+    throw err;
+  }
+};
+
+export const postSocialLogin = async (code: string) => {
+  try {
+    const data = await postRequest(`/oauth?code=${code}`);
+    const accessToken = data.result.accessToken;
+    const refreshToken = data.result.refreshToken;
+
+    if (refreshToken) await setCookie('refreshToken', refreshToken);
+    if (accessToken) await setCookie('accessToken', accessToken);
+
+    return { accessToken };
+  } catch (err) {
+    console.error('Fetch social login error', err);
     throw err;
   }
 };
