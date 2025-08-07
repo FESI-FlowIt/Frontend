@@ -10,7 +10,7 @@ describe('EmailInput', () => {
       email: '',
       serverError: null,
       isChecked: false,
-      onChecked: jest.fn(),
+      onCheck: jest.fn(),
       shwoCheckButton: false,
       placeholder: '이메일을 입력해주세요',
     };
