@@ -7,6 +7,7 @@ const customTwMerge = extendTailwindMerge({
       // Font size group (타이포그래피)
       'font-size': [
         // Title
+        'text-display-18',
         'text-display-32',
         'text-display-24',
         'text-head-20',
@@ -30,6 +31,8 @@ const customTwMerge = extendTailwindMerge({
         'text-logo-32',
         'text-logo-24',
         // Banner
+        'text-banner-32',
+        'text-banner-32-bold',
         'text-banner-44',
         'text-banner-44-bold',
         'text-banner-24',
@@ -179,7 +182,9 @@ const customTwMerge = extendTailwindMerge({
         'rounded-24',
         // Special Border Radius
         'rounded-tr-50',
+        'rounded-tr-30',
         'rounded-br-50',
+        'rounded-br-30',
         'rounded-tl-50',
         'rounded-bl-50',
       ],

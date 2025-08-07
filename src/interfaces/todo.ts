@@ -64,6 +64,8 @@ export interface TodoWithNotes {
   title: string;
   isDone: boolean;
   notes: Note[];
+  goalId?: number;
+  goalTitle?: string;
 }
 
 // API Response

@@ -2,20 +2,29 @@
 
 import { usePathname } from 'next/navigation';
 
-import { SidebarProvider } from '@/app/providers/SidebarProvider';
+import { SidebarProvider, useSidebar } from '@/app/providers/SidebarProvider';
 import Sidebar from '@/components/sidebar/Sidebar';
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const isTodoNoteNewPage = /^\/todo\/[^/]+\/note\/new$/.test(pathname);
-
   return (
     <SidebarProvider>
-      <div className={`${isTodoNoteNewPage ? 'bg-white' : 'bg-background'} flex min-h-screen`}>
-        <Sidebar />
-        <MainContent>{children}</MainContent>
-      </div>
+      <SidebarLayout>{children}</SidebarLayout>
     </SidebarProvider>
+  );
+}
+
+function SidebarLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isTodoNoteNewPage = /^\/todo\/[^/]+\/note\/new$/.test(pathname);
+  const { isOpen } = useSidebar();
+
+  return (
+    <div
+      className={`${isTodoNoteNewPage ? 'bg-white' : 'bg-background'} ${isOpen ? 'sm:flex-row' : 'sm:flex-col'} flex min-h-screen md:flex-row`}
+    >
+      <Sidebar />
+      <MainContent>{children}</MainContent>
+    </div>
   );
 }
 

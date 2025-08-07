@@ -13,11 +13,10 @@
   --breakpoint-sm: 375px;
   --breakpoint-md: 744px;
   --breakpoint-lg: 1024px;
-
+  --breakpoint-xl: 1337px;
   /* ========================================================================
      Colors (색상)
      ======================================================================== */
-
   /* Base Colors */
   --color-white: #ffffff;
   --color-black: #1e2128;
@@ -254,6 +253,11 @@
   font-weight: 700;
   line-height: 30px;
 }
+@utility text-display-18 {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 30px;
+}
 @utility text-head-20 {
   font-size: 20px;
   font-weight: 600;
@@ -350,6 +354,14 @@
   font-size: 44px;
   font-weight: 500;
 }
+@utility text-banner-32 {
+  font-size: 32px;
+  font-weight: 500;
+}
+@utility text-banner-32-bold {
+  font-size: 32px;
+  font-weight: 700;
+}
 @utility text-banner-44-bold {
   font-size: 44px;
   font-weight: 700;
@@ -381,8 +393,14 @@
 }
 
 /* Special Border Radius */
+@utility rounded-tr-30 {
+  border-top-right-radius: 30px;
+}
 @utility rounded-tr-50 {
   border-top-right-radius: 50px;
+}
+@utility rounded-br-30 {
+  border-bottom-right-radius: 30px;
 }
 @utility rounded-br-50 {
   border-bottom-right-radius: 50px;

@@ -13,7 +13,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "types": ["tailwindcss"],
+    "types": ["jest", "@testing-library/jest-dom", "tailwindcss"],
     "plugins": [
       {
         "name": "next"

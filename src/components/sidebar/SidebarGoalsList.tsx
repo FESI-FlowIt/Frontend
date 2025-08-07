@@ -39,7 +39,7 @@ export default function SidebarGoalsList() {
               <div
                 className={`h-12 w-12 rounded-full ${getGoalBackgroundColorClass(goal.color)}`}
               />
-              <span className="text-text-02 text-body-m-20 md:text-body-sb-20 sm:text-body-b-16 w-170 overflow-hidden overflow-ellipsis whitespace-nowrap">
+              <span className="text-text-02 text-body-m-20 md:text-body-sb-20 sm:text-body-b-16 w-170 overflow-hidden overflow-ellipsis whitespace-nowrap transition-transform duration-300 ease-in-out hover:scale-110 hover:text-black">
                 {goal.name}
               </span>
             </div>
