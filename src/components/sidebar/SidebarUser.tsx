@@ -17,7 +17,7 @@ export default function SidebarUser() {
       <span className="text-text-03 text-body-m-16">{user?.email}</span>
       <button
         onClick={logout}
-        className="text-text-04 text-body-m-12 hover:text-primary-01 h-22 w-42 cursor-pointer whitespace-nowrap"
+        className="text-text-04 text-body-m-12 hover:text-primary-01 h-22 w-42 cursor-pointer whitespace-nowrap transition-transform duration-300 ease-in-out hover:scale-110"
       >
         로그아웃
       </button>
