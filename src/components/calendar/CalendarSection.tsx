@@ -8,9 +8,10 @@ import Card from '@/components/ui/Card';
 import { useDeadlineCalendar } from '@/hooks/useGoalCalendar';
 import usePopover from '@/hooks/usePopover';
 import { Goal } from '@/interfaces/calendar';
+import { getCurrentMonth } from '@/lib/calendar';
 
 export default function CalendarSection() {
-  const [selectedMonth, setSelectedMonth] = useState('2025-07');
+  const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth());
   const { data: calendarData } = useDeadlineCalendar(selectedMonth);
 
   const [year, month] = selectedMonth.split('-').map(Number);
