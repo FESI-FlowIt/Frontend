@@ -10,8 +10,8 @@ const HeatmapRow = ({ rowLabel, timeSlots }: HeatmapRowProps) => {
   const timeKeys: TimeSlotKey[] = ['dawn', 'morning', 'afternoon', 'evening'];
 
   return (
-    <div className="flex items-center gap-x-16">
-      <div className="text-text-04 text-body-m-16 flex h-36 w-14 shrink-0 items-center justify-center">
+    <div className="flex items-center">
+      <div className="text-text-04 text-body-m-16 flex h-36 w-31 shrink-0 items-center">
         {rowLabel}
       </div>
 
