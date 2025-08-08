@@ -11,7 +11,7 @@ const cardVariants = cva('rounded-20 flex flex-col gap-16 px-14 py-20 md:px-20',
     size: {
       auto: 'w-fit',
       heatmap: 'h-625 w-343 md:h-556 md:w-636 lg:w-740',
-      calendar: 'h-392 w-343 md:h-412 md:w-636 lg:h-412 lg:w-728',
+      calendar: 'h-348 w-343 md:h-368 md:w-636 lg:h-412 lg:w-740',
       goal: 'h-433 w-343 md:h-428 md:w-636 lg:h-428 lg:w-1504',
       schedule: 'h-200 w-343 md:h-176 md:w-636 lg:h-176 lg:w-728',
     },

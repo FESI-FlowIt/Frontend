@@ -32,7 +32,7 @@ const CalendarGrid = forwardRef<HTMLDivElement, CalendarGridProps>(({ data, onCe
       {/* 요일 헤더 */}
       <div className="text-body-m-16 text-text-04 grid grid-cols-7 text-center">
         {DAYS.map(day => (
-          <span key={day} className="flex h-40 w-40 items-center justify-center md:w-88">
+          <span key={day} className="flex h-40 w-40 items-center justify-center md:w-84 lg:w-88">
             {day}
           </span>
         ))}
