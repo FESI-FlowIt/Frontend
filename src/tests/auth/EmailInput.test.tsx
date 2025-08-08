@@ -11,7 +11,7 @@ describe('EmailInput', () => {
       serverError: null,
       isChecked: false,
       onCheck: jest.fn(),
-      shwoCheckButton: false,
+      showCheckButton: false,
       placeholder: '이메일을 입력해주세요',
     };
     const utils = render(<EmailInput {...defaultProps} {...propsOverride} />);
