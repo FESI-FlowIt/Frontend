@@ -11,7 +11,7 @@ export interface ApiStartTimerResponse {
 export interface TimerSession {
   sessionId: string;
   todoId: string;
-  startedAt: string;
+  startedAt: string | null; // ✅ 이렇게 변경
   endedAt: string | null;
   isRunning: boolean;
   goalId: string;
@@ -19,6 +19,7 @@ export interface TimerSession {
   goalColor: string;
   todoContent: string;
 }
+
 
 export interface ApiPauseTimerResponse {
   todoTimerId: number;

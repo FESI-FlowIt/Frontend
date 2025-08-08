@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { timerApi } from '@/api/timerApi';
 import { TimerSession, InProgressGoal } from '@/interfaces/timer';
+import { useTimerStore } from '@/store/timerStore';
 
 interface TimerControlsProps {
   isRunning: boolean;
@@ -56,6 +57,7 @@ export default function TimerControls({
     };
     checkCurrentTimer();
   }, []);
+
   useEffect(() => {
     const forceStopTimer = async () => {
       try {
@@ -71,7 +73,6 @@ export default function TimerControls({
       }
     };
 
-    // ✅ 주석을 해제하면 이 페이지 렌더링 시 한 번 실행됨
     //forceStopTimer();
   }, []);
 
@@ -87,43 +88,62 @@ export default function TimerControls({
       const status = await timerApi.getCurrentTimerStatus();
       console.log('🟡 현재 타이머 상태:', status);
 
-      if (status !== null) {
+      if (status?.isRunning) {
         alert('이미 실행 중인 타이머가 있습니다.');
         return;
       }
 
-      console.log('🟢 타이머 시작 요청 보냄');
+      if (status && !status.isRunning) {
+        const resumed = await timerApi.resumeTimer(Number(status.sessionId));
+        console.log('🔄 재시작 완료:', resumed);
+
+        useTimerStore.getState().startTimer(resumed.todoId);
+        setSession(resumed);
+        onStart();
+        return;
+      }
 
       const started = await timerApi.startTimer({ todoId });
-
-      // ✅ 응답 콘솔 확인
-      console.log('✅ 타이머 시작 완료 (mapper 처리 후):', started);
+      console.log('✅ 타이머 시작 완료:', started);
 
       setSession(started);
+      useTimerStore.getState().startTimer(started.todoId);
       onStart();
     } catch (err) {
-      console.error('❌ 타이머 시작 실패:', err);
+      console.error('❌ 타이머 시작/재시작 실패:', err);
     }
   };
 
   const handlePause = async () => {
-    if (!session) return;
     try {
-      await timerApi.pauseTimer(Number(session.sessionId));
+      if (!session) throw new Error('세션 정보가 없습니다.');
+
+      const paused = await timerApi.pauseTimer(Number(session.sessionId));
+      console.log('⏸ 일시정지 성공:', paused);
+
+      useTimerStore.getState().pauseTimer(paused.todoId);
+      setSession(paused);
       onPause();
     } catch (err) {
-      console.error('❌ 타이머 일시정지 실패:', err);
+      console.error('⛔ 일시정지 실패:', err);
     }
   };
 
   const handleStop = async () => {
-    if (!session) return;
     try {
-      await timerApi.finishTimer(Number(session.sessionId));
+      const status = await timerApi.getCurrentTimerStatus();
+
+      if (!status || !status.sessionId) {
+        alert('현재 실행 중인 타이머가 없습니다.');
+        return;
+      }
+
+      await timerApi.finishTimer(Number(status.sessionId));
       setSession(null);
       onStop();
     } catch (err) {
       console.error('❌ 타이머 종료 실패:', err);
+      alert(err instanceof Error ? err.message : '타이머 종료 실패');
     }
   };
 

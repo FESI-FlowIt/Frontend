@@ -37,27 +37,50 @@ startTimer: async (body: ApiStartTimerRequest) => {
 
 
 
-  pauseTimer: async (todoTimerId: number) => {
-    const data: ApiPauseTimerResponse = await postRequest(
-      `/todo-timers/${todoTimerId}/pause`,
-      {}
-    );
-    return timerMapper.mapApiToPausedTimer(data);
-  },
+ pauseTimer: async (todoTimerId: number) => {
+  const data: ApiPauseTimerResponse = await postRequest(
+    `/todo-timers/${todoTimerId}/pause`,
+    {}
+  );
 
-  resumeTimer: async (todoTimerId: number) => {
-    const data: ApiResumeTimerResponse = await patchRequest(
-      `/todo-timers/${todoTimerId}/resume`
-    );
-    return timerMapper.mapApiToResumedTimer(data);
-  },
+  console.log('🟠 일시정지 응답 data:', data);
 
-  finishTimer: async (todoTimerId: number) => {
-    const data: ApiFinishTimerResponse = await patchRequest(
-      `/todo-timers/${todoTimerId}/finish`
-    );
-    return timerMapper.mapApiToFinishedTimer(data);
-  },
+  return timerMapper.mapApiToPausedTimer(data);
+},
+
+
+ resumeTimer: async (todoTimerId: number): Promise<TimerSession> => {
+  const data: ApiResumeTimerResponse = await patchRequest(
+    `/todo-timers/${todoTimerId}/resume`
+  );
+  return timerMapper.mapApiToResumedTimer(data);
+},
+
+finishTimer: async (todoTimerId: number) => {
+  const data: any = await patchRequest(
+    `/todo-timers/${todoTimerId}/finish`
+  );
+
+  console.log('🛑 finishTimer 응답:', data);
+
+  // 실패 코드 처리
+  if (data?.code && data.code !== '0000') {
+    // 서버에서 내려준 메시지로 에러 발생
+    throw new Error(data.message || '타이머 종료 실패');
+  }
+
+  // 래핑된 구조라면 result 사용
+  const payload = data?.result ? data.result : data;
+
+  // todoTimerId가 없으면 매퍼 호출 안 함
+  if (!payload?.todoTimerId) {
+    throw new Error('Invalid response: todoTimerId is missing');
+  }
+
+  return timerMapper.mapApiToFinishedTimer(payload);
+},
+
+
 
   getCurrentTimerStatus: async (): Promise<TimerSession | null> => {
     const res: ApiGetCurrentTimerStatusResponse = await getRequest('/todo-timers/user');

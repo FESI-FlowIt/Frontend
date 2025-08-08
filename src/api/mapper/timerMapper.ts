@@ -21,25 +21,39 @@ export const timerMapper = {
     goalColor: '',
     todoContent: '',
   }),
+mapApiToPausedTimer: (data: ApiPauseTimerResponse): TimerSession => ({
+  sessionId: data.todoTimerId?.toString() ?? '',
+  todoId: data.todoId?.toString() ?? '',
+  startedAt: '', // 일시정지 응답에 없을 수 있음
+  endedAt: data.pausedDateTime ?? '',
+  isRunning: false,
+  goalId: '',        // 응답 없으면 공란
+  goalTitle: '',
+  goalColor: '',
+  todoContent: '',
+}),
 
-  mapApiToPausedTimer: (data: ApiPauseTimerResponse) => ({
+
+
+  mapApiToResumedTimer: (data: ApiResumeTimerResponse): TimerSession => ({
     sessionId: data.todoTimerId.toString(),
     todoId: data.todoId.toString(),
-    pausedAt: data.pausedDateTime,
+    startedAt: data.resumeDateTime,
+    endedAt: null,
+    isRunning: true,
+    goalId: '',
+    goalTitle: '',
+    goalColor: '',
+    todoContent: '',
   }),
 
-  mapApiToResumedTimer: (data: ApiResumeTimerResponse) => ({
-    sessionId: data.todoTimerId.toString(),
-    todoId: data.todoId.toString(),
-    resumedAt: data.resumeDateTime,
-    totalPausedTime: data.totalPausedTime,
-  }),
 
-  mapApiToFinishedTimer: (data: ApiFinishTimerResponse) => ({
-    sessionId: data.todoTimerId.toString(),
-    todoId: data.todoId.toString(),
-    runningTime: data.runningTime,
-  }),
+ mapApiToFinishedTimer: (data: ApiFinishTimerResponse) => ({
+  sessionId: data?.todoTimerId?.toString() ?? '',
+  todoId: data?.todoId?.toString() ?? '',
+  runningTime: data?.runningTime ?? '0',
+}),
+
 
   mapApiToCurrentTimerStatus: (
   data: ApiGetCurrentTimerStatusResponse
