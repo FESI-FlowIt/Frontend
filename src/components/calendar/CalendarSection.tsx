@@ -8,7 +8,7 @@ import Card from '@/components/ui/Card';
 import { useDeadlineCalendar } from '@/hooks/useGoalCalendar';
 import usePopover from '@/hooks/usePopover';
 import { Goal } from '@/interfaces/calendar';
-import { getCurrentMonth } from '@/lib/calendar';
+import { getCurrentMonth, sortGoalsByCreatedAt } from '@/lib/calendar';
 
 export default function CalendarSection() {
   const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth());
@@ -57,7 +57,10 @@ export default function CalendarSection() {
     if (goals.length === 0) return;
 
     const target = event.currentTarget as HTMLElement;
-    setSelectedGoals({ date, goals });
+
+    const sortedGoals = sortGoalsByCreatedAt(goals);
+    setSelectedGoals({ date, goals: sortedGoals });
+
     popover.open(target, calendarGridRef.current);
   };
 
