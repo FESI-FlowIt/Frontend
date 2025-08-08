@@ -6,25 +6,25 @@ import { useUser } from '@/hooks/auth/useUser';
 import { useAuthStore } from '@/store/authStore';
 import { useUserStore } from '@/store/userStore';
 
-jest.mock('@hookform/resolvers/zod', () => ({
-  zodResolver: () => () => ({ values: {}, errors: {} }),
-}));
+jest.mock('@/components/auth/EmailInput', () => {
+  return {
+    __esModule: true,
+    default: ({ placeholder, register }: any) => {
+      const { ref, ...rest } = register('email');
+      return <input placeholder={placeholder} ref={ref} {...rest} />;
+    },
+  };
+});
 
-jest.mock('@/components/auth/EmailInput', () => ({
-  __esModule: true,
-  default: ({ placeholder, register }: any) => {
-    const { ref, ...rest } = register('email');
-    return <input placeholder={placeholder} ref={ref} {...rest} />;
-  },
-}));
-
-jest.mock('@/components/auth/PasswordInput', () => ({
-  __esModule: true,
-  default: ({ placeholder, register }: any) => {
-    const { ref, ...rest } = register('password');
-    return <input placeholder={placeholder} ref={ref} {...rest} />;
-  },
-}));
+jest.mock('@/components/auth/PasswordInput', () => {
+  return {
+    __esModule: true,
+    default: ({ placeholder, register }: any) => {
+      const { ref, ...rest } = register('password');
+      return <input placeholder={placeholder} ref={ref} {...rest} />;
+    },
+  };
+});
 
 jest.mock('@/hooks/auth/useLogin');
 jest.mock('@/hooks/auth/useUser');
@@ -101,17 +101,56 @@ describe('LoginForm', () => {
     const passwordInput = screen.getByPlaceholderText(/비밀번호/i);
     const btn = screen.getByRole('button', { name: /로그인/i });
 
-    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(emailInput, { target: { value: 'test1@test.com' } });
     fireEvent.blur(emailInput);
-    fireEvent.change(passwordInput, { target: { value: '123456' } });
+    fireEvent.change(passwordInput, { target: { value: 'asd123123' } });
     fireEvent.blur(passwordInput);
     fireEvent.click(btn);
 
     await waitFor(() => {
+      expect(loginMutateMock).toHaveBeenCalledTimes(1);
       expect(loginMutateMock).toHaveBeenCalledWith({
-        email: 'test@example.com',
-        password: '123456',
+        email: 'test1@test.com',
+        password: 'asd123123',
       });
     });
+  });
+
+  it('로그인 실패 시 모달 표시', async () => {
+    let onErrorFromComponent: any = null;
+
+    (useLogin as jest.Mock).mockImplementation(({ onError }: any) => {
+      onErrorFromComponent = onError || null;
+      return {
+        mutate: loginMutateMock,
+        isPending: false,
+        isSuccess: false,
+        onError,
+      };
+    });
+
+    render(<LoginForm />);
+
+    if (!onErrorFromComponent) {
+      throw new Error('onError 콜백이 전달되지 않았습니다');
+    }
+
+    onErrorFromComponent();
+
+    await waitFor(() => {
+      expect(screen.getByText(/AuthModal - Mode: login/i)).toBeInTheDocument();
+    });
+  });
+
+  it('로그인 중일 때 로딩 컴포넌트 렌더링', () => {
+    (useLogin as jest.Mock).mockReturnValue({
+      mutate: loginMutateMock,
+      isPending: true,
+      isSuccess: false,
+    });
+
+    render(<LoginForm />);
+
+    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
   });
 });
