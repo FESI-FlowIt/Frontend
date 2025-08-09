@@ -8,7 +8,7 @@ export default function SignUpPage() {
       <main className="w-600 sm:w-full sm:max-w-343 md:w-full md:max-w-600">
         <SignUpForm />
       </main>
-      <footer>
+      <footer className="w-600 sm:w-full sm:max-w-343 md:w-full md:max-w-600">
         <SocialLoginCard mode="signUp" />
       </footer>
     </div>
