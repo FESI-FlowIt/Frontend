@@ -15,7 +15,7 @@ const HeatmapRow = ({ rowLabel, timeSlots }: HeatmapRowProps) => {
         {rowLabel}
       </div>
 
-      <div className="flex gap-x-4">
+      <div className="flex w-full gap-x-4">
         {timeKeys.map(key => {
           const slot = timeSlots[key];
           return (
