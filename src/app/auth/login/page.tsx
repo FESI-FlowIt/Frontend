@@ -11,7 +11,7 @@ export default function LoginPage() {
       <main className="w-600 sm:w-full sm:max-w-343 md:w-full md:max-w-600">
         <LoginForm />
       </main>
-      <footer>
+      <footer className="w-600 sm:w-full sm:max-w-343 md:w-full md:max-w-600">
         <SocialLoginCard mode="login" />
       </footer>
     </div>

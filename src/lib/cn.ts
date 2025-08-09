@@ -127,6 +127,8 @@ const customTwMerge = extendTailwindMerge({
         'bg-heatmap-3',
         'bg-heatmap-4',
         'bg-heatmap-accent',
+
+        'bg-kakao',
       ],
 
       // Border color group
