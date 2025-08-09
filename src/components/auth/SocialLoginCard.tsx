@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { clsx } from 'clsx';
 
 import { ROUTES } from '@/lib/routes';
+
+import { Button } from '../ui/Button';
 interface ProvidersInterface {
   name: string;
   icon: string;
@@ -14,9 +16,7 @@ const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`
 
 const providers: ProvidersInterface[] = [
   { name: 'kakao', icon: `${CLOUDFRONT_URL}/assets/images/login_kakao-logo.svg` },
-  /*{ name: 'naver', icon: `${CLOUDFRONT_URL}/assets/images/login_naver-logo.svg` },
-  { name: 'google', icon: `${CLOUDFRONT_URL}/assets/images/login_google-logo.svg` },*/
-];
+] as const;
 
 const KAKAO_AUTH_URL =
   'https://kauth.kakao.com/oauth/authorize' +
@@ -38,23 +38,23 @@ export default function SocialLoginCard({ mode }: { mode: 'login' | 'signUp' }) 
         mode === 'signUp' && 'gap-24',
       )}
     >
-      {mode === 'signUp' && <span className="text-body-sb-20 text-text-04">간편 회원가입</span>}
-      <div className="flex gap-20">
+      <div className="flex w-full gap-10">
         {providers.map(
           ({ name, icon }) =>
             icon && (
-              <div
+              <Button
                 key={name}
                 onClick={handleKakaoLogin}
-                className="relative h-52 w-52 cursor-pointer sm:h-44 sm:w-44 md:h-52 md:w-52"
+                disabled={false}
+                variant="kakao"
+                size="auth"
+                text="secondary"
+                className="gap-10"
               >
-                <Image
-                  src={icon}
-                  alt={`${name} 로고 이미지`}
-                  fill
-                  sizes="(max-width: 768px) 40px, (max-width: 1200px) 52px, 52px"
-                />
-              </div>
+                <Image src={icon} alt={`${name} 로고 이미지`} width={19} height={19} />
+                {mode === 'login' && '카카오 로그인'}
+                {mode === 'signUp' && '카카오 회원가입'}
+              </Button>
             ),
         )}
       </div>
