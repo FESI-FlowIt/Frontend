@@ -1,3 +1,5 @@
+'use client';
+
 import TodoIcon from '@/assets/icons/todo.svg';
 import { Task } from '@/interfaces/schedule';
 

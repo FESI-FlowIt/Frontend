@@ -1,19 +1,52 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import dayjs from 'dayjs';
+
+import { scheduleMapper } from '@/api/mapper/scheduleMapper';
+import { schedulesApi } from '@/api/scheduleApi';
 import ScheduleIcon from '@/assets/icons/schedule.svg';
 import { Button } from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import type { AssignedTask } from '@/interfaces/schedule';
 import { getTodayScheduleTitle } from '@/lib/calendarUtils';
-import { scheduleRes } from '@/mocks/mockResponses/schedule/scheduleResponse';
+import { useUserStore } from '@/store/userStore';
 
 import ScheduleModal from './ScheduleModal';
 
 export default function ScheduleSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [assignedTasks, setAssignedTasks] = useState<AssignedTask[]>(scheduleRes);
+  const [assignedTasks, setAssignedTasks] = useState<AssignedTask[]>([]);
+
+  const user = useUserStore(state => state.user);
+  const todayDateStr = dayjs().format('YYYY-MM-DD');
+
+  const fetchAssignedTasksByDate = async (date: string) => {
+    try {
+      const res = await schedulesApi.getAssignedTodos(date);
+      const mapped = scheduleMapper.mapAssignedTodosToAssignedTasks(res.assignedTodos);
+      setAssignedTasks(prev => [...prev.filter(task => task.date !== date), ...mapped]);
+    } catch (err) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error(' 일정 불러오기 실패:', err);
+      }
+    }
+  };
+
+  const fetchTodayAssignedTasks = async () => {
+    await fetchAssignedTasksByDate(todayDateStr);
+  };
+
+  useEffect(() => {
+    if (user) fetchTodayAssignedTasks();
+  }, [user]);
+
+  const todayAssigned = assignedTasks.filter(task => task.date === todayDateStr);
+
+  const deduplicatedAssignedTasks = Array.from(
+    new Map(todayAssigned.map(item => [`${item.task.id}-${item.time}`, item])).values(),
+  ).sort((a, b) => a.time.localeCompare(b.time));
 
   return (
     <Card
@@ -35,11 +68,10 @@ export default function ScheduleSection() {
         </Button>
       }
     >
-      {/* Content */}
       <div className="mb-20 h-80 overflow-y-scroll pr-4">
         <ul className="space-y-4">
-          {assignedTasks.map(({ time, task }, idx) => (
-            <li key={idx} className="flex items-start gap-12 text-sm">
+          {deduplicatedAssignedTasks.map(({ time, task }) => (
+            <li key={`${task.id}-${time}`} className="flex items-start gap-12 text-sm">
               <span className="text-text-04 text-body-m-16">{time}</span>
               <span className="text-text-02 text-body-m-16">{task.title}</span>
             </li>
@@ -47,12 +79,18 @@ export default function ScheduleSection() {
         </ul>
       </div>
 
-      <ScheduleModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        assignedTasks={assignedTasks}
-        setAssignedTasks={setAssignedTasks}
-      />
+      {user && (
+        <ScheduleModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          assignedTasks={assignedTasks}
+          setAssignedTasks={setAssignedTasks}
+          selectedDate={todayDateStr}
+          onSaved={(_updated, changedDates) => {
+            changedDates.forEach(date => fetchAssignedTasksByDate(date));
+          }}
+        />
+      )}
     </Card>
   );
 }
