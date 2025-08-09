@@ -11,7 +11,7 @@ const HeatmapRow = ({ rowLabel, timeSlots }: HeatmapRowProps) => {
 
   return (
     <div className="flex items-center">
-      <div className="text-text-04 text-body-m-16 flex h-36 w-31 shrink-0 items-center">
+      <div className="text-text-04 text-body-m-16 flex h-36 w-31 shrink-0 items-center md:h-43">
         {rowLabel}
       </div>
 
