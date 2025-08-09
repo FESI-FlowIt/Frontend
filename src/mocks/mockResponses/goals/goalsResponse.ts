@@ -25,10 +25,89 @@ export const goalSummariesRes: GetGoalsResponse = {
       isPinned: false,
       createdAt: '2025-07-10T12:00:00Z',
       todos: [
-        { id: 1, title: '대시보드 UI 구현', isDone: true },
-        { id: 2, title: 'API 연동', isDone: true },
-        { id: 3, title: '캘린더 UI 구현', isDone: false },
-        { id: 4, title: '할일 UI 구현', isDone: false },
+        {
+          id: 1,
+          title: '대시보드 UI 구현',
+          isDone: true,
+          attachment: [
+            {
+              type: 'file',
+              url: '/uploads/design.png',
+              fileName: 'dashboard-design.png',
+              size: 1024000,
+            },
+          ],
+          notes: [
+            {
+              noteId: 101,
+              todoId: 1,
+              title: '구현 완료',
+              content: '대시보드 UI 구현이 완료되었습니다.',
+              wordCount: 15,
+              createdAt: '2025-07-10T15:00:00Z',
+              updatedAt: '2025-07-10T15:00:00Z',
+            },
+          ],
+        },
+        {
+          id: 2,
+          title: 'API 연동',
+          isDone: true,
+          attachment: [
+            {
+              type: 'link',
+              url: 'https://api.example.com/docs',
+              fileName: 'API Documentation',
+            },
+          ],
+          notes: [],
+        },
+        {
+          id: 3,
+          title: '캘린더 UI 구현',
+          isDone: false,
+          attachment: [
+            {
+              type: 'file',
+              url: '/uploads/calendar-mockup.pdf',
+              fileName: 'calendar-mockup.pdf',
+              size: 2048000,
+            },
+            {
+              type: 'link',
+              url: 'https://figma.com/calendar-design',
+              fileName: 'Figma Design',
+            },
+          ],
+          notes: [
+            {
+              noteId: 102,
+              todoId: 3,
+              title: '진행사항',
+              content: '현재 70% 완료된 상태입니다.',
+              wordCount: 12,
+              createdAt: '2025-07-12T10:30:00Z',
+              updatedAt: '2025-07-12T10:30:00Z',
+            },
+          ],
+        },
+        {
+          id: 4,
+          title: '할일 UI 구현',
+          isDone: false,
+          attachment: [],
+          notes: [
+            {
+              noteId: 103,
+              todoId: 4,
+              title: '시작 예정',
+              content: '다음 주부터 시작할 예정입니다.',
+              wordCount: 10,
+              createdAt: '2025-07-13T14:00:00Z',
+              updatedAt: '2025-07-13T14:00:00Z',
+            },
+          ],
+        },
       ],
     },
     {
@@ -40,8 +119,43 @@ export const goalSummariesRes: GetGoalsResponse = {
       isPinned: false,
       createdAt: '2025-07-18T00:00:00Z',
       todos: [
-        { id: 5, title: '컴포넌트 리팩토링', isDone: true },
-        { id: 6, title: '스타일 가이드 적용', isDone: true },
+        {
+          id: 5,
+          title: '컴포넌트 리팩토링',
+          isDone: true,
+          attachment: [
+            {
+              type: 'file',
+              url: '/uploads/refactor-plan.md',
+              fileName: 'refactor-plan.md',
+              size: 512000,
+            },
+          ],
+          notes: [],
+        },
+        {
+          id: 6,
+          title: '스타일 가이드 적용',
+          isDone: true,
+          attachment: [
+            {
+              type: 'link',
+              url: 'https://storybook.js.org/docs',
+              fileName: 'Storybook Docs',
+            },
+          ],
+          notes: [
+            {
+              noteId: 201,
+              todoId: 6,
+              title: '스타일 가이드 완료',
+              content: '모든 컴포넌트에 스타일 가이드가 적용되었습니다.',
+              wordCount: 20,
+              createdAt: '2025-07-19T11:00:00Z',
+              updatedAt: '2025-07-19T11:00:00Z',
+            },
+          ],
+        },
         { id: 7, title: '반응형 웹 구현', isDone: true },
         { id: 8, title: '접근성 개선', isDone: true },
       ],
@@ -55,9 +169,44 @@ export const goalSummariesRes: GetGoalsResponse = {
       isPinned: false,
       createdAt: '2025-07-10T12:00:00Z',
       todos: [
-        { id: 9, title: '백준 문제 10개 풀기', isDone: false },
+        {
+          id: 9,
+          title: '백준 문제 10개 풀기',
+          isDone: false,
+          attachment: [
+            {
+              type: 'link',
+              url: 'https://www.acmicpc.net/problem/1000',
+              fileName: '백준 문제 링크',
+            },
+          ],
+          notes: [
+            {
+              noteId: 301,
+              todoId: 9,
+              title: '진행 상황',
+              content: '현재 7개 문제를 풀었습니다. 3개가 남았어요.',
+              wordCount: 18,
+              createdAt: '2025-07-10T16:00:00Z',
+              updatedAt: '2025-07-10T16:00:00Z',
+            },
+          ],
+        },
         { id: 10, title: '정렬 알고리즘 복습', isDone: true },
-        { id: 11, title: 'DFS/BFS 문제 풀기', isDone: false },
+        {
+          id: 11,
+          title: 'DFS/BFS 문제 풀기',
+          isDone: false,
+          attachment: [
+            {
+              type: 'file',
+              url: '/uploads/algorithm-notes.pdf',
+              fileName: 'algorithm-notes.pdf',
+              size: 1536000,
+            },
+          ],
+          notes: [],
+        },
       ],
     },
     {

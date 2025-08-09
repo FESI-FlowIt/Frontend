@@ -1,6 +1,7 @@
 import { http, HttpResponse } from 'msw';
 
 import { CreateGoalRequest, UpdateGoalRequest } from '@/interfaces/goal';
+import { goalDetailResponses } from '@/mocks/mockResponses/goals/goalDetailResponse';
 import { goalSummariesRes } from '@/mocks/mockResponses/goals/goalsResponse';
 
 export const goalHandlers = [
@@ -42,6 +43,8 @@ export const goalHandlers = [
                   todoId: todo.id,
                   todoName: todo.title,
                   isDone: todo.isDone,
+                  attachment: todo.attachment || [],
+                  notes: todo.notes || [],
                 })) || [],
               progressRate: goal.todos
                 ? Math.round((goal.todos.filter(t => t.isDone).length / goal.todos.length) * 100)
@@ -98,6 +101,8 @@ export const goalHandlers = [
                 todoId: todo.id,
                 todoName: todo.title,
                 isDone: todo.isDone,
+                attachment: todo.attachment || [],
+                notes: todo.notes || [],
               })) || [],
             progressRate: goal.todos
               ? Math.round((goal.todos.filter(t => t.isDone).length / goal.todos.length) * 100)
@@ -192,30 +197,12 @@ export const goalHandlers = [
   http.get('/goals/:goalId/summary', async ({ params }) => {
     const goalId = Number(params.goalId);
 
-    const goal = goalSummariesRes.goals.find(g => g.goalId === goalId);
-    if (!goal) {
+    const goalDetail = goalDetailResponses[goalId];
+    if (!goalDetail) {
       return HttpResponse.json({ message: '목표를 찾을 수 없습니다.' }, { status: 404 });
     }
 
-    // ApiGoalSummary 형태로 반환 (API 응답 형식에 맞춤)
-    const detailGoal = {
-      goalId: goal.goalId,
-      goalName: goal.title,
-      color: goal.color,
-      createDateTime: goal.createdAt,
-      dueDateTime: new Date(Date.now() + goal.dDay * 24 * 60 * 60 * 1000).toISOString(),
-      isPinned: goal.isPinned,
-      todos:
-        goal.todos?.map(todo => ({
-          todoId: todo.id,
-          todoName: todo.title,
-          isDone: todo.isDone,
-        })) || [],
-      progressRate: goal.todos
-        ? Math.round((goal.todos.filter(t => t.isDone).length / goal.todos.length) * 100)
-        : 0,
-    };
-    return HttpResponse.json({ result: detailGoal });
+    return HttpResponse.json({ result: goalDetail });
   }),
 
   // 목표 수정 (PATCH /goals/:goalId)
