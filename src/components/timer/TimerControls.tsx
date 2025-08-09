@@ -78,34 +78,47 @@ export default function TimerControls({
 
   const handleStart = async () => {
     console.log('▶️ handleStart 실행됨');
-
     if (!todoId) {
       console.warn('⛔️ todoId가 없음');
       return;
     }
 
     try {
+      // 1) 로컬 세션이 있으면 'isRunning' 여부와 상관없이 일단 resume 먼저 시도
+      if (session?.sessionId) {
+        try {
+          const resumed = await timerApi.resumeTimer(Number(session.sessionId));
+          console.log('🔄 로컬 세션 재시작 완료:', resumed);
+          useTimerStore.getState().startTimer(resumed.todoId);
+          setSession(resumed);
+          onStart();
+          return;
+        } catch (e) {
+          console.warn('⚠️ 로컬 세션 resume 실패. 서버 상태 확인 후 진행:', e);
+        }
+      }
+
+      // 2) 서버 상태 조회 → 세션이 있으면 'isRunning' 값과 무관하게 resume 먼저 시도
       const status = await timerApi.getCurrentTimerStatus();
-      console.log('🟡 현재 타이머 상태:', status);
+      console.log('🟡 서버 현재 타이머 상태:', status);
 
-      if (status?.isRunning) {
-        alert('이미 실행 중인 타이머가 있습니다.');
-        return;
+      if (status?.sessionId) {
+        try {
+          const resumed = await timerApi.resumeTimer(Number(status.sessionId));
+          console.log('🔄 서버 세션 재시작 완료:', resumed);
+          useTimerStore.getState().startTimer(resumed.todoId);
+          setSession(resumed);
+          onStart();
+          return;
+        } catch (e) {
+          console.warn('⚠️ 서버 세션 resume 실패. 새로 시작 시도:', e);
+          // 계속 진행해서 새로 시작
+        }
       }
 
-      if (status && !status.isRunning) {
-        const resumed = await timerApi.resumeTimer(Number(status.sessionId));
-        console.log('🔄 재시작 완료:', resumed);
-
-        useTimerStore.getState().startTimer(resumed.todoId);
-        setSession(resumed);
-        onStart();
-        return;
-      }
-
+      // 3) 여기까지 왔으면 새로 시작
       const started = await timerApi.startTimer({ todoId });
       console.log('✅ 타이머 시작 완료:', started);
-
       setSession(started);
       useTimerStore.getState().startTimer(started.todoId);
       onStart();

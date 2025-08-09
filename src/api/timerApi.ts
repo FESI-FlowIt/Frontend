@@ -49,12 +49,19 @@ startTimer: async (body: ApiStartTimerRequest) => {
 },
 
 
- resumeTimer: async (todoTimerId: number): Promise<TimerSession> => {
-  const data: ApiResumeTimerResponse = await patchRequest(
-    `/todo-timers/${todoTimerId}/resume`
-  );
-  return timerMapper.mapApiToResumedTimer(data);
+resumeTimer: async (todoTimerId: number): Promise<TimerSession> => {
+  const data: any = await patchRequest(`/todo-timers/${todoTimerId}/resume`);
+
+  if (data?.code && data.code !== '0000') {
+    throw new Error(data.message || '타이머 재시작 실패');
+  }
+  const payload = data?.result ?? data;
+  if (!payload?.todoTimerId) {
+    throw new Error('Invalid response: todoTimerId is missing');
+  }
+  return timerMapper.mapApiToResumedTimer(payload);
 },
+
 
 finishTimer: async (todoTimerId: number) => {
   const data: any = await patchRequest(
