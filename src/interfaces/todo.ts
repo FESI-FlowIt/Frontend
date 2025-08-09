@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { Note } from './note';
+import { Note, NoteSummary } from './note';
 
 export interface Attachment {
   type: 'file' | 'link';
@@ -63,7 +63,7 @@ export interface TodoWithNotes {
   todoId: number;
   title: string;
   isDone: boolean;
-  notes: Note[];
+  notes: NoteSummary[];
   goalId?: number;
   goalTitle?: string;
 }
@@ -84,4 +84,9 @@ export interface ApiTodoSummary {
   todoId: number;
   todoName: string;
   isDone: boolean;
+}
+
+// 노트 모아보기 API 응답
+export interface ApiTodosWithNotesResponse {
+  result: TodoWithNotes[];
 }

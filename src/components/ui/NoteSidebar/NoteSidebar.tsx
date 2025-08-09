@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import { Note } from '@/interfaces/note';
 import { TodoWithNotes } from '@/interfaces/todo';
 
 import NoteDetailSidebar from './NoteDetailSidebar';
@@ -9,18 +8,19 @@ import NoteListSidebar from './NoteListSidebar';
 interface NoteSidebarProps {
   isOpen: boolean;
   todo?: TodoWithNotes;
-  selectedNote?: Note;
   goalTitle?: string;
   onClose: () => void;
 }
 
-const NoteSidebar = ({ isOpen, todo, selectedNote, goalTitle, onClose }: NoteSidebarProps) => {
+const NoteSidebar = ({ isOpen, todo, goalTitle, onClose }: NoteSidebarProps) => {
   const [currentView, setCurrentView] = useState<'note-list' | 'note-detail'>('note-list');
+  const [setselectedNoteId, setsetselectedNoteId] = useState<number | null>(null);
 
   if (!isOpen) return null;
 
-  const handleNoteClick = () => {
+  const handleNoteClick = (noteId: number) => {
     setCurrentView('note-detail');
+    setsetselectedNoteId(noteId);
   };
 
   const handleBack = () => {
@@ -48,9 +48,9 @@ const NoteSidebar = ({ isOpen, todo, selectedNote, goalTitle, onClose }: NoteSid
         {currentView === 'note-list' && todo && (
           <NoteListSidebar todo={todo} onClose={handleClose} onNoteClick={handleNoteClick} />
         )}
-        {currentView === 'note-detail' && selectedNote && (
+        {currentView === 'note-detail' && setselectedNoteId && (
           <NoteDetailSidebar
-            note={selectedNote}
+            noteId={setselectedNoteId}
             onClose={handleClose}
             onBack={handleBack}
             goalTitle={goalTitle}
