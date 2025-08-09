@@ -5,6 +5,41 @@ export interface Task {
 }
 
 export interface AssignedTask {
+  schedId?: number;
   task: Task;
   time: string;
+  date: string;
+}
+
+export interface ScheduleInfoRequest {
+  schedId?: number;
+  todoId: number;
+  startedDateTime: string;
+  endedDateTime: string;
+  isRemoved: boolean;
+}
+
+export interface SaveScheduleRequest {
+  scheduleInfos: ScheduleInfoRequest[];
+}
+
+export interface AssignedTodoApi {
+  schedId: number;
+  todoId: number;
+  name: string;
+  color: string;
+  startedDateTime: string;
+  endedDateTime: string;
+}
+
+export interface GetAssignedTodosResponse {
+  date: string;
+  assignedTodos: AssignedTodoApi[];
+}
+
+export interface UnassignedTodoApi {
+  todoId: number;
+  name: string;
+  color: string;
+  dueDateTime: string;
 }
