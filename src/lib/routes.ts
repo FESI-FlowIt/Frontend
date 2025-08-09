@@ -8,7 +8,7 @@ export const ROUTES = {
   GOALS: {
     LIST: '/goal',
     //todo goalId는 number로 변경
-    DETAIL: (goalId: number) => `/goal/${goalId}`,
+    DETAIL: (goalId: string) => `/goal/${goalId}`,
     TODOS: {
       NOTES: () => `/goal/notes`,
     },
