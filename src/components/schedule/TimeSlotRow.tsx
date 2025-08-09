@@ -5,15 +5,17 @@ import TaskCard from './TaskCard';
 
 interface TimeSlotRowProps {
   time: string;
+  date: string;
   assignedTasks: AssignedTask[];
   onDropTask: (taskId: string, time: string) => void;
-  onDeleteTask: (task: Task, time: string) => void;
+  onDeleteTask: (task: Task, time: string, date: string) => void;
   isFirst?: boolean;
   isLast?: boolean;
 }
 
 export default function TimeSlotRow({
   time,
+  date,
   assignedTasks,
   onDropTask,
   onDeleteTask,
@@ -34,6 +36,8 @@ export default function TimeSlotRow({
     .filter(Boolean)
     .join(' ');
 
+  const taskInThisSlot = assignedTasks.find(a => a.time === time);
+
   return (
     <div className="flex h-74" onDragOver={e => e.preventDefault()} onDrop={handleDrop}>
       <div className="text-body-m-16 text-text-04 flex w-60 items-center justify-center">
@@ -42,18 +46,21 @@ export default function TimeSlotRow({
 
       <div className="h-full flex-1 px-4">
         <div className={containerClass}>
-          {assignedTasks.map(({ task }) => (
-            <div key={task.id} className="group relative h-54 w-260 md:w-280">
-              <TaskCard task={task} isDraggable={false} isAssigned />
+          {taskInThisSlot && (
+            <div
+              key={`${taskInThisSlot.task.id}-${time}`}
+              className="group relative h-54 w-260 md:w-280"
+            >
+              <TaskCard task={taskInThisSlot.task} isDraggable={false} isAssigned />
               <div className="absolute top-1/2 right-20 hidden -translate-y-1/2 items-center group-hover:flex">
                 <IconButton
                   variant="close"
                   aria-label="삭제"
-                  onClick={() => onDeleteTask(task, time)}
+                  onClick={() => onDeleteTask(taskInThisSlot.task, time, date)}
                 />
               </div>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>

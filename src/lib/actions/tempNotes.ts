@@ -13,12 +13,6 @@ export const saveTempNote = async (noteData: NoteFormData) => {
 
   const dataString = JSON.stringify(requestData);
 
-  console.log('임시저장 데이터:', {
-    todoId: noteData.todoId,
-    contentSize: new Blob([noteData.content]).size,
-    hasLink: !!noteData.link,
-  });
-
   // Redis에 직접 저장 (TTL 10시간)
   await redis.setex(`temp:note:${noteData.todoId}`, 10 * 60 * 60, dataString);
   return { success: true };

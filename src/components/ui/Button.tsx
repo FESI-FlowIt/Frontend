@@ -15,6 +15,7 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       primary: 'border-primary-01 border bg-white hover:bg-white',
       transparent: 'bg-transparent',
       noteHeader: 'bg-disable',
+      kakao: 'bg-kakao hover:bg-secondary-01-hover',
     },
     text: {
       default: 'md:text-body-sb-20 sm:text-body-m-16 text-white',
