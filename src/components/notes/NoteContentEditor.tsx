@@ -5,7 +5,12 @@ import { useNoteWriteStore } from '@/store/noteWriteStore';
 
 import Tiptap from './Tiptap';
 
-const NoteContentEditor = memo(() => {
+interface NoteContentEditorProps {
+  mode?: 'edit' | 'readonly';
+  readOnlyContent?: string;
+}
+
+const NoteContentEditor = memo(({ mode = 'edit', readOnlyContent }: NoteContentEditorProps) => {
   const setEditor = useEditorStore(state => state.setEditor);
   const updateContent = useEditorStore(state => state.updateContent);
 
@@ -29,6 +34,21 @@ const NoteContentEditor = memo(() => {
   );
   const plain = useEditorStore(state => state.plain);
 
+  // 읽기 전용 모드일 때
+  if (mode === 'readonly') {
+    return (
+      <div className="my-24">
+        <div className="prose prose-sm max-w-none">
+          <div
+            className="text-body-m-16 text-text-01 min-h-200 whitespace-pre-wrap"
+            dangerouslySetInnerHTML={{ __html: readOnlyContent || '' }}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // 편집 모드일 때
   return (
     <>
       <div className="w-full">
