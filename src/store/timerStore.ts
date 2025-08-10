@@ -1,149 +1,175 @@
-import { create } from 'zustand';
+// // src/store/timerStore.ts
+// import { create } from 'zustand';
+// import { persist } from 'zustand/middleware';
 
-interface TimerState {
-  isRunning: boolean;
-  minutes: number;
-  seconds: number;
-  accumulatedSeconds: number;
-}
+// interface TimerState {
+//   isRunning: boolean;
+//   minutes: number;
+//   seconds: number;
+//   accumulatedSeconds: number;
+// }
 
-interface TimerStore {
-  timers: Record<string, TimerState>;
-  runningTodoId: string | null;
+// interface TimerStore {
+//   timers: Record<string, TimerState>;
+//   runningTodoId: string | null;
 
-  getTimerState: (todoId: string) => TimerState;
-  startTimer: (todoId: string) => void;
-  pauseTimer: (todoId: string) => void;
-  stopTimer: (todoId: string) => void;
-  isAnyRunning: boolean;
-}
+//   getTimerState: (todoId: string) => TimerState;
+//   startTimer: (todoId: string) => void;
+//   pauseTimer: (todoId: string) => void;
+//   stopTimer: (todoId: string) => void;
+//   isAnyRunning: boolean;
 
-export const useTimerStore = create<TimerStore>((set, get) => {
-  let intervalId: ReturnType<typeof setInterval> | null = null;
+  
+//   initTick: () => void;
+// }
 
-  const initializeTimer = (todoId: string) => {
-    const timers = get().timers;
-    if (!timers[todoId]) {
-      set(state => ({
-        timers: {
-          ...state.timers,
-          [todoId]: {
-            isRunning: false,
-            minutes: 0,
-            seconds: 0,
-            accumulatedSeconds: 0,
-          },
-        },
-      }));
-    }
-  };
+// export const useTimerStore = create<TimerStore>()(
+//   persist(
+//     (set, get) => {
+//       let intervalId: ReturnType<typeof setInterval> | null = null;
 
-  return {
-    timers: {},
-    runningTodoId: null,
+//       const ensureTicking = () => {
+//         if (intervalId) return;
+//         intervalId = setInterval(() => {
+//           const state = get();
+//           const runningId = state.runningTodoId;
+//           if (!runningId) return;
 
-    getTimerState: (todoId: string) => {
-      const timers = get().timers;
-      return (
-        timers[todoId] || {
-          isRunning: false,
-          minutes: 0,
-          seconds: 0,
-          accumulatedSeconds: 0,
-        }
-      );
-    },
+//           const timers = state.timers;
+//           const t = timers[runningId];
+//           if (!t || !t.isRunning) return;
 
-    startTimer: (todoId: string) => {
-      if (get().runningTodoId && get().runningTodoId !== todoId) return;
+//           let newMinutes = t.minutes;
+//           let newSeconds = t.seconds + 1;
+//           if (newSeconds >= 60) {
+//             newMinutes += 1;
+//             newSeconds = 0;
+//           }
 
-      initializeTimer(todoId);
-      set(state => {
-        const updated = {
-          ...state.timers[todoId],
-          isRunning: true,
-        };
-        return {
-          timers: {
-            ...state.timers,
-            [todoId]: updated,
-          },
-          runningTodoId: todoId,
-        };
-      });
+//           set({
+//             timers: {
+//               ...timers,
+//               [runningId]: {
+//                 ...t,
+//                 minutes: newMinutes,
+//                 seconds: newSeconds,
+//               },
+//             },
+//           });
+//         }, 1000);
+//       };
 
-      if (!intervalId) {
-        intervalId = setInterval(() => {
-          set(state => {
-            const timer = state.timers[todoId];
-            let newMinutes = timer.minutes;
-            let newSeconds = timer.seconds + 1;
+//       const clearTicking = () => {
+//         if (intervalId) {
+//           clearInterval(intervalId);
+//           intervalId = null;
+//         }
+//       };
 
-            if (newSeconds >= 60) {
-              newMinutes += 1;
-              newSeconds = 0;
-            }
+//       const initializeTimer = (todoId: string) => {
+//         const timers = get().timers;
+//         if (!timers[todoId]) {
+//           set(state => ({
+//             timers: {
+//               ...state.timers,
+//               [todoId]: {
+//                 isRunning: false,
+//                 minutes: 0,
+//                 seconds: 0,
+//                 accumulatedSeconds: 0,
+//               },
+//             },
+//           }));
+//         }
+//       };
 
-            return {
-              timers: {
-                ...state.timers,
-                [todoId]: {
-                  ...timer,
-                  minutes: newMinutes,
-                  seconds: newSeconds,
-                },
-              },
-            };
-          });
-        }, 1000);
-      }
-    },
+//       return {
+//         timers: {},
+//         runningTodoId: null,
 
-    pauseTimer: (todoId: string) => {
-      set(state => {
-        const timer = state.timers[todoId];
-        return {
-          timers: {
-            ...state.timers,
-            [todoId]: {
-              ...timer,
-              isRunning: false,
-            },
-          },
-          runningTodoId: null,
-        };
-      });
+//         getTimerState: (todoId: string) => {
+//           const timers = get().timers;
+//           return (
+//             timers[todoId] || {
+//               isRunning: false,
+//               minutes: 0,
+//               seconds: 0,
+//               accumulatedSeconds: 0,
+//             }
+//           );
+//         },
 
-      if (intervalId) {
-        clearInterval(intervalId);
-        intervalId = null;
-      }
-    },
+//         startTimer: (todoId: string) => {
+//           const { runningTodoId } = get();
+//           if (runningTodoId && runningTodoId !== todoId) return;
 
-    stopTimer: (todoId: string) => {
-      set(state => {
-        const timer = state.timers[todoId];
-        const elapsed = timer.minutes * 60 + timer.seconds;
-        return {
-          timers: {
-            ...state.timers,
-            [todoId]: {
-              isRunning: false,
-              minutes: 0,
-              seconds: 0,
-              accumulatedSeconds: timer.accumulatedSeconds + elapsed,
-            },
-          },
-          runningTodoId: null,
-        };
-      });
+//           initializeTimer(todoId);
+//           set(state => {
+//             const t = state.timers[todoId];
+//             return {
+//               timers: {
+//                 ...state.timers,
+//                 [todoId]: { ...t, isRunning: true },
+//               },
+//               runningTodoId: todoId,
+//             };
+//           });
 
-      if (intervalId) {
-        clearInterval(intervalId);
-        intervalId = null;
-      }
-    },
+//           ensureTicking(); 
+//         },
 
-    isAnyRunning: false,
-  };
-});
+//         pauseTimer: (todoId: string) => {
+//           set(state => {
+//             const t = state.timers[todoId];
+//             return {
+//               timers: {
+//                 ...state.timers,
+//                 [todoId]: { ...t, isRunning: false },
+//               },
+//               runningTodoId: null,
+//             };
+//           });
+//           clearTicking();
+//         },
+
+//         stopTimer: (todoId: string) => {
+//           set(state => {
+//             const t = state.timers[todoId];
+//             const elapsed = t.minutes * 60 + t.seconds;
+//             return {
+//               timers: {
+//                 ...state.timers,
+//                 [todoId]: {
+//                   isRunning: false,
+//                   minutes: 0,
+//                   seconds: 0,
+//                   accumulatedSeconds: t.accumulatedSeconds + elapsed,
+//                 },
+//               },
+//               runningTodoId: null,
+//             };
+//           });
+//           clearTicking();
+//         },
+
+//         isAnyRunning: false,
+
+        
+//         initTick: () => {
+//           const { runningTodoId, timers } = get();
+//           if (runningTodoId && timers[runningTodoId]?.isRunning) {
+//             // 저장된 상태가 "실행 중"이면 틱을 다시 켜줌
+//             ensureTicking();
+//           }
+//         },
+//       };
+//     },
+//     {
+//       name: 'timer-store', // localStorage key
+//       partialize: state => ({
+//         timers: state.timers,
+//         runningTodoId: state.runningTodoId,
+//       }),
+//     }
+//   )
+// );

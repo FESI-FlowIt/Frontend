@@ -1,162 +1,162 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { timerApi } from '@/api/timerApi';
-import { TimerSession, InProgressGoal } from '@/interfaces/timer';
-import { useTimerStore } from '@/store/timerStore';
+import { TimerSession } from '@/interfaces/timer';
 
 interface TimerControlsProps {
+  todoId: number | null;
+  onSyncTodoId: (id: number) => void;
   isRunning: boolean;
   isBlocked: boolean;
-  onStart: () => void;
+  onStart: (resumeAtMs?: number) => void;
   onPause: () => void;
   onStop: () => void;
+  setIsRunning: (running: boolean) => void;
 }
 
 const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`;
 
 export default function TimerControls({
+  todoId,
+  onSyncTodoId,
   isRunning,
   isBlocked,
   onStart,
   onPause,
   onStop,
+  setIsRunning,
 }: TimerControlsProps) {
   const [session, setSession] = useState<TimerSession | null>(null);
-  const [todoId, setTodoId] = useState<number | null>(null);
+
+  // 요청 중 더블클릭 가드
+  const startInFlight = useRef(false);
+  const pauseInFlight = useRef(false);
+  const stopInFlight = useRef(false);
 
   useEffect(() => {
-    const fetchTodoId = async () => {
-      try {
-        const goals: InProgressGoal[] = await timerApi.getInProgressGoals();
-        const firstTodoId = goals[0]?.todos[0]?.todoId ?? null;
-        if (firstTodoId) {
-          setTodoId(firstTodoId);
-          console.log('✅ 사용할 todoId:', firstTodoId);
-        }
-      } catch (err) {
-        console.error('❌ 할 일 불러오기 실패:', err);
-      }
-    };
-    fetchTodoId();
-  }, []);
-
-  useEffect(() => {
-    const checkCurrentTimer = async () => {
+    (async () => {
       try {
         const status = await timerApi.getCurrentTimerStatus();
-        console.log('현재 실행 중인 세션 상태 👉', status);
-
-        if (status !== null) {
+        if (status) {
           setSession(status);
+          if (status.todoId) onSyncTodoId(Number(status.todoId));
         }
-      } catch (err) {
-        console.warn('🚨 현재 실행 중인 세션 없음 또는 응답 오류');
-      }
-    };
-    checkCurrentTimer();
-  }, []);
-
-  useEffect(() => {
-    const forceStopTimer = async () => {
-      try {
-        const status = await timerApi.getCurrentTimerStatus();
-        if (status?.sessionId) {
-          await timerApi.finishTimer(Number(status.sessionId));
-          console.log('✅ 강제 종료 완료');
-        } else {
-          console.log('⛔️ 실행 중인 타이머가 없습니다.');
-        }
-      } catch (e) {
-        console.error('❌ 강제 종료 실패:', e);
-      }
-    };
-
-    //forceStopTimer();
-  }, []);
+      } catch {}
+    })();
+  }, [onSyncTodoId]);
 
   const handleStart = async () => {
-    console.log('▶️ handleStart 실행됨');
+    if (startInFlight.current) return;
+    startInFlight.current = true;
+
     if (!todoId) {
-      console.warn('⛔️ todoId가 없음');
+      alert('할 일을 선택해 주세요.');
+      startInFlight.current = false;
+      return;
+    }
+    if (isBlocked) {
+      alert('다른 할일의 타이머가 실행 중입니다.');
+      startInFlight.current = false;
       return;
     }
 
     try {
-      // 1) 로컬 세션이 있으면 'isRunning' 여부와 상관없이 일단 resume 먼저 시도
       if (session?.sessionId) {
         try {
           const resumed = await timerApi.resumeTimer(Number(session.sessionId));
-          console.log('🔄 로컬 세션 재시작 완료:', resumed);
-          useTimerStore.getState().startTimer(resumed.todoId);
           setSession(resumed);
-          onStart();
+          if (resumed.todoId) onSyncTodoId(Number(resumed.todoId));
+
+          const resumeAtMs = (resumed as any).resumeDateTime
+            ? new Date((resumed as any).resumeDateTime).getTime()
+            : resumed.startedDateTime
+              ? new Date(resumed.startedDateTime).getTime()
+              : undefined;
+
+          onStart(resumeAtMs);
+          setIsRunning(true);
           return;
-        } catch (e) {
-          console.warn('⚠️ 로컬 세션 resume 실패. 서버 상태 확인 후 진행:', e);
-        }
+        } catch {}
       }
 
-      // 2) 서버 상태 조회 → 세션이 있으면 'isRunning' 값과 무관하게 resume 먼저 시도
       const status = await timerApi.getCurrentTimerStatus();
-      console.log('🟡 서버 현재 타이머 상태:', status);
-
       if (status?.sessionId) {
         try {
           const resumed = await timerApi.resumeTimer(Number(status.sessionId));
-          console.log('🔄 서버 세션 재시작 완료:', resumed);
-          useTimerStore.getState().startTimer(resumed.todoId);
           setSession(resumed);
-          onStart();
+          if (resumed.todoId) onSyncTodoId(Number(resumed.todoId));
+
+          const resumeAtMs = (resumed as any).resumeDateTime
+            ? new Date((resumed as any).resumeDateTime).getTime()
+            : resumed.startedDateTime
+              ? new Date(resumed.startedDateTime).getTime()
+              : undefined;
+
+          onStart(resumeAtMs);
+          setIsRunning(true);
           return;
-        } catch (e) {
-          console.warn('⚠️ 서버 세션 resume 실패. 새로 시작 시도:', e);
-          // 계속 진행해서 새로 시작
-        }
+        } catch {}
       }
 
-      // 3) 여기까지 왔으면 새로 시작
       const started = await timerApi.startTimer({ todoId });
-      console.log('✅ 타이머 시작 완료:', started);
       setSession(started);
-      useTimerStore.getState().startTimer(started.todoId);
-      onStart();
+      if (started.todoId) onSyncTodoId(Number(started.todoId));
+
+      const startAtMs = started.startedDateTime
+        ? new Date(started.startedDateTime).getTime()
+        : undefined;
+
+      onStart(startAtMs);
+      setIsRunning(true);
     } catch (err) {
       console.error('❌ 타이머 시작/재시작 실패:', err);
+      alert(err instanceof Error ? err.message : '타이머 시작/재시작 실패');
+    } finally {
+      startInFlight.current = false;
     }
   };
 
   const handlePause = async () => {
+    if (pauseInFlight.current) return;
+    pauseInFlight.current = true;
+
     try {
-      if (!session) throw new Error('세션 정보가 없습니다.');
-
-      const paused = await timerApi.pauseTimer(Number(session.sessionId));
-      console.log('⏸ 일시정지 성공:', paused);
-
-      useTimerStore.getState().pauseTimer(paused.todoId);
-      setSession(paused);
-      onPause();
+      if (!session?.sessionId) {
+        alert('세션 정보가 없습니다.');
+        return;
+      }
+      await timerApi.pauseTimer(Number(session.sessionId));
+      onPause(); // 모달이 live를 한 번만 고정
+      setIsRunning(false); // 모달 쪽 pauseMain 트리거
     } catch (err) {
       console.error('⛔ 일시정지 실패:', err);
+      alert(err instanceof Error ? err.message : '일시정지 실패');
+    } finally {
+      pauseInFlight.current = false;
     }
   };
 
   const handleStop = async () => {
+    if (stopInFlight.current) return;
+    stopInFlight.current = true;
+
     try {
       const status = await timerApi.getCurrentTimerStatus();
-
-      if (!status || !status.sessionId) {
+      if (!status?.sessionId) {
         alert('현재 실행 중인 타이머가 없습니다.');
         return;
       }
-
       await timerApi.finishTimer(Number(status.sessionId));
       setSession(null);
-      onStop();
+      onStop(); // 모달이 live 고정 + 리셋
+      setIsRunning(false);
     } catch (err) {
       console.error('❌ 타이머 종료 실패:', err);
       alert(err instanceof Error ? err.message : '타이머 종료 실패');
+    } finally {
+      stopInFlight.current = false;
     }
   };
 
@@ -166,7 +166,7 @@ export default function TimerControls({
         <button
           aria-label="시작"
           onClick={handleStart}
-          disabled={isBlocked || !todoId}
+          disabled={isBlocked || !todoId || startInFlight.current}
           className="flex h-88 w-88 cursor-pointer items-center justify-center disabled:opacity-40"
         >
           <Image
@@ -181,7 +181,8 @@ export default function TimerControls({
           <button
             aria-label="일시정지"
             onClick={handlePause}
-            className="flex h-88 w-88 cursor-pointer items-center justify-center"
+            disabled={pauseInFlight.current}
+            className="flex h-88 w-88 cursor-pointer items-center justify-center disabled:opacity-40"
           >
             <Image
               src={`${CLOUDFRONT_URL}/assets/images/timer_stop.svg`}
@@ -193,7 +194,8 @@ export default function TimerControls({
           <button
             aria-label="중지"
             onClick={handleStop}
-            className="flex h-88 w-88 cursor-pointer items-center justify-center"
+            disabled={stopInFlight.current}
+            className="flex h-88 w-88 cursor-pointer items-center justify-center disabled:opacity-40"
           >
             <Image
               src={`${CLOUDFRONT_URL}/assets/images/timer_pause.svg`}

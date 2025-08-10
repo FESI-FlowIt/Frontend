@@ -5,21 +5,26 @@ export interface ApiStartTimerRequest {
 export interface ApiStartTimerResponse {
   todoTimerId: number;
   todoId: number;
-  startedDateTime: string;
+  startedDateTime: string; // 서버가 시작 시각 주는 필드
 }
 
 export interface TimerSession {
   sessionId: string;
   todoId: string;
-  startedAt: string | null; // ✅ 이렇게 변경
-  endedAt: string | null;
+
+  /** 서버가 내려주는 ISO 시작시각, 없으면 null */
+  startedDateTime: string | null;
+
+  /** 종료/일시정지 시각, 없으면 null */
+  endedDateTime: string | null;
+
   isRunning: boolean;
+
   goalId: string;
   goalTitle: string;
   goalColor: string;
   todoContent: string;
 }
-
 
 export interface ApiPauseTimerResponse {
   todoTimerId: number;
@@ -30,7 +35,7 @@ export interface ApiPauseTimerResponse {
 export interface ApiResumeTimerResponse {
   todoTimerId: number;
   todoId: number;
-  resumeDateTime: string;
+  resumeDateTime: string; // 재시작 시각
   totalPausedTime: number;
 }
 
@@ -49,9 +54,13 @@ export interface ApiGetCurrentTimerStatusResponse {
     isRunningTimer: boolean;
     todoId: number;
     goalId: number;
+
+    /** 서버가 주면 사용, 없으면 null */
+    startedDateTime?: string | null;
+    startedAt?: string | null;
+    resumeDateTime?: string | null;
   };
 }
-
 
 export interface ApiTotalRunningTimeResponse {
   todoId: number;

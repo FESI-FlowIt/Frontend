@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 import SelectTodoModal from '@/components/timer/SelectTodoModal';
 import TimerButton from '@/components/timer/TimerButton';
@@ -9,8 +9,10 @@ import { useGoalsDashboard } from '@/hooks/useGoalDashboard';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
 import { getGoalBackgroundColorClass } from '@/lib/goalColors';
-import { useTimerStore } from '@/store/timerStore';
 import { useUserStore } from '@/store/userStore';
+
+// 모달과 주고받을 스냅샷 타입
+type TimerSnapshot = { baseTotalSec: number; resumeAtMs: number | null };
 
 export default function TimerWidget() {
   const userId = useUserStore(state => state.user?.id ?? 0);
@@ -21,20 +23,59 @@ export default function TimerWidget() {
   const [selectedGoal, setSelectedGoal] = useState<GoalSummary | null>(null);
   const [selectedTodo, setSelectedTodo] = useState<TodoSummary | null>(null);
 
-  const { getTimerState, startTimer, pauseTimer, stopTimer, runningTodoId } = useTimerStore();
+  // ▶ todoId별 타이머 스냅샷 캐시 (세션스토리지/로컬스토리지 사용 안 함)
+  const [timerCache, setTimerCache] = useState<Record<number, TimerSnapshot>>({});
 
-  const activeTimerState = runningTodoId ? getTimerState(runningTodoId) : null;
-  const selectedTimerState = selectedTodo ? getTimerState(String(selectedTodo.id)) : null;
+  // 플로팅 버튼 표시용 로컬 타이머
+  const [isRunning, setIsRunning] = useState(false);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const tickRef = useRef<number | null>(null);
 
-  const isBlocked: boolean =
-    !!activeTimerState?.isRunning && selectedTodo?.id.toString() !== runningTodoId;
+  const startLocalTick = () => {
+    if (tickRef.current != null) return;
+    tickRef.current = window.setInterval(() => {
+      setSeconds(prev => {
+        const ns = prev + 1;
+        if (ns >= 60) {
+          setMinutes(m => m + 1);
+          return 0;
+        }
+        return ns;
+      });
+    }, 1000);
+    setIsRunning(true);
+  };
+
+  const stopLocalTick = () => {
+    if (tickRef.current != null) {
+      clearInterval(tickRef.current);
+      tickRef.current = null;
+    }
+    setIsRunning(false);
+  };
+
+  // 선택 변경 시 버튼 타이머 리셋
+  useEffect(() => {
+    if (!selectedTodo) return;
+    stopLocalTick();
+    setMinutes(0);
+    setSeconds(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedTodo?.id]);
+
+  useEffect(() => {
+    return () => {
+      if (tickRef.current != null) clearInterval(tickRef.current);
+    };
+  }, []);
 
   const handleWidgetClick = () => {
-    if (activeTimerState?.isRunning && selectedGoal && selectedTodo) {
-      setIsTimerModalOpen(true);
-    } else {
+    if (!selectedGoal || !selectedTodo) {
       setIsSelectModalOpen(true);
+      return;
     }
+    setIsTimerModalOpen(true);
   };
 
   const handleSelectTodo = (goal: GoalSummary, todo: TodoSummary) => {
@@ -44,12 +85,16 @@ export default function TimerWidget() {
     setIsTimerModalOpen(true);
   };
 
+  const handleCloseTimerModal = () => {
+    setIsTimerModalOpen(false);
+  };
+
   return (
     <>
       <TimerButton
-        isRunning={activeTimerState?.isRunning || false}
-        minutes={activeTimerState?.minutes || 0}
-        seconds={activeTimerState?.seconds || 0}
+        isRunning={isRunning}
+        minutes={minutes}
+        seconds={seconds}
         onClick={handleWidgetClick}
       />
 
@@ -61,14 +106,9 @@ export default function TimerWidget() {
         />
       )}
 
-      {isTimerModalOpen && selectedGoal && selectedTodo && selectedTimerState && (
+      {isTimerModalOpen && selectedGoal && selectedTodo && (
         <TimerModal
-          isRunning={selectedTimerState.isRunning}
-          isBlocked={isBlocked}
-          onStart={() => startTimer(String(selectedTodo.id))}
-          onPause={() => pauseTimer(String(selectedTodo.id))}
-          onStop={() => stopTimer(String(selectedTodo.id))}
-          onClose={() => setIsTimerModalOpen(false)}
+          onClose={handleCloseTimerModal}
           onBack={() => {
             setIsTimerModalOpen(false);
             setIsSelectModalOpen(true);
@@ -77,9 +117,21 @@ export default function TimerWidget() {
           goalColor={getGoalBackgroundColorClass(selectedGoal.color)}
           todoContent={selectedTodo.title}
           todoId={String(selectedTodo.id)}
-          minutes={selectedTimerState.minutes}
-          seconds={selectedTimerState.seconds}
-          accumulatedSeconds={selectedTimerState.accumulatedSeconds}
+          minutes={minutes} // 초기값으로만 사용
+          seconds={seconds} // 초기값으로만 사용
+          isBlocked={false}
+          // 버튼 동기화
+          onStartTick={startLocalTick}
+          onPauseTick={stopLocalTick}
+          onStopTick={() => {
+            stopLocalTick();
+            setMinutes(0);
+            setSeconds(0);
+          }}
+          // ⬇ 부모→모달 초기 하이드레이션
+          initialSnapshot={timerCache[selectedTodo.id]}
+          // ⬇ 모달→부모 최신 스냅샷 반영
+          onSnapshot={(id, snap) => setTimerCache(prev => ({ ...prev, [id]: snap }))}
         />
       )}
     </>
