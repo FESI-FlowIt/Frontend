@@ -3,7 +3,7 @@ import { HeatmapIntensity, TimeSlotKey } from '@/interfaces/heatmap';
 
 interface HeatmapRowProps {
   rowLabel: string;
-  timeSlots: Record<TimeSlotKey, { minutes: number; intensity: number }>;
+  timeSlots: Record<TimeSlotKey, { minutes: number; intensity: number }> | null; // null 허용
 }
 
 const HeatmapRow = ({ rowLabel, timeSlots }: HeatmapRowProps) => {
@@ -17,12 +17,15 @@ const HeatmapRow = ({ rowLabel, timeSlots }: HeatmapRowProps) => {
 
       <div className="flex w-full gap-x-4">
         {timeKeys.map(key => {
-          const slot = timeSlots[key];
+          // 데이터가 있으면 실제 값, 없으면 기본값
+          const slot = timeSlots?.[key];
+
           return (
             <HeatmapCell
               key={key}
-              minutes={slot.minutes}
-              intensity={slot.intensity as HeatmapIntensity}
+              minutes={slot?.minutes || 0}
+              intensity={(slot?.intensity as HeatmapIntensity) || 0}
+              isEmpty={!slot}
             />
           );
         })}
