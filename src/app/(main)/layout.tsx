@@ -9,7 +9,7 @@ export default async function layout({ children }: { children: React.ReactNode }
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: [GOALS_SIDEBAR_QUERY_KEY],
+    queryKey: GOALS_SIDEBAR_QUERY_KEY,
     queryFn: () => getGoalsSidebar(),
     retry: 2,
   });

@@ -1,5 +1,7 @@
 'use client';
 
+import { Suspense } from 'react';
+
 import Image from 'next/image';
 
 import { useSidebar } from '@/app/providers/SidebarProvider';
@@ -9,6 +11,7 @@ import { useModalStore } from '@/store/modalStore';
 
 import GoalModal from '../goals/GoalModal';
 import { Button } from '../ui/Button';
+import CustomLoading from '../ui/CustomLoading';
 
 import SidebarGoalsList from './SidebarGoalsList';
 import SidebarHeader from './SidebarHeader';
@@ -45,7 +48,9 @@ export default function Sidebar() {
         </section>
 
         <section className="mb-100 shrink-0 px-20 sm:px-18 md:px-20">
-          <SidebarGoalsList />
+          <Suspense fallback={<CustomLoading />}>
+            <SidebarGoalsList />
+          </Suspense>
         </section>
 
         <section className="shrink-0 px-30 sm:px-10 md:px-30">
