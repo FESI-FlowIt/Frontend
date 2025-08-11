@@ -14,8 +14,6 @@ export const useGoals = (params?: GetGoalsRequestParams) => {
   return useQuery({
     queryKey: [...GOALS_QUERY_KEY, params],
     queryFn: async () => {
-      //TODO: api함수로 매핑
-
       const apiResponse = await goalsApi.getGoals(params);
 
       return goalMapper.mapApiToGoalList(apiResponse);

@@ -1,18 +1,31 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 
+import {
+  autoUpdate,
+  flip,
+  FloatingPortal,
+  offset,
+  shift,
+  size as floatingSize,
+  useDismiss,
+  useFloating,
+  useInteractions,
+} from '@floating-ui/react';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
 
-const dropdownVariants = cva('absolute rounded-b-[20px] border shadow-lg', {
+const dropdownVariants = cva('rounded-b-[20px] border shadow-lg', {
   variants: {
     size: {
       sm: 'max-w-xs min-w-32',
       md: 'max-w-sm min-w-48',
       lg: 'max-w-md min-w-64',
       auto: 'w-auto max-w-xs',
+      goalListFilter: 'max-w-148',
+      todo: 'max-w-520',
       full: 'w-auto',
     },
     animation: {
@@ -40,7 +53,7 @@ export interface DropdownMenuProps extends VariantProps<typeof dropdownVariants>
   onClose: () => void;
   triggerRef: React.RefObject<HTMLElement | HTMLButtonElement | null>;
   className?: string;
-  position?: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
+  position?: 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end';
   matchTriggerWidth?: boolean;
   zIndex?: number;
 }
@@ -54,80 +67,73 @@ const DropdownMenu = ({
   animation,
   shadow,
   className,
-  position = 'bottom-left',
+  position = 'bottom-start',
   matchTriggerWidth = false,
-  zIndex = 50, // 기본값 50
+  zIndex = 9999,
 }: DropdownMenuProps) => {
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  // Floating UI 설정
+  const { refs, floatingStyles, context } = useFloating({
+    open: isOpen,
+    onOpenChange: open => {
+      if (!open) onClose();
+    },
+    middleware: [
+      offset(16), // 16px 간격
+      flip(), // 화면 경계에 닿으면 위치 자동 조정
+      shift(), // 화면 밖으로 나가지 않도록 이동
+      ...(matchTriggerWidth
+        ? [
+            floatingSize({
+              apply({ rects, elements }) {
+                Object.assign(elements.floating.style, {
+                  width: `${rects.reference.width}px`,
+                });
+              },
+            }),
+          ]
+        : []),
+    ],
+    placement: position,
+    whileElementsMounted: autoUpdate, // 자동 위치 업데이트
+  });
 
-  // 외부 클릭 및 키보드 이벤트 처리
+  // 인터랙션 설정
+  const dismiss = useDismiss(context, {
+    outsidePress: true,
+    escapeKey: true,
+  });
+
+  const { getFloatingProps } = useInteractions([dismiss]);
+
+  // triggerRef를 Floating UI의 reference로 설정
   useEffect(() => {
-    if (!isOpen) return;
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        triggerRef.current &&
-        !triggerRef.current.contains(event.target as Node)
-      ) {
-        onClose();
-      }
-    };
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleEscape);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [isOpen, onClose, triggerRef]);
+    if (triggerRef.current) {
+      refs.setReference(triggerRef.current);
+    }
+  }, [refs, triggerRef]);
 
   if (!isOpen) return null;
 
-  const getPositionClasses = () => {
-    switch (position) {
-      case 'bottom-left':
-        return 'top-full left-0 mt-4';
-      case 'bottom-right':
-        return 'top-full right-0 mt-4';
-      case 'top-left':
-        return 'bottom-full left-0 mb-4';
-      case 'top-right':
-        return 'bottom-full right-0 mb-4';
-      default:
-        return 'top-full left-0 mt-4';
-    }
-  };
-
-  const widthStyle =
-    matchTriggerWidth && triggerRef.current ? { width: triggerRef.current.offsetWidth } : {};
-
   return (
-    <div
-      ref={dropdownRef}
-      className={cn(
-        dropdownVariants({ size, animation, shadow }),
-        'border-none bg-white',
-        getPositionClasses(),
-        className,
-      )}
-      style={{
-        zIndex,
-        ...widthStyle,
-      }}
-      role="menu"
-      aria-orientation="vertical"
-    >
-      {children}
-    </div>
+    <FloatingPortal>
+      <div
+        ref={refs.setFloating}
+        style={{
+          ...floatingStyles,
+          zIndex,
+        }}
+        className={cn(
+          dropdownVariants({ size, animation, shadow }),
+          'border-none bg-white',
+          className,
+        )}
+        {...getFloatingProps()}
+        role="menu"
+        aria-orientation="vertical"
+      >
+        {children}
+      </div>
+    </FloatingPortal>
   );
 };
 

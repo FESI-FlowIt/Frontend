@@ -5,6 +5,7 @@ import NextIcon from '@/assets/icons/arrow-right.svg';
 import CheckedIcon from '@/assets/icons/checkbox-checked-blue.svg';
 import UncheckedIcon from '@/assets/icons/checkbox-unchecked.svg';
 import CloseIcon from '@/assets/icons/close.svg';
+import FileIcon from '@/assets/icons/file.svg';
 import AlignmentCenterIcon from '@/assets/icons/ic-alignment-center.svg';
 import AlignmentLeftIcon from '@/assets/icons/ic-alignment-left.svg';
 import AlignmentRightIcon from '@/assets/icons/ic-alignment-right.svg';
@@ -16,7 +17,9 @@ import NumberingIcon from '@/assets/icons/ic-numbering.svg';
 import UnderLineIcon from '@/assets/icons/ic-underline.svg';
 import InfoIcon from '@/assets/icons/info.svg';
 import KebabIcon from '@/assets/icons/kebab.svg';
+import LinkChainIcon from '@/assets/icons/link.svg';
 import LinkIcon from '@/assets/icons/link-alt.svg';
+import NoteIcon from '@/assets/icons/note.svg';
 import { cn } from '@/lib/utils';
 
 const iconConfig = {
@@ -58,6 +61,18 @@ const iconConfig = {
   },
   link: {
     component: LinkIcon,
+    className: 'fill-none',
+  },
+  file: {
+    component: FileIcon,
+    className: 'fill-none text-gray-02',
+  },
+  note: {
+    component: NoteIcon,
+    className: 'text-gray-02',
+  },
+  linkChain: {
+    component: LinkChainIcon,
     className: 'fill-none',
   },
   info: {
@@ -123,7 +138,10 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
     | 'bullet'
     | 'numbering'
     | 'coloring'
-    | 'link';
+    | 'link'
+    | 'file'
+    | 'note'
+    | 'linkChain';
 }
 
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(

@@ -20,7 +20,7 @@ const meta: Meta<typeof DropdownMenu> = {
   argTypes: {
     size: {
       control: { type: 'select' },
-      options: ['sm', 'md', 'lg', 'auto', 'full'],
+      options: ['sm', 'md', 'lg', 'auto', 'goalListFilter', 'todo', 'full'],
     },
     animation: {
       control: { type: 'select' },
@@ -32,7 +32,7 @@ const meta: Meta<typeof DropdownMenu> = {
     },
     position: {
       control: { type: 'select' },
-      options: ['bottom-left', 'bottom-right', 'top-left', 'top-right'],
+      options: ['bottom-start', 'bottom-end', 'top-start', 'top-end'],
     },
     matchTriggerWidth: { control: { type: 'boolean' } },
   },
@@ -76,10 +76,10 @@ export const Default: Story = {
 export const ExampleByLocation: Story = {
   render: () => {
     const [openMenu, setOpenMenu] = useState<string | null>(null);
-    const bottomLeftRef = useRef<HTMLButtonElement>(null);
-    const bottomRightRef = useRef<HTMLButtonElement>(null);
-    const topLeftRef = useRef<HTMLButtonElement>(null);
-    const topRightRef = useRef<HTMLButtonElement>(null);
+    const bottomStartRef = useRef<HTMLButtonElement>(null);
+    const bottomEndRef = useRef<HTMLButtonElement>(null);
+    const topStartRef = useRef<HTMLButtonElement>(null);
+    const topEndRef = useRef<HTMLButtonElement>(null);
 
     return (
       <div className="relative min-h-[400px] w-full p-20">
@@ -88,17 +88,17 @@ export const ExampleByLocation: Story = {
           <div className="flex items-start justify-center">
             <div className="relative">
               <button
-                ref={topLeftRef}
-                onClick={() => setOpenMenu(openMenu === 'top-left' ? null : 'top-left')}
+                ref={topStartRef}
+                onClick={() => setOpenMenu(openMenu === 'top-start' ? null : 'top-start')}
                 className="w-200 rounded bg-purple-500 px-4 py-2 text-white"
               >
-                위쪽 왼쪽
+                위쪽 시작
               </button>
               <DropdownMenu
-                isOpen={openMenu === 'top-left'}
+                isOpen={openMenu === 'top-start'}
                 onClose={() => setOpenMenu(null)}
-                triggerRef={topLeftRef}
-                position="top-left"
+                triggerRef={topStartRef}
+                position="top-start"
               >
                 <div className="py-2">
                   <button className="w-full px-4 py-2 text-left hover:bg-gray-100">옵션 1</button>
@@ -111,17 +111,17 @@ export const ExampleByLocation: Story = {
           <div className="flex items-start justify-center">
             <div className="relative">
               <button
-                ref={topRightRef}
-                onClick={() => setOpenMenu(openMenu === 'top-right' ? null : 'top-right')}
+                ref={topEndRef}
+                onClick={() => setOpenMenu(openMenu === 'top-end' ? null : 'top-end')}
                 className="w-200 rounded bg-indigo-500 px-4 py-2 text-white"
               >
-                위쪽 오른쪽
+                위쪽 끝
               </button>
               <DropdownMenu
-                isOpen={openMenu === 'top-right'}
+                isOpen={openMenu === 'top-end'}
                 onClose={() => setOpenMenu(null)}
-                triggerRef={topRightRef}
-                position="top-right"
+                triggerRef={topEndRef}
+                position="top-end"
               >
                 <div className="py-2">
                   <button className="w-full px-4 py-2 text-left hover:bg-gray-100">설정</button>
@@ -135,17 +135,17 @@ export const ExampleByLocation: Story = {
           <div className="flex items-end justify-center">
             <div className="relative">
               <button
-                ref={bottomLeftRef}
-                onClick={() => setOpenMenu(openMenu === 'bottom-left' ? null : 'bottom-left')}
+                ref={bottomStartRef}
+                onClick={() => setOpenMenu(openMenu === 'bottom-start' ? null : 'bottom-start')}
                 className="w-200 rounded bg-blue-500 px-4 py-2 text-white"
               >
-                아래쪽 왼쪽
+                아래쪽 시작
               </button>
               <DropdownMenu
-                isOpen={openMenu === 'bottom-left'}
+                isOpen={openMenu === 'bottom-start'}
                 onClose={() => setOpenMenu(null)}
-                triggerRef={bottomLeftRef}
-                position="bottom-left"
+                triggerRef={bottomStartRef}
+                position="bottom-start"
               >
                 <div className="py-2">
                   <button className="w-full px-4 py-2 text-left hover:bg-gray-100">수정</button>
@@ -159,17 +159,17 @@ export const ExampleByLocation: Story = {
           <div className="flex items-end justify-center">
             <div className="relative">
               <button
-                ref={bottomRightRef}
-                onClick={() => setOpenMenu(openMenu === 'bottom-right' ? null : 'bottom-right')}
+                ref={bottomEndRef}
+                onClick={() => setOpenMenu(openMenu === 'bottom-end' ? null : 'bottom-end')}
                 className="w-200 rounded bg-green-500 px-4 py-2 text-white"
               >
-                아래쪽 오른쪽
+                아래쪽 끝
               </button>
               <DropdownMenu
-                isOpen={openMenu === 'bottom-right'}
+                isOpen={openMenu === 'bottom-end'}
                 onClose={() => setOpenMenu(null)}
-                triggerRef={bottomRightRef}
-                position="bottom-right"
+                triggerRef={bottomEndRef}
+                position="bottom-end"
               >
                 <div className="py-2">
                   <button className="w-full px-4 py-2 text-left hover:bg-gray-100">프로필</button>
