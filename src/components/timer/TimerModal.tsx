@@ -39,17 +39,6 @@ const toHHMMSS = (sec: number) => {
   return `${h}:${m}:${s}`;
 };
 
-const hmsToSec = (hms: string) => {
-  const [h = '0', m = '0', s = '0'] = (hms ?? '00:00:00').split(':');
-  return (+h || 0) * 3600 + (+m || 0) * 60 + (+s || 0);
-};
-
-function clampResumeStartMs(ms?: number | null) {
-  const now = Date.now();
-  if (!ms) return now;
-  return ms < now - 2000 ? now : ms;
-}
-
 export default function TimerModal({
   onClose,
   onBack,
@@ -112,49 +101,32 @@ export default function TimerModal({
     setMainSeconds(0);
   };
 
-  /** 누적 시간(서버 기준 + 로컬 달리는 구간 delta) */
+  /** 누적 시간(서버 확정값 + 실행중 표시용 델타) */
   const [baseTotalSec, setBaseTotalSec] = useState<number>(initialSnapshot?.baseTotalSec ?? 0);
+  const baseTotalSecRef = useRef(baseTotalSec);
+  useEffect(() => {
+    baseTotalSecRef.current = baseTotalSec;
+  }, [baseTotalSec]);
+
+  // 실행 중 표시용 앵커 (멈추면 null)
   const totalResumeAtMsRef = useRef<number | null>(initialSnapshot?.resumeAtMs ?? null);
-  const totalTickRef = useRef<number | null>(null);
 
-  // 인플라이트 가드(더블 클릭 방지)
-  const pauseInFlightRef = useRef(false);
-  const stopInFlightRef = useRef(false);
-
-  // 표시 누적(초)
+  // 화면 표시값 = 서버 확정값 + (달리는 중이면 now - resumeAt)
   const liveTotalSec =
     baseTotalSec +
     (totalResumeAtMsRef.current ? Math.floor((Date.now() - totalResumeAtMsRef.current) / 1000) : 0);
 
-  // 1초마다 누적 표시 리렌더(메인 달릴 때만)
-  useEffect(() => {
-    if (!isRunning) {
-      if (totalTickRef.current) {
-        clearInterval(totalTickRef.current);
-        totalTickRef.current = null;
-      }
-      return;
-    }
-    if (totalTickRef.current) clearInterval(totalTickRef.current);
-    totalTickRef.current = window.setInterval(() => {
-      setBaseTotalSec(prev => prev); // 강제 리렌더
-    }, 1000);
-    return () => {
-      if (totalTickRef.current) clearInterval(totalTickRef.current);
-    };
-  }, [isRunning]);
-
   // 서버 총시간을 하향 갱신 없이 반영
   const updateBaseFromServer = async (todoId: number) => {
     const res = await timerApi.getTotalRunningTime(todoId);
-    const serverSec = hmsToSec(res.totalRunningTime ?? '00:00:00');
+    const [h = '0', m = '0', s = '0'] = (res.totalRunningTime ?? '00:00:00').split(':');
+    const serverSec = (+h || 0) * 3600 + (+m || 0) * 60 + (+s || 0);
     setBaseTotalSec(prev => Math.max(prev, serverSec));
   };
 
-  // 최초 진입/할일 변경 시 서버 동기화 (자동 시작/정지 판단만)
+  // 최초 진입/할일 변경
   useEffect(() => {
     if (!effectiveTodoId) return;
-
     (async () => {
       try {
         const [total, status] = await Promise.all([
@@ -162,32 +134,18 @@ export default function TimerModal({
           timerApi.getCurrentTimerStatus().catch(() => null),
         ]);
 
-        // 1) 서버 누적 반영 (하향 갱신 금지)
-        const sec = hmsToSec(total.totalRunningTime ?? '00:00:00');
+        const [h = '0', m = '0', s = '0'] = (total.totalRunningTime ?? '00:00:00').split(':');
+        const sec = (+h || 0) * 3600 + (+m || 0) * 60 + (+s || 0);
         setBaseTotalSec(prev => Math.max(prev, sec));
 
-        // 2) 서버가 실행 중이고 동일 todo면만 이어 달리기
-        const canAutoStart =
-          !!status && status.isRunning && Number(status.todoId) === effectiveTodoId;
-
-        if (canAutoStart) {
-          const startedMs = (status as any)?.resumeDateTime
-            ? new Date((status as any).resumeDateTime).getTime()
-            : status?.startedDateTime
-              ? new Date(status.startedDateTime).getTime()
-              : Date.now();
-
+        if (status && status.isRunning && Number(status.todoId) === effectiveTodoId) {
           const now = Date.now();
-          const sessionSec = Math.floor((now - startedMs) / 1000);
-
-          // 메인/누적 앵커 정렬
-          mainPausedAccumRef.current = sessionSec;
-          setMainSeconds(sessionSec);
+          mainPausedAccumRef.current = 0;
+          setMainSeconds(0);
           mainStartAtMsRef.current = now;
           setIsRunning(true);
           startMainInterval();
-
-          totalResumeAtMsRef.current = startedMs;
+          totalResumeAtMsRef.current = now; // 표시용 앵커(서버 합산과 무관)
         } else {
           totalResumeAtMsRef.current = null;
           pauseMain();
@@ -201,95 +159,77 @@ export default function TimerModal({
   }, [effectiveTodoId]);
 
   /** 시작/일시정지/정지 동작 */
-  const handleStart = async (resumeAtMs?: number) => {
+  const handleStart = async () => {
     try {
       if (effectiveTodoId) await updateBaseFromServer(effectiveTodoId);
     } catch {}
-
     const now = Date.now();
     const currentMainSec = mainStartAtMsRef.current ? computeMainSeconds() : mainSeconds;
 
-    // 🔹 메인 시계는 이어서 보이도록 앵커 정렬
+    // 시계는 이어서 보이도록
     mainPausedAccumRef.current = currentMainSec;
     mainStartAtMsRef.current = now;
     setIsRunning(true);
     setMainSeconds(currentMainSec);
     startMainInterval();
 
-    // ✅ 누적(delta)은 "지금부터" 다시 시작 (과거로 되감지 말 것!)
-    totalResumeAtMsRef.current = resumeAtMs
-      ? clampResumeStartMs(resumeAtMs) // 서버가 resume 시각을 주면 그걸 사용
-      : now; // 없으면 현재 시각부터 새 델타 시작
-
+    // 표시용 델타 시작(누적 합산은 서버가 담당)
+    totalResumeAtMsRef.current = now;
     onStartTick();
   };
 
-  const handlePause = async () => {
-    if (!effectiveTodoId) return;
-    if (pauseInFlightRef.current) return;
-    pauseInFlightRef.current = true;
+  // Controls에서 서버 누적을 넘겨줌 — 로컬 델타는 절대 더하지 않음
+  // ⬇ 기존 handlePause 교체
+  const handlePause = (finalServerSec?: number) => {
+    // 0) 지금까지 달린 델타(표시용) 먼저 확정해서 즉시 8초처럼 보이게
+    if (totalResumeAtMsRef.current) {
+      const delta = Math.floor((Date.now() - totalResumeAtMsRef.current) / 1000);
+      setBaseTotalSec(prev => prev + delta);
+    }
 
-    // 1) UI 먼저 멈춤
+    // 1) UI 멈춤 + 표시용 앵커 종료
     pauseMain();
-
-    // 2) 지금 순간의 live = base + delta 를 한 번만 고정
-    const delta = totalResumeAtMsRef.current
-      ? Math.floor((Date.now() - totalResumeAtMsRef.current) / 1000)
-      : 0;
-    const liveNow = baseTotalSec + delta;
-    setBaseTotalSec(liveNow);
+    onPauseTick();
     totalResumeAtMsRef.current = null;
 
-    // 3) 버튼 동기화
-    onPauseTick();
-
-    // 4) 서버 재조회는 생략(중복 가산 방지). 다음 진입 시 보정됨.
-    pauseInFlightRef.current = false;
+    // 2) 서버 값과 상향 동기화 (서버가 바로 안 올려도 로컬 8초 유지)
+    if (typeof finalServerSec === 'number' && Number.isFinite(finalServerSec)) {
+      setBaseTotalSec(prev => Math.max(prev, finalServerSec));
+    } else if (effectiveTodoId) {
+      updateBaseFromServer(effectiveTodoId).catch(() => {});
+    }
   };
 
-  const handleStop = async () => {
-    if (!effectiveTodoId) return;
-    if (stopInFlightRef.current) return;
-    stopInFlightRef.current = true;
+  // ⬇ 기존 handleStop 교체
+  const handleStop = (finalServerSec?: number) => {
+    // 0) 지금까지 달린 델타를 먼저 확정 (정지 시에도 즉시 합산)
+    if (totalResumeAtMsRef.current) {
+      const delta = Math.floor((Date.now() - totalResumeAtMsRef.current) / 1000);
+      setBaseTotalSec(prev => prev + delta);
+    }
 
-    // 1) UI 먼저 멈추기
+    // 1) UI 멈춤 + 표시용 앵커 종료
     pauseMain();
-
-    // 2) live 고정 후 메인 리셋
-    const delta = totalResumeAtMsRef.current
-      ? Math.floor((Date.now() - totalResumeAtMsRef.current) / 1000)
-      : 0;
-    const liveNow = baseTotalSec + delta;
-    setBaseTotalSec(liveNow);
-    totalResumeAtMsRef.current = null;
-
+    totalResumeAtMsRef.current = null; // 로컬 추가 가산 중단
     resetMain();
     onStopTick();
 
-    // 3) 서버 재조회 생략
-    stopInFlightRef.current = false;
+    // 2) 서버 값과 상향 동기화
+    if (typeof finalServerSec === 'number' && Number.isFinite(finalServerSec)) {
+      setBaseTotalSec(prev => Math.max(prev, finalServerSec));
+    } else if (effectiveTodoId) {
+      updateBaseFromServer(effectiveTodoId).catch(() => {});
+    }
   };
 
-  /** 언마운트: 최신 스냅샷을 부모로 넘김 */
+  /** 언마운트: 최신 스냅샷 전달(로컬 합산 금지) */
   useEffect(() => {
     return () => {
-      let finalBase = baseTotalSec;
-      let finalResume = totalResumeAtMsRef.current;
-
-      if (totalResumeAtMsRef.current) {
-        const delta = Math.floor((Date.now() - totalResumeAtMsRef.current) / 1000);
-        finalBase = baseTotalSec + delta;
-      } else {
-        finalResume = null;
-      }
-
       onSnapshot?.(numericTodoId, {
-        baseTotalSec: finalBase,
-        resumeAtMs: finalResume,
+        baseTotalSec: baseTotalSecRef.current,
+        resumeAtMs: totalResumeAtMsRef.current,
       });
-
       if (mainTickRef.current) clearInterval(mainTickRef.current);
-      if (totalTickRef.current) clearInterval(totalTickRef.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -319,8 +259,8 @@ export default function TimerModal({
             isBlocked={isBlocked}
             setIsRunning={flag => (flag ? setIsRunning(true) : pauseMain())}
             onStart={handleStart}
-            onPause={handlePause}
-            onStop={handleStop}
+            onPause={handlePause} // 서버 누적초 수신
+            onStop={handleStop} // 서버 누적초 수신
           />
         )}
 
