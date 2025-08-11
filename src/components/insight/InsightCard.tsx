@@ -10,7 +10,7 @@ import TimerIcon from '@/assets/icons/timer.svg';
 
 const InsightCard = ({ variant, items = [], className }: InsightCardProps) => {
   const baseClasses =
-    'rounded-20 flex w-full flex-col py-12 px-12 md:px-20 bg-insightContainer gap-12';
+    'rounded-20 flex w-full flex-col py-12 px-12 md:px-20 bg-insightContainer gap-12 h-full';
 
   if (variant === 'empty') {
     return (
