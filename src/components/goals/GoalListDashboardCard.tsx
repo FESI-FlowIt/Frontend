@@ -58,7 +58,6 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
               <h3 className="text-text-01 text-body-sb-20 max-w-296 truncate">{goal.title}</h3>
             </div>
 
-
             <div className="flex items-baseline gap-12">
               <h3 className="text-text-01 text-body-sb-20">D-{dday}</h3>
               <span className="text-body-m-16 text-text-03">({deadlineLabel} 마감)</span>

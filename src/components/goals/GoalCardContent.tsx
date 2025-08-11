@@ -29,12 +29,10 @@ export default function GoalCardContent({
   const bgClass = getGoalBackgroundColorClass(goal.color);
   const { openTodoModalWithGoal } = useModalStore();
 
-
   const dday = Math.max(
     0,
     Math.ceil(
-      (new Date(goal.deadlineDate).getTime() - new Date().getTime()) /
-      (1000 * 60 * 60 * 24),
+      (new Date(goal.deadlineDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
     ),
   );
 
@@ -58,7 +56,6 @@ export default function GoalCardContent({
               />
               <h3 className="text-text-01 text-body-sb-20 max-w-296 truncate">{goal.title}</h3>
             </div>
-
 
             <div className="flex items-baseline gap-12">
               <h3 className="text-text-01 text-body-sb-20">D-{dday}</h3>

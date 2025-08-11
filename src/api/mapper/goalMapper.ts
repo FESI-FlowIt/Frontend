@@ -8,7 +8,6 @@ import {
 import { SidebarGoals, SidebarGoalsResponse } from '@/interfaces/sidebar';
 import { TodoSummary } from '@/interfaces/todo';
 
-
 export const goalMapper = {
   // 대시보드
   mapApiToGoalSummaries: (apiResponse: ApiGoalSummary[]): GoalSummary[] => {
@@ -25,8 +24,7 @@ export const goalMapper = {
         title: apiGoal.goalName,
         color: apiGoal.color,
         dDay: Math.ceil(
-          (new Date(apiGoal.dueDateTime).getTime() - new Date().getTime()) /
-          (1000 * 60 * 60 * 24),
+          (new Date(apiGoal.dueDateTime).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
         ),
         deadlineDate: apiGoal.dueDateTime,
         createdAt: apiGoal.createDateTime,
