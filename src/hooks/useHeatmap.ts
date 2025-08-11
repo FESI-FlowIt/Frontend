@@ -5,7 +5,7 @@ import { MonthlyHeatmapResponse, WeeklyHeatmapResponse } from '@/interfaces/heat
 
 export const useWeeklyHeatmap = (date: string) => {
   return useQuery<WeeklyHeatmapResponse>({
-    queryKey: ['weeklyHeatmap'],
+    queryKey: ['weeklyHeatmap', date],
     queryFn: () => getWeeklyHeatmap(date),
     enabled: !!date,
   });
