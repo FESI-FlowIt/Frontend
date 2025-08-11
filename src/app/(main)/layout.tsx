@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 
 import { SidebarProvider, useSidebar } from '@/app/providers/SidebarProvider';
-import Sidebar from '@/components/sidebar/Sidebar';
+import SidebarWrapper from '@/components/sidebar/SidebarWrapper';
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -22,7 +22,7 @@ function SidebarLayout({ children }: { children: React.ReactNode }) {
     <div
       className={`${isTodoNoteNewPage ? 'bg-white' : 'bg-background'} ${isOpen ? 'sm:flex-row' : 'sm:flex-col'} flex min-h-screen md:flex-row`}
     >
-      <Sidebar />
+      <SidebarWrapper />
       <MainContent>{children}</MainContent>
     </div>
   );
