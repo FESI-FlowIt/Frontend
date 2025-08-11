@@ -27,6 +27,7 @@ const dialogContentVariants = cva('relative bg-white shadow-xl', {
     },
     padding: {
       default: 'px-20 py-40',
+      note: 'px-24 py-40',
     },
     margin: {
       default: 'm-16',

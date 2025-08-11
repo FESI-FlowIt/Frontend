@@ -12,7 +12,7 @@ const GoalDetailPage = async ({ params }: GoalDetailPageProps) => {
   const { goalId } = await params;
 
   return (
-    <div className="min-h-screen">
+    <div className="h-full">
       <GoalDetailClient goalId={goalId} />
     </div>
   );

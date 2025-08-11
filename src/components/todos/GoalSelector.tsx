@@ -4,7 +4,11 @@ import React, { useRef, useState } from 'react';
 
 import clsx from 'clsx';
 
+import ArrowDownIcon from '@/assets/icons/arrow-down.svg';
+import ArrowDownFullIcon from '@/assets/icons/arrow-down-full.svg';
+import GoalIcon from '@/assets/icons/goal.svg';
 import { useGoals } from '@/hooks/useGoals';
+import { getGoalBackgroundColorClass, getGoalTextColorClass } from '@/lib/goalColors';
 
 import DropdownPortal from '../ui/DropdownMenu';
 
@@ -13,9 +17,17 @@ interface GoalSelectorProps {
   // eslint-disable-next-line no-unused-vars
   onSelectGoal: (goalId: number) => void;
   error?: boolean;
+  variant?: 'default' | 'notes';
+  className?: string;
 }
 
-const GoalSelector = ({ selectedGoalId, onSelectGoal, error }: GoalSelectorProps) => {
+const GoalSelector = ({
+  selectedGoalId,
+  onSelectGoal,
+  error,
+  variant = 'default',
+  className,
+}: GoalSelectorProps) => {
   const { data: goalsData, isLoading } = useGoals({ limit: 100 });
   const [isOpen, setIsOpen] = useState(false);
 
@@ -32,30 +44,72 @@ const GoalSelector = ({ selectedGoalId, onSelectGoal, error }: GoalSelectorProps
   }
 
   return (
-    <div className="relative w-full">
+    <div className={clsx('relative w-full', className)}>
       <button
         ref={triggerRef}
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className={clsx(
-          'text-body-m-16 flex h-44 w-full items-center justify-between rounded-lg border px-20 py-10 transition-colors focus:ring-2 focus:outline-none',
+          'text-body-m-16 flex h-44 w-full items-center transition-colors focus:ring-2 focus:outline-none',
           {
-            'border-error focus:ring-error': error,
-            'border-line focus:ring-primary-01-hover focus:border-primary-01-hover': !error,
+            // Default variant
+            'justify-between rounded-lg border px-20 py-10': variant === 'default',
+            'border-error focus:ring-error': variant === 'default' && error,
+            'border-line focus:ring-primary-01-hover focus:border-primary-01-hover':
+              variant === 'default' && !error,
+
+            // Notes variant
+            'rounded-12 justify-start gap-8 bg-white px-16 py-12': variant === 'notes',
+            'focus:ring-primary-01 focus:border-primary-01': variant === 'notes',
           },
         )}
       >
-        <span className={selectedGoal ? 'text-text-01' : 'text-text-04'}>
-          {selectedGoal ? selectedGoal.title : '목표 선택'}
-        </span>
+        <div className="flex items-center gap-8">
+          {variant === 'notes' && (
+            <div className="h-24 w-24">
+              <GoalIcon
+                className={clsx(
+                  'h-full w-full',
+                  selectedGoal ? getGoalTextColorClass(selectedGoal.color) : 'text-gray-500',
+                )}
+              />
+            </div>
+          )}
+          {variant === 'default' && selectedGoal && (
+            <div
+              className={clsx(
+                'h-12 w-12 flex-shrink-0 rounded-full',
+                getGoalBackgroundColorClass(selectedGoal.color),
+              )}
+            />
+          )}
+          <span className="text-text-01 text-body-sb-20">
+            {selectedGoal ? selectedGoal.title : '목표 선택'}
+          </span>
+        </div>
+
+        {variant === 'default' && (
+          <ArrowDownIcon
+            className={clsx('h-16 w-16 transform transition-transform', {
+              'rotate-180': isOpen,
+            })}
+          />
+        )}
+
+        {variant === 'notes' && (
+          <ArrowDownFullIcon
+            className={clsx('text-gray-01 ml-auto h-16 w-16 transform transition-transform', {
+              'rotate-180': isOpen,
+            })}
+          />
+        )}
       </button>
 
       <DropdownPortal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         triggerRef={triggerRef}
-        position="bottom-left"
-        size="full"
+        size="todo"
         animation="slide"
         shadow="md"
         className="max-h-200 w-full overflow-y-auto"
@@ -78,8 +132,10 @@ const GoalSelector = ({ selectedGoalId, onSelectGoal, error }: GoalSelectorProps
               )}
             >
               <div
-                className="h-12 w-12 flex-shrink-0 rounded-full"
-                style={{ backgroundColor: `var(${goal.color})` }}
+                className={clsx(
+                  'h-12 w-12 flex-shrink-0 rounded-full',
+                  getGoalBackgroundColorClass(goal.color),
+                )}
               />
               <span className="truncate">{goal.title}</span>
               {selectedGoalId === goal.goalId && <span className="text-primary-01 ml-auto">✓</span>}

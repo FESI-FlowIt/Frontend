@@ -1,5 +1,7 @@
 import type { NextConfig } from 'next';
 
+import 'dotenv/config';
+
 const svgrOptions = {
   svgoConfig: {
     plugins: [
@@ -14,9 +16,10 @@ const svgrOptions = {
 };
 
 const nextConfig: NextConfig = {
+  images: {
+    domains: [process.env.CLOUDFRONT_IMAGE_URL || 'localhost'],
+  },
   // TurboPack 설정
-  // package.json에서 dev 에 "next dev --turbopack"으로 되어있기때문에
-  // npm run dev 환경에서 svgr을 사용하려면 turbopack 설정이 필요합니다.
   experimental: {
     turbo: {
       rules: {

@@ -1,17 +1,18 @@
-import { useRouter } from 'next/navigation';
-
-import { ROUTES } from '@/lib/routes';
 import { useAuthStore } from '@/store/authStore';
 import { useUserStore } from '@/store/userStore';
 
 export function useLogout() {
-  const { clearTokens } = useAuthStore();
-  const { setUser } = useUserStore();
-  const router = useRouter();
+  const { clearAccessToken } = useAuthStore();
+  const { clearUser } = useUserStore();
 
-  return () => {
-    clearTokens();
-    router.push(ROUTES.HOME);
-    setUser(null);
+  return async () => {
+    await fetch('/api/logout', {
+      method: 'POST',
+    });
+
+    clearAccessToken();
+    clearUser();
+
+    window.location.href = '/';
   };
 }

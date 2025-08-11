@@ -10,12 +10,12 @@ const HeatmapRow = ({ rowLabel, timeSlots }: HeatmapRowProps) => {
   const timeKeys: TimeSlotKey[] = ['dawn', 'morning', 'afternoon', 'evening'];
 
   return (
-    <div className="flex items-center gap-x-16">
-      <div className="text-text-04 text-body-m-16 flex h-36 w-24 shrink-0 items-center justify-center">
+    <div className="flex items-center">
+      <div className="text-text-04 text-body-m-16 flex h-36 w-31 shrink-0 items-center md:h-43">
         {rowLabel}
       </div>
 
-      <div className="flex gap-x-4">
+      <div className="flex w-full gap-x-4">
         {timeKeys.map(key => {
           const slot = timeSlots[key];
           return (

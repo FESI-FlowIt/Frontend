@@ -2,8 +2,7 @@
 
 import { useRef, useState } from 'react';
 
-import Image from 'next/image';
-
+import SparkleIcon from '@/assets/icons/sparkle.svg';
 import HeatmapInfoPopover from '@/components/heatmaps/HeatmapInfoPopover';
 import MonthlyHeatmap from '@/components/heatmaps/MonthlyHeatmap';
 import WeeklyHeatmap from '@/components/heatmaps/WeeklyHeatmap';
@@ -14,51 +13,23 @@ import Tab from '@/components/ui/Tab';
 import { periodTabs } from '@/constants/heatmap';
 import { useMonthlyHeatmap, useWeeklyHeatmap } from '@/hooks/useHeatmap';
 import { useMonthlyInsight, useWeeklyInsight } from '@/hooks/useInsight';
+import usePopover from '@/hooks/usePopover';
 
 export default function HeatmapSection() {
   const [period, setPeriod] = useState('week');
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-  const [popoverPosition, setPopoverPosition] = useState({ top: 0, left: 0 });
+
   const infoButtonRef = useRef<HTMLButtonElement>(null);
+  const cardContainerRef = useRef<HTMLDivElement>(null);
+  const popover = usePopover('heatmap');
 
+  // 이벤트 핸들러
   const handleInfoClick = () => {
-    if (!infoButtonRef.current) return;
-
-    const rect = infoButtonRef.current.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-
-    // 팝오버 예상 너비 (주간 + 월간 범례 + 간격)
-    const popoverWidth = 320;
-
-    // 버튼의 중앙점 계산
-    const buttonCenterX = rect.left + rect.width / 2;
-
-    // 팝오버 왼쪽 위치 계산 (버튼 중앙선과 팝오버 중앙선 일치)
-    let popoverLeft = scrollLeft + buttonCenterX - popoverWidth / 2;
-
-    // 화면 경계 체크
-    const viewportWidth = window.innerWidth;
-    const margin = 16; // 화면 가장자리 여백
-
-    if (popoverLeft < margin) {
-      popoverLeft = margin; // 왼쪽 경계
-    } else if (popoverLeft + popoverWidth > viewportWidth - margin) {
-      popoverLeft = viewportWidth - popoverWidth - margin; // 오른쪽 경계
+    if (infoButtonRef.current) {
+      popover.open(infoButtonRef.current, cardContainerRef.current);
     }
-
-    setPopoverPosition({
-      top: rect.bottom + scrollTop + 8, // 버튼 아래쪽 + 8px 간격
-      left: popoverLeft,
-    });
-
-    setIsPopoverOpen(true);
   };
 
-  const handlePopoverClose = () => {
-    setIsPopoverOpen(false);
-  };
-
+  // API 호출
   const { data: weeklyHeatmapData } = useWeeklyHeatmap();
   const { data: monthlyHeatmapData } = useMonthlyHeatmap();
   const { data: weeklyInsightData } = useWeeklyInsight();
@@ -113,26 +84,22 @@ export default function HeatmapSection() {
   );
 
   return (
-    <div>
+    <div ref={cardContainerRef}>
       <Card
-        icon={
-          <Image src="/assets/icons/sparkleIcon.svg" alt="스파클 아이콘" width={24} height={24} />
-        }
+        icon={<SparkleIcon className="text-gray-01" width={24} height={24} fill="currentColor" />}
         title={cardTitle}
         extra={<Tab items={periodTabs} value={period} onChange={setPeriod} />}
         backgroundColor="white"
         size="heatmap"
         flexWrapExtra={true}
       >
-        <div className="mt-34 flex flex-col gap-22">
-          <div className="flex justify-center">{renderHeatmap()}</div>
-          {renderInsightCard()}
+        <div className="flex h-full flex-1 flex-col gap-12">
+          <div className="flex flex-shrink-0 justify-center">{renderHeatmap()}</div>
+          <div className="flex flex-1">{renderInsightCard()}</div>
         </div>
       </Card>
 
-      {isPopoverOpen && (
-        <HeatmapInfoPopover onClose={handlePopoverClose} position={popoverPosition} />
-      )}
+      {popover.isOpen && <HeatmapInfoPopover onClose={popover.close} position={popover.position} />}
     </div>
   );
 }

@@ -1,22 +1,18 @@
 import { getRequest, patchRequest } from '.';
 
-export const getGoalsSidebar = async (userId: number) => {
+export const getGoalsSidebar = async () => {
   try {
-    const response = await getRequest('/goals', { userId });
-    return response.result || [];
+    const data = await getRequest('/goals');
+    return data;
   } catch (err) {
     console.error('Fetch goals-dashboard error', err);
     throw err;
   }
 };
 
-export const patchGoalSidebarisPinned = async (
-  goalId: number,
-  isPinned: boolean,
-  userId: number,
-) => {
+export const patchGoalSidebarisPinned = async (goalId: number, isPinned: boolean) => {
   try {
-    const data = await patchRequest(`/goals/${goalId}/pin`, { userId, isPinned });
+    const data = await patchRequest(`/goals/${goalId}/pin`, { isPinned });
     return data;
   } catch (err) {
     console.error('Fetch updating isPinned of goal error', err);

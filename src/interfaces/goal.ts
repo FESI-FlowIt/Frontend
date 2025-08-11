@@ -59,7 +59,6 @@ export interface GetGoalsResponse {
 }
 
 export interface CreateGoalRequest {
-  userId: number;
   name: string;
   color: string;
   dueDateTime: string;
@@ -108,5 +107,3 @@ export interface ApiGetGoalsResponse {
     hasPrev: boolean;
   };
 }
-
-export type GoalColor = 'red' | 'orange' | 'yellow' | 'green' | 'blue' | 'purple' | 'pink';

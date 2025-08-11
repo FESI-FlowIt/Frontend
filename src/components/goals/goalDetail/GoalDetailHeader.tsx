@@ -1,20 +1,21 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import GoalIcon from '@/../public/assets/icons/goalIcon.svg';
-import KebabIcon from '@/../public/assets/icons/kebabIcon.svg';
+import GoalIcon from '@/assets/icons/goal.svg';
+import KebabIcon from '@/assets/icons/kebab.svg';
 import { useDeleteGoal } from '@/hooks/useGoals';
 import { Goal } from '@/interfaces/goal';
 import {
+  getGoalBackgroundColorClass,
   getGoalBorderColorClass,
-  getGoalColorClass,
   getGoalTextColorClass,
-} from '@/lib/goalColorUtils';
+} from '@/lib/goalColors';
 import { ROUTES } from '@/lib/routes';
 import { useModalStore } from '@/store/modalStore';
+import { useNoteWriteStore } from '@/store/noteWriteStore';
 
 import ConfirmDialog from '../../todos/ConfirmDialog';
 import DropdownMenu from '../../ui/DropdownMenu';
@@ -32,6 +33,14 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
   const router = useRouter();
   const deleteGoalMutation = useDeleteGoal();
   const { openGoalEditModal } = useModalStore();
+  const { setGoalTitle } = useNoteWriteStore();
+
+  // goal이 로드될 때 goalTitle을 store에 저장
+  useEffect(() => {
+    if (goal?.title) {
+      setGoalTitle(goal.title);
+    }
+  }, [goal?.title, setGoalTitle]);
 
   const handleEdit = () => {
     openGoalEditModal(goal);
@@ -67,19 +76,35 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
 
   // progress 계산
   const progress = todosCount > 0 ? Math.round((completedCount / todosCount) * 100) : 0;
+
+  // D-Day 계산
+  const diffDays = Math.ceil(
+    (new Date(goal.deadlineDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
+  );
+  const isOverdue = diffDays < 0;
+
   return (
     <>
       <div
-        className={`rounded-20 relative mb-32 h-180 w-full border-2 bg-white py-24 pr-24 pl-36 shadow-sm ${getGoalBorderColorClass(goal.color)}`}
+        className={`rounded-20 relative mb-32 h-180 w-full border-2 bg-white py-24 pr-24 pl-36 shadow-sm ${
+          isOverdue ? 'border-inactive' : getGoalBorderColorClass(goal.color)
+        }`}
       >
         {/* 왼쪽 색상 바 */}
         <div
-          className={`absolute top-0 left-0 h-full w-12 rounded-l-full ${getGoalColorClass(goal.color)}`}
+          className={`absolute top-0 left-0 h-full w-12 rounded-l-full ${
+            isOverdue ? 'bg-inactive' : getGoalBackgroundColorClass(goal.color)
+          }`}
         />
         {/* 목표 헤더 */}
         <div className="mb-24 flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <GoalIcon className={`h-24 w-24 rounded-full ${getGoalTextColorClass(goal.color)}`} />
+            <GoalIcon
+              className={isOverdue ? 'text-inactive' : getGoalTextColorClass(goal.color)}
+              width={24}
+              height={24}
+              fill="currentColor"
+            />
             <h1 className="text-body-sb-20 text-text-01 font-bold">{goal.title}</h1>
           </div>
           <div className="relative">
@@ -89,13 +114,13 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
               className="text-text-02 flex h-24 w-24 items-center justify-center rounded-full transition-colors"
               aria-label="더보기 메뉴"
             >
-              <KebabIcon className="text-Gray_01 h-20 w-20" />
+              <KebabIcon className="text-gray-01" width={20} height={20} fill="currentColor" />
             </button>
             <DropdownMenu
               isOpen={isDropdownOpen}
               onClose={() => setIsDropdownOpen(false)}
               triggerRef={dropdownTriggerRef}
-              position="bottom-right"
+              position="bottom-end"
               size="full"
               className="!rounded-8 !min-w-80 border border-gray-200 shadow-lg"
             >
@@ -120,17 +145,18 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
         {/* D-Day 및 마감일 정보 */}
         <div className="mb-16 flex items-center gap-6">
           <div className="text-body-sb-20 text-text-01 font-semibold">
-            D-
-            {Math.max(
-              0,
-              Math.ceil(
-                (new Date(goal.deadlineDate).getTime() - new Date().getTime()) /
-                  (1000 * 60 * 60 * 24),
-              ),
-            )}
+            {(() => {
+              if (diffDays > 0) {
+                return `D-${diffDays}`;
+              } else if (diffDays === 0) {
+                return 'D-Day';
+              } else {
+                return `D+${Math.abs(diffDays)}`;
+              }
+            })()}
           </div>
           <div className="text-body-m-16 text-text-03">
-            ({new Date(goal.deadlineDate).getMonth() + 1}/{new Date(goal.deadlineDate).getDate()}{' '}
+            ({new Date(goal.deadlineDate).getMonth() + 1}/{new Date(goal.deadlineDate).getDate()}
             마감)
           </div>
         </div>
@@ -143,7 +169,7 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
         </div>
         <div className="bg-line h-8 w-full rounded-full">
           <div
-            className={`h-8 rounded-full transition-all duration-300 ${getGoalColorClass(goal.color)}`}
+            className={`h-8 rounded-full transition-all duration-300 ${isOverdue ? 'bg-inactive' : getGoalBackgroundColorClass(goal.color)}`}
             style={{ width: `${progress}%` }}
           />
         </div>

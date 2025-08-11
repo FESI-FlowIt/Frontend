@@ -10,6 +10,8 @@ interface TimerControlsProps {
   onStop: () => void;
 }
 
+const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`;
+
 export default function TimerControls({
   isRunning,
   isBlocked,
@@ -26,7 +28,12 @@ export default function TimerControls({
           disabled={isBlocked}
           className="flex h-88 w-88 cursor-pointer items-center justify-center disabled:opacity-40"
         >
-          <Image src="/assets/icons/startIcon.svg" alt="Start Icon" width={88} height={88} />
+          <Image
+            src={`${CLOUDFRONT_URL}/assets/images/timer_start.svg`}
+            alt="타이머 시작 이미지"
+            width={88}
+            height={88}
+          />
         </button>
       ) : (
         <>
@@ -35,7 +42,12 @@ export default function TimerControls({
             onClick={onPause}
             className="flex h-88 w-88 cursor-pointer items-center justify-center"
           >
-            <Image src="/assets/icons/stopIcon.svg" alt="Stop Icon" width={88} height={88} />
+            <Image
+              src={`${CLOUDFRONT_URL}/assets/images/timer_stop.svg`}
+              alt="타이머 정지 이미지"
+              width={88}
+              height={88}
+            />
           </button>
 
           <button
@@ -43,7 +55,12 @@ export default function TimerControls({
             onClick={onStop}
             className="flex h-88 w-88 cursor-pointer items-center justify-center"
           >
-            <Image src="/assets/icons/pauseIcon.svg" alt="Pause Icon" width={88} height={88} />
+            <Image
+              src={`${CLOUDFRONT_URL}/assets/images/timer_pause.svg`}
+              alt="타이머 일시정지 이미지"
+              width={88}
+              height={88}
+            />
           </button>
         </>
       )}

@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import CloseIcon from '@/../public/assets/icons/closeIcon.svg';
+import CloseIcon from '@/assets/icons/close.svg';
 import { Attachment } from '@/interfaces/todo';
 import { useModalStore } from '@/store/modalStore';
 
@@ -17,7 +17,9 @@ import Modal from '../ui/Modal';
 
 interface LinkModalProps {
   // eslint-disable-next-line no-unused-vars
-  onAddLink: (link: Attachment) => void;
+  onAddLink?: (link: Attachment) => void;
+  // eslint-disable-next-line no-unused-vars
+  onAddNoteLink?: (url: string) => void;
 }
 
 const linkFormSchema = z.object({
@@ -37,7 +39,7 @@ const linkFormSchema = z.object({
 
 type LinkFormData = z.infer<typeof linkFormSchema>;
 
-const LinkModal = ({ onAddLink }: LinkModalProps) => {
+const LinkModal = ({ onAddLink, onAddNoteLink }: LinkModalProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { linkModalIsOpen, closeLinkModal } = useModalStore();
 
@@ -75,14 +77,19 @@ const LinkModal = ({ onAddLink }: LinkModalProps) => {
     try {
       const normalizedUrl = normalizeUrl(data.url);
 
-      const newLink: Attachment = {
-        type: 'link',
-        url: normalizedUrl,
-        fileName: getDisplayTitle(data.url),
-      };
+      if (onAddNoteLink) {
+        // Note용 링크 추가
+        onAddNoteLink(normalizedUrl);
+      } else if (onAddLink) {
+        // Todo용 링크 추가
+        const newLink: Attachment = {
+          type: 'link',
+          url: normalizedUrl,
+          fileName: getDisplayTitle(data.url),
+        };
+        onAddLink(newLink);
+      }
 
-      console.log('🔗 새 링크 추가:', newLink);
-      onAddLink(newLink);
       reset();
       closeLinkModal();
     } catch (error) {
@@ -119,7 +126,7 @@ const LinkModal = ({ onAddLink }: LinkModalProps) => {
           onClick={handleClose}
           className="text-text-04 hover:text-text-03 h-12 w-12 cursor-pointer transition-colors"
         >
-          <CloseIcon className="fill-snackbar" />
+          <CloseIcon className="text-text-02" width={12} height={12} fill="currentColor" />
         </button>
       </div>
 
@@ -140,18 +147,6 @@ const LinkModal = ({ onAddLink }: LinkModalProps) => {
         </div>
 
         <div className="mt-40 flex gap-12">
-          <Button
-            type="button"
-            onClick={handleClose}
-            variant="secondary"
-            text="secondaryModal"
-            size="md"
-            rounded="lg"
-            className="flex-1"
-            disabled={false}
-          >
-            취소
-          </Button>
           <Button
             type="submit"
             disabled={!isValid || isSubmitting}

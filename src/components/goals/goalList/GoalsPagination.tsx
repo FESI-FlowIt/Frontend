@@ -12,7 +12,7 @@ interface GoalsPaginationProps {
 
 const GoalsPagination = ({ pagination, onPageChange }: GoalsPaginationProps) => {
   return (
-    <div className="bg-ui-background border-line-01 fixed right-0 bottom-0 left-0 pb-36">
+    <div className="border-line-01 absolute right-0 bottom-0 left-0 pb-36">
       <div className="mx-auto max-w-1504 px-24">
         <Pagination
           pagination={pagination}

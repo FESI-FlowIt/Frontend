@@ -10,6 +10,8 @@ import { cn } from '@/lib/utils';
 
 import { Button } from '../ui/Button';
 
+const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`;
+
 export default function LandingBanner() {
   const router = useRouter();
   const btnRef = useRef<HTMLDivElement>(null);
@@ -43,29 +45,41 @@ export default function LandingBanner() {
   }, []);
 
   return (
-    <div className="bg-primary-01 flex h-620 items-center justify-center gap-189">
+    <div className="bg-primary-01 flex h-620 items-center sm:flex-col sm:justify-center sm:gap-30 md:flex-row md:justify-between md:gap-30 md:pl-32 lg:gap-52">
       <div
         ref={btnRef}
-        className={cn('flex transform flex-col gap-42 transition-all duration-1000 ease-out', {
-          'translate-x-0 opacity-100': btnInView,
-          '-translate-x-10 opacity-0': !btnInView,
-        })}
+        className={cn(
+          'flex w-2/3 transform flex-col flex-nowrap transition-all duration-1000 ease-out sm:gap-24 md:gap-32 lg:gap-42',
+          {
+            'translate-x-0 opacity-100': btnInView,
+            '-translate-x-10 opacity-0': !btnInView,
+          },
+        )}
       >
         <div className="bg-text-01 p-6.67 rounded-12 flex h-80 w-80 items-center justify-center">
-          <Image src="/assets/images/logoIcon.svg" alt="로고 아이콘" width={66.67} height={66.67} />
+          <Image
+            src={`${CLOUDFRONT_URL}/assets/images/flowIt-logo.svg`}
+            alt="로고 이미지"
+            width={66.67}
+            height={66.67}
+          />
         </div>
-        <div className="mb-10">
-          <span className="text-banner-44 text-white">
+        <div className="sm:mb-0 md:mb-0 lg:mb-10">
+          <span className="lg:text-banner-32 xl:text-banner-44 md:text-banner-24 sm:text-banner-24 flex text-white sm:flex-col md:flex-col lg:block">
             목표 중심의
-            <br /> 스마트한 생산성 관리, <span className="text-banner-44-bold">FlowIt</span>
+            <br /> 스마트한 생산성 관리,
+            <span className="lg:text-banner-32-bold xl:text-banner-44-bold md:text-logo-32 sm:text-logo-32">
+              FlowIt
+            </span>
           </span>
         </div>
-        <div className="flex gap-20">
+        <div className="flex sm:gap-12 md:gap-12 lg:gap-20">
           <Button
             variant="secondary"
             text="secondary"
             disabled={false}
             onClick={() => router.push(ROUTES.AUTH.LOGIN)}
+            className="sm:h-44 sm:w-118 md:h-44 md:w-118 lg:h-62 lg:w-240"
           >
             로그인
           </Button>
@@ -74,6 +88,7 @@ export default function LandingBanner() {
             text="secondary"
             disabled={false}
             onClick={() => router.push(ROUTES.AUTH.SIGNUP)}
+            className="sm:h-44 sm:w-118 md:h-44 md:w-118 lg:h-62 lg:w-240"
           >
             회원가입
           </Button>
@@ -83,21 +98,22 @@ export default function LandingBanner() {
       <div
         ref={imgRef}
         className={cn(
-          'relative flex transform items-center justify-center transition-all duration-1000 ease-out',
+          'relative flex transform items-center transition-all duration-1000 ease-out md:w-full md:max-w-full',
           {
             'translate-x-0 opacity-100': imgInView,
             '-translate-x-10 opacity-0': !imgInView,
           },
         )}
       >
-        <div className="rounded-tl-50 rounded-bl-50 bg-landing-blue absolute h-343 w-850 -translate-x-[2%]" />
-        <Image
-          src="/assets/images/dashboard.svg"
-          alt="대쉬보드 이미지"
-          width={699.78}
-          height={399.88}
-          className="relative z-10"
-        />
+        <div className="rounded-tl-50 rounded-bl-50 bg-landing-blue absolute w-full sm:hidden md:block md:h-240 lg:block lg:h-300 xl:h-343" />
+        <div className="relative z-10 w-full sm:h-194 sm:w-340 md:ml-40 md:h-206 md:w-361 lg:ml-60 lg:h-400 lg:w-full lg:max-w-700 xl:ml-80">
+          <Image
+            src={`${CLOUDFRONT_URL}/assets/images/landing_dashboard.svg`}
+            alt="대쉬보드 이미지"
+            fill
+            priority
+          />
+        </div>
       </div>
     </div>
   );

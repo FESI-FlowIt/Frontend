@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { Note } from './note';
+import { Note, NoteSummary } from './note';
 
 export interface Attachment {
   type: 'file' | 'link';
@@ -16,6 +16,7 @@ export interface Todo {
   isDone: boolean;
   attachment?: Attachment[];
   notes?: Note[];
+  link?: string;
   createdAt: string;
   updatedAt: string;
   accumulatedMs: number;
@@ -41,14 +42,12 @@ export const todoFormSchema = z.object({
 export type TodoFormData = z.infer<typeof todoFormSchema>;
 
 export interface TodoCreateRequest {
-  userId: number;
   goalId: number;
   name: string;
   attachments?: Attachment[];
 }
 
 export interface TodoUpdateRequest {
-  userId: number;
   goalId?: number;
   name?: string;
   isDone?: boolean;
@@ -59,6 +58,17 @@ export interface TodoSummary {
   id: number;
   title: string;
   isDone: boolean;
+  attachment?: Attachment[];
+  notes?: Note[];
+}
+
+export interface TodoWithNotes {
+  todoId: number;
+  title: string;
+  isDone: boolean;
+  notes: NoteSummary[];
+  goalId?: number;
+  goalTitle?: string;
 }
 
 // API Response
@@ -77,4 +87,11 @@ export interface ApiTodoSummary {
   todoId: number;
   todoName: string;
   isDone: boolean;
+  attachment?: Attachment[];
+  notes?: Note[];
+}
+
+// 노트 모아보기 API 응답
+export interface ApiTodosWithNotesResponse {
+  result: TodoWithNotes[];
 }

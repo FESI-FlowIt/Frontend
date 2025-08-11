@@ -5,14 +5,17 @@ import { cn } from '@/lib/utils';
 const cardVariants = cva('rounded-20 flex flex-col gap-16 px-14 py-20 md:px-20', {
   variants: {
     backgroundColor: {
-      white: 'bg-ui-background',
+      white: 'bg-white',
       gray: 'bg-cardContainer',
     },
     size: {
       auto: 'w-fit',
-      heatmap: 'h-625 w-343 md:h-600 md:w-636 lg:w-752',
-      calendar: 'h-392 w-343 md:h-412 md:w-636 lg:h-412 lg:w-728',
-      goal: 'h-1146 w-343 md:h-1146 md:w-636 lg:h-428 lg:w-1504',
+      heatmap:
+        'h-625 w-full max-w-635 min-w-343 md:h-600 md:max-w-739 md:min-w-636 lg:max-w-740 lg:min-w-740',
+      calendar:
+        'h-full w-full max-w-635 min-w-343 md:max-w-739 md:min-w-636 lg:h-412 lg:max-w-740 lg:min-w-740',
+      goal: 'h-433 w-343 md:h-428 md:w-636 lg:h-428 lg:w-1504',
+      schedule: 'h-200 w-343 md:h-176 md:w-636 lg:h-176 lg:w-728',
     },
   },
   defaultVariants: {

@@ -5,23 +5,29 @@ import { useRouter } from 'next/navigation';
 import { clsx } from 'clsx';
 
 import { ROUTES } from '@/lib/routes';
+
+import { Button } from '../ui/Button';
 interface ProvidersInterface {
   name: string;
   icon: string;
 }
 
+const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`;
+
 const providers: ProvidersInterface[] = [
-  { name: 'naver', icon: '/assets/images/naverLogo.svg' },
-  { name: 'kakao', icon: '/assets/images/kakaoLogo.svg' },
-  { name: 'google', icon: '/assets/images/googleLogo.svg' },
-];
+  { name: 'kakao', icon: `${CLOUDFRONT_URL}/assets/images/login_kakao-logo.svg` },
+] as const;
+
+const KAKAO_AUTH_URL =
+  'https://kauth.kakao.com/oauth/authorize' +
+  `?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}` +
+  `&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}` +
+  '&response_type=code';
 
 export default function SocialLoginCard({ mode }: { mode: 'login' | 'signUp' }) {
   const router = useRouter();
-
-  //TODO: 소셜로그인 api가 나오면 post 요청 및 router 설정
-  const handleNavigation = (provider: 'google' | 'kakao' | 'naver') => {
-    router.push(`/${provider}`);
+  const handleKakaoLogin = () => {
+    window.location.href = KAKAO_AUTH_URL;
   };
 
   return (
@@ -32,23 +38,23 @@ export default function SocialLoginCard({ mode }: { mode: 'login' | 'signUp' }) 
         mode === 'signUp' && 'gap-24',
       )}
     >
-      {mode === 'signUp' && <span className="text-body-sb-20 text-text-04">간편 회원가입</span>}
-      <div className="flex gap-20">
+      <div className="flex w-full gap-10">
         {providers.map(
           ({ name, icon }) =>
             icon && (
-              <div
+              <Button
                 key={name}
-                onClick={() => handleNavigation(name as 'naver' | 'kakao' | 'google')}
-                className="relative h-52 w-52 cursor-pointer sm:h-44 sm:w-44 md:h-52 md:w-52"
+                onClick={handleKakaoLogin}
+                disabled={false}
+                variant="kakao"
+                size="auth"
+                text="secondary"
+                className="gap-10"
               >
-                <Image
-                  src={icon}
-                  alt={`${name} 로고 이미지`}
-                  fill
-                  sizes="(max-width: 768px) 40px, (max-width: 1200px) 52px, 52px"
-                />
-              </div>
+                <Image src={icon} alt={`${name} 로고 이미지`} width={19} height={19} />
+                {mode === 'login' && '카카오 로그인'}
+                {mode === 'signUp' && '카카오 회원가입'}
+              </Button>
             ),
         )}
       </div>

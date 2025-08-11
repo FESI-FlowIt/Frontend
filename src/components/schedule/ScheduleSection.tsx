@@ -1,40 +1,77 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import ScheduleIcon from '@/../public/assets/icons/scheduleIcon.svg';
+import dayjs from 'dayjs';
+
+import { scheduleMapper } from '@/api/mapper/scheduleMapper';
+import { schedulesApi } from '@/api/scheduleApi';
+import ScheduleIcon from '@/assets/icons/schedule.svg';
 import { Button } from '@/components/ui/Button';
+import Card from '@/components/ui/Card';
 import type { AssignedTask } from '@/interfaces/schedule';
-import { scheduleRes } from '@/mocks/mockResponses/schedule/scheduleResponse';
+import { getTodayScheduleTitle } from '@/lib/calendarUtils';
+import { useUserStore } from '@/store/userStore';
 
 import ScheduleModal from './ScheduleModal';
 
 export default function ScheduleSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [assignedTasks, setAssignedTasks] = useState<AssignedTask[]>(scheduleRes);
+  const [assignedTasks, setAssignedTasks] = useState<AssignedTask[]>([]);
+
+  const user = useUserStore(state => state.user);
+  const todayDateStr = dayjs().format('YYYY-MM-DD');
+
+  const fetchAssignedTasksByDate = async (date: string) => {
+    try {
+      const res = await schedulesApi.getAssignedTodos(date);
+      const mapped = scheduleMapper.mapAssignedTodosToAssignedTasks(res.assignedTodos);
+      setAssignedTasks(prev => [...prev.filter(task => task.date !== date), ...mapped]);
+    } catch (err) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error(' 일정 불러오기 실패:', err);
+      }
+    }
+  };
+
+  const fetchTodayAssignedTasks = async () => {
+    await fetchAssignedTasksByDate(todayDateStr);
+  };
+
+  useEffect(() => {
+    if (user) fetchTodayAssignedTasks();
+  }, [user]);
+
+  const todayAssigned = assignedTasks.filter(task => task.date === todayDateStr);
+
+  const deduplicatedAssignedTasks = Array.from(
+    new Map(todayAssigned.map(item => [`${item.task.id}-${item.time}`, item])).values(),
+  ).sort((a, b) => a.time.localeCompare(b.time));
 
   return (
-    <div className="border-line h-200 w-343 rounded-2xl border bg-white p-20 sm:h-176 sm:w-636 md:h-176 md:w-728">
-      <div className="mb-20 flex items-center justify-between">
-        <h3 className="text-body-sb-20 text-text-01">7월 9일 일정표</h3>
+    <Card
+      size="schedule"
+      title={getTodayScheduleTitle()}
+      icon={<ScheduleIcon className="text-icon-01" width={20} height={20} />}
+      extra={
         <Button
-          className="pl-20.5pr-20.5"
           variant="default"
-          size="scheduleDashboard"
           text="todoCard"
+          size="scheduleDashboard"
           onClick={() => setIsModalOpen(true)}
+          icon={<ScheduleIcon className="text-white" width={20} height={20} fill="currentColor" />}
           disabled={false}
-          icon={<ScheduleIcon className="h-20 w-20 text-white" />}
+          className="flex items-center gap-4"
         >
           <span className="block sm:hidden">일정관리</span>
           <span className="hidden sm:block">일정 관리하기</span>
         </Button>
-      </div>
-
+      }
+    >
       <div className="mb-20 h-80 overflow-y-scroll pr-4">
         <ul className="space-y-4">
-          {assignedTasks.map(({ time, task }, idx) => (
-            <li key={idx} className="flex items-start gap-12 text-sm">
+          {deduplicatedAssignedTasks.map(({ time, task }) => (
+            <li key={`${task.id}-${time}`} className="flex items-start gap-12 text-sm">
               <span className="text-text-04 text-body-m-16">{time}</span>
               <span className="text-text-02 text-body-m-16">{task.title}</span>
             </li>
@@ -42,12 +79,18 @@ export default function ScheduleSection() {
         </ul>
       </div>
 
-      <ScheduleModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        assignedTasks={assignedTasks}
-        setAssignedTasks={setAssignedTasks}
-      />
-    </div>
+      {user && (
+        <ScheduleModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          assignedTasks={assignedTasks}
+          setAssignedTasks={setAssignedTasks}
+          selectedDate={todayDateStr}
+          onSaved={(_updated, changedDates) => {
+            changedDates.forEach(date => fetchAssignedTasksByDate(date));
+          }}
+        />
+      )}
+    </Card>
   );
 }
