@@ -26,7 +26,7 @@ const TodoSection = ({ todos, isLoading, goalId }: TodoSectionProps) => {
   }
 
   return (
-    <div className="rounded-20 flex h-full flex-col bg-white p-24">
+    <div className="rounded-20 flex flex-col bg-white p-24 sm:h-496 md:h-520 lg:h-full">
       {/* 할 일 카운트 */}
       <div className="text-text-02 text-body-sb-20 mb-32">할 일: {incompleteTodos.length}개</div>
 

@@ -69,8 +69,8 @@ const GoalsFilterControls = ({
             isOpen={isSortDropdownOpen}
             onClose={() => setIsSortDropdownOpen(false)}
             triggerRef={sortDropdownRef}
-            size="auto"
-            position="bottom-right"
+            size="goalListFilter"
+            position="bottom-end"
           >
             <div>
               <button

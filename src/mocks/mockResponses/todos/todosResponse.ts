@@ -2,6 +2,133 @@ import { Todo } from '@/interfaces/todo';
 
 export const todosRes: { todos: Todo[] } = {
   todos: [
+    // 테스트용: 모든 아이콘이 표시되는 할 일들
+    {
+      todoId: 99991,
+      goalId: 1,
+      title: '모든 첨부파일과 노트가 있는 할 일',
+      isDone: false,
+      attachment: [
+        {
+          type: 'file',
+          url: '/uploads/document.pdf',
+          fileName: 'requirements.pdf',
+          size: 2048576,
+        },
+        {
+          type: 'link',
+          url: 'https://github.com/example/repo',
+          fileName: 'GitHub Repository',
+        },
+      ],
+      notes: [
+        {
+          noteId: 1001,
+          todoId: 99991,
+          title: '개발 진행사항',
+          content: '현재까지 50% 완료',
+          wordCount: 12,
+          createdAt: '2025-01-01T10:00:00.000Z',
+          updatedAt: '2025-01-01T10:00:00.000Z',
+        },
+        {
+          noteId: 1002,
+          todoId: 99991,
+          title: '참고자료 정리',
+          content: '유용한 링크와 문서들을 정리했습니다.',
+          wordCount: 18,
+          createdAt: '2025-01-02T14:00:00.000Z',
+          updatedAt: '2025-01-02T14:00:00.000Z',
+        },
+      ],
+      createdAt: '2025-01-01T09:00:00.000Z',
+      updatedAt: '2025-01-02T15:00:00.000Z',
+      accumulatedMs: 3600000,
+    },
+    {
+      todoId: 99992,
+      goalId: 2,
+      title: '파일 첨부만 있는 할 일',
+      isDone: true,
+      attachment: [
+        {
+          type: 'file',
+          url: '/uploads/image.png',
+          fileName: 'screenshot.png',
+          size: 1024000,
+        },
+      ],
+      notes: [],
+      createdAt: '2025-01-03T09:00:00.000Z',
+      updatedAt: '2025-01-03T17:00:00.000Z',
+      accumulatedMs: 7200000,
+    },
+    {
+      todoId: 99993,
+      goalId: 3,
+      title: '링크만 있는 할 일',
+      isDone: false,
+      attachment: [
+        {
+          type: 'link',
+          url: 'https://docs.example.com/api',
+          fileName: 'API Documentation',
+        },
+      ],
+      notes: [],
+      createdAt: '2025-01-04T09:00:00.000Z',
+      updatedAt: '2025-01-04T09:00:00.000Z',
+      accumulatedMs: 1800000,
+    },
+    {
+      todoId: 99994,
+      goalId: 1,
+      title: '노트만 있는 할 일',
+      isDone: false,
+      attachment: [],
+      notes: [
+        {
+          noteId: 1003,
+          todoId: 99994,
+          title: '아이디어 메모',
+          content: '좋은 아이디어가 떠올랐다!',
+          wordCount: 15,
+          createdAt: '2025-01-05T10:00:00.000Z',
+          updatedAt: '2025-01-05T10:00:00.000Z',
+        },
+      ],
+      createdAt: '2025-01-05T09:00:00.000Z',
+      updatedAt: '2025-01-05T10:30:00.000Z',
+      accumulatedMs: 2700000,
+    },
+    {
+      todoId: 99995,
+      goalId: 2,
+      title: '파일과 링크가 모두 있는 할 일',
+      isDone: true,
+      attachment: [
+        {
+          type: 'file',
+          url: '/uploads/presentation.pptx',
+          fileName: 'final-presentation.pptx',
+          size: 5242880,
+        },
+        {
+          type: 'link',
+          url: 'https://figma.com/design/example',
+          fileName: 'Figma Design',
+        },
+        {
+          type: 'link',
+          url: 'https://notion.so/project-notes',
+          fileName: 'Project Notes',
+        },
+      ],
+      notes: [],
+      createdAt: '2025-01-06T09:00:00.000Z',
+      updatedAt: '2025-01-06T18:00:00.000Z',
+      accumulatedMs: 10800000,
+    },
     // UI 테스트용 대량 할일 (30개)
     ...Array.from({ length: 30 }, (_, index) => ({
       todoId: 10001 + index, // 10001~10030

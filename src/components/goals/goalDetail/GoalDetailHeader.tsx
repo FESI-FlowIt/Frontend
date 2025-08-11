@@ -76,20 +76,31 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
 
   // progress 계산
   const progress = todosCount > 0 ? Math.round((completedCount / todosCount) * 100) : 0;
+
+  // D-Day 계산
+  const diffDays = Math.ceil(
+    (new Date(goal.deadlineDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
+  );
+  const isOverdue = diffDays < 0;
+
   return (
     <>
       <div
-        className={`rounded-20 relative mb-32 h-180 w-full border-2 bg-white py-24 pr-24 pl-36 shadow-sm ${getGoalBorderColorClass(goal.color)}`}
+        className={`rounded-20 relative mb-32 h-180 w-full border-2 bg-white py-24 pr-24 pl-36 shadow-sm ${
+          isOverdue ? 'border-inactive' : getGoalBorderColorClass(goal.color)
+        }`}
       >
         {/* 왼쪽 색상 바 */}
         <div
-          className={`absolute top-0 left-0 h-full w-12 rounded-l-full ${getGoalBackgroundColorClass(goal.color)}`}
+          className={`absolute top-0 left-0 h-full w-12 rounded-l-full ${
+            isOverdue ? 'bg-inactive' : getGoalBackgroundColorClass(goal.color)
+          }`}
         />
         {/* 목표 헤더 */}
         <div className="mb-24 flex items-center justify-between">
           <div className="flex items-center gap-8">
             <GoalIcon
-              className={getGoalTextColorClass(goal.color)}
+              className={isOverdue ? 'text-inactive' : getGoalTextColorClass(goal.color)}
               width={24}
               height={24}
               fill="currentColor"
@@ -109,7 +120,7 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
               isOpen={isDropdownOpen}
               onClose={() => setIsDropdownOpen(false)}
               triggerRef={dropdownTriggerRef}
-              position="bottom-right"
+              position="bottom-end"
               size="full"
               className="!rounded-8 !min-w-80 border border-gray-200 shadow-lg"
             >
@@ -134,14 +145,15 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
         {/* D-Day 및 마감일 정보 */}
         <div className="mb-16 flex items-center gap-6">
           <div className="text-body-sb-20 text-text-01 font-semibold">
-            D-
-            {Math.max(
-              0,
-              Math.ceil(
-                (new Date(goal.deadlineDate).getTime() - new Date().getTime()) /
-                  (1000 * 60 * 60 * 24),
-              ),
-            )}
+            {(() => {
+              if (diffDays > 0) {
+                return `D-${diffDays}`;
+              } else if (diffDays === 0) {
+                return 'D-Day';
+              } else {
+                return `D+${Math.abs(diffDays)}`;
+              }
+            })()}
           </div>
           <div className="text-body-m-16 text-text-03">
             ({new Date(goal.deadlineDate).getMonth() + 1}/{new Date(goal.deadlineDate).getDate()}{' '}
@@ -157,7 +169,7 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
         </div>
         <div className="bg-line h-8 w-full rounded-full">
           <div
-            className={`h-8 rounded-full transition-all duration-300 ${getGoalBackgroundColorClass(goal.color)}`}
+            className={`h-8 rounded-full transition-all duration-300 ${isOverdue ? 'bg-inactive' : getGoalBackgroundColorClass(goal.color)}`}
             style={{ width: `${progress}%` }}
           />
         </div>

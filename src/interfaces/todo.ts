@@ -16,6 +16,7 @@ export interface Todo {
   isDone: boolean;
   attachment?: Attachment[];
   notes?: Note[];
+  link?: string;
   createdAt: string;
   updatedAt: string;
   accumulatedMs: number;
@@ -57,6 +58,8 @@ export interface TodoSummary {
   id: number;
   title: string;
   isDone: boolean;
+  attachment?: Attachment[];
+  notes?: Note[];
 }
 
 export interface TodoWithNotes {
@@ -84,6 +87,8 @@ export interface ApiTodoSummary {
   todoId: number;
   todoName: string;
   isDone: boolean;
+  attachment?: Attachment[];
+  notes?: Note[];
 }
 
 // 노트 모아보기 API 응답

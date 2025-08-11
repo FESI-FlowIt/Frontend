@@ -109,8 +109,7 @@ const GoalSelector = ({
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         triggerRef={triggerRef}
-        position="bottom-left"
-        size="full"
+        size="todo"
         animation="slide"
         shadow="md"
         className="max-h-200 w-full overflow-y-auto"
