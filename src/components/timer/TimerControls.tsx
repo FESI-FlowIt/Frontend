@@ -17,52 +17,43 @@ interface TimerControlsProps {
 
 const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`;
 
-// HH:MM:SS -> sec
+// "HH:MM:SS" -> seconds
 const hmsToSec = (hms?: string) => {
   const [h = '0', m = '0', s = '0'] = (hms ?? '00:00:00').split(':');
   return (+h || 0) * 3600 + (+m || 0) * 60 + (+s || 0);
 };
 
-/** ---------- 타입가드 & 파서 (any 금지) ---------- */
+/** ---------- 안전 파서 ---------- */
 const asObj = (x: unknown): Record<string, unknown> | null =>
   x && typeof x === 'object' ? (x as Record<string, unknown>) : null;
 
-const getContainerChain = (x: unknown): Array<Record<string, unknown>> => {
+const chain = (x: unknown) => {
   const root = asObj(x);
   const res = root?.result ? asObj(root.result) : null;
-  // 필요 시 더 깊게 확장 가능: const res2 = res?.result ? asObj(res.result) : null;
   return [root, res].filter(Boolean) as Array<Record<string, unknown>>;
 };
 
-const parseNumish = (v: unknown): number | null => {
+const numish = (v: unknown): number | null => {
   if (typeof v === 'number' && Number.isFinite(v)) return v;
-  if (typeof v === 'string') {
-    // "365" 같은 숫자 문자열 지원
-    if (/^\d+$/.test(v.trim())) return Number(v);
-  }
+  if (typeof v === 'string' && /^\d+$/.test(v.trim())) return Number(v);
   return null;
 };
 
-const parseBoolish = (v: unknown): boolean | null => {
+const boolish = (v: unknown): boolean | null => {
   if (typeof v === 'boolean') return v;
   if (typeof v === 'number') return v === 1 ? true : v === 0 ? false : null;
   if (typeof v === 'string') {
     const t = v.trim().toLowerCase();
-    if (t === 'true') return true;
-    if (t === 'false') return false;
-    if (t === '1') return true;
-    if (t === '0') return false;
+    if (t === 'true' || t === '1') return true;
+    if (t === 'false' || t === '0') return false;
   }
   return null;
 };
 
-// 어떤 응답이 와도 id를 뽑는다 (최상위, result.* 모두 검사, 숫자/문자열 지원)
 const pickId = (x: unknown): number | null => {
-  const containers = getContainerChain(x);
-  const keys = ['todoTimerId', 'sessionId', 'id'];
-  for (const c of containers) {
-    for (const k of keys) {
-      const n = parseNumish(c[k]);
+  for (const c of chain(x)) {
+    for (const k of ['todoTimerId', 'sessionId', 'id']) {
+      const n = numish(c[k]);
       if (n != null) return n;
     }
   }
@@ -70,18 +61,16 @@ const pickId = (x: unknown): number | null => {
 };
 
 const pickTodoId = (x: unknown): number | null => {
-  const containers = getContainerChain(x);
-  for (const c of containers) {
-    const n = parseNumish(c['todoId']);
+  for (const c of chain(x)) {
+    const n = numish(c['todoId']);
     if (n != null) return n;
   }
   return null;
 };
 
 const pickIsRunning = (x: unknown): boolean => {
-  const containers = getContainerChain(x);
-  for (const c of containers) {
-    const b = parseBoolish(c['isRunning']);
+  for (const c of chain(x)) {
+    const b = boolish(c['isRunning']);
     if (b != null) return b;
   }
   return false;
@@ -93,7 +82,7 @@ const toSessionLike = (x: unknown): SessionLike => ({
   todoId: pickTodoId(x) ?? undefined,
   isRunning: pickIsRunning(x) || undefined,
 });
-/** ---------------------------------------------- */
+/** -------------------------------- */
 
 export default function TimerControls({
   todoId,
@@ -107,10 +96,17 @@ export default function TimerControls({
 }: TimerControlsProps) {
   const [session, setSession] = useState<SessionLike | null>(null);
 
-  // 더블클릭 가드
+  // 중복 호출 가드
   const startInFlight = useRef(false);
   const pauseInFlight = useRef(false);
   const stopInFlight = useRef(false);
+
+  // 정지 처리 중에는 pause 클릭/요청 무시
+  const isStoppingRef = useRef(false);
+
+  // 동일 runningId로 pause/finish 중복 전송 방지
+  const lastPausedIdRef = useRef<number | null>(null);
+  const lastFinishedIdRef = useRef<number | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -184,23 +180,26 @@ export default function TimerControls({
     }
   };
 
+  // 사용자가 누르는 "일시정지"
   const handlePause = async () => {
-    if (pauseInFlight.current) return;
+    if (pauseInFlight.current || isStoppingRef.current) return; // 정지 중엔 무시
     pauseInFlight.current = true;
 
     try {
-      // 최신 세션 ID 확보(문자열도 파싱)
       const status = await timerApi.getCurrentTimerStatus().catch(() => null);
       const sid = pickId(status) ?? session?.sessionId ?? null;
-
       if (!sid) {
         alert('세션 정보가 없습니다.');
         return;
       }
 
-      await timerApi.pauseTimer(sid);
+      // 동일 ID로 두 번 pause 방지
+      if (lastPausedIdRef.current === sid) return;
 
-      // (옵션) 현재 누적 조회
+      await timerApi.pauseTimer(sid);
+      lastPausedIdRef.current = sid;
+
+      // (옵션) 누적 조회해서 상향 동기화
       let finalTotalSec: number | undefined;
       if (todoId) {
         try {
@@ -219,9 +218,11 @@ export default function TimerControls({
     }
   };
 
+  // 사용자가 누르는 "정지"
   const handleStop = async () => {
     if (stopInFlight.current) return;
     stopInFlight.current = true;
+    isStoppingRef.current = true; // 이 동안 들어오는 pause는 무시
 
     try {
       if (!todoId) {
@@ -229,45 +230,53 @@ export default function TimerControls({
         return;
       }
 
-      // 1) 정지 직전 누적(디버깅용)
-      const before = await timerApi
-        .getTotalRunningTime(todoId)
-        .catch(() => ({ totalRunningTime: '00:00:00' }));
-      const beforeSec = hmsToSec(before.totalRunningTime);
-
-      // 2) 최신 실행 ID 확보 (result.* 포함 탐색하는 pickId 사용)
+      // 1) 최신 실행 ID 확보
       const status = await timerApi.getCurrentTimerStatus().catch(() => null);
-      const finishId = pickId(status) ?? session?.sessionId ?? null;
-      if (!finishId) {
+      const runningId = pickId(status) ?? session?.sessionId ?? null;
+      if (!runningId) {
         alert('현재 실행 중인 타이머가 없습니다.');
         return;
       }
 
-      // 3) ❌ 추가 pause 호출 금지 — 바로 finish만 호출
-      const finished = await timerApi.finishTimer(finishId);
+      // 2) 마지막 러닝 구간을 서버에 확정 (조용히 1회만)
+      if (lastPausedIdRef.current !== runningId) {
+        try {
+          await timerApi.pauseTimer(runningId);
+        } catch {
+          /* 이미 멈춤이면 무시 */
+        }
+        lastPausedIdRef.current = runningId;
+      }
+      // 절대 onPause() 호출하지 않음 ← 정지 시 “일시정지 응답 두 번” 방지 포인트
 
-      // (선택) 마지막 블록 시간 파싱
-      const lastRunSec = (() => {
-        const o =
-          finished && typeof finished === 'object' ? (finished as Record<string, unknown>) : {};
-        const rt = typeof o.runningTime === 'string' ? o.runningTime : '00:00:00';
-        return hmsToSec(rt);
-      })();
+      // 3) pause 직후 누적을 조회해 즉시 UI 반영(새로고침 대비)
+      let midTotalSec = 0;
+      try {
+        const total = await timerApi.getTotalRunningTime(todoId);
+        midTotalSec = hmsToSec(total.totalRunningTime);
+      } catch {}
+      onStop(midTotalSec);
+      setIsRunning(false);
 
-      // 4) 최종 누적(서버 권위)
-      const after = await timerApi.getTotalRunningTime(todoId);
-      const finalTotalSec = hmsToSec(after.totalRunningTime);
+      // 4) 세션 종료 (동일 ID 2번 finish 방지)
+      if (lastFinishedIdRef.current !== runningId) {
+        await timerApi.finishTimer(runningId);
+        lastFinishedIdRef.current = runningId;
+      }
 
-      // 디버깅 로그: 전체 증가와 마지막 블록 비교
-      console.log('[stop] deltaTotal=', finalTotalSec - beforeSec, 'lastBlock=', lastRunSec);
+      // 5) 최종 상향 보정(서버가 finish 반영했다면 조금 더 커질 수 있음)
+      try {
+        const final = await timerApi.getTotalRunningTime(todoId);
+        const finalSec = hmsToSec(final.totalRunningTime);
+        if (finalSec > midTotalSec) onStop(finalSec);
+      } catch {}
 
       setSession(null);
-      onStop(finalTotalSec); // 프론트는 서버 누적만 반영
-      setIsRunning(false);
     } catch (err) {
       console.error('❌ 타이머 종료 실패:', err);
       alert(err instanceof Error ? err.message : '타이머 종료 실패');
     } finally {
+      isStoppingRef.current = false;
       stopInFlight.current = false;
     }
   };
@@ -293,7 +302,7 @@ export default function TimerControls({
           <button
             aria-label="일시정지"
             onClick={handlePause}
-            disabled={pauseInFlight.current}
+            disabled={pauseInFlight.current || isStoppingRef.current}
             className="flex h-88 w-88 items-center justify-center disabled:opacity-40"
           >
             <Image
