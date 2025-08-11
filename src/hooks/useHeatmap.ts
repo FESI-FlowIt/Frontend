@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { getMonthlyHeatmap } from '@/api/heatmap';
 import { MonthlyHeatmapResponse, WeeklyHeatmapResponse } from '@/interfaces/heatmap';
 
 export const useWeeklyHeatmap = () => {
@@ -12,12 +13,10 @@ export const useWeeklyHeatmap = () => {
   });
 };
 
-export const useMonthlyHeatmap = () => {
+export const useMonthlyHeatmap = (yearMonth: string) => {
   return useQuery<MonthlyHeatmapResponse>({
-    queryKey: ['monthlyHeatmap'],
-    queryFn: async () => {
-      const res = await fetch('/heatmaps/monthly');
-      return res.json();
-    },
+    queryKey: ['monthlyHeatmap', yearMonth],
+    queryFn: () => getMonthlyHeatmap(yearMonth),
+    enabled: !!yearMonth,
   });
 };
