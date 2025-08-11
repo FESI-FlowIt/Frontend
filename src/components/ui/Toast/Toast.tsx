@@ -19,7 +19,7 @@ export const Toast = ({ toast, onClose }: ToastProps) => {
     setIsLeaving(true);
     setTimeout(() => {
       onClose(toast.id);
-    }, 300); // 애니메이션 완료 후 제거
+    }, 300);
   }, [onClose, toast.id]);
 
   // 자동 닫힘 타이머
@@ -33,22 +33,33 @@ export const Toast = ({ toast, onClose }: ToastProps) => {
   }, [toast.duration, toast.id, handleClose]);
 
   const getToastStyles = () => {
-    const baseStyles = 'rounded-12 bg-gray-01 px-16 py-12 transition-all duration-300 ease-in-out';
+    const baseStyles =
+      'pointer-events-auto rounded-12 bg-gray-01 px-16 py-12 min-w-200 max-w-500 min-h-48 shadow-lg transition-all duration-300 ease-in-out';
     const animationStyles = isLeaving ? 'translate-x-full opacity-0' : 'translate-x-0 opacity-100';
-
     return `${baseStyles} ${animationStyles}`;
   };
 
   return (
     <div className={getToastStyles()}>
       <div className="flex items-start gap-12">
-        {toast.type === 'success' && <ToastSuccessIcon className="icon-success h-20 w-20" />}
-        {toast.type === 'error' && <ToastErrorIcon className="icon-error h-20 w-20" />}
-        {toast.type === 'warning' && <ToastWarningIcon className="icon-warning h-20 w-20" />}
-        {toast.type === 'info' && <ToastInfoIcon className="icon-info h-20 w-20" />}
-
-        <div className="flex-1">
-          <p className="text-body-m-16 text-white">{toast.message}</p>
+        <div className="flex h-20 w-20 shrink-0 items-center justify-center">
+          {(() => {
+            switch (toast.type) {
+              case 'success':
+                return <ToastSuccessIcon className="icon-success h-20 w-20" />;
+              case 'error':
+                return <ToastErrorIcon className="icon-error h-20 w-20" />;
+              case 'warning':
+                return <ToastWarningIcon className="icon-warning h-20 w-20" />;
+              case 'info':
+                return <ToastInfoIcon className="icon-info h-20 w-20" />;
+              default:
+                return null;
+            }
+          })()}
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-body-m-16 max-w-340 truncate text-white">{toast.message}</p>
 
           {toast.action && (
             <button

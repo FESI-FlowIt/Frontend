@@ -12,7 +12,10 @@ export const ToastContainer = () => {
   if (toasts.length === 0) return null;
 
   return (
-    <div className="fixed top-24 right-24 z-50 max-w-400 space-y-12">
+    <div
+      className="fixed z-50 space-y-12 sm:bottom-16 sm:left-1/2 sm:max-w-[90vw] sm:translate-x-[-50%] sm:px-16 md:top-24 md:right-24 md:bottom-auto md:left-auto md:max-w-400 md:translate-x-0"
+      style={{ pointerEvents: 'none' }}
+    >
       {toasts.map(toast => (
         <Toast key={toast.id} toast={toast} onClose={removeToast} />
       ))}
