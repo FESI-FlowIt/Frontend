@@ -25,7 +25,7 @@ const CalendarCell = ({ date, goals = [], onClick, className }: CalendarCellProp
     <button
       onClick={handleClick}
       className={cn(
-        'rounded-4 flex h-40 w-40 cursor-pointer flex-col items-center transition md:h-44 md:w-84 lg:w-88',
+        'rounded-4 flex h-40 w-full max-w-83 min-w-40 cursor-pointer flex-col items-center transition md:h-44 md:max-w-87 md:min-w-84 lg:max-w-88 lg:min-w-88',
         hasGoals && 'hover:bg-tertiary-01',
         className,
       )}
@@ -34,7 +34,7 @@ const CalendarCell = ({ date, goals = [], onClick, className }: CalendarCellProp
 
       {hasGoals && (
         <div
-          className={`text-body-16 rounded-4 ${goalColorName} w-full truncate px-2 text-center text-white`}
+          className={`text-body-16 rounded-4 ${goalColorName} flex w-full items-center justify-center truncate px-2 text-center text-white`}
         >
           {goalName}
         </div>

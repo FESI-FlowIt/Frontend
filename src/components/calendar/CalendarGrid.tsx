@@ -28,17 +28,20 @@ const CalendarGrid = forwardRef<HTMLDivElement, CalendarGridProps>(({ data, onCe
   }
 
   return (
-    <div ref={ref}>
+    <div ref={ref} className="w-full">
       {/* 요일 헤더 */}
-      <div className="text-body-m-16 text-text-04 grid grid-cols-7 text-center">
+      <div className="text-body-m-16 text-text-04 grid w-full grid-cols-7 text-center">
         {DAYS.map(day => (
-          <span key={day} className="flex h-40 w-40 items-center justify-center md:w-84 lg:w-88">
+          <span
+            key={day}
+            className="flex h-40 w-full max-w-83 min-w-40 items-center justify-center md:max-w-87 md:min-w-84 lg:max-w-88 lg:min-w-88"
+          >
             {day}
           </span>
         ))}
       </div>
       {/* 캘린더 그리드 */}
-      <div className="grid auto-rows-fr grid-cols-7 gap-2">{calendarCells}</div>
+      <div className="grid w-full auto-rows-fr grid-cols-7 gap-2">{calendarCells}</div>
     </div>
   );
 });
