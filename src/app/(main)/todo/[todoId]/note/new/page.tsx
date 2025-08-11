@@ -1,7 +1,7 @@
 import NoteWriteClient from '@/components/notes/NoteWriteClient';
 
 interface NoteWritePageProps {
-  params: Promise<{ todoId: string }>;
+  params: Promise<{ todoId: number }>;
 }
 
 const NoteWritePage = async ({ params }: NoteWritePageProps) => {

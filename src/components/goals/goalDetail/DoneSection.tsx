@@ -22,7 +22,7 @@ const DoneSection = ({ todos, isLoading }: DoneSectionProps) => {
   }
 
   return (
-    <div className="rounded-20 flex h-full flex-col bg-white p-24">
+    <div className="rounded-20 flex flex-col bg-white p-24 sm:h-496 md:h-520 lg:h-full">
       {/* 완료 카운트 */}
       <div className="text-text-02 text-body-sb-20 mb-32">완료: {completedTodos.length}개</div>
 

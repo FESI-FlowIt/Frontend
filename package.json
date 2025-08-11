@@ -18,6 +18,7 @@
     "chromatic": "npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.27.15",
     "@hookform/resolvers": "^5.1.1",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-slot": "^1.2.3",

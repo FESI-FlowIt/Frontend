@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function middleware(req: NextRequest) {
-  const token = req.cookies.get('accessToken')?.value;
+  const accessToken = req.cookies.get('accessToken')?.value;
+  const refreshToken = req.cookies.get('refreshToken')?.value;
 
   const publicPaths = ['/', '/auth/login', '/auth/signup', '/oauth/callback'];
   const pathname = req.nextUrl.pathname;
@@ -20,11 +21,15 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  if (isPublicPath && token) {
+  if (refreshToken) {
+    return NextResponse.next();
+  }
+
+  if (isPublicPath && accessToken) {
     return NextResponse.redirect(new URL('/dashboard', req.url));
   }
 
-  if (!isPublicPath && !token) {
+  if (!isPublicPath && !accessToken) {
     return NextResponse.redirect(new URL('/', req.url));
   }
 

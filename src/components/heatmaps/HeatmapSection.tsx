@@ -37,12 +37,12 @@ export default function HeatmapSection() {
 
   // 히트맵 렌더링
   const renderHeatmap = () => {
-    if (period === 'week' && weeklyHeatmapData) {
-      return <WeeklyHeatmap data={weeklyHeatmapData.data} />;
+    if (period === 'week') {
+      return <WeeklyHeatmap data={weeklyHeatmapData?.data} />;
     }
 
-    if (period === 'month' && monthlyHeatmapData) {
-      return <MonthlyHeatmap data={monthlyHeatmapData.data} />;
+    if (period === 'month') {
+      return <MonthlyHeatmap data={monthlyHeatmapData?.data} />;
     }
 
     return null;
@@ -93,9 +93,9 @@ export default function HeatmapSection() {
         size="heatmap"
         flexWrapExtra={true}
       >
-        <div className="mt-34 flex flex-col gap-22">
-          <div className="flex justify-center">{renderHeatmap()}</div>
-          {renderInsightCard()}
+        <div className="flex h-full flex-1 flex-col gap-12">
+          <div className="flex flex-shrink-0 justify-center">{renderHeatmap()}</div>
+          <div className="flex flex-1">{renderInsightCard()}</div>
         </div>
       </Card>
 

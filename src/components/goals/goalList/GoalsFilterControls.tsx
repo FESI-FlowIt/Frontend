@@ -45,7 +45,9 @@ const GoalsFilterControls = ({
           <div className="mr-4 flex h-24 w-24 items-center justify-center p-2">
             <PinOnIcon className="text-heatmap-accent" width={24} height={24} fill="currentColor" />
           </div>
-          <div className="text-body-sb-20 text-text-01 pr-12 font-semibold">고정된 목표만 보기</div>
+          <div className="sm:text-body-b-16 text-text-01 md:text-body-sb-20 pr-12 font-semibold">
+            고정된 목표만 보기
+          </div>
           <ToggleButton
             checked={params.isPinned === true}
             onCheckedChange={checked => onFilterChange(checked ? true : undefined)}
@@ -58,7 +60,7 @@ const GoalsFilterControls = ({
           <button
             ref={sortDropdownRef}
             onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-            className="text-body-sb-20 text-text-01 flex items-center gap-8 px-12 py-13 font-semibold transition-colors"
+            className="sm:text-body-m-16 md:text-body-sb-20 text-text-01 flex items-center gap-8 px-12 py-13 font-semibold transition-colors"
           >
             {getSortText(params.sortBy)}
             <div className="flex h-24 w-24 items-center justify-center">
@@ -69,8 +71,8 @@ const GoalsFilterControls = ({
             isOpen={isSortDropdownOpen}
             onClose={() => setIsSortDropdownOpen(false)}
             triggerRef={sortDropdownRef}
-            size="auto"
-            position="bottom-right"
+            size="goalListFilter"
+            position="bottom-end"
           >
             <div>
               <button
