@@ -8,8 +8,10 @@ import { useSidebarGoalPinned, useSidebarGoals } from '@/hooks/useSidebar';
 import { getGoalBackgroundColorClass } from '@/lib/goalColors';
 import { ROUTES } from '@/lib/routes';
 
+import CustomLoading from '../ui/CustomLoading';
+
 export default function SidebarGoalsList() {
-  const { data: goals } = useSidebarGoals();
+  const { data: goals, isLoading } = useSidebarGoals();
   const updatePinStatus = useSidebarGoalPinned();
   const router = useRouter();
 
@@ -23,6 +25,8 @@ export default function SidebarGoalsList() {
     const nextPinned = !currentPinned;
     updatePinStatus.mutate({ goalId, isPinned: nextPinned });
   };
+
+  if (isLoading) return <CustomLoading />;
 
   return (
     <div className="flex flex-col gap-12 sm:gap-8 md:gap-12">
