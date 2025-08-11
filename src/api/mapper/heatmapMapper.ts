@@ -1,6 +1,21 @@
-import { ApiMonthlyHeatmapResponse, MonthlyHeatmapResponse } from '@/interfaces/heatmap';
+import {
+  ApiMonthlyHeatmapResponse,
+  ApiWeeklyHeatmapResponse,
+  MonthlyHeatmapResponse,
+  WeeklyHeatmapResponse,
+} from '@/interfaces/heatmap';
 
 export const heatmapMapper = {
+  mapApiToWeeklyHeatmap: (apiResponse: ApiWeeklyHeatmapResponse): WeeklyHeatmapResponse => {
+    return {
+      success: true,
+      data: apiResponse.result.map(day => ({
+        date: day.date,
+        time_slots: day.timeSlots,
+      })),
+    };
+  },
+
   mapApiToMonthlyHeatmap: (apiResponse: ApiMonthlyHeatmapResponse): MonthlyHeatmapResponse => {
     return {
       success: true,
