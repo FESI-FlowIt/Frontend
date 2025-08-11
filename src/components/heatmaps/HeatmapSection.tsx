@@ -17,7 +17,8 @@ import usePopover from '@/hooks/usePopover';
 import { getCurrentDate, getCurrentMonth } from '@/lib/calendar';
 
 export default function HeatmapSection() {
-  const [period, setPeriod] = useState('week');
+  const [period, setPeriod] = useState<'week' | 'month'>('week');
+  const isWeek = period === 'week';
 
   const infoButtonRef = useRef<HTMLButtonElement>(null);
   const cardContainerRef = useRef<HTMLDivElement>(null);
@@ -31,18 +32,18 @@ export default function HeatmapSection() {
   };
 
   // API 호출
-  const { data: weeklyHeatmapData } = useWeeklyHeatmap(getCurrentDate());
-  const { data: monthlyHeatmapData } = useMonthlyHeatmap(getCurrentMonth());
+  const { data: weeklyHeatmapData } = useWeeklyHeatmap(getCurrentDate(), { enabled: isWeek });
+  const { data: monthlyHeatmapData } = useMonthlyHeatmap(getCurrentMonth(), { enabled: !isWeek });
   const { data: weeklyInsightData } = useWeeklyInsight();
   const { data: monthlyInsightData } = useMonthlyInsight();
 
   // 히트맵 렌더링
   const renderHeatmap = () => {
-    if (period === 'week') {
+    if (isWeek) {
       return <WeeklyHeatmap data={weeklyHeatmapData?.data} />;
     }
 
-    if (period === 'month') {
+    if (!isWeek) {
       return <MonthlyHeatmap data={monthlyHeatmapData?.data} />;
     }
 
@@ -89,7 +90,9 @@ export default function HeatmapSection() {
       <Card
         icon={<SparkleIcon className="text-gray-01" width={24} height={24} fill="currentColor" />}
         title={cardTitle}
-        extra={<Tab items={periodTabs} value={period} onChange={setPeriod} />}
+        extra={
+          <Tab items={periodTabs} value={period} onChange={v => setPeriod(v as 'week' | 'month')} />
+        }
         backgroundColor="white"
         size="heatmap"
         flexWrapExtra={true}
