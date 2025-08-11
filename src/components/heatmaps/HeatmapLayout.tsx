@@ -14,7 +14,7 @@ const HeatmapLayout = ({ timeKeys, children }: HeatmapLayoutProps) => {
         {timeKeys.map(key => (
           <div
             key={key}
-            className="text-text-04 text-body-m-16 sm:w-min-64 sm:w-max-139 md:w-min-140 md:w-max-163 lg:w-min-164 lg:w-max-164 flex h-48 w-full items-center justify-center text-center"
+            className="text-text-04 text-body-m-16 flex h-48 w-full max-w-139 min-w-64 items-center justify-center text-center md:max-w-163 md:min-w-140 lg:max-w-164 lg:min-w-164"
           >
             <span className="whitespace-pre-line">{TIME_LABELS[key]}</span>
           </div>

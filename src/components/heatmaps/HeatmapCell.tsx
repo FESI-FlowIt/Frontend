@@ -5,7 +5,7 @@ import { formatMinutesToHourString } from '@/lib/format';
 import { cn } from '@/lib/utils';
 
 const heatmapCellVariants = cva(
-  'text-body-m-16 rounded-8 sm:w-min-64 sm:w-max-139 md:w-min-140 md:w-max-163 lg:w-min-164 lg:w-max-164 flex h-36 w-full items-center justify-center md:h-43',
+  'text-body-m-16 rounded-8 flex h-36 w-full max-w-139 min-w-64 items-center justify-center md:h-43 md:max-w-163 md:min-w-140 lg:max-w-164 lg:min-w-164',
   {
     variants: {
       intensity: {
