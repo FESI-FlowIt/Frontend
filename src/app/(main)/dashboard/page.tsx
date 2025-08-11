@@ -13,7 +13,7 @@ export default function DashboardPage() {
 
   return (
     <div
-      className={cn('sm:mt-32 sm:ml-0 md:mt-0 md:ml-64 lg:mt-0', {
+      className={cn('sm:mt-54 sm:ml-0 md:mt-0 md:ml-88 lg:mt-0', {
         'lg:ml-320': isOpen,
         'lg:ml-80': !isOpen,
       })}
