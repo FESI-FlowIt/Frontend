@@ -12,7 +12,7 @@ const WeeklyHeatmap = ({ data }: WeeklyHeatmapProps) => {
 
   return (
     <HeatmapLayout timeKeys={timeKeys}>
-      {data.days.map((day, i) => (
+      {data.map((day, i) => (
         <HeatmapRow key={day.date} rowLabel={WEEKDAY_LABELS[i]} timeSlots={day.time_slots} />
       ))}
     </HeatmapLayout>

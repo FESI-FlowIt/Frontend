@@ -14,7 +14,7 @@ import { periodTabs } from '@/constants/heatmap';
 import { useMonthlyHeatmap, useWeeklyHeatmap } from '@/hooks/useHeatmap';
 import { useMonthlyInsight, useWeeklyInsight } from '@/hooks/useInsight';
 import usePopover from '@/hooks/usePopover';
-import { getCurrentMonth } from '@/lib/calendar';
+import { getCurrentDate, getCurrentMonth } from '@/lib/calendar';
 
 export default function HeatmapSection() {
   const [period, setPeriod] = useState('week');
@@ -31,7 +31,7 @@ export default function HeatmapSection() {
   };
 
   // API 호출
-  const { data: weeklyHeatmapData } = useWeeklyHeatmap();
+  const { data: weeklyHeatmapData } = useWeeklyHeatmap(getCurrentDate());
   const { data: monthlyHeatmapData } = useMonthlyHeatmap(getCurrentMonth());
   const { data: weeklyInsightData } = useWeeklyInsight();
   const { data: monthlyInsightData } = useMonthlyInsight();
