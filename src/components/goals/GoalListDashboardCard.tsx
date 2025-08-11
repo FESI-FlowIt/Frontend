@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
 import { useRouter } from 'next/navigation';
 
 import GoalIcon from '@/assets/icons/goal.svg';
@@ -30,6 +29,15 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
     return <NoGoalsGuide />;
   }
 
+  const dday = Math.max(
+    0,
+    Math.ceil(
+      (new Date(goal.deadlineDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
+    ),
+  );
+  const deadline = new Date(goal.deadlineDate);
+  const deadlineLabel = `${deadline.getMonth() + 1}/${deadline.getDate()}`;
+
   if (todos.length === 0) {
     return (
       <div
@@ -49,9 +57,11 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
               />
               <h3 className="text-text-01 text-body-sb-20 max-w-296 truncate">{goal.title}</h3>
             </div>
+
+
             <div className="flex items-baseline gap-12">
-              <h3 className="text-text-01 text-body-sb-20">D-{goal.dDay}</h3>
-              <span className="text-body-m-16 text-text-03">({goal.deadlineDate} 마감)</span>
+              <h3 className="text-text-01 text-body-sb-20">D-{dday}</h3>
+              <span className="text-body-m-16 text-text-03">({deadlineLabel} 마감)</span>
             </div>
           </div>
 
