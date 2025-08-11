@@ -48,15 +48,6 @@ export const monthlyHeatmapRes = {
           evening: { minutes: 75, intensity: 2 },
         },
       },
-      {
-        week_of_month: 6,
-        time_slots: {
-          dawn: { minutes: 135, intensity: 3 },
-          morning: { minutes: 0, intensity: 0 },
-          afternoon: { minutes: 5, intensity: 1 },
-          evening: { minutes: 250, intensity: 4 },
-        },
-      },
     ],
   },
 };
