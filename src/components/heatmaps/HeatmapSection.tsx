@@ -93,9 +93,9 @@ export default function HeatmapSection() {
         size="heatmap"
         flexWrapExtra={true}
       >
-        <div className="mt-34 flex flex-col gap-22">
-          <div className="flex justify-center">{renderHeatmap()}</div>
-          {renderInsightCard()}
+        <div className="flex h-full flex-1 flex-col gap-12">
+          <div className="flex flex-shrink-0 justify-center">{renderHeatmap()}</div>
+          <div className="flex flex-1">{renderInsightCard()}</div>
         </div>
       </Card>
 
