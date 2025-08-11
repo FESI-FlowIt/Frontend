@@ -73,14 +73,19 @@ const GoalCard = ({ goal }: GoalCardProps) => {
     </Button>
   );
 
+  const diffDays = Math.ceil(
+    (new Date(goal.deadlineDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
+  );
+  const isOverdue = diffDays < 0;
+
   return (
     <div
-      className="rounded-20 relative flex h-340 w-480 cursor-pointer flex-col overflow-hidden bg-white shadow-lg"
+      className="rounded-20 relative flex h-340 max-w-480 cursor-pointer flex-col overflow-hidden bg-white shadow-lg"
       onClick={handleCardClick}
     >
       {/* 왼쪽 색상 바 */}
       <div
-        className={`absolute top-0 left-0 h-full w-12 ${getGoalBackgroundColorClass(goal.color)}`}
+        className={`absolute top-0 left-0 h-full w-12 ${isOverdue ? 'bg-inactive' : getGoalBackgroundColorClass(goal.color)}`}
       />
 
       {/* 고정 핀 아이콘 */}
@@ -98,7 +103,7 @@ const GoalCard = ({ goal }: GoalCardProps) => {
           {/* 목표 제목 */}
           <div className="mb-16 flex items-center gap-8">
             <GoalIcon
-              className={getGoalTextColorClass(goal.color)}
+              className={isOverdue ? 'text-inactive' : getGoalTextColorClass(goal.color)}
               width={24}
               height={24}
               fill="currentColor"
@@ -109,7 +114,17 @@ const GoalCard = ({ goal }: GoalCardProps) => {
 
           {/* D-Day 정보 */}
           <div className="flex items-baseline gap-12">
-            <h3 className={`text-body-sb-20`}>D-{goal.dDay}</h3>
+            <h3 className={`text-body-sb-20`}>
+              {(() => {
+                if (diffDays > 0) {
+                  return `D-${diffDays}`;
+                } else if (diffDays === 0) {
+                  return 'D-Day';
+                } else {
+                  return `D+${Math.abs(diffDays)}`;
+                }
+              })()}
+            </h3>
             <span className="text-body-m-16 text-text-03">
               ({goal.deadlineDate.slice(0, 10)} 마감)
             </span>
@@ -123,7 +138,7 @@ const GoalCard = ({ goal }: GoalCardProps) => {
               </span>
               <div className="bg-line h-8 w-full overflow-hidden rounded-full">
                 <div
-                  className={`h-full rounded-full transition-all duration-300 ${getGoalBackgroundColorClass(goal.color)}`}
+                  className={`h-full rounded-full transition-all duration-300 ${isOverdue ? 'bg-inactive' : getGoalBackgroundColorClass(goal.color)}`}
                   style={{ width: `${progress}%` }}
                 />
               </div>
