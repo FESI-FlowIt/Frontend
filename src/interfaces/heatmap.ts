@@ -38,3 +38,16 @@ export interface MonthlyHeatmapResponse {
     }[];
   };
 }
+
+// API 명세서 기반 응답 타입
+export interface ApiMonthlyHeatmapResponse {
+  code: string;
+  message: string;
+  result: {
+    yearMonth: string;
+    weeklyHeatmaps: {
+      weekOfMonth: number;
+      timeSlots: Record<TimeSlotKey, { minutes: number; intensity: number }>;
+    }[];
+  };
+}
