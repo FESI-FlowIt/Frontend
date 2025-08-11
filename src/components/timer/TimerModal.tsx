@@ -24,6 +24,7 @@ export interface TimerModalProps {
   todoId: string;
   minutes: number;
   seconds: number;
+  // 부모에서 주는 isBlocked는 무시하고, 모달 내부에서 계산해 쓸게요.
   isBlocked: boolean;
   onStartTick: () => void;
   onPauseTick: () => void;
@@ -48,7 +49,6 @@ export default function TimerModal({
   todoId: _todoId,
   minutes,
   seconds,
-  isBlocked,
   onStartTick,
   onPauseTick,
   onStopTick,
@@ -124,7 +124,27 @@ export default function TimerModal({
     setBaseTotalSec(prev => Math.max(prev, serverSec));
   };
 
-  // 최초 진입/할일 변경
+  /** 블록 상태(다른 할일이 달리는 중인지) */
+  const [blocked, setBlocked] = useState(false);
+
+  /** 0) 모달 첫 오픈 시, 부모 스냅샷으로 즉시 복원 */
+  useEffect(() => {
+    if (!initialSnapshot) return;
+    setBaseTotalSec(prev => Math.max(prev, initialSnapshot.baseTotalSec));
+
+    if (initialSnapshot.resumeAtMs) {
+      const elapsed = Math.floor((Date.now() - initialSnapshot.resumeAtMs) / 1000);
+      const seed = Math.max(0, elapsed);
+      mainPausedAccumRef.current = seed;
+      setMainSeconds(seed);
+      mainStartAtMsRef.current = Date.now();
+      setIsRunning(true);
+      startMainInterval();
+      totalResumeAtMsRef.current = initialSnapshot.resumeAtMs;
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  /** 1) 최초 진입/할일 변경: 서버와 동기화 + 블록 판정 */
   useEffect(() => {
     if (!effectiveTodoId) return;
     (async () => {
@@ -138,27 +158,36 @@ export default function TimerModal({
         const sec = (+h || 0) * 3600 + (+m || 0) * 60 + (+s || 0);
         setBaseTotalSec(prev => Math.max(prev, sec));
 
-        if (status && status.isRunning && Number(status.todoId) === effectiveTodoId) {
+        const running = status && (status as any).isRunning && Number((status as any).todoId);
+        const runningTodoId = running ? Number((status as any).todoId) : null;
+        const isSame = runningTodoId === effectiveTodoId;
+
+        //  다른 할일이 달리는 중이면 블록
+        setBlocked(Boolean(runningTodoId && !isSame));
+
+        if (runningTodoId && isSame) {
           const now = Date.now();
-          mainPausedAccumRef.current = 0;
-          setMainSeconds(0);
+          const prevAccum = mainPausedAccumRef.current;
+          setMainSeconds(prevAccum);
           mainStartAtMsRef.current = now;
           setIsRunning(true);
           startMainInterval();
-          totalResumeAtMsRef.current = now; // 표시용 앵커(서버 합산과 무관)
+          if (!totalResumeAtMsRef.current) {
+            totalResumeAtMsRef.current = initialSnapshot?.resumeAtMs ?? now;
+          }
         } else {
           totalResumeAtMsRef.current = null;
           pauseMain();
         }
       } catch {
+        setBlocked(false);
         totalResumeAtMsRef.current = null;
         pauseMain();
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [effectiveTodoId]);
+  }, [effectiveTodoId]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  /** 시작/일시정지/정지 동작 */
+  /** 2) 시작/일시정지/정지 동작 */
   const handleStart = async () => {
     try {
       if (effectiveTodoId) await updateBaseFromServer(effectiveTodoId);
@@ -166,33 +195,25 @@ export default function TimerModal({
     const now = Date.now();
     const currentMainSec = mainStartAtMsRef.current ? computeMainSeconds() : mainSeconds;
 
-    // 시계는 이어서 보이도록
     mainPausedAccumRef.current = currentMainSec;
     mainStartAtMsRef.current = now;
     setIsRunning(true);
     setMainSeconds(currentMainSec);
     startMainInterval();
 
-    // 표시용 델타 시작(누적 합산은 서버가 담당)
-    totalResumeAtMsRef.current = now;
+    totalResumeAtMsRef.current = totalResumeAtMsRef.current ?? now;
     onStartTick();
   };
 
-  // Controls에서 서버 누적을 넘겨줌 — 로컬 델타는 절대 더하지 않음
-  // ⬇ 기존 handlePause 교체
   const handlePause = (finalServerSec?: number) => {
-    // 0) 지금까지 달린 델타(표시용) 먼저 확정해서 즉시 8초처럼 보이게
     if (totalResumeAtMsRef.current) {
       const delta = Math.floor((Date.now() - totalResumeAtMsRef.current) / 1000);
       setBaseTotalSec(prev => prev + delta);
     }
-
-    // 1) UI 멈춤 + 표시용 앵커 종료
     pauseMain();
     onPauseTick();
     totalResumeAtMsRef.current = null;
 
-    // 2) 서버 값과 상향 동기화 (서버가 바로 안 올려도 로컬 8초 유지)
     if (typeof finalServerSec === 'number' && Number.isFinite(finalServerSec)) {
       setBaseTotalSec(prev => Math.max(prev, finalServerSec));
     } else if (effectiveTodoId) {
@@ -200,21 +221,16 @@ export default function TimerModal({
     }
   };
 
-  // ⬇ 기존 handleStop 교체
   const handleStop = (finalServerSec?: number) => {
-    // 0) 지금까지 달린 델타를 먼저 확정 (정지 시에도 즉시 합산)
     if (totalResumeAtMsRef.current) {
       const delta = Math.floor((Date.now() - totalResumeAtMsRef.current) / 1000);
       setBaseTotalSec(prev => prev + delta);
     }
-
-    // 1) UI 멈춤 + 표시용 앵커 종료
     pauseMain();
-    totalResumeAtMsRef.current = null; // 로컬 추가 가산 중단
+    totalResumeAtMsRef.current = null;
     resetMain();
     onStopTick();
 
-    // 2) 서버 값과 상향 동기화
     if (typeof finalServerSec === 'number' && Number.isFinite(finalServerSec)) {
       setBaseTotalSec(prev => Math.max(prev, finalServerSec));
     } else if (effectiveTodoId) {
@@ -231,8 +247,7 @@ export default function TimerModal({
       });
       if (mainTickRef.current) clearInterval(mainTickRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const { hours, minutes: mm, seconds: ss } = formatTime(mainSeconds);
 
@@ -241,7 +256,7 @@ export default function TimerModal({
       <div className="w-520 p-10">
         <TimerHeader onBack={onBack} onClose={onClose} />
 
-        {isBlocked && (
+        {blocked && (
           <div className="text-error mb-4 rounded-md bg-red-100 px-4 py-2 text-center text-sm">
             이미 다른 할일의 타이머가 실행 중입니다.
           </div>
@@ -256,11 +271,11 @@ export default function TimerModal({
             todoId={effectiveTodoId}
             onSyncTodoId={setEffectiveTodoId}
             isRunning={isRunning}
-            isBlocked={isBlocked}
+            isBlocked={blocked}
             setIsRunning={flag => (flag ? setIsRunning(true) : pauseMain())}
             onStart={handleStart}
-            onPause={handlePause} // 서버 누적초 수신
-            onStop={handleStop} // 서버 누적초 수신
+            onPause={handlePause}
+            onStop={handleStop}
           />
         )}
 
