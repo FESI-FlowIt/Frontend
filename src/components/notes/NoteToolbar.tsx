@@ -10,7 +10,7 @@ const NoteToolbar = memo(() => {
     useNoteToolbar();
 
   return (
-    <div className="border-line rounded-12 relative flex h-44 w-full items-center justify-between border-1 bg-white px-16 py-10 shadow-sm">
+    <div className="border-line rounded-12 relative mx-16 flex h-44 w-auto items-center justify-between border-1 bg-white px-16 py-10 shadow-sm md:mx-0 md:w-full">
       {/* 왼쪽: 메인 툴바 그룹들 */}
       <div className="flex items-center gap-4">
         {toolbarGroups.map((group, i) => (
