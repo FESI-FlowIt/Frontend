@@ -24,7 +24,7 @@ export default function Sidebar() {
   return isOpen ? (
     <div
       className={cn(
-        `border-line md:rounded-tr-50 md:rounded-br-50 sm:rounded-tr-30 sm:rounded-br-30 flex min-h-screen w-320 transform flex-col items-center border-r bg-white py-40 transition-all duration-300 ease-in-out sm:w-280 sm:py-8 md:w-320 md:py-40`,
+        `border-line md:rounded-tr-50 md:rounded-br-50 sm:rounded-tr-30 sm:rounded-br-30 fixed z-10 flex h-screen w-320 transform flex-col items-center overflow-y-auto border-r bg-white py-40 transition-all duration-200 ease-in-out sm:w-280 sm:py-8 md:w-320 md:py-40`,
         {
           'translate-x-0 opacity-100': isOpen,
           'pointer-events-none -translate-x-full opacity-0': !isOpen,
@@ -61,7 +61,7 @@ export default function Sidebar() {
     <>
       <div
         className={cn(
-          `border-line rounded-tr-50 rounded-br-50 min-h-screen w-100 transform flex-col items-center gap-36 border-r bg-white px-18 pt-40 transition-all duration-300 ease-in-out sm:hidden md:flex md:w-80 lg:flex`,
+          `border-line rounded-tr-50 rounded-br-50 fixed min-h-screen w-100 transform flex-col items-center gap-36 border-r bg-white px-18 pt-40 transition-all duration-200 ease-in-out sm:hidden md:flex md:w-80 lg:flex`,
           {
             'translate-x-0 opacity-100': !isOpen,
             'pointer-events-none -translate-x-full opacity-0': isOpen,
@@ -83,7 +83,15 @@ export default function Sidebar() {
         </button>
       </div>
 
-      <div className="h-48 sm:flex sm:items-center sm:gap-12 sm:bg-white sm:px-16 md:hidden lg:hidden">
+      <div
+        className={cn(
+          'fixed h-48 w-full transform transition-all duration-200 ease-in-out sm:flex sm:items-center sm:gap-12 sm:bg-white sm:px-16 md:hidden lg:hidden',
+          {
+            'translate-x-0 opacity-100': !isOpen,
+            'pointer-events-none -translate-x-full opacity-0': isOpen,
+          },
+        )}
+      >
         <div className="sm:gap-4.6 sm:flex sm:items-center">
           <div className="sm:relative sm:h-28 sm:w-28">
             <Image src={`${CLOUDFRONT_URL}/assets/images/flowIt-logo.svg`} alt="로고 이미지" fill />
