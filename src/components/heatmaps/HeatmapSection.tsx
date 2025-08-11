@@ -37,12 +37,12 @@ export default function HeatmapSection() {
 
   // 히트맵 렌더링
   const renderHeatmap = () => {
-    if (period === 'week' && weeklyHeatmapData) {
-      return <WeeklyHeatmap data={weeklyHeatmapData.data} />;
+    if (period === 'week') {
+      return <WeeklyHeatmap data={weeklyHeatmapData?.data} />;
     }
 
-    if (period === 'month' && monthlyHeatmapData) {
-      return <MonthlyHeatmap data={monthlyHeatmapData.data} />;
+    if (period === 'month') {
+      return <MonthlyHeatmap data={monthlyHeatmapData?.data} />;
     }
 
     return null;
