@@ -1,5 +1,7 @@
 'use client';
 
+import { Suspense } from 'react';
+
 import Image from 'next/image';
 
 import { useSidebar } from '@/app/providers/SidebarProvider';
@@ -9,11 +11,12 @@ import { useModalStore } from '@/store/modalStore';
 
 import GoalModal from '../goals/GoalModal';
 import { Button } from '../ui/Button';
+import CustomLoading from '../ui/CustomLoading';
 
+import SidebarGoalsList from './SidebarGoalsList';
 import SidebarHeader from './SidebarHeader';
 import SidebarMenu from './SidebarMenu';
 import SidebarUser from './SidebarUser';
-import SidebarWrapper from './SidebarWrapper';
 
 const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`;
 
@@ -24,7 +27,7 @@ export default function Sidebar() {
   return isOpen ? (
     <div
       className={cn(
-        `border-line md:rounded-tr-50 md:rounded-br-50 sm:rounded-tr-30 sm:rounded-br-30 fixed z-10 flex h-screen w-320 transform flex-col items-center overflow-y-auto border-r bg-white py-40 transition-all duration-200 ease-in-out sm:w-280 sm:py-8 md:w-320 md:py-40`,
+        `border-line md:rounded-tr-50 md:rounded-br-50 sm:rounded-tr-30 sm:rounded-br-30 z-10 flex h-screen w-320 transform flex-col items-center overflow-y-auto border-r bg-white py-40 transition-all duration-200 ease-in-out sm:fixed sm:w-280 sm:py-8 md:fixed md:w-320 md:py-40 lg:static`,
         {
           'translate-x-0 opacity-100': isOpen,
           'pointer-events-none -translate-x-full opacity-0': !isOpen,
@@ -45,7 +48,9 @@ export default function Sidebar() {
         </section>
 
         <section className="mb-100 shrink-0 px-20 sm:px-18 md:px-20">
-          <SidebarWrapper />
+          <Suspense fallback={<CustomLoading />}>
+            <SidebarGoalsList />
+          </Suspense>
         </section>
 
         <section className="shrink-0 px-30 sm:px-10 md:px-30">
@@ -61,7 +66,7 @@ export default function Sidebar() {
     <>
       <div
         className={cn(
-          `border-line rounded-tr-50 rounded-br-50 fixed min-h-screen w-100 transform flex-col items-center gap-36 border-r bg-white px-18 pt-40 transition-all duration-200 ease-in-out sm:hidden md:flex md:w-80 lg:flex`,
+          `border-line rounded-tr-50 rounded-br-50 min-h-screen w-100 transform flex-col items-center gap-36 border-r bg-white px-18 pt-40 transition-all duration-200 ease-in-out sm:fixed sm:hidden md:fixed md:flex md:w-80 lg:static lg:flex`,
           {
             'translate-x-0 opacity-100': !isOpen,
             'pointer-events-none -translate-x-full opacity-0': isOpen,
@@ -85,7 +90,7 @@ export default function Sidebar() {
 
       <div
         className={cn(
-          'fixed h-48 w-full transform transition-all duration-200 ease-in-out sm:flex sm:items-center sm:gap-12 sm:bg-white sm:px-16 md:hidden lg:hidden',
+          'h-48 w-full transform transition-all duration-200 ease-in-out sm:fixed sm:flex sm:items-center sm:gap-12 sm:bg-white sm:px-16 md:fixed md:hidden lg:static lg:hidden',
           {
             'translate-x-0 opacity-100': !isOpen,
             'pointer-events-none -translate-x-full opacity-0': isOpen,
