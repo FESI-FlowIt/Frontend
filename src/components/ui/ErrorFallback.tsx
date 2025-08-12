@@ -37,7 +37,7 @@ const ERROR_CONFIGS: Record<ErrorType, ErrorConfig> = {
     Icon: GeneralErrorIcon,
     title: '문제가 발생했어요',
     subTitle: '잠시 후 다시 시도해 주세요',
-    iconWrapClass: 'sm:h-100 sm:w-100 md:h-200 md:w-200',
+    iconWrapClass: 'h-100 w-100',
     primary: { label: '다시 시도', action: 'retry' },
     secondary: { label: '홈으로', action: 'navigate' },
   },
@@ -45,7 +45,7 @@ const ERROR_CONFIGS: Record<ErrorType, ErrorConfig> = {
     Icon: NotFoundErrorIcon,
     title: '페이지를 찾을 수 없어요',
     subTitle: '요청하신 페이지가 존재하지 않습니다',
-    iconWrapClass: 'sm:h-100 sm:w-150 md:h-200 md:w-300',
+    iconWrapClass: 'h-100 w-150',
     primary: { label: '홈으로', action: 'navigate' },
     secondary: { label: '이전 페이지', action: 'back' },
   },
@@ -125,7 +125,7 @@ const ErrorFallback = ({
       </div>
 
       {/* Action Buttons */}
-      <div className="flex w-full flex-col items-center justify-center gap-6 sm:mt-40 md:mt-60">
+      <div className="mt-40 flex w-full flex-col items-center justify-center gap-6">
         <Button
           variant="errorPrimary"
           text="errorPrimary"
