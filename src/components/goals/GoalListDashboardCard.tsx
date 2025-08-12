@@ -1,14 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import { useRouter } from 'next/navigation';
 
+import { todosApi } from '@/api/todosApi';
 import GoalIcon from '@/assets/icons/goal.svg';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
 import { getGoalTextColorClass } from '@/lib/goalColors';
 import { ROUTES } from '@/lib/routes';
-import { todosApi } from '@/api/todosApi';
 
 import EmptyTodo from './EmptyTodo';
 import GoalCardContent from './GoalCardContent';
@@ -34,7 +35,8 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
 
     try {
       await todosApi.toggleTodoDone(id, nextDone);
-    } catch (err) {
+    } catch {
+      // 실패 시 롤백
       setTodos(prev => prev.map(t => (t.id === id ? { ...t, isDone: !nextDone } : t)));
     } finally {
       setPendingIds(prev => prev.filter(x => x !== id));
