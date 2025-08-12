@@ -34,26 +34,27 @@ export const timerApi = {
     return timerMapper.mapApiToPausedTimer(data);
   },
 
-  pauseTimerKeepalive(todoTimerId: number) {
-    try {
-      const token = useAuthStore.getState().accessToken ?? '';
-      const base = process.env.NEXT_PUBLIC_API_BASE ?? '';
-      const url = `${base}/todo-timers/${todoTimerId}/pause`;
+pauseTimerKeepalive(todoTimerId: number) {
+  try {
+    const token = useAuthStore.getState().accessToken ?? '';
+    const base = process.env.NEXT_PUBLIC_API_BASE ?? '';
+    const url = `${base}/todo-timers/${todoTimerId}/pause`;
 
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        body: JSON.stringify({}),
-        keepalive: true,
-        cache: 'no-store',
-      }).catch(() => {});
-    } catch {
-      // intentionally empty
-      }
-  },
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({}),
+      keepalive: true,
+      cache: 'no-store',
+    }).catch(() => {});
+  } catch {
+    // intentionally empty
+  }
+},
+
 
   resumeTimer: async (todoTimerId: number): Promise<TimerSession> => {
     const data: any = await patchRequest(`/todo-timers/${todoTimerId}/resume`);
