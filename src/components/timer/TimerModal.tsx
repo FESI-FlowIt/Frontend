@@ -193,7 +193,9 @@ export default function TimerModal({
   const handleStart = async () => {
     try {
       if (effectiveTodoId) await updateBaseFromServer(effectiveTodoId);
-    } catch {}
+    } catch {
+      /* no-op: resume 실패면 다음 경로 시도 */
+    }
     const now = Date.now();
     const currentMainSec = mainStartAtMsRef.current ? computeMainSeconds() : mainSeconds;
 

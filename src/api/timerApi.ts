@@ -10,7 +10,7 @@ import {
   InProgressGoal,
   TimerSession,
 } from '@/interfaces/timer';
-import { useAuthStore } from '@/store/authStore'; // ⬅ 추가
+import { useAuthStore } from '@/store/authStore';
 
 export const timerApi = {
   startTimer: async (body: ApiStartTimerRequest): Promise<TimerSession> => {
@@ -33,12 +33,13 @@ export const timerApi = {
   },
 
   pauseTimer: async (todoTimerId: number): Promise<TimerSession> => {
+    // ⬇ prettier가 요구하는 한 줄 형태
     const data: ApiPauseTimerResponse = await postRequest(`/todo-timers/${todoTimerId}/pause`, {});
     console.log('🟠 일시정지 응답 data:', data);
     return timerMapper.mapApiToPausedTimer(data);
   },
 
-  //  언로드 직전 best-effort 일시정지(응답 기다리지 않음)
+  // 언로드 직전 best-effort 일시정지(응답 기다리지 않음)
   pauseTimerKeepalive(todoTimerId: number) {
     try {
       const token = useAuthStore.getState().accessToken ?? '';
@@ -52,7 +53,7 @@ export const timerApi = {
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({}),
-        keepalive: true, //  언로드 중에도 전송 시도
+        keepalive: true, // 언로드 중에도 전송 시도
         cache: 'no-store',
       }).catch(() => {
         /* 언로드 중 실패는 무시 */

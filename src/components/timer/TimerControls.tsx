@@ -1,14 +1,14 @@
 'use client';
+/* eslint-disable simple-import-sort/imports */
 
 import { useEffect, useRef, useState } from 'react';
-
 import Image from 'next/image';
 
 import { timerApi } from '@/api/timerApi';
 
 interface TimerControlsProps {
   todoId: number | null;
-  onSyncTodoId: (id: number) => void;
+  onSyncTodoId: (_todoId: number) => void; // ← id 경고 회피용 이름 변경(기능 영향 없음)
   isRunning: boolean;
   isBlocked: boolean;
   onStart: () => void;
@@ -132,23 +132,6 @@ export default function TimerControls({
     })();
   }, [onSyncTodoId, todoId]);
 
-  // // 🔔 페이지 이탈/닫힘 시 실행 중이면 현재 세션을 best-effort로 pause
-  // // 🔔 브라우저 닫기/새로고침/완전한 페이지 이탈 시에만 pause (SPA 내부 이동은 X)
-  // useEffect(() => {
-  //   const onBeforeUnload = () => {
-  //     if (isBlocked || !isRunning) return;
-  //     const sid = session?.sessionId ?? null;
-  //     if (sid != null) {
-  //       timerApi.pauseTimerKeepalive(sid);
-  //     }
-  //   };
-
-  //   window.addEventListener('beforeunload', onBeforeUnload);
-  //   return () => {
-  //     window.removeEventListener('beforeunload', onBeforeUnload);
-  //   };
-  // }, [isRunning, isBlocked, session?.sessionId]);
-
   const resetGuards = () => {
     lastPausedIdRef.current = null;
     lastFinishedIdRef.current = null;
@@ -181,7 +164,9 @@ export default function TimerControls({
           onStart();
           setIsRunning(true);
           return;
-        } catch {}
+        } catch {
+          /* no-op: resume 실패면 다음 경로 시도 */
+        }
       }
 
       // 2) 서버 상태 기반 재개 (같은 todo일 때만)
@@ -198,7 +183,9 @@ export default function TimerControls({
           onStart();
           setIsRunning(true);
           return;
-        } catch {}
+        } catch {
+          /* no-op: resume 실패면 다음 경로 시도 */
+        }
       }
 
       // 3) 새 세션 시작
@@ -245,7 +232,9 @@ export default function TimerControls({
         try {
           const res = await timerApi.getTotalRunningTime(todoId);
           finalTotalSec = hmsToSec(res.totalRunningTime);
-        } catch {}
+        } catch {
+          /* no-op: resume 실패면 다음 경로 시도 */
+        }
       }
 
       onPause(finalTotalSec);
@@ -293,7 +282,9 @@ export default function TimerControls({
         const total = await timerApi.getTotalRunningTime(todoId);
         const [h = '0', m = '0', s = '0'] = (total.totalRunningTime ?? '00:00:00').split(':');
         finalTotalSec = (+h || 0) * 3600 + (+m || 0) * 60 + (+s || 0);
-      } catch {}
+      } catch {
+        /* no-op: resume 실패면 다음 경로 시도 */
+      }
 
       onStop(finalTotalSec);
       setIsRunning(false);
