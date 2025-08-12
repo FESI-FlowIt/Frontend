@@ -63,8 +63,8 @@ const NoteWriteClient = ({ todoId }: NoteWriteClientProps) => {
   const isCompleteEnabled = Boolean(title?.trim() && content?.trim());
 
   return (
-    <div className="relative h-full w-full">
-      <div className="relative h-full max-w-793 sm:max-w-343 md:max-w-616 lg:max-w-793">
+    <div className="relative h-screen w-full md:h-full md:max-w-793">
+      <div className="relative h-screen md:h-full">
         <div className="mb-40">
           <NoteHeader
             onDraft={() => handleSave('draft')}
@@ -81,7 +81,7 @@ const NoteWriteClient = ({ todoId }: NoteWriteClientProps) => {
         <div className="my-24">
           <NoteContentEditor />
         </div>
-        <div className="fixed bottom-24 z-10 w-full sm:max-w-343 md:max-w-616 lg:max-w-793">
+        <div className="fixed right-0 bottom-24 left-0 z-10 md:absolute">
           <NoteToolbar />
         </div>
       </div>

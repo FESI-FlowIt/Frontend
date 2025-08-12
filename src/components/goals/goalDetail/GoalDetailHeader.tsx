@@ -156,7 +156,7 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
             })()}
           </div>
           <div className="text-body-m-16 text-text-03">
-            ({new Date(goal.deadlineDate).getMonth() + 1}/{new Date(goal.deadlineDate).getDate()}{' '}
+            ({new Date(goal.deadlineDate).getMonth() + 1}/{new Date(goal.deadlineDate).getDate()}
             마감)
           </div>
         </div>
