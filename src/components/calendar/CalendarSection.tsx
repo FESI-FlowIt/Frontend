@@ -5,6 +5,7 @@ import CalendarGoalPopover from '@/components/calendar/CalendarGoalPopover';
 import CalendarGrid from '@/components/calendar/CalendarGrid';
 import ArrowNavigation from '@/components/ui/ArrowNavigation';
 import Card from '@/components/ui/Card';
+import ErrorFallback from '@/components/ui/ErrorFallback';
 import { useDeadlineCalendar } from '@/hooks/useGoalCalendar';
 import usePopover from '@/hooks/usePopover';
 import { Goal } from '@/interfaces/calendar';
@@ -12,12 +13,23 @@ import { getCurrentMonth, sortGoalsByCreatedAt } from '@/lib/calendar';
 
 export default function CalendarSection() {
   const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth());
-  const { data: calendarData } = useDeadlineCalendar(selectedMonth);
+
+  // API 호출
+  const {
+    data: calendarData,
+    error: calendarError,
+    refetch: refetchCalendar,
+  } = useDeadlineCalendar(selectedMonth);
 
   const [year, month] = selectedMonth.split('-').map(Number);
 
   const calendarGridRef = useRef<HTMLDivElement>(null);
   const popover = usePopover('calendar');
+
+  const hasError = !!calendarError;
+  const handleRetry = () => {
+    refetchCalendar();
+  };
 
   // 팝오버 상태 관리
   const [selectedGoals, setSelectedGoals] = useState<{
@@ -78,19 +90,29 @@ export default function CalendarSection() {
         }
         title="마감일 캘린더"
         extra={
-          <ArrowNavigation
-            label={`${year}년 ${month}월`}
-            onPrev={handlePrevMonth}
-            onNext={handleNextMonth}
-            isDisabledPrev={false}
-            isDisabledNext={false}
-          />
+          !hasError && (
+            <ArrowNavigation
+              label={`${year}년 ${month}월`}
+              onPrev={handlePrevMonth}
+              onNext={handleNextMonth}
+              isDisabledPrev={false}
+              isDisabledNext={false}
+            />
+          )
         }
         backgroundColor="white"
         size="calendar"
         flexWrapExtra={false}
       >
-        <CalendarGrid ref={calendarGridRef} data={displayData} onCellClick={handleCellClick} />
+        {hasError ? (
+          // 에러 처리
+          <div className="flex h-full w-full justify-center">
+            <ErrorFallback type="general" title="데이터를 불러올 수 없어요" onRetry={handleRetry} />
+          </div>
+        ) : (
+          // 정상 처리
+          <CalendarGrid ref={calendarGridRef} data={displayData} onCellClick={handleCellClick} />
+        )}
       </Card>
 
       {/* 목표 팝오버 */}
