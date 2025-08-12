@@ -43,14 +43,21 @@ export async function getRequest(url: string, params?: Params, options?: GetRequ
 
 export async function postRequest(url: string, body: object = {}) {
   const accessToken = useAuthStore.getState().accessToken;
+
+  // FormData인 경우 Content-Type을 설정하지 않음 (브라우저가 자동 설정)
+  const isFormData = body instanceof FormData;
+
+  const headers: Record<string, string> = {};
+  if (!isFormData) {
+    headers['Content-Type'] = 'application/json';
+  }
+
   return fetchWrapper(
     url,
     {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
+      headers,
+      body: isFormData ? body : JSON.stringify(body),
     },
     accessToken ?? undefined,
   );

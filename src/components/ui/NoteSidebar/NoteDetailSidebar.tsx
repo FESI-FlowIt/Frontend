@@ -11,17 +11,24 @@ import NoteDetailReadMode from './NoteDetailReadMode';
 
 interface NoteDetailSidebarProps {
   noteId: number;
+  todoId: number;
   onClose?: () => void;
   onBack: () => void;
   goalTitle?: string;
   todoTitle?: string;
 }
 
-const NoteDetailSidebar = ({ noteId, onBack, goalTitle, todoTitle }: NoteDetailSidebarProps) => {
+const NoteDetailSidebar = ({
+  noteId,
+  todoId,
+  onBack,
+  goalTitle,
+  todoTitle,
+}: NoteDetailSidebarProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { data: note, isLoading, error } = useNoteDetailById(noteId);
+  const { data: note, isLoading, error } = useNoteDetailById(noteId, todoId);
   const { mutate: updateNote } = useUpdateNote();
   const { mutate: deleteNote } = useDeleteNote();
 
@@ -97,9 +104,6 @@ const NoteDetailSidebar = ({ noteId, onBack, goalTitle, todoTitle }: NoteDetailS
           setIsEditing(false);
           reset();
         },
-        onError: error => {
-          console.error('❌ [NoteDetailSidebar] 노트 업데이트 실패:', error);
-        },
       },
     );
   };
@@ -112,15 +116,17 @@ const NoteDetailSidebar = ({ noteId, onBack, goalTitle, todoTitle }: NoteDetailS
   const handleDelete = () => {
     if (!note) return;
 
-    deleteNote(note.noteId, {
-      onSuccess: () => {
-        console.log('노트 삭제 성공');
-        onBack();
+    deleteNote(
+      { noteId: note.noteId, todoId },
+      {
+        onSuccess: () => {
+          onBack();
+        },
+        onError: error => {
+          console.error('노트 삭제 실패:', error);
+        },
       },
-      onError: error => {
-        console.error('노트 삭제 실패:', error);
-      },
-    });
+    );
   };
 
   return (

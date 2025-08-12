@@ -32,8 +32,8 @@ const modalContentVariants = cva(
   {
     variants: {
       size: {
-        goal: 'h-552 w-600',
-        todo: 'h-auto w-600',
+        goal: 'h-screen w-screen rounded-none md:h-552 md:w-600 md:rounded-3xl',
+        todo: 'h-screen w-screen rounded-none md:h-auto md:w-600 md:rounded-3xl',
         link: 'h-auto w-520',
         auth: 'h-256 w-402',
         timer: 'h-600 w-343 md:h-762 md:w-600',
@@ -46,10 +46,12 @@ const modalContentVariants = cva(
       },
       margin: {
         default: 'm-16',
+        none: 'm-0',
       },
       rounded: {
         default: 'rounded-3xl',
         none: 'rounded-none',
+        responsive: 'rounded-none md:rounded-3xl',
         auth: 'rounded-20',
         schedule: 'rounded-24',
       },

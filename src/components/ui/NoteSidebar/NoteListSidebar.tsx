@@ -29,7 +29,7 @@ const NoteListSidebar = ({ todo, onClose, onNoteClick }: NoteListSidebarProps) =
           </div>
           <div className="text-body-b-16 text-text-02">To do</div>
         </div>
-        <div className="text-body-m-20 text-text-02 font-medium">{todo.title}</div>
+        <div className="text-body-m-20 text-text-02 font-medium">{todo.name}</div>
       </div>
       <hr className="bg-line mb-36 h-2 border-none" />
       {/* 노트 리스트 */}

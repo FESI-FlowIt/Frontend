@@ -64,8 +64,8 @@ const GoalModal = () => {
         onClose={handleClose}
         size="goal"
         padding="default"
-        margin="default"
-        rounded="default"
+        rounded="responsive"
+        margin="none"
         layer="stacked"
       >
         <div className="mb-52 flex items-center justify-between">

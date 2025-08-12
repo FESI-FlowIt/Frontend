@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import CloseIcon from '@/assets/icons/close.svg';
+import { useToast } from '@/hooks/useToast';
 import { Attachment } from '@/interfaces/todo';
 import { useModalStore } from '@/store/modalStore';
 
@@ -42,7 +43,7 @@ type LinkFormData = z.infer<typeof linkFormSchema>;
 const LinkModal = ({ onAddLink, onAddNoteLink }: LinkModalProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { linkModalIsOpen, closeLinkModal } = useModalStore();
-
+  const toast = useToast();
   const {
     register,
     handleSubmit,
@@ -93,6 +94,7 @@ const LinkModal = ({ onAddLink, onAddNoteLink }: LinkModalProps) => {
       reset();
       closeLinkModal();
     } catch (error) {
+      toast.error('링크 추가에 실패했어요. 다시 시도해주세요.');
       console.error('링크 추가 실패:', error);
     } finally {
       setIsSubmitting(false);

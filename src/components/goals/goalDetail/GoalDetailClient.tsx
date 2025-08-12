@@ -14,9 +14,11 @@ import GoalDetailHeader from '@/components/goals/goalDetail/GoalDetailHeader';
 import TodoSection from '@/components/goals/goalDetail/TodoSection';
 import GoalModal from '@/components/goals/GoalModal';
 import TodoModal from '@/components/todos/TodoModal';
-import { useGoal } from '@/hooks/useGoals';
+import { useGoal, useGoalNotesAttachments } from '@/hooks/useGoals';
 import { ROUTES } from '@/lib/routes';
 import { useNoteWriteStore } from '@/store/noteWriteStore';
+import { useTodoAttachmentsStore } from '@/store/todoAttachmentsStore';
+
 interface GoalDetailClientProps {
   goalId: number;
 }
@@ -24,19 +26,29 @@ interface GoalDetailClientProps {
 const GoalDetailClient = ({ goalId }: GoalDetailClientProps) => {
   const router = useRouter();
   const { setGoalTitle } = useNoteWriteStore();
+  const { setAttachments } = useTodoAttachmentsStore();
 
   const handleNavigatetoNotes = () => {
-    router.push(ROUTES.GOALS.TODOS.NOTES());
+    router.push(`${ROUTES.GOALS.TODOS.NOTES()}?goalId=${goalId}`);
   };
 
   const { data: goal, isLoading: goalLoading } = useGoal(goalId);
 
-  // goalTitle을 스토어에 설정 (useEffect 사용)
+  // 노트, 첨부파일, 링크 정보를 store에 로드
+  const { data: notesAttachments } = useGoalNotesAttachments(goalId);
+
   useEffect(() => {
     if (goal?.title) {
       setGoalTitle(goal.title);
     }
   }, [goal?.title, setGoalTitle]);
+
+  // 노트, 첨부파일 데이터를 store에 저장
+  useEffect(() => {
+    if (notesAttachments?.todos) {
+      setAttachments(goalId, notesAttachments.todos);
+    }
+  }, [notesAttachments, goalId, setAttachments]);
 
   if (goalLoading) {
     return (
