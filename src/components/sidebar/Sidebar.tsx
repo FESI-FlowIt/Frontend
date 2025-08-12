@@ -2,6 +2,7 @@
 
 import { Suspense } from 'react';
 
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -15,7 +16,11 @@ import { Button } from '../ui/Button';
 import CustomLoading from '../ui/CustomLoading';
 import ErrorFallback from '../ui/ErrorFallback';
 
-import SidebarGoalsList from './SidebarGoalsList';
+const SidebarGoalsList = dynamic(() => import('./SidebarGoalsList'), {
+  ssr: false,
+  loading: () => <CustomLoading />,
+});
+
 import SidebarHeader from './SidebarHeader';
 import SidebarMenu from './SidebarMenu';
 import SidebarUser from './SidebarUser';
