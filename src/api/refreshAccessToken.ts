@@ -1,5 +1,4 @@
 import { deleteCookie, setCookie } from '@/lib/cookies';
-import { ROUTES } from '@/lib/routes';
 
 import { BASE_URL } from './apiWrapper';
 
@@ -22,24 +21,22 @@ export const refreshAccessToken = async (
           }),
         });
 
-        if (!res.ok) throw new Error('Failed to refresh token');
-
         const { result } = await res.json();
-        const newAccessToken = result?.result.accessToken;
+        const newAccessToken = result.accessToken;
 
         if (!newAccessToken) throw new Error('Token missing in response');
 
         await setCookie('accessToken', newAccessToken);
 
-        if (result?.result.refreshToken) {
-          const refreshToken = result?.result.refreshToken;
-          await setCookie('refreshToken', refreshToken);
+        if (result?.refreshToken) {
+          const newRefreshToken = result.refreshToken;
+          await setCookie('refreshToken', newRefreshToken);
         }
 
         return newAccessToken;
       } catch {
         await deleteCookie('accessToken');
-        window.location.href = ROUTES.AUTH.LOGIN;
+        await deleteCookie('refreshToken');
         return null;
       } finally {
         refreshPromise = null;
