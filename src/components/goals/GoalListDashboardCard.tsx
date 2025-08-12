@@ -8,7 +8,7 @@ import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
 import { getGoalTextColorClass } from '@/lib/goalColors';
 import { ROUTES } from '@/lib/routes';
-import { todosApi } from '@/api/todosApi'; // ✅ 추가
+import { todosApi } from '@/api/todosApi';
 
 import EmptyTodo from './EmptyTodo';
 import GoalCardContent from './GoalCardContent';
@@ -17,7 +17,7 @@ import NoGoalsGuide from './NoGoalsGuide';
 export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | null }) {
   const router = useRouter();
   const [todos, setTodos] = useState<TodoSummary[]>(goal?.todos ?? []);
-  const [pendingIds, setPendingIds] = useState<number[]>([]); // ✅ 중복 클릭 방지
+  const [pendingIds, setPendingIds] = useState<number[]>([]);
 
   useEffect(() => {
     if (goal) setTodos(goal.todos);
@@ -29,18 +29,13 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
 
     const nextDone = !target.isDone;
 
-    // ✅ 낙관적 업데이트
     setTodos(prev => prev.map(t => (t.id === id ? { ...t, isDone: nextDone } : t)));
     setPendingIds(prev => [...prev, id]);
 
     try {
-      await todosApi.toggleTodoDone(id, nextDone); // PATCH /todos/{id}/done
-      // 성공 시 그대로 유지
+      await todosApi.toggleTodoDone(id, nextDone);
     } catch (err) {
-      // ❌ 실패 롤백
       setTodos(prev => prev.map(t => (t.id === id ? { ...t, isDone: !nextDone } : t)));
-      console.error('할 일 완료 토글 실패:', err);
-      // TODO: 토스트 등 사용자 알림
     } finally {
       setPendingIds(prev => prev.filter(x => x !== id));
     }
