@@ -12,7 +12,6 @@ const NotesPage = async ({ searchParams }: NotesPageProps) => {
   const goalId = params.goalId ? Number(params.goalId) : undefined;
 
   return (
-
     <div className={cn('h-full w-full sm:mt-54 md:mt-0 lg:mt-0')}>
       <NotesClient initialGoalId={goalId} />
     </div>
