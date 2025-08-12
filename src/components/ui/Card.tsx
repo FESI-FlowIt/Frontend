@@ -14,7 +14,7 @@ const cardVariants = cva('rounded-20 flex flex-col gap-16 px-14 py-20 md:px-20',
         'h-625 w-full max-w-635 min-w-343 md:h-600 md:max-w-739 md:min-w-636 lg:max-w-740 lg:min-w-740',
       calendar:
         'h-full w-full max-w-635 min-w-343 md:max-w-739 md:min-w-636 lg:h-412 lg:max-w-740 lg:min-w-740',
-      goal: 'h-433 w-343 md:h-428 md:w-636 lg:h-428 lg:w-1504',
+      goal: 'h-1146 w-343 md:w-636 lg:h-428 lg:w-1504',
       schedule: 'h-200 w-343 md:h-176 md:w-636 lg:h-176 lg:w-728',
     },
   },

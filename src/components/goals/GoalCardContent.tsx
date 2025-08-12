@@ -29,6 +29,15 @@ export default function GoalCardContent({
   const bgClass = getGoalBackgroundColorClass(goal.color);
   const { openTodoModalWithGoal } = useModalStore();
 
+  const dday = Math.max(
+    0,
+    Math.ceil(
+      (new Date(goal.deadlineDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
+    ),
+  );
+
+  const deadline = new Date(goal.deadlineDate);
+
   return (
     <div
       className="rounded-20 relative flex h-340 w-303 cursor-pointer flex-col overflow-hidden bg-white md:w-596 lg:w-480"
@@ -47,10 +56,14 @@ export default function GoalCardContent({
               />
               <h3 className="text-text-01 text-body-sb-20 max-w-296 truncate">{goal.title}</h3>
             </div>
+
             <div className="flex items-baseline gap-12">
-              <h3 className="text-text-01 text-body-sb-20">D-{goal.dDay}</h3>
-              <span className="text-body-m-16 text-text-03">({goal.deadlineDate} 마감)</span>
+              <h3 className="text-text-01 text-body-sb-20">D-{dday}</h3>
+              <span className="text-body-m-16 text-text-03">
+                ({deadline.getMonth() + 1}/{deadline.getDate()} 마감)
+              </span>
             </div>
+
             <span className="text-body-m-16 text-text-04">
               {doneCount}/{totalCount} 완료 ({progressPercent}%)
             </span>
