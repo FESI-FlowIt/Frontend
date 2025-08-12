@@ -37,7 +37,7 @@ const ERROR_CONFIGS: Record<ErrorType, ErrorConfig> = {
     Icon: GeneralErrorIcon,
     title: '문제가 발생했어요',
     subTitle: '잠시 후 다시 시도해 주세요',
-    iconWrapClass: 'sm:h-100 sm:w-100 md:h-200 md:w-200',
+    iconWrapClass: 'h-100 w-100',
     primary: { label: '다시 시도', action: 'retry' },
     secondary: { label: '홈으로', action: 'navigate' },
   },
@@ -45,7 +45,7 @@ const ERROR_CONFIGS: Record<ErrorType, ErrorConfig> = {
     Icon: NotFoundErrorIcon,
     title: '페이지를 찾을 수 없어요',
     subTitle: '요청하신 페이지가 존재하지 않습니다',
-    iconWrapClass: 'sm:h-100 sm:w-150 md:h-200 md:w-300',
+    iconWrapClass: 'h-100 w-150',
     primary: { label: '홈으로', action: 'navigate' },
     secondary: { label: '이전 페이지', action: 'back' },
   },
@@ -109,7 +109,7 @@ const ErrorFallback = ({
   };
 
   return (
-    <div className="flex w-220 flex-col items-center justify-center md:w-400">
+    <div className="flex w-300 flex-col items-center justify-center">
       {/* Error Icon */}
       <div className={config.iconWrapClass}>
         <Icon
@@ -119,13 +119,13 @@ const ErrorFallback = ({
       </div>
 
       {/* Error Messages */}
-      <div className="flex w-full flex-col text-center sm:gap-12 md:gap-16">
-        <h1 className="sm:text-body-sb-20 md:text-display-24 text-text-02">{displayTitle}</h1>
-        <p className="sm:text-body-m-16 md:text-body-m-20 text-text-03">{displaySubTitle}</p>
+      <div className="flex w-full flex-col gap-12 text-center">
+        <h1 className="text-body-sb-20 text-text-02">{displayTitle}</h1>
+        <p className="text-body-m-16 text-text-03">{displaySubTitle}</p>
       </div>
 
       {/* Action Buttons */}
-      <div className="flex w-full flex-col items-center justify-center gap-6 sm:mt-40 md:mt-60">
+      <div className="mt-40 flex w-full flex-col items-center justify-center gap-6">
         <Button
           variant="errorPrimary"
           text="errorPrimary"
