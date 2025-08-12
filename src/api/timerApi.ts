@@ -50,7 +50,9 @@ export const timerApi = {
         keepalive: true,
         cache: 'no-store',
       }).catch(() => {});
-    } catch {}
+    } catch {
+      // intentionally empty
+      }
   },
 
   resumeTimer: async (todoTimerId: number): Promise<TimerSession> => {
