@@ -11,8 +11,12 @@ import { TodoWithNotes } from '@/interfaces/todo';
 
 const ITEMS_PER_PAGE = 6; // 페이지당 표시할 할 일 개수
 
-const NotesClient = () => {
-  const [selectedGoalId, setSelectedGoalId] = useState<number>(0);
+interface NotesClientProps {
+  initialGoalId?: number;
+}
+
+const NotesClient = ({ initialGoalId }: NotesClientProps) => {
+  const [selectedGoalId, setSelectedGoalId] = useState<number>(initialGoalId || 0);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [selectedTodo, setSelectedTodo] = useState<TodoWithNotes | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);

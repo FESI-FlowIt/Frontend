@@ -48,13 +48,14 @@ const NoteSidebar = ({ isOpen, todo, goalTitle, onClose }: NoteSidebarProps) => 
         {currentView === 'note-list' && todo && (
           <NoteListSidebar todo={todo} onClose={handleClose} onNoteClick={handleNoteClick} />
         )}
-        {currentView === 'note-detail' && setselectedNoteId && (
+        {currentView === 'note-detail' && setselectedNoteId && todo && (
           <NoteDetailSidebar
             noteId={setselectedNoteId}
+            todoId={todo.todoId}
             onClose={handleClose}
             onBack={handleBack}
             goalTitle={goalTitle}
-            todoTitle={todo?.title}
+            todoTitle={todo?.name}
           />
         )}
       </div>
