@@ -109,7 +109,7 @@ const ErrorFallback = ({
   };
 
   return (
-    <div className="flex w-220 flex-col items-center justify-center md:w-400">
+    <div className="flex w-300 flex-col items-center justify-center">
       {/* Error Icon */}
       <div className={config.iconWrapClass}>
         <Icon
@@ -119,9 +119,9 @@ const ErrorFallback = ({
       </div>
 
       {/* Error Messages */}
-      <div className="flex w-full flex-col text-center sm:gap-12 md:gap-16">
-        <h1 className="sm:text-body-sb-20 md:text-display-24 text-text-02">{displayTitle}</h1>
-        <p className="sm:text-body-m-16 md:text-body-m-20 text-text-03">{displaySubTitle}</p>
+      <div className="flex w-full flex-col gap-12 text-center">
+        <h1 className="text-body-sb-20 text-text-02">{displayTitle}</h1>
+        <p className="text-body-m-16 text-text-03">{displaySubTitle}</p>
       </div>
 
       {/* Action Buttons */}
