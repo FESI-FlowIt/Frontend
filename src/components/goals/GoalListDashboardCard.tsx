@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
 import { useRouter } from 'next/navigation';
 
 import GoalIcon from '@/assets/icons/goal.svg';
@@ -9,6 +8,7 @@ import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
 import { getGoalTextColorClass } from '@/lib/goalColors';
 import { ROUTES } from '@/lib/routes';
+import { todosApi } from '@/api/todosApi'; // ✅ 추가
 
 import EmptyTodo from './EmptyTodo';
 import GoalCardContent from './GoalCardContent';
@@ -17,35 +17,42 @@ import NoGoalsGuide from './NoGoalsGuide';
 export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | null }) {
   const router = useRouter();
   const [todos, setTodos] = useState<TodoSummary[]>(goal?.todos ?? []);
+  const [pendingIds, setPendingIds] = useState<number[]>([]); // ✅ 중복 클릭 방지
 
   useEffect(() => {
     if (goal) setTodos(goal.todos);
   }, [goal]);
 
-  const handleToggle = (id: number) => {
-    setTodos(prev => prev.map(todo => (todo.id === id ? { ...todo, isDone: !todo.isDone } : todo)));
+  const handleToggle = async (id: number) => {
+    const target = todos.find(t => t.id === id);
+    if (!target || pendingIds.includes(id)) return;
+
+    const nextDone = !target.isDone;
+
+    // ✅ 낙관적 업데이트
+    setTodos(prev => prev.map(t => (t.id === id ? { ...t, isDone: nextDone } : t)));
+    setPendingIds(prev => [...prev, id]);
+
+    try {
+      await todosApi.toggleTodoDone(id, nextDone); // PATCH /todos/{id}/done
+      // 성공 시 그대로 유지
+    } catch (err) {
+      // ❌ 실패 롤백
+      setTodos(prev => prev.map(t => (t.id === id ? { ...t, isDone: !nextDone } : t)));
+      console.error('할 일 완료 토글 실패:', err);
+      // TODO: 토스트 등 사용자 알림
+    } finally {
+      setPendingIds(prev => prev.filter(x => x !== id));
+    }
   };
 
-  if (!goal) {
-    return <NoGoalsGuide />;
-  }
-
-  const dday = Math.max(
-    0,
-    Math.ceil(
-      (new Date(goal.deadlineDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
-    ),
-  );
-  const deadline = new Date(goal.deadlineDate);
-  const deadlineLabel = `${deadline.getMonth() + 1}/${deadline.getDate()}`;
+  if (!goal) return <NoGoalsGuide />;
 
   if (todos.length === 0) {
     return (
       <div
         className="rounded-20 relative flex h-340 w-303 cursor-pointer flex-col overflow-hidden bg-white md:w-596 lg:w-480"
-        onClick={() => {
-          router.push(ROUTES.GOALS.DETAIL(String(goal.goalId)));
-        }}
+        onClick={() => router.push(ROUTES.GOALS.DETAIL(String(goal.goalId)))}
       >
         <div className="flex flex-1 flex-col justify-between px-32 pt-20 pb-20">
           <div className="flex flex-col gap-12">
@@ -58,10 +65,9 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
               />
               <h3 className="text-text-01 text-body-sb-20 max-w-296 truncate">{goal.title}</h3>
             </div>
-
             <div className="flex items-baseline gap-12">
-              <h3 className="text-text-01 text-body-sb-20">D-{dday}</h3>
-              <span className="text-body-m-16 text-text-03">({deadlineLabel} 마감)</span>
+              <h3 className="text-text-01 text-body-sb-20">D-{goal.dDay}</h3>
+              <span className="text-body-m-16 text-text-03">({goal.deadlineDate} 마감)</span>
             </div>
           </div>
 
