@@ -545,24 +545,24 @@
   fill: #4c82f7 !important;
 }
 
-/* 에러 아이콘 */
-.error-icon {
+/* 일반 에러 아이콘 */
+.general-error-icon {
   fill: none !important;
 }
-.error-icon path:first-child {
+.general-error-icon path:first-child {
   stroke: #e4e8f0 !important;
 }
-.error-icon path:nth-child(2) {
+.general-error-icon path:nth-child(2) {
   fill: #e4e8f0 !important;
   stroke: #e4e8f0 !important;
 }
-.error-icon rect {
+.general-error-icon rect {
   fill: #e4e8f0 !important;
   stroke: #e4e8f0 !important;
 }
-.error-icon circle {
+.general-error-icon circle {
   fill: #515660 !important;
 }
-.error-icon path:last-child {
+.general-error-icon path:last-child {
   fill: #515660 !important;
 }

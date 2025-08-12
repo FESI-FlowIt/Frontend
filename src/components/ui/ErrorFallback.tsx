@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation';
 
-import ErrorIcon from '@/assets/icons/error.svg';
+import GeneralErrorIcon from '@/assets/icons/error-general.svg';
 import { Button } from '@/components/ui/Button';
 
 interface ErrorFallbackProps {
@@ -28,7 +28,7 @@ const ErrorFallback = ({
     }
   };
 
-  const handleNaviagte = () => {
+  const handleNavigate = () => {
     if (onNavigate) {
       onNavigate();
     } else {
@@ -39,7 +39,7 @@ const ErrorFallback = ({
   return (
     <div className="flex w-220 flex-col items-center justify-center md:w-400">
       <div className="sm:h-100 sm:w-100 md:h-200 md:w-200">
-        <ErrorIcon className="error-icon h-full w-full" />
+        <GeneralErrorIcon className="general-error-icon h-full w-full" />
       </div>
 
       <div className="flex w-full flex-col text-center sm:gap-12 md:gap-16">
@@ -61,7 +61,7 @@ const ErrorFallback = ({
           variant="errorSecondary"
           text="errorSecondary"
           size="error"
-          onClick={handleNaviagte}
+          onClick={handleNavigate}
           disabled={false}
         >
           {navigateLabel}
