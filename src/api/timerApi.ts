@@ -41,11 +41,9 @@ const normalizeFinishBody = (body: ApiFinishTimerRequest) => {
     | { startAt: string | number; endAt: string | number }[]
     | undefined;
   const segmentsMs = Array.isArray(segments)
-    ? (
-        segments
-          .map(s => ({ startAtMs: toMs(s.startAt), endAtMs: toMs(s.endAt) }))
-          .filter(s => s.startAtMs && s.endAtMs) as { startAtMs: number; endAtMs: number }[]
-      )
+    ? (segments
+        .map(s => ({ startAtMs: toMs(s.startAt), endAtMs: toMs(s.endAt) }))
+        .filter(s => s.startAtMs && s.endAtMs) as { startAtMs: number; endAtMs: number }[])
     : undefined;
 
   return {

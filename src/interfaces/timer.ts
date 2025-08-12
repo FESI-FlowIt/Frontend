@@ -5,16 +5,16 @@ export interface ApiStartTimerRequest {
 export interface ApiStartTimerResponse {
   todoTimerId: number;
   todoId: number;
-  startedDateTime: string; 
+  startedDateTime: string;
 }
 
 export interface TimerSession {
   sessionId: string;
   todoId: string;
-  startedDateTime: string | null; 
-  endedDateTime: string | null;   
+  startedDateTime: string | null;
+  endedDateTime: string | null;
   isRunning: boolean;
-  runningTime: string;            
+  runningTime: string;
   goalId: string;
   goalTitle: string;
   goalColor: string;

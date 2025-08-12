@@ -10,12 +10,7 @@ import {
 } from '@/interfaces/timer';
 
 function pickStartedIso(obj: any): string | null {
-  return (
-    obj?.startedDateTime ??
-    obj?.startedAt ??
-    obj?.resumeDateTime ??
-    null
-  );
+  return obj?.startedDateTime ?? obj?.startedAt ?? obj?.resumeDateTime ?? null;
 }
 
 export const timerMapper = {
