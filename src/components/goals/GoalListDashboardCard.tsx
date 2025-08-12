@@ -23,14 +23,12 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
     if (goal) setTodos(goal.todos);
   }, [goal]);
 
-  // deadline 안전 파싱
   const deadline: Date | null = (() => {
     if (!goal?.deadlineDate) return null;
     const d = new Date(String(goal.deadlineDate));
     return Number.isNaN(d.getTime()) ? null : d;
   })();
 
-  // D-Day 텍스트 (마감일 지났으면 D+)
   const ddayText = (() => {
     if (!deadline) return 'D-Day';
     const diffDays = Math.ceil((deadline.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
@@ -45,7 +43,6 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
 
     const nextDone = !target.isDone;
 
-    // 낙관적 업데이트
     setTodos(prev => prev.map(t => (t.id === id ? { ...t, isDone: nextDone } : t)));
     setPendingIds(prev => [...prev, id]);
 
