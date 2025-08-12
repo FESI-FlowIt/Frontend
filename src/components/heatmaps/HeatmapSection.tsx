@@ -8,17 +8,25 @@ import MonthlyHeatmap from '@/components/heatmaps/MonthlyHeatmap';
 import WeeklyHeatmap from '@/components/heatmaps/WeeklyHeatmap';
 import InsightCard from '@/components/insight/InsightCard';
 import Card from '@/components/ui/Card';
+import ErrorFallback from '@/components/ui/ErrorFallback';
 import { IconButton } from '@/components/ui/IconButton';
 import Tab from '@/components/ui/Tab';
 import { periodTabs } from '@/constants/heatmap';
-import { useMonthlyHeatmap, useWeeklyHeatmap } from '@/hooks/useHeatmap';
-import { useMonthlyInsight, useWeeklyInsight } from '@/hooks/useInsight';
+import { useHeatmapSection } from '@/hooks/useHeatmapsSection';
 import usePopover from '@/hooks/usePopover';
-import { getCurrentDate, getCurrentMonth } from '@/lib/calendar';
 
 export default function HeatmapSection() {
   const [period, setPeriod] = useState<'week' | 'month'>('week');
   const isWeek = period === 'week';
+
+  const {
+    weeklyHeatmapData,
+    monthlyHeatmapData,
+    weeklyInsightData,
+    monthlyInsightData,
+    hasError,
+    handleRetry,
+  } = useHeatmapSection(period);
 
   const infoButtonRef = useRef<HTMLButtonElement>(null);
   const cardContainerRef = useRef<HTMLDivElement>(null);
@@ -30,12 +38,6 @@ export default function HeatmapSection() {
       popover.open(infoButtonRef.current, cardContainerRef.current);
     }
   };
-
-  // API 호출
-  const { data: weeklyHeatmapData } = useWeeklyHeatmap(getCurrentDate(), { enabled: isWeek });
-  const { data: monthlyHeatmapData } = useMonthlyHeatmap(getCurrentMonth(), { enabled: !isWeek });
-  const { data: weeklyInsightData } = useWeeklyInsight();
-  const { data: monthlyInsightData } = useMonthlyInsight();
 
   // 히트맵 렌더링
   const renderHeatmap = () => {
@@ -91,16 +93,34 @@ export default function HeatmapSection() {
         icon={<SparkleIcon className="text-gray-01" width={24} height={24} fill="currentColor" />}
         title={cardTitle}
         extra={
-          <Tab items={periodTabs} value={period} onChange={v => setPeriod(v as 'week' | 'month')} />
+          !hasError && (
+            <Tab
+              items={periodTabs}
+              value={period}
+              onChange={v => setPeriod(v as 'week' | 'month')}
+            />
+          )
         }
         backgroundColor="white"
         size="heatmap"
         flexWrapExtra={true}
       >
-        <div className="flex h-full flex-1 flex-col gap-12">
-          <div className="flex flex-shrink-0 justify-center">{renderHeatmap()}</div>
-          <div className="flex flex-1">{renderInsightCard()}</div>
-        </div>
+        {hasError ? (
+          // 에러처리
+          <div className="flex h-full w-full justify-center">
+            <ErrorFallback
+              type="general"
+              title="작업시간 분석 데이터를 불러올 수 없어요"
+              onRetry={handleRetry}
+            />
+          </div>
+        ) : (
+          // 정상처리
+          <div className="flex h-full flex-1 flex-col gap-12">
+            <div className="flex flex-shrink-0 justify-center">{renderHeatmap()}</div>
+            <div className="flex flex-1">{renderInsightCard()}</div>
+          </div>
+        )}
       </Card>
 
       {popover.isOpen && <HeatmapInfoPopover onClose={popover.close} position={popover.position} />}
