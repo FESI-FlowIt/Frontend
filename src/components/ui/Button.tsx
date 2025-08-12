@@ -33,7 +33,8 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       tempNote: 'md:text-body-m-16 sm:text-body-m-12 text-white',
       sideNote: 'md:text-body-m-20 sm:text-body-m-16 text-white',
       errorPrimary: 'sm:text-body-m-16 md:text-body-sb-20 text-white',
-      errorSecondary: 'sm:text-body-m-16 md:text-body-sb-20 text-primary-01',
+      errorSecondary:
+        'sm:text-body-m-16 md:text-body-sb-20 text-primary-01 hover:text-primary-01-hover',
     },
     size: {
       auth: 'h-62 w-600 px-20 py-24 sm:h-44 sm:w-full sm:max-w-343 md:h-62 md:w-full md:max-w-600',
