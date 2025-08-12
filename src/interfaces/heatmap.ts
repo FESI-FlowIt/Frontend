@@ -23,11 +23,9 @@ export interface DayData {
 export interface WeeklyHeatmapResponse {
   success: boolean;
   data: {
-    days: {
-      date: string;
-      time_slots: Record<TimeSlotKey, { minutes: number; intensity: number }>;
-    }[];
-  };
+    date: string;
+    time_slots: Record<TimeSlotKey, { minutes: number; intensity: number }>;
+  }[];
 }
 
 // 월간 히트맵 응답 데이터 형식
@@ -38,6 +36,28 @@ export interface MonthlyHeatmapResponse {
     days: {
       week_of_month: number;
       time_slots: Record<TimeSlotKey, { minutes: number; intensity: number }>;
+    }[];
+  };
+}
+
+// API 명세서 기반 응답 타입
+export interface ApiWeeklyHeatmapResponse {
+  code: string;
+  message: string;
+  result: {
+    date: string;
+    timeSlots: Record<TimeSlotKey, { minutes: number; intensity: number }>;
+  }[];
+}
+
+export interface ApiMonthlyHeatmapResponse {
+  code: string;
+  message: string;
+  result: {
+    yearMonth: string;
+    weeklyHeatmaps: {
+      weekOfMonth: number;
+      timeSlots: Record<TimeSlotKey, { minutes: number; intensity: number }>;
     }[];
   };
 }
