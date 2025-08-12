@@ -1,23 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { getMonthlyHeatmap, getWeeklyHeatmap } from '@/api/heatmap';
 import { MonthlyHeatmapResponse, WeeklyHeatmapResponse } from '@/interfaces/heatmap';
 
-export const useWeeklyHeatmap = () => {
+type Opts = { enabled?: boolean };
+
+export const useWeeklyHeatmap = (date: string, opts?: Opts) => {
   return useQuery<WeeklyHeatmapResponse>({
-    queryKey: ['weeklyHeatmap'],
-    queryFn: async () => {
-      const res = await fetch('/heatmaps/weekly');
-      return res.json();
-    },
+    queryKey: ['weeklyHeatmap', date],
+    queryFn: () => getWeeklyHeatmap(date),
+    enabled: !!date && (opts?.enabled ?? true),
   });
 };
 
-export const useMonthlyHeatmap = () => {
+export const useMonthlyHeatmap = (yearMonth: string, opts?: Opts) => {
   return useQuery<MonthlyHeatmapResponse>({
-    queryKey: ['monthlyHeatmap'],
-    queryFn: async () => {
-      const res = await fetch('/heatmaps/monthly');
-      return res.json();
-    },
+    queryKey: ['monthlyHeatmap', yearMonth],
+    queryFn: () => getMonthlyHeatmap(yearMonth),
+    enabled: !!yearMonth && (opts?.enabled ?? true),
   });
 };

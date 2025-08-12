@@ -45,6 +45,8 @@
   --color-disable: #b8bec3;
   --color-error: #ff5f5f;
   --color-delete: #ff5f5f;
+  --color-success: #37d191;
+  --color-warning: #ffd84d;
 
   /* UI Colors */
   --color-line: #e4e8f0;
@@ -509,4 +511,84 @@
 .delete-button-icon path {
   stroke: var(--color-white) !important;
   fill: none !important;
+}
+
+/* Toast 아이콘 스타일 보완 */
+.icon-success circle {
+  fill: #37d191 !important;
+}
+.icon-success path[stroke] {
+  stroke: #fff !important;
+}
+.icon-success path[fill='#37D191'] {
+  fill: none !important;
+}
+.icon-success path[fill='currentColor'] {
+  fill: transparent !important;
+}
+.icon-error circle {
+  fill: #ff5f5f !important;
+}
+.icon-error path[stroke] {
+  stroke: #fff !important;
+}
+.icon-warning circle {
+  fill: #ffd84d !important;
+}
+.icon-warning path {
+  fill: #515660 !important;
+}
+.icon-info circle {
+  fill: #d3e3ff !important;
+}
+.icon-info path {
+  fill: #4c82f7 !important;
+}
+
+/* 일반 에러 아이콘 */
+.general-error-icon {
+  fill: none !important;
+}
+.general-error-icon path:first-child {
+  stroke: #e4e8f0 !important;
+}
+.general-error-icon path:nth-child(2) {
+  fill: #e4e8f0 !important;
+  stroke: #e4e8f0 !important;
+}
+.general-error-icon rect {
+  fill: #e4e8f0 !important;
+  stroke: #e4e8f0 !important;
+}
+.general-error-icon circle {
+  fill: #515660 !important;
+}
+.general-error-icon path:last-child {
+  fill: #515660 !important;
+}
+
+/* 404 에러 아이콘 */
+.notfound-error-icon {
+  fill: none !important;
+}
+.notfound-error-icon path:first-child {
+  fill: #c3cad6 !important;
+}
+.notfound-error-icon path:nth-child(2) {
+  fill: #c3cad6 !important;
+}
+.notfound-error-icon path:nth-child(3) {
+  fill: #c3cad6 !important;
+}
+.notfound-error-icon circle:first-child {
+  fill: #667077 !important;
+}
+.notfound-error-icon circle:nth-child(2) {
+  fill: #667077 !important;
+}
+.notfound-error-icon path:nth-child(4) {
+  fill: #667077 !important;
+}
+.notfound-error-icon path:last-child {
+  fill: #c3cad6 !important;
 }

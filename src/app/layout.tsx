@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
+import { ToastContainer } from '@/components/ui/Toast';
 import { getCookie } from '@/lib/cookies';
 
 import { AuthProvider } from './providers/AuthProvider';
@@ -65,6 +66,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <ReactQueryProvider>{children}</ReactQueryProvider>
           </MswProvider>
         </AuthProvider>
+        <ToastContainer />
       </body>
     </html>
   );

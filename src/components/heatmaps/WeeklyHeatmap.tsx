@@ -11,7 +11,7 @@ const WeeklyHeatmap = ({ data }: WeeklyHeatmapProps) => {
   // 항상 7일 레이아웃 생성
   const rows = WEEKDAY_LABELS.map((label, index) => {
     // 해당 요일의 데이터 찾기
-    const dayData = data?.days?.[index];
+    const dayData = data?.[index];
 
     return <HeatmapRow key={label} rowLabel={label} timeSlots={dayData?.time_slots || null} />;
   });
