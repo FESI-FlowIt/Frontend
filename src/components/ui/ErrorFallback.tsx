@@ -6,11 +6,18 @@ import { Button } from '@/components/ui/Button';
 interface ErrorFallbackProps {
   title: string;
   subTitle: string;
+  navigateLabel: string;
   onRetry?: () => void;
-  onGoHome?: () => void;
+  onNavigate?: () => void;
 }
 
-const ErrorFallback = ({ title, subTitle, onRetry, onGoHome }: ErrorFallbackProps) => {
+const ErrorFallback = ({
+  title,
+  subTitle,
+  navigateLabel,
+  onRetry,
+  onNavigate,
+}: ErrorFallbackProps) => {
   const router = useRouter();
 
   const handleRetry = () => {
@@ -21,9 +28,9 @@ const ErrorFallback = ({ title, subTitle, onRetry, onGoHome }: ErrorFallbackProp
     }
   };
 
-  const handleGoHome = () => {
-    if (onGoHome) {
-      onGoHome();
+  const handleNaviagte = () => {
+    if (onNavigate) {
+      onNavigate();
     } else {
       router.push('/dashboard');
     }
@@ -54,10 +61,10 @@ const ErrorFallback = ({ title, subTitle, onRetry, onGoHome }: ErrorFallbackProp
           variant="errorSecondary"
           text="errorSecondary"
           size="error"
-          onClick={handleGoHome}
+          onClick={handleNaviagte}
           disabled={false}
         >
-          홈으로
+          {navigateLabel}
         </Button>
       </div>
     </div>
