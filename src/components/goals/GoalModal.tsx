@@ -67,7 +67,6 @@ const GoalModal = () => {
         rounded="responsive"
         margin="none"
         layer="stacked"
-
       >
         <div className="mb-52 flex items-center justify-between">
           <h2 className="text-display-24 text-text-01 flex items-center font-bold">
