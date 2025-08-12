@@ -7,7 +7,6 @@ import clsx from 'clsx';
 import { IconButton } from '@/components/ui/IconButton';
 import { useToggleTodo } from '@/hooks/useTodos';
 import { Todo } from '@/interfaces/todo';
-
 interface TodoContentProps {
   todo: Todo;
 }
@@ -17,14 +16,11 @@ const TodoContent = ({ todo }: TodoContentProps) => {
 
   const handleToggle = async () => {
     if (toggleTodoMutation.isPending) return;
-    try {
-      await toggleTodoMutation.mutateAsync({
-        todoId: todo.todoId,
-        isDone: !todo.isDone,
-      });
-    } catch (error) {
-      console.error('할일 상태 변경 실패:', error);
-    }
+
+    await toggleTodoMutation.mutateAsync({
+      todoId: todo.todoId,
+      isDone: !todo.isDone,
+    });
   };
 
   return (

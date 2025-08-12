@@ -27,7 +27,7 @@ const TodoForm = ({ form, onSubmit, isEditMode, isLoading }: TodoFormProps) => {
   } = form;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} noValidate className="pb-96 md:pb-0">
       <div>
         <FormField label="제목" htmlFor="title" className="mb-44">
           <Controller
@@ -60,7 +60,7 @@ const TodoForm = ({ form, onSubmit, isEditMode, isLoading }: TodoFormProps) => {
         </FormField>
       </div>
 
-      <div className="mt-60">
+      <div className="fixed right-16 bottom-0 left-16 h-80 flex-shrink-0 bg-white p-16 md:relative md:right-auto md:bottom-auto md:left-auto md:mt-60 md:h-48 md:bg-transparent md:p-0">
         <Button type="submit" disabled={!isValid || isLoading} variant="default" size="modal">
           {isLoading ? '처리 중...' : isEditMode ? '수정하기' : '생성하기'}
         </Button>

@@ -1,5 +1,7 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+
+import { useRouter } from 'next/navigation';
 
 import LinkModal from '@/components/todos/LinkModal';
 import { useCreateNote } from '@/hooks/useNotes';
@@ -16,9 +18,9 @@ interface NoteWriteClientProps {
 }
 
 const NoteWriteClient = ({ todoId }: NoteWriteClientProps) => {
+  const router = useRouter();
   const { title, content, wordCount, link, setTodoId, setLink, reset } = useNoteWriteStore();
   const { mutate: createNote } = useCreateNote();
-  const [showSaveMessage, setShowSaveMessage] = useState(false);
 
   const { hasTemp, saveTemp } = useTempNote(todoId);
 
@@ -46,14 +48,14 @@ const NoteWriteClient = ({ todoId }: NoteWriteClientProps) => {
 
     if (type === 'draft') {
       await saveTemp(body);
-      setShowSaveMessage(true);
-      setTimeout(() => {
-        setShowSaveMessage(false);
-      }, 3000);
       return;
     }
 
-    createNote(body);
+    createNote(body, {
+      onSuccess: () => {
+        router.back();
+      },
+    });
   };
 
   const handleAddNoteLink = (url: string) => {
@@ -71,11 +73,6 @@ const NoteWriteClient = ({ todoId }: NoteWriteClientProps) => {
             onComplete={() => handleSave('complete')}
             isCompleteEnabled={isCompleteEnabled}
           />
-          {showSaveMessage && (
-            <div className="text-body-m-12 text-text-03 absolute right-0 mt-8">
-              임시저장되었습니다.
-            </div>
-          )}
         </div>
         <NoteInfo hasTemp={hasTemp} />
         <div className="my-24">

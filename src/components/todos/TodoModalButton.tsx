@@ -29,6 +29,7 @@ const TodoModalButton = ({ type, activeTab, onClick, icon, children }: TodoModal
       rounded={'lg'}
       type="button"
       disabled={false}
+      className="flex-1 md:flex-none"
     >
       {children}
     </Button>

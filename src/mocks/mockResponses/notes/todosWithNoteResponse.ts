@@ -3,11 +3,11 @@ import { TodoWithNotes } from '@/interfaces/todo';
 export const mockTodosWithNotes: TodoWithNotes[] = [
   {
     todoId: 1,
-    title: '자바스크립트 기초 렌더링 통과',
+    name: '자바스크립트 기초 렌더링 통과',
     isDone: false,
     goalId: 1,
     goalTitle: '프론트엔드 개발자 되기',
-    notes: [
+    note: [
       {
         noteId: 1,
         todoId: 1,
@@ -24,11 +24,11 @@ export const mockTodosWithNotes: TodoWithNotes[] = [
   },
   {
     todoId: 2,
-    title: 'React 컴포넌트 개발',
+    name: 'React 컴포넌트 개발',
     isDone: true,
     goalId: 1,
     goalTitle: '프론트엔드 개발자 되기',
-    notes: [
+    note: [
       {
         noteId: 3,
         todoId: 2,
@@ -45,11 +45,11 @@ export const mockTodosWithNotes: TodoWithNotes[] = [
   },
   {
     todoId: 3,
-    title: 'TypeScript 타입 정의',
+    name: 'TypeScript 타입 정의',
     isDone: false,
     goalId: 1,
     goalTitle: '프론트엔드 개발자 되기',
-    notes: [
+    note: [
       {
         noteId: 5,
         todoId: 3,
@@ -60,11 +60,11 @@ export const mockTodosWithNotes: TodoWithNotes[] = [
   },
   {
     todoId: 4,
-    title: 'UI 디자인 시스템 구축',
+    name: 'UI 디자인 시스템 구축',
     isDone: false,
     goalId: 2,
     goalTitle: 'UX/UI 디자이너 되기',
-    notes: [
+    note: [
       {
         noteId: 6,
         todoId: 4,
@@ -81,11 +81,11 @@ export const mockTodosWithNotes: TodoWithNotes[] = [
   },
   {
     todoId: 5,
-    title: '사용자 테스트 진행',
+    name: '사용자 테스트 진행',
     isDone: true,
     goalId: 2,
     goalTitle: 'UX/UI 디자이너 되기',
-    notes: [
+    note: [
       {
         noteId: 8,
         todoId: 5,
@@ -96,11 +96,11 @@ export const mockTodosWithNotes: TodoWithNotes[] = [
   },
   {
     todoId: 6,
-    title: '알고리즘 문제 해결',
+    name: '알고리즘 문제 해결',
     isDone: false,
     goalId: 3,
     goalTitle: '백엔드 개발자 되기',
-    notes: [
+    note: [
       {
         noteId: 9,
         todoId: 6,
@@ -111,11 +111,11 @@ export const mockTodosWithNotes: TodoWithNotes[] = [
   },
   {
     todoId: 7,
-    title: 'API 설계 및 구현',
+    name: 'API 설계 및 구현',
     isDone: false,
     goalId: 3,
     goalTitle: '백엔드 개발자 되기',
-    notes: [
+    note: [
       {
         noteId: 10,
         todoId: 7,
@@ -132,11 +132,11 @@ export const mockTodosWithNotes: TodoWithNotes[] = [
   },
   {
     todoId: 8,
-    title: '데이터베이스 모델링',
+    name: '데이터베이스 모델링',
     isDone: true,
     goalId: 3,
     goalTitle: '백엔드 개발자 되기',
-    notes: [
+    note: [
       {
         noteId: 12,
         todoId: 8,
@@ -153,11 +153,11 @@ export const mockTodosWithNotes: TodoWithNotes[] = [
   },
   {
     todoId: 9,
-    title: 'Next.js 프로젝트 세팅',
+    name: 'Next.js 프로젝트 세팅',
     isDone: false,
     goalId: 1,
     goalTitle: '프론트엔드 개발자 되기',
-    notes: [
+    note: [
       {
         noteId: 14,
         todoId: 9,
@@ -168,11 +168,11 @@ export const mockTodosWithNotes: TodoWithNotes[] = [
   },
   {
     todoId: 10,
-    title: 'Figma 프로토타입 제작',
+    name: 'Figma 프로토타입 제작',
     isDone: false,
     goalId: 2,
     goalTitle: 'UX/UI 디자이너 되기',
-    notes: [
+    note: [
       {
         noteId: 15,
         todoId: 10,
@@ -189,11 +189,11 @@ export const mockTodosWithNotes: TodoWithNotes[] = [
   },
   {
     todoId: 11,
-    title: '반응형 웹 디자인',
+    name: '반응형 웹 디자인',
     isDone: true,
     goalId: 1,
     goalTitle: '프론트엔드 개발자 되기',
-    notes: [
+    note: [
       {
         noteId: 17,
         todoId: 11,
@@ -210,11 +210,11 @@ export const mockTodosWithNotes: TodoWithNotes[] = [
   },
   {
     todoId: 12,
-    title: '사용자 경험 분석',
+    name: '사용자 경험 분석',
     isDone: false,
     goalId: 2,
     goalTitle: 'UX/UI 디자이너 되기',
-    notes: [
+    note: [
       {
         noteId: 19,
         todoId: 12,
@@ -225,11 +225,11 @@ export const mockTodosWithNotes: TodoWithNotes[] = [
   },
   {
     todoId: 13,
-    title: '서버 배포 및 운영',
+    name: '서버 배포 및 운영',
     isDone: false,
     goalId: 3,
     goalTitle: '백엔드 개발자 되기',
-    notes: [
+    note: [
       {
         noteId: 20,
         todoId: 13,
@@ -246,11 +246,11 @@ export const mockTodosWithNotes: TodoWithNotes[] = [
   },
   {
     todoId: 14,
-    title: 'Git 협업 워크플로우',
+    name: 'Git 협업 워크플로우',
     isDone: true,
     goalId: 1,
     goalTitle: '프론트엔드 개발자 되기',
-    notes: [
+    note: [
       {
         noteId: 22,
         todoId: 14,
@@ -261,11 +261,11 @@ export const mockTodosWithNotes: TodoWithNotes[] = [
   },
   {
     todoId: 15,
-    title: '접근성 가이드라인 적용',
+    name: '접근성 가이드라인 적용',
     isDone: false,
     goalId: 2,
     goalTitle: 'UX/UI 디자이너 되기',
-    notes: [
+    note: [
       {
         noteId: 23,
         todoId: 15,
@@ -293,5 +293,5 @@ export const getTodosWithNotesByGoalId = (goalId?: number): TodoWithNotes[] => {
 // 특정 할 일의 노트 목록을 가져오는 헬퍼 함수 (NoteSummary 반환)
 export const getNotesByTodoId = (todoId: number) => {
   const todo = mockTodosWithNotes.find(todo => todo.todoId === todoId);
-  return todo?.notes || [];
+  return todo?.note || [];
 };

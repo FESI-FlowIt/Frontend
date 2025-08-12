@@ -53,7 +53,7 @@ const GoalForm = ({ editingGoal, onSubmit, onFormChange, isLoading }: GoalFormPr
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} noValidate>
+    <form onSubmit={handleSubmit(handleFormSubmit)} noValidate className="pb-96 md:pb-0">
       <div>
         <FormField label="목표" htmlFor="title" className="mb-32">
           <Controller
@@ -99,7 +99,7 @@ const GoalForm = ({ editingGoal, onSubmit, onFormChange, isLoading }: GoalFormPr
         </FormField>
       </div>
 
-      <div className="mt-60 h-48 flex-shrink-0">
+      <div className="fixed right-16 bottom-0 left-16 h-80 flex-shrink-0 bg-white p-16 md:relative md:right-auto md:bottom-auto md:left-auto md:mt-60 md:h-48 md:bg-transparent md:p-0">
         <Button
           type="submit"
           size="modal"

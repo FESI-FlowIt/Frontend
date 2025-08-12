@@ -6,6 +6,7 @@ import { NoteFormData } from '@/interfaces/note';
 import { getTempNoteIfExists, saveTempNoteIfChanged } from '@/lib/actions/tempNotes';
 import { useNoteWriteStore } from '@/store/noteWriteStore';
 
+import { useToast } from './useToast';
 interface TempNoteData {
   title: string;
   content: string;
@@ -20,6 +21,7 @@ export const useTempNote = (todoId: number | null) => {
   const [hasLoadedToForm, setHasLoadedToForm] = useState(false); // 폼에 로드했는지 추적
 
   const { setTitle, setContent, setWordCount, setLink } = useNoteWriteStore();
+  const toast = useToast();
 
   // todoId가 변경되면 캐시 초기화
   useEffect(() => {
@@ -76,10 +78,11 @@ export const useTempNote = (todoId: number | null) => {
         setLink(cachedData.link);
       }
       setHasLoadedToForm(true);
+      toast.info('임시저장된 노트가 불러와졌어요');
     } catch (error) {
       console.error('임시저장 불러오기 실패:', error);
     }
-  }, [todoId, cachedData, setTitle, setContent, setWordCount, setLink]);
+  }, [todoId, cachedData, setTitle, setContent, setWordCount, setLink, toast]);
 
   // 임시 노트 저장
   const saveTemp = useCallback(
@@ -110,12 +113,13 @@ export const useTempNote = (todoId: number | null) => {
           setCachedData(tempData);
           setLastSavedContent(contentString);
           setHasLoadedToForm(true); // 임시저장 후 알림 숨기기
+          toast.info('변경사항이 임시저장 되었어요');
         }
       } catch (error) {
         console.error('임시저장 실패:', error);
       }
     },
-    [todoId, lastSavedContent],
+    [todoId, lastSavedContent, toast],
   );
 
   // todoId 변경 시 임시저장 존재 여부만 확인

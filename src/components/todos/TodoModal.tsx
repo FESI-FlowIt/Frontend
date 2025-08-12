@@ -91,8 +91,8 @@ const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {
         onClose={handleModalClose}
         size="todo"
         padding="default"
-        margin="default"
-        rounded="default"
+        margin="none"
+        rounded="responsive"
         layer="base"
       >
         <div className="mb-52 flex items-center justify-between">

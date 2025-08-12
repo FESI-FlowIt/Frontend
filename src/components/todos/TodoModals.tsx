@@ -54,9 +54,9 @@ const TodoModals = ({
         isOpen={showNoteSidebar}
         todo={{
           todoId: todo.todoId,
-          title: todo.title,
+          name: todo.title,
           isDone: todo.isDone,
-          notes:
+          note:
             todo.notes?.map(note => ({
               noteId: note.noteId,
               todoId: note.todoId,

@@ -64,11 +64,27 @@ export interface TodoSummary {
 
 export interface TodoWithNotes {
   todoId: number;
-  title: string;
+  name: string;
   isDone: boolean;
-  notes: NoteSummary[];
+  note: NoteSummary[];
   goalId?: number;
   goalTitle?: string;
+}
+
+export interface GetTodosWithNotesResponse {
+  todos: TodoWithNotes[];
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalCount: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}
+
+export interface GetTodosWithNotesRequestParams {
+  page?: number;
+  size?: number;
 }
 
 // API Response
@@ -93,5 +109,33 @@ export interface ApiTodoSummary {
 
 // 노트 모아보기 API 응답
 export interface ApiTodosWithNotesResponse {
-  result: TodoWithNotes[];
+  result: {
+    contents: TodoWithNotes[];
+    page: number;
+    totalPage: number;
+    totalElement: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}
+
+// 파일 업로드 응답
+export interface FileUploadResponse {
+  todoId: number;
+  filename: string;
+}
+
+// 할 일 생성 시 첨부파일용 인터페이스
+export interface TodoAttachmentInput {
+  type: 'file' | 'link';
+  url?: string; // 링크의 경우
+  file?: File; // 파일의 경우
+  fileName?: string;
+}
+
+// 확장된 할 일 생성 요청
+export interface TodoCreateWithAttachmentsRequest {
+  goalId: number;
+  name: string;
+  attachments?: TodoAttachmentInput[];
 }

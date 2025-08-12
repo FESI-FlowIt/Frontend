@@ -17,6 +17,8 @@ const pretendard = localFont({
   variable: '--font-pretendard',
 });
 
+const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`;
+
 export const metadata: Metadata = {
   metadataBase: new URL('http://3.35.108.14/'),
   title: 'FlowIt',
@@ -30,7 +32,7 @@ export const metadata: Metadata = {
     url: 'http://3.35.108.14/',
     images: [
       {
-        url: 'opengraph-image.png',
+        url: `${CLOUDFRONT_URL}/opengraph-image.png`,
         alt: '서비스 설명 이미지',
         width: 1200,
         height: 630,
@@ -46,7 +48,7 @@ export const metadata: Metadata = {
     description: 'FlowIt은 작업 패턴 분석을 통해 개인의 생산성을 극대화하는 서비스',
     images: [
       {
-        url: 'opengraph-image.png',
+        url: `${CLOUDFRONT_URL}/twitter-image.png`,
         alt: '서비스 설명 이미지',
         width: 1200,
         height: 630,

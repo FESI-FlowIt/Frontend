@@ -24,10 +24,10 @@ const TodoWithNoteItem = ({ todo, onTodoClick }: TodoWithNoteItemProps) => {
             </div>
             <div className="text-text-02 text-body-b-16">{todo.isDone ? 'Done' : 'To do'}</div>
           </div>
-          <div className="text-body-m-16 sm:text-body-m-20 text-text-02">{todo.title}</div>
+          <div className="text-body-m-16 sm:text-body-m-20 text-text-02">{todo.name}</div>
         </div>
         <div className="text-primary-01 text-body-b-16 bg-heatmap-1 rounded-[5px] p-8 font-medium">
-          노트 {todo.notes.length}개
+          노트 {todo.note.length}개
         </div>
       </div>
     </div>

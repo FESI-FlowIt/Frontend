@@ -37,8 +37,8 @@ const AttachmentUpload = () => {
   };
 
   return (
-    <div className="space-y-16">
-      <div className="flex gap-20">
+    <div className="space-y-24">
+      <div className="flex gap-8 md:gap-20">
         <TodoModalButton
           type={'file'}
           activeTab={activeTab}
