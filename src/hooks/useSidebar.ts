@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 
 import { goalMapper } from '@/api/mapper/goalMapper';
 import { getGoalsSidebar, patchGoalSidebarisPinned } from '@/api/sidebarApi';
@@ -8,7 +8,7 @@ import { GOALS_QUERY_KEY } from './useGoals';
 export const GOALS_SIDEBAR_QUERY_KEY = ['goals-sidebar'];
 
 export const useSidebarGoals = () => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: GOALS_SIDEBAR_QUERY_KEY,
     queryFn: () => getGoalsSidebar(),
     select: goalMapper.mapApiToSidebarGoals,
