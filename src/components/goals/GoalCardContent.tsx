@@ -18,7 +18,6 @@ export default function GoalCardContent({
 }: {
   goal: GoalSummary;
   todos: TodoSummary[];
-  // eslint-disable-next-line no-unused-vars
   onToggle: (id: number) => void;
 }) {
   const router = useRouter();
@@ -29,14 +28,15 @@ export default function GoalCardContent({
   const bgClass = getGoalBackgroundColorClass(goal.color);
   const { openTodoModalWithGoal } = useModalStore();
 
-  const dday = Math.max(
-    0,
-    Math.ceil(
-      (new Date(goal.deadlineDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
-    ),
-  );
-
   const deadline = new Date(goal.deadlineDate);
+
+  const diffDays = Math.ceil((deadline.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+
+  const renderDdayText = () => {
+    if (diffDays > 0) return `D-${diffDays}`;
+    if (diffDays === 0) return 'D-Day';
+    return `D+${Math.abs(diffDays)}`;
+  };
 
   return (
     <div
@@ -58,7 +58,7 @@ export default function GoalCardContent({
             </div>
 
             <div className="flex items-baseline gap-12">
-              <h3 className="text-text-01 text-body-sb-20">D-{dday}</h3>
+              <h3 className="text-text-01 text-body-sb-20">{renderDdayText()}</h3>
               <span className="text-body-m-16 text-text-03">
                 ({deadline.getMonth() + 1}/{deadline.getDate()} 마감)
               </span>

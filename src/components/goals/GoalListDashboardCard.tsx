@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
 import { useRouter } from 'next/navigation';
 
 import { todosApi } from '@/api/todosApi';
@@ -24,12 +23,29 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
     if (goal) setTodos(goal.todos);
   }, [goal]);
 
+  // deadline 안전 파싱
+  const deadline: Date | null = (() => {
+    if (!goal?.deadlineDate) return null;
+    const d = new Date(String(goal.deadlineDate));
+    return Number.isNaN(d.getTime()) ? null : d;
+  })();
+
+  // D-Day 텍스트 (마감일 지났으면 D+)
+  const ddayText = (() => {
+    if (!deadline) return 'D-Day';
+    const diffDays = Math.ceil((deadline.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+    if (diffDays > 0) return `D-${diffDays}`;
+    if (diffDays === 0) return 'D-Day';
+    return `D+${Math.abs(diffDays)}`;
+  })();
+
   const handleToggle = async (id: number) => {
     const target = todos.find(t => t.id === id);
     if (!target || pendingIds.includes(id)) return;
 
     const nextDone = !target.isDone;
 
+    // 낙관적 업데이트
     setTodos(prev => prev.map(t => (t.id === id ? { ...t, isDone: nextDone } : t)));
     setPendingIds(prev => [...prev, id]);
 
@@ -62,9 +78,14 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
               />
               <h3 className="text-text-01 text-body-sb-20 max-w-296 truncate">{goal.title}</h3>
             </div>
+
             <div className="flex items-baseline gap-12">
-              <h3 className="text-text-01 text-body-sb-20">D-{goal.dDay}</h3>
-              <span className="text-body-m-16 text-text-03">({goal.deadlineDate} 마감)</span>
+              <h3 className="text-text-01 text-body-sb-20">{ddayText}</h3>
+              <span className="text-body-m-16 text-text-03">
+                {deadline
+                  ? `(${deadline.getMonth() + 1}/${deadline.getDate()} 마감)`
+                  : '(마감일 미정)'}
+              </span>
             </div>
           </div>
 
