@@ -16,6 +16,8 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       transparent: 'bg-transparent',
       noteHeader: 'bg-disable',
       kakao: 'bg-kakao hover:bg-secondary-01-hover',
+      errorPrimary: 'bg-primary-01 hover:bg-primary-01-hover',
+      errorSecondary: 'bg-transparent',
     },
     text: {
       default: 'md:text-body-sb-20 sm:text-body-m-16 text-white',
@@ -30,6 +32,9 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       noteHeaderWhite: 'md:text-body-sb-20 text-body-m-16 text-white',
       tempNote: 'md:text-body-m-16 sm:text-body-m-12 text-white',
       sideNote: 'md:text-body-m-20 sm:text-body-m-16 text-white',
+      errorPrimary: 'sm:text-body-m-16 md:text-body-sb-20 text-white',
+      errorSecondary:
+        'sm:text-body-m-16 md:text-body-sb-20 text-primary-01 hover:text-primary-01-hover',
     },
     size: {
       auth: 'h-62 w-600 px-20 py-24 sm:h-44 sm:w-full sm:max-w-343 md:h-62 md:w-full md:max-w-600',
@@ -46,6 +51,7 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       scheduleDashboard: 'h-40 w-120 sm:w-160',
       tempNote: 'h-40 w-84',
       sideNote: 'h-48 w-260',
+      error: 'sm:h-44 sm:w-200 md:h-62 md:w-400',
     },
     rounded: {
       none: 'rounded-none',
