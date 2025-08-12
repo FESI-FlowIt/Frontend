@@ -25,63 +25,16 @@ const TodoAttachmentIcons = ({ todo, onNoteClick }: TodoAttachmentIconsProps) =>
   const { hasNotes, hasLinks, hasFiles, getLinks, getFiles } = useTodoAttachmentsStore();
   const toast = useToast();
   // 파일 다운로드 핸들러
-  const handleFileDownload = async (fileUrl: string, fileName: string) => {
+  const handleFileDownload = async (fileUrl: string) => {
     try {
-      // S3 URL인 경우 Content-Disposition 헤더 추가를 위해 fetch 사용
-      const response = await fetch(fileUrl, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/octet-stream',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = fileName;
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.click();
-
-      // 정리
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
+      // 브라우저 기본 다운로드 동작 사용
+      window.open(fileUrl, '_blank');
 
       // 다운로드 후 드롭다운 닫기
       setShowFileDropdown(false);
     } catch (error) {
       console.error('파일 다운로드 중 오류 발생:', error);
       toast.error('파일 다운로드에 실패했어요.');
-
-      // 오류 발생 시 강제 다운로드 시도
-      try {
-        // S3 URL에 다운로드 파라미터 추가
-        const downloadUrl = fileUrl.includes('?')
-          ? `${fileUrl}&response-content-disposition=attachment;filename="${encodeURIComponent(fileName)}"`
-          : `${fileUrl}?response-content-disposition=attachment;filename="${encodeURIComponent(fileName)}"`;
-
-        const link = document.createElement('a');
-        link.href = downloadUrl;
-        link.download = fileName;
-        link.target = '_blank';
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } catch (fallbackError) {
-        console.error('Fallback 다운로드도 실패:', fallbackError);
-        // 마지막 수단: 새 탭에서 열기
-        window.open(fileUrl, '_blank');
-      }
-
-      // 다운로드 후 드롭다운 닫기
-      setShowFileDropdown(false);
     }
   };
 
@@ -143,7 +96,7 @@ const TodoAttachmentIcons = ({ todo, onNoteClick }: TodoAttachmentIconsProps) =>
                   onClick={e => {
                     e.stopPropagation();
                     e.preventDefault();
-                    handleFileDownload(file.url, file.fileName || 'download');
+                    handleFileDownload(file.url);
                   }}
                 >
                   <div className="flex-1 flex-col justify-between">
