@@ -9,8 +9,8 @@ const meta: Meta<typeof InsightCard> = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['empty', 'weekly', 'monthly'],
-      description: '카드 타입 (empty, weekly, monthly)',
+      options: ['no-data', 'weekly', 'monthly'],
+      description: '카드 타입 (no-data, weekly, monthly)',
     },
     className: {
       control: false,
@@ -29,9 +29,9 @@ const meta: Meta<typeof InsightCard> = {
 export default meta;
 type Story = StoryObj<typeof InsightCard>;
 
-export const Empty: Story = {
+export const NoData: Story = {
   args: {
-    variant: 'empty',
+    variant: 'no-data',
   },
 };
 
