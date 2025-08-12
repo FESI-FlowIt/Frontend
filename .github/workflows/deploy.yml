@@ -25,6 +25,7 @@ jobs:
         run: |
           ssh -i fe-keypair.pem -o StrictHostKeyChecking=no ubuntu@3.35.108.14 << 'EOF'
             cd ~/Frontend
+            git checkout main
             git pull origin main
             npm install
 

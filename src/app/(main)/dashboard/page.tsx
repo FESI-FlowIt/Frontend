@@ -5,10 +5,11 @@ import GoalListDashboardSection from '@/components/goals/GoalListDashboardSectio
 import HeatmapSection from '@/components/heatmaps/HeatmapSection';
 import ScheduleSection from '@/components/schedule/ScheduleSection';
 import TimerWidget from '@/components/timer/TimerWidget';
+import { cn } from '@/lib/utils';
 
 export default function DashboardPage() {
   return (
-    <div>
+    <div className={cn('sm:mt-54 sm:ml-0 md:mt-0 md:ml-88 lg:mt-0 lg:ml-0')}>
       {/* 모바일/태블릿: 세로 스택 */}
       <div className="space-y-24 lg:hidden">
         <HeatmapSection />

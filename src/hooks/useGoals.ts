@@ -44,7 +44,7 @@ export const useCreateGoal = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: GOALS_QUERY_KEY });
-      queryClient.invalidateQueries({ queryKey: [GOALS_SIDEBAR_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: GOALS_SIDEBAR_QUERY_KEY });
       queryClient.invalidateQueries({ queryKey: [CALENDAR_QUERY_KEY] });
     },
     onError: error => {
@@ -68,7 +68,7 @@ export const useUpdateGoal = () => {
       // 개별 목표 캐시 무효화
       queryClient.invalidateQueries({ queryKey: [...GOALS_QUERY_KEY, goalId] });
       // 사이드바 목표 목록 무효화
-      queryClient.invalidateQueries({ queryKey: [GOALS_SIDEBAR_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: GOALS_SIDEBAR_QUERY_KEY });
       // 캘린더 데이터 무효화
       queryClient.invalidateQueries({ queryKey: [CALENDAR_QUERY_KEY] });
       // 강제로 모든 관련 쿼리 리패치
@@ -88,7 +88,7 @@ export const useUpdateGoalPinStatus = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: GOALS_QUERY_KEY });
-      queryClient.invalidateQueries({ queryKey: [GOALS_SIDEBAR_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: GOALS_SIDEBAR_QUERY_KEY });
     },
   });
 };
@@ -107,7 +107,7 @@ export const useDeleteGoal = () => {
       // 개별 목표 캐시 무효화
       queryClient.invalidateQueries({ queryKey: [...GOALS_QUERY_KEY, goalId] });
       // 사이드바 목표 목록 무효화
-      queryClient.invalidateQueries({ queryKey: [GOALS_SIDEBAR_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: GOALS_SIDEBAR_QUERY_KEY });
       // 캘린더 데이터 무효화
       queryClient.invalidateQueries({ queryKey: [CALENDAR_QUERY_KEY] });
     },
