@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+
 import Image from 'next/image';
+
 import { timerApi } from '@/api/timerApi';
 
 interface TimerControlsProps {

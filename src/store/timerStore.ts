@@ -19,7 +19,6 @@
 //   stopTimer: (todoId: string) => void;
 //   isAnyRunning: boolean;
 
-  
 //   initTick: () => void;
 // }
 
@@ -115,7 +114,7 @@
 //             };
 //           });
 
-//           ensureTicking(); 
+//           ensureTicking();
 //         },
 
 //         pauseTimer: (todoId: string) => {
@@ -154,7 +153,6 @@
 
 //         isAnyRunning: false,
 
-        
 //         initTick: () => {
 //           const { runningTodoId, timers } = get();
 //           if (runningTodoId && timers[runningTodoId]?.isRunning) {

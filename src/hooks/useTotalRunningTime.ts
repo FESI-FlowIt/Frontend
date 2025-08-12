@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+
 import { timerApi } from '@/api/timerApi';
 
 function hmsToSec(hms: string | null | undefined) {
@@ -46,7 +47,7 @@ export function useTotalRunningTime(todoId: number | null) {
       lastSecRef.current = nextSec;
       setTotalHHMMSS(hhmmss);
     },
-    [todoId]
+    [todoId],
   );
 
   return { totalHHMMSS, refetch };

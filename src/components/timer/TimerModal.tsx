@@ -1,14 +1,16 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+
+import { timerApi } from '@/api/timerApi';
 import Modal from '@/components/ui/Modal';
 import { formatTime, getCurrentSeconds } from '@/lib/timerUtils';
+
 import TaskInfo from './TaskInfo';
 import TimerControls from './TimerControls';
 import TimerDisplay from './TimerDisplay';
 import TimerHeader from './TimerHeader';
 import TotalTime from './TotalTime';
-import { timerApi } from '@/api/timerApi';
 
 export interface TimerSnapshot {
   baseTotalSec: number;

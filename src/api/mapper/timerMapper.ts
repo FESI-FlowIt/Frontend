@@ -1,11 +1,11 @@
 import {
-  ApiStartTimerResponse,
-  ApiPauseTimerResponse,
-  ApiResumeTimerResponse,
   ApiFinishTimerResponse,
   ApiGetCurrentTimerStatusResponse,
-  TimerSession,
+  ApiPauseTimerResponse,
+  ApiResumeTimerResponse,
+  ApiStartTimerResponse,
   InProgressGoal,
+  TimerSession,
 } from '@/interfaces/timer';
 
 /** 서버가 어느 키로 시간을 주더라도 흡수해서 ISO를 반환 */
@@ -71,7 +71,7 @@ export const timerMapper = {
       sessionId: String(s.todoTimerId),
       todoId: String(s.todoId),
       isRunning: Boolean(s.isRunningTimer),
-      startedDateTime: pickStartedIso(s),     
+      startedDateTime: pickStartedIso(s),
       endedDateTime: null,
       goalId: String(s.goalId),
       goalTitle: '',
@@ -79,7 +79,6 @@ export const timerMapper = {
       todoContent: '',
     };
   },
-
 
   mapApiToInProgressGoals: (data: any[]): InProgressGoal[] => {
     return data.map(goal => ({

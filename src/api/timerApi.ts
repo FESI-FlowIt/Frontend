@@ -1,15 +1,15 @@
+import { getRequest, patchRequest, postRequest } from '@/api';
+import { timerMapper } from '@/api/mapper/timerMapper';
 import {
-  ApiStartTimerRequest,
-  ApiStartTimerResponse,
-  ApiPauseTimerResponse,
-  ApiResumeTimerResponse,
   ApiFinishTimerResponse,
   ApiGetCurrentTimerStatusResponse,
+  ApiPauseTimerResponse,
+  ApiResumeTimerResponse,
+  ApiStartTimerRequest,
+  ApiStartTimerResponse,
   InProgressGoal,
   TimerSession,
 } from '@/interfaces/timer';
-import { getRequest, postRequest, patchRequest } from '@/api';
-import { timerMapper } from '@/api/mapper/timerMapper';
 import { useAuthStore } from '@/store/authStore'; // ⬅ 추가
 
 export const timerApi = {
@@ -33,10 +33,7 @@ export const timerApi = {
   },
 
   pauseTimer: async (todoTimerId: number): Promise<TimerSession> => {
-    const data: ApiPauseTimerResponse = await postRequest(
-      `/todo-timers/${todoTimerId}/pause`,
-      {},
-    );
+    const data: ApiPauseTimerResponse = await postRequest(`/todo-timers/${todoTimerId}/pause`, {});
     console.log('🟠 일시정지 응답 data:', data);
     return timerMapper.mapApiToPausedTimer(data);
   },
@@ -55,7 +52,7 @@ export const timerApi = {
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({}),
-        keepalive: true,      //  언로드 중에도 전송 시도
+        keepalive: true, //  언로드 중에도 전송 시도
         cache: 'no-store',
       }).catch(() => {
         /* 언로드 중 실패는 무시 */
