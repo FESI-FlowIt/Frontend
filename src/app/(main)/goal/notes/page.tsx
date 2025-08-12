@@ -1,4 +1,5 @@
 import NotesClient from '@/components/notes/NotesClient';
+import { cn } from '@/lib/utils';
 
 interface NotesPageProps {
   searchParams: Promise<{
@@ -11,7 +12,8 @@ const NotesPage = async ({ searchParams }: NotesPageProps) => {
   const goalId = params.goalId ? Number(params.goalId) : undefined;
 
   return (
-    <div className="h-full w-full">
+
+    <div className={cn('h-full w-full sm:mt-54 md:mt-0 lg:mt-0')}>
       <NotesClient initialGoalId={goalId} />
     </div>
   );
