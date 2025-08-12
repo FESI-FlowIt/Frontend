@@ -23,7 +23,7 @@ export default function TimerWidget() {
   const [selectedGoal, setSelectedGoal] = useState<GoalSummary | null>(null);
   const [selectedTodo, setSelectedTodo] = useState<TodoSummary | null>(null);
 
-  // ▶ todoId별 타이머 스냅샷 캐시 (세션스토리지/로컬스토리지 사용 안 함)
+  //  todoId별 타이머 스냅샷 캐시
   const [timerCache, setTimerCache] = useState<Record<number, TimerSnapshot>>({});
 
   // 플로팅 버튼 표시용 로컬 타이머

@@ -24,7 +24,7 @@ export default function SelectTodoModalBody({
   if (allTodosEmpty) return <SelectTodoModalEmpty />;
 
   return (
-    <div className="min-h-0 flex-1 space-y-12 overflow-y-auto pr-16">
+    <div className="min-h-0 flex-1 space-y-12 overflow-y-auto px-16 pb-16 md:px-40 md:pb-40">
       {goals.map(goal => {
         const isSelected = selectedGoalId === String(goal.goalId);
         return (

@@ -24,7 +24,7 @@ export interface TimerModalProps {
   todoId: string;
   minutes: number;
   seconds: number;
-  // 부모에서 주는 isBlocked는 무시하고, 모달 내부에서 계산해 쓸게요.
+
   isBlocked: boolean;
   onStartTick: () => void;
   onPauseTick: () => void;
@@ -253,12 +253,12 @@ export default function TimerModal({
 
   return (
     <Modal isOpen onClose={onClose} size="timer">
-      <div className="w-520 p-10">
+      <div className="h-464 w-311 pr-40 md:w-520 md:pr-0">
         <TimerHeader onBack={onBack} onClose={onClose} />
 
         {blocked && (
-          <div className="text-error mb-4 rounded-md bg-red-100 px-4 py-2 text-center text-sm">
-            이미 다른 할일의 타이머가 실행 중입니다.
+          <div className="text-error -mt-32 mb-12 rounded-md bg-red-100 px-8 py-2 text-center text-sm md:-mt-20">
+            이미 다른 할일의 타이머 실행 중
           </div>
         )}
 
@@ -279,7 +279,9 @@ export default function TimerModal({
           />
         )}
 
-        <TotalTime serverTotalTime={toHHMMSS(liveTotalSec)} />
+        <div className="mt-72 md:mt-0">
+          <TotalTime serverTotalTime={toHHMMSS(liveTotalSec)} />
+        </div>
       </div>
     </Modal>
   );

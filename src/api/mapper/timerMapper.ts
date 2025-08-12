@@ -1,4 +1,3 @@
-// src/api/mapper/timerMapper.ts
 import {
   ApiStartTimerResponse,
   ApiPauseTimerResponse,
@@ -72,7 +71,7 @@ export const timerMapper = {
       sessionId: String(s.todoTimerId),
       todoId: String(s.todoId),
       isRunning: Boolean(s.isRunningTimer),
-      startedDateTime: pickStartedIso(s),     // ✅ 핵심
+      startedDateTime: pickStartedIso(s),     
       endedDateTime: null,
       goalId: String(s.goalId),
       goalTitle: '',

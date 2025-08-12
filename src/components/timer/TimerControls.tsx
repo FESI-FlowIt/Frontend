@@ -130,6 +130,23 @@ export default function TimerControls({
     })();
   }, [onSyncTodoId, todoId]);
 
+  // // 🔔 페이지 이탈/닫힘 시 실행 중이면 현재 세션을 best-effort로 pause
+  // // 🔔 브라우저 닫기/새로고침/완전한 페이지 이탈 시에만 pause (SPA 내부 이동은 X)
+  // useEffect(() => {
+  //   const onBeforeUnload = () => {
+  //     if (isBlocked || !isRunning) return;
+  //     const sid = session?.sessionId ?? null;
+  //     if (sid != null) {
+  //       timerApi.pauseTimerKeepalive(sid);
+  //     }
+  //   };
+
+  //   window.addEventListener('beforeunload', onBeforeUnload);
+  //   return () => {
+  //     window.removeEventListener('beforeunload', onBeforeUnload);
+  //   };
+  // }, [isRunning, isBlocked, session?.sessionId]);
+
   const resetGuards = () => {
     lastPausedIdRef.current = null;
     lastFinishedIdRef.current = null;
@@ -291,19 +308,20 @@ export default function TimerControls({
   };
 
   return (
-    <div className="mt-88 mb-80 flex justify-center gap-32">
+    <div className="mt-24 mb-12 flex justify-center gap-20 md:mt-88 md:mb-80 md:gap-32">
       {!isRunning ? (
         <button
           aria-label="시작"
           onClick={handleStart}
           disabled={isBlocked || !todoId || startInFlight.current}
-          className="flex h-88 w-88 items-center justify-center disabled:opacity-40"
+          className="flex h-60 w-60 items-center justify-center disabled:opacity-40 md:h-88 md:w-88"
         >
           <Image
             src={`${CLOUDFRONT_URL}/assets/images/timer_start.svg`}
             alt="타이머 시작 이미지"
             width={88}
             height={88}
+            className="h-60 w-60 md:h-88 md:w-88"
           />
         </button>
       ) : (
@@ -312,26 +330,29 @@ export default function TimerControls({
             aria-label="일시정지"
             onClick={handlePause}
             disabled={isBlocked || pauseInFlight.current || isStoppingRef.current}
-            className="flex h-88 w-88 items-center justify-center disabled:opacity-40"
+            className="flex h-60 w-60 items-center justify-center disabled:opacity-40 md:h-88 md:w-88"
           >
             <Image
               src={`${CLOUDFRONT_URL}/assets/images/timer_stop.svg`}
               alt="타이머 정지 이미지"
               width={88}
               height={88}
+              className="h-60 w-60 md:h-88 md:w-88"
             />
           </button>
+
           <button
             aria-label="중지"
             onClick={handleStop}
             disabled={isBlocked || stopInFlight.current}
-            className="flex h-88 w-88 items-center justify-center disabled:opacity-40"
+            className="flex h-60 w-60 items-center justify-center disabled:opacity-40 md:h-88 md:w-88"
           >
             <Image
               src={`${CLOUDFRONT_URL}/assets/images/timer_pause.svg`}
               alt="타이머 일시정지 이미지"
               width={88}
               height={88}
+              className="h-60 w-60 md:h-88 md:w-88"
             />
           </button>
         </>
