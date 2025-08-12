@@ -108,11 +108,7 @@ export default function HeatmapSection() {
         {hasError ? (
           // 에러처리
           <div className="flex h-full w-full justify-center">
-            <ErrorFallback
-              type="general"
-              title="작업시간 분석 데이터를 불러올 수 없어요"
-              onRetry={handleRetry}
-            />
+            <ErrorFallback type="general" title="데이터를 불러올 수 없어요" onRetry={handleRetry} />
           </div>
         ) : (
           // 정상처리
