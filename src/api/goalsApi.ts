@@ -26,6 +26,12 @@ export const goalsApi = {
     return res.result;
   },
 
+  //목표 상세에 대한 할일에 대한 노트, 첨부파일, 링크 조회
+  getNotesAttachmentsByGoalId: async (goalId: number): Promise<ApiGoalSummary> => {
+    const res = await getRequest(`/goals/${goalId}/detail`);
+    return res.result;
+  },
+
   // 목표 생성
   createGoal: async (goalData: GoalFormData): Promise<ApiGoalSummary> => {
     const requestData: CreateGoalRequest = {

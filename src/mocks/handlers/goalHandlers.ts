@@ -205,6 +205,31 @@ export const goalHandlers = [
     return HttpResponse.json({ result: goalDetail });
   }),
 
+  // 목표의 노트/첨부파일 정보 조회 (GET /goals/:goalId/detail) - TodoAttachmentIcons용
+  http.get('/goals/:goalId/detail', async ({ params }) => {
+    const goalId = Number(params.goalId);
+
+    const goalDetail = goalDetailResponses[goalId];
+    if (!goalDetail) {
+      return HttpResponse.json({ message: '목표를 찾을 수 없습니다.' }, { status: 404 });
+    }
+
+    // TodoAttachmentsStore에서 필요한 형태로 응답 구성
+    const detailResponse = {
+      goalId: goalDetail.goalId,
+      goalName: goalDetail.goalName,
+      color: goalDetail.color,
+      todos: goalDetail.todos.map(todo => ({
+        todoId: todo.todoId,
+        todoName: todo.todoName,
+        notes: todo.notes || [], // 노트 배열
+        attachment: todo.attachment || [], // 첨부파일/링크 배열
+      })),
+    };
+
+    return HttpResponse.json({ result: detailResponse });
+  }),
+
   // 목표 수정 (PATCH /goals/:goalId)
   http.patch('/goals/:goalId', async ({ params, request }) => {
     const goalId = Number(params.goalId);

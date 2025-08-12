@@ -49,7 +49,15 @@ export interface ApiNoteResponse {
   result: Note;
 }
 
+export interface ApiNoteSummary {
+  noteId: number;
+  todoId: number;
+  title: string;
+  modifiedDateTime: string;
+}
+
+// API 응답 타입
 export interface ApiNoteSummaryListResponse {
-  result: NoteSummary[];
+  result: ApiNoteSummary[];
   count: number;
 }
