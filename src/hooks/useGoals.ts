@@ -33,17 +33,6 @@ export const useGoal = (goalId: number) => {
   });
 };
 
-export const useGoalNotesAttachments = (goalId: number) => {
-  return useQuery({
-    queryKey: [...GOALS_QUERY_KEY, goalId, 'notes', 'attachments'],
-    queryFn: async () => {
-      const apiResponse = await goalsApi.getNotesAttachmentsByGoalId(goalId);
-      return apiResponse;
-    },
-    enabled: !!goalId,
-  });
-};
-
 // 목표 생성
 export const useCreateGoal = () => {
   const queryClient = useQueryClient();
