@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
+import { todosApi } from '@/api/todosApi';
 import GoalIcon from '@/assets/icons/goal.svg';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
@@ -17,26 +18,38 @@ import NoGoalsGuide from './NoGoalsGuide';
 export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | null }) {
   const router = useRouter();
   const [todos, setTodos] = useState<TodoSummary[]>(goal?.todos ?? []);
+  const [pendingIds, setPendingIds] = useState<number[]>([]);
 
   useEffect(() => {
     if (goal) setTodos(goal.todos);
   }, [goal]);
 
-  const handleToggle = (id: number) => {
-    setTodos(prev => prev.map(todo => (todo.id === id ? { ...todo, isDone: !todo.isDone } : todo)));
+  const handleToggle = async (id: number) => {
+    const target = todos.find(t => t.id === id);
+    if (!target || pendingIds.includes(id)) return;
+
+    const nextDone = !target.isDone;
+
+    setTodos(prev => prev.map(t => (t.id === id ? { ...t, isDone: nextDone } : t)));
+    setPendingIds(prev => [...prev, id]);
+
+    try {
+      await todosApi.toggleTodoDone(id, nextDone);
+    } catch {
+      // 실패 시 롤백
+      setTodos(prev => prev.map(t => (t.id === id ? { ...t, isDone: !nextDone } : t)));
+    } finally {
+      setPendingIds(prev => prev.filter(x => x !== id));
+    }
   };
 
-  if (!goal) {
-    return <NoGoalsGuide />;
-  }
+  if (!goal) return <NoGoalsGuide />;
 
   if (todos.length === 0) {
     return (
       <div
         className="rounded-20 relative flex h-340 w-303 cursor-pointer flex-col overflow-hidden bg-white md:w-596 lg:w-480"
-        onClick={() => {
-          router.push(ROUTES.GOALS.DETAIL(String(goal.goalId)));
-        }}
+        onClick={() => router.push(ROUTES.GOALS.DETAIL(String(goal.goalId)))}
       >
         <div className="flex flex-1 flex-col justify-between px-32 pt-20 pb-20">
           <div className="flex flex-col gap-12">

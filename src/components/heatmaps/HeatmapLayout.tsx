@@ -1,15 +1,19 @@
 import { TIME_LABELS } from '@/constants/heatmap';
-import { TimeSlotKey } from '@/interfaces/heatmap';
+import { HeatmapPeriod, TimeSlotKey } from '@/interfaces/heatmap';
 
 interface HeatmapLayoutProps {
-  timeKeys: TimeSlotKey[];
+  type: HeatmapPeriod;
+  data?: any;
   children: React.ReactNode;
 }
 
-const HeatmapLayout = ({ timeKeys, children }: HeatmapLayoutProps) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const HeatmapLayout = ({ type, data, children }: HeatmapLayoutProps) => {
+  const timeKeys: TimeSlotKey[] = ['dawn', 'morning', 'afternoon', 'evening'];
+
   return (
     <div className="flex w-full flex-col">
-      {/* 시간대 헤더 */}
+      {/* 시간대 헤더 - 항상 고정 */}
       <div className="mb-12 ml-40 flex gap-x-4">
         {timeKeys.map(key => (
           <div
@@ -21,7 +25,7 @@ const HeatmapLayout = ({ timeKeys, children }: HeatmapLayoutProps) => {
         ))}
       </div>
 
-      {/* 요일 or 주차별 행 */}
+      {/* 고정 레이아웃 - 항상 7일/6주 표시 */}
       <div className="flex flex-col gap-y-4">{children}</div>
     </div>
   );

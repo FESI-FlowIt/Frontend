@@ -14,6 +14,7 @@ import { useUserStore } from '@/store/userStore';
 
 import { Button } from '../ui/Button';
 import CustomLoading from '../ui/CustomLoading';
+import ErrorFallback from '../ui/ErrorFallback';
 
 import AuthModal from './AuthModal';
 import EmailInput from './EmailInput';
@@ -52,7 +53,7 @@ export default function LoginForm() {
     login.mutate(formData);
   };
 
-  const { data } = useUser({
+  const { data, isError } = useUser({
     enabled: Boolean(login.isSuccess && accessToken),
   });
 
@@ -67,6 +68,8 @@ export default function LoginForm() {
   if (shouldShowLoading) {
     return <CustomLoading />;
   }
+
+  if (isError) return <ErrorFallback type="general" />;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20 sm:gap-12 md:gap-20">

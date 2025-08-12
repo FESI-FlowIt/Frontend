@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 
 interface InsightCardProps {
-  variant: 'empty' | 'weekly' | 'monthly';
+  variant: 'no-data' | 'no-work-time' | 'weekly' | 'monthly';
   items?: React.ReactNode[];
   className?: string;
 }
@@ -12,7 +12,7 @@ const InsightCard = ({ variant, items = [], className }: InsightCardProps) => {
   const baseClasses =
     'rounded-20 flex w-full flex-col py-12 px-12 md:px-20 bg-insightContainer gap-12 h-full';
 
-  if (variant === 'empty') {
+  if (variant === 'no-data') {
     return (
       <div className={cn(baseClasses, 'items-center justify-center text-center', className)}>
         <div className="text-body-m-16 text-text-03 flex flex-col items-center gap-8">
@@ -23,6 +23,22 @@ const InsightCard = ({ variant, items = [], className }: InsightCardProps) => {
             인사이트를 제공할 수 없어요 :(
           </p>
           <p>작업을 시작해보세요!</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (variant === 'no-work-time') {
+    return (
+      <div className={cn(baseClasses, 'items-center justify-center text-center', className)}>
+        <div className="text-body-m-16 text-text-03 flex flex-col items-center gap-8">
+          <TimerIcon className="text-inactive" width={32} height={32} fill="currentColor" />
+
+          <p>
+            충분한 작업 데이터가 쌓이면 <br className="md:hidden" />
+            인사이트를 제공해드려요 :)
+          </p>
+          <p>목표를 설정하고 작업을 시작해보세요!</p>
         </div>
       </div>
     );

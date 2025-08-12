@@ -1,6 +1,10 @@
 'use client';
 
+import { Suspense } from 'react';
+
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { ErrorBoundary } from 'react-error-boundary';
 
 import { useSidebar } from '@/app/providers/SidebarProvider';
 import SidebarOpenIcon from '@/assets/icons/sidebar-right.svg';
@@ -9,8 +13,14 @@ import { useModalStore } from '@/store/modalStore';
 
 import GoalModal from '../goals/GoalModal';
 import { Button } from '../ui/Button';
+import CustomLoading from '../ui/CustomLoading';
+import ErrorFallback from '../ui/ErrorFallback';
 
-import SidebarGoalsList from './SidebarGoalsList';
+const SidebarGoalsList = dynamic(() => import('./SidebarGoalsList'), {
+  ssr: false,
+  loading: () => <CustomLoading />,
+});
+
 import SidebarHeader from './SidebarHeader';
 import SidebarMenu from './SidebarMenu';
 import SidebarUser from './SidebarUser';
@@ -24,7 +34,7 @@ export default function Sidebar() {
   return isOpen ? (
     <div
       className={cn(
-        `border-line md:rounded-tr-50 md:rounded-br-50 sm:rounded-tr-30 sm:rounded-br-30 flex min-h-screen w-320 transform flex-col items-center border-r bg-white py-40 transition-all duration-300 ease-in-out sm:w-280 sm:py-8 md:w-320 md:py-40`,
+        `border-line md:rounded-tr-50 md:rounded-br-50 sm:rounded-tr-30 sm:rounded-br-30 z-10 flex h-screen w-320 transform flex-col items-center overflow-y-auto border-r bg-white py-40 transition-all duration-200 ease-in-out sm:fixed sm:w-280 sm:py-8 md:fixed md:w-320 md:py-40 lg:static`,
         {
           'translate-x-0 opacity-100': isOpen,
           'pointer-events-none -translate-x-full opacity-0': !isOpen,
@@ -45,7 +55,11 @@ export default function Sidebar() {
         </section>
 
         <section className="mb-100 shrink-0 px-20 sm:px-18 md:px-20">
-          <SidebarGoalsList />
+          <ErrorBoundary fallback={<ErrorFallback type="general" />}>
+            <Suspense fallback={<CustomLoading />}>
+              <SidebarGoalsList />
+            </Suspense>
+          </ErrorBoundary>
         </section>
 
         <section className="shrink-0 px-30 sm:px-10 md:px-30">
@@ -61,7 +75,7 @@ export default function Sidebar() {
     <>
       <div
         className={cn(
-          `border-line rounded-tr-50 rounded-br-50 min-h-screen w-100 transform flex-col items-center gap-36 border-r bg-white px-18 pt-40 transition-all duration-300 ease-in-out sm:hidden md:flex md:w-80 lg:flex`,
+          `border-line rounded-tr-50 rounded-br-50 min-h-screen w-100 transform flex-col items-center gap-36 border-r bg-white px-18 pt-40 transition-all duration-200 ease-in-out sm:fixed sm:hidden md:fixed md:flex md:w-80 lg:static lg:flex`,
           {
             'translate-x-0 opacity-100': !isOpen,
             'pointer-events-none -translate-x-full opacity-0': isOpen,
@@ -83,7 +97,15 @@ export default function Sidebar() {
         </button>
       </div>
 
-      <div className="h-48 sm:flex sm:items-center sm:gap-12 sm:bg-white sm:px-16 md:hidden lg:hidden">
+      <div
+        className={cn(
+          'h-48 w-full transform transition-all duration-200 ease-in-out sm:fixed sm:flex sm:items-center sm:gap-12 sm:bg-white sm:px-16 md:fixed md:hidden lg:static lg:hidden',
+          {
+            'translate-x-0 opacity-100': !isOpen,
+            'pointer-events-none -translate-x-full opacity-0': isOpen,
+          },
+        )}
+      >
         <div className="sm:gap-4.6 sm:flex sm:items-center">
           <div className="sm:relative sm:h-28 sm:w-28">
             <Image src={`${CLOUDFRONT_URL}/assets/images/flowIt-logo.svg`} alt="로고 이미지" fill />

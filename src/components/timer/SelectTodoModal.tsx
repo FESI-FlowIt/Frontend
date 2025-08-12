@@ -31,8 +31,8 @@ export default function SelectTodoModal({
   const allTodosEmpty = goals.length === 0 || goals.every(goal => goal.todos.length === 0);
 
   return (
-    <Modal isOpen onClose={onClose} size="timer" padding="default">
-      <div className="flex h-full w-full flex-col">
+    <Modal isOpen onClose={onClose} size="timer" padding="none">
+      <div className="flex h-full w-full flex-col px-16 pt-24 pb-16 md:px-10 md:pt-10 md:pb-10">
         <SelectTodoModalHeader onClose={onClose} />
 
         <SelectTodoModalBody

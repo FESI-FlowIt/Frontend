@@ -1,20 +1,24 @@
 import HeatmapLayout from '@/components/heatmaps/HeatmapLayout';
 import HeatmapRow from '@/components/heatmaps/HeatmapRow';
 import { WEEKDAY_LABELS } from '@/constants/heatmap';
-import { TimeSlotKey, WeeklyHeatmapResponse } from '@/interfaces/heatmap';
+import { WeeklyHeatmapResponse } from '@/interfaces/heatmap';
 
 interface WeeklyHeatmapProps {
-  data: WeeklyHeatmapResponse['data'];
+  data?: WeeklyHeatmapResponse['data'];
 }
 
 const WeeklyHeatmap = ({ data }: WeeklyHeatmapProps) => {
-  const timeKeys: TimeSlotKey[] = ['dawn', 'morning', 'afternoon', 'evening'];
+  // 항상 7일 레이아웃 생성
+  const rows = WEEKDAY_LABELS.map((label, index) => {
+    // 해당 요일의 데이터 찾기
+    const dayData = data?.[index];
+
+    return <HeatmapRow key={label} rowLabel={label} timeSlots={dayData?.time_slots || null} />;
+  });
 
   return (
-    <HeatmapLayout timeKeys={timeKeys}>
-      {data.days.map((day, i) => (
-        <HeatmapRow key={day.date} rowLabel={WEEKDAY_LABELS[i]} timeSlots={day.time_slots} />
-      ))}
+    <HeatmapLayout type="weekly" data={data}>
+      {rows}
     </HeatmapLayout>
   );
 };
