@@ -4,11 +4,11 @@ import { monthlyHeatmapRes } from '@/mocks/mockResponses/heatmap/monthlyHeatmapR
 import { weeklyHeatmapRes } from '@/mocks/mockResponses/heatmap/weeklyHeatmapResponse';
 
 export const heatmapHandlers = [
-  http.get('/heatmaps/weekly', async () => {
+  http.get('/heatmaps/todo-timers/weekly/:date', () => {
     return HttpResponse.json(weeklyHeatmapRes);
   }),
 
-  http.get('/heatmaps/monthly', () => {
+  http.get('/heatmaps/todo-timers/monthly/:yearMonth', () => {
     return HttpResponse.json(monthlyHeatmapRes);
   }),
 ];

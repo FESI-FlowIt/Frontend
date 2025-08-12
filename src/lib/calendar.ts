@@ -55,3 +55,8 @@ export const getCurrentMonth = () => {
   const month = String(today.getMonth() + 1).padStart(2, '0');
   return `${year}-${month}`;
 };
+
+// 현재 날짜를 YYYY-MM-DD 형태로 반환하는 함수
+export const getCurrentDate = () => {
+  return new Date().toISOString().split('T')[0];
+};
