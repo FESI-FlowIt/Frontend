@@ -32,45 +32,46 @@ export default function Sidebar() {
   const { openGoalModal } = useModalStore();
 
   return isOpen ? (
-    <div
-      className={cn(
-        `border-line md:rounded-tr-50 md:rounded-br-50 sm:rounded-tr-30 sm:rounded-br-30 z-10 flex h-screen w-320 transform flex-col items-center overflow-y-auto border-r bg-white py-40 transition-all duration-200 ease-in-out sm:fixed sm:w-280 sm:py-8 md:fixed md:w-320 md:py-40 lg:static`,
-        {
-          'translate-x-0 opacity-100': isOpen,
-          'pointer-events-none -translate-x-full opacity-0': !isOpen,
-        },
-      )}
-    >
-      <section className="mb-40 shrink-0 px-20">
-        <SidebarHeader setIsOpen={setIsOpen} />
-      </section>
-
-      <div className="flex flex-1 flex-col overflow-y-auto">
-        <section className="mb-32 shrink-0 px-30 sm:mb-20 sm:px-16 md:mb-32 md:px-30">
-          <SidebarUser />
+    <>
+      <div
+        className={cn(
+          `border-line md:rounded-tr-50 md:rounded-br-50 sm:rounded-tr-30 sm:rounded-br-30 static z-10 flex h-screen w-320 transform flex-col items-center overflow-y-auto border-r bg-white py-40 transition-all duration-200 ease-in-out sm:fixed sm:w-280 sm:py-8 md:fixed md:w-320 md:py-40 lg:static`,
+          {
+            'translate-x-0 opacity-100': isOpen,
+            'pointer-events-none -translate-x-full opacity-0': !isOpen,
+          },
+        )}
+      >
+        <section className="mb-40 shrink-0 px-20">
+          <SidebarHeader setIsOpen={setIsOpen} />
         </section>
 
-        <section className="mb-16 shrink-0 px-20 sm:px-16 md:px-20">
-          <SidebarMenu />
-        </section>
+        <div className="flex flex-1 flex-col overflow-y-auto">
+          <section className="mb-32 shrink-0 px-30 sm:mb-20 sm:px-16 md:mb-32 md:px-30">
+            <SidebarUser />
+          </section>
 
-        <section className="mb-100 shrink-0 px-20 sm:px-18 md:px-20">
-          <ErrorBoundary fallback={<ErrorFallback type="general" />}>
-            <Suspense fallback={<CustomLoading />}>
-              <SidebarGoalsList />
-            </Suspense>
-          </ErrorBoundary>
-        </section>
+          <section className="mb-16 shrink-0 px-20 sm:px-16 md:px-20">
+            <SidebarMenu />
+          </section>
 
-        <section className="shrink-0 px-30 sm:px-10 md:px-30">
-          <Button size="addgoal" disabled={false} onClick={() => openGoalModal()}>
-            + 목표추가
-          </Button>
-        </section>
+          <section className="mb-100 shrink-0 px-20 sm:px-18 md:px-20">
+            <ErrorBoundary fallback={<ErrorFallback type="general" />}>
+              <Suspense fallback={<CustomLoading />}>
+                <SidebarGoalsList />
+              </Suspense>
+            </ErrorBoundary>
+          </section>
+
+          <section className="shrink-0 px-30 sm:px-10 md:px-30">
+            <Button size="addgoal" disabled={false} onClick={() => openGoalModal()}>
+              + 목표추가
+            </Button>
+          </section>
+        </div>
       </div>
-
       <GoalModal />
-    </div>
+    </>
   ) : (
     <>
       <div
@@ -99,7 +100,7 @@ export default function Sidebar() {
 
       <div
         className={cn(
-          'h-48 w-full transform transition-all duration-200 ease-in-out sm:fixed sm:flex sm:items-center sm:gap-12 sm:bg-white sm:px-16 md:fixed md:hidden lg:static lg:hidden',
+          'z-10 h-48 w-full transform transition-all duration-200 ease-in-out sm:fixed sm:flex sm:items-center sm:gap-12 sm:bg-white sm:px-16 md:fixed md:hidden lg:static lg:hidden',
           {
             'translate-x-0 opacity-100': !isOpen,
             'pointer-events-none -translate-x-full opacity-0': isOpen,
