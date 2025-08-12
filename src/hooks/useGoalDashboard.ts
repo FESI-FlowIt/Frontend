@@ -2,10 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getDashboardGoals } from '@/api/dashboardGoalsApi';
 
-export const useGoalsDashboard = (userId: number) => {
+export const useGoalsDashboard = () => {
   return useQuery({
-    queryKey: ['goals', 'dashboard', userId],
-    queryFn: () => getDashboardGoals(userId),
-    enabled: !!userId,
+    queryKey: ['goals', 'dashboard'],
+    queryFn: () => getDashboardGoals(),
   });
 };

@@ -7,7 +7,6 @@ import TodoIcon from '@/assets/icons/todo.svg';
 import Card from '@/components/ui/Card';
 import { useGoalsDashboard } from '@/hooks/useGoalDashboard';
 import { ROUTES } from '@/lib/routes';
-import { useUserStore } from '@/store/userStore';
 
 import TodoModal from '../todos/TodoModal';
 
@@ -15,8 +14,7 @@ import GoalListDashboardCard from './GoalListDashboardCard';
 import NoGoalsGuide from './NoGoalsGuide';
 
 export default function GoalListDashboardSection() {
-  const userId = useUserStore(state => state.user?.id ?? 0);
-  const { data: goals = [], isLoading } = useGoalsDashboard(userId);
+  const { data: goals = [], isLoading } = useGoalsDashboard();
   const router = useRouter();
 
   const safeGoals = Array.isArray(goals) ? goals : [];
