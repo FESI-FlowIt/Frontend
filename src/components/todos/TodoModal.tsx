@@ -93,7 +93,7 @@ const TodoModal = ({ todoToEdit, defaultGoalId }: TodoModalProps) => {
         padding="default"
         margin="none"
         rounded="responsive"
-        layer="base"
+        layer="stacked"
       >
         <div className="mb-52 flex items-center justify-between">
           <h2 className="text-display-24 text-text-01 flex items-center">
