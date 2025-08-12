@@ -592,3 +592,17 @@
 .notfound-error-icon path:last-child {
   fill: #c3cad6 !important;
 }
+
+/* 화살표 아이콘 */
+.arrow-left-icon {
+  fill: none !important;
+}
+.arrow-left-icon path {
+  stroke: #515660 !important;
+}
+.arrow-right-icon {
+  fill: none !important;
+}
+.arrow-right-icon path {
+  stroke: #515660 !important;
+}

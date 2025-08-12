@@ -85,23 +85,23 @@ const iconConfig = {
   },
   back: {
     component: PrevIcon,
-    className: 'fill-none',
+    className: 'arrow-left-icon',
   },
   prev: {
     component: PrevIcon,
-    className: 'fill-none',
+    className: 'arrow-left-icon',
   },
   next: {
     component: NextIcon,
-    className: 'fill-none',
+    className: 'arrow-right-icon',
   },
   paginationArrowPrev: {
     component: PrevIcon,
-    className: 'fill-none',
+    className: 'arrow-left-icon',
   },
   paginationArrowNext: {
     component: NextIcon,
-    className: 'fill-none',
+    className: 'arrow-right-icon',
   },
   kebab: {
     component: KebabIcon,
