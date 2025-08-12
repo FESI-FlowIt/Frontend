@@ -1,6 +1,8 @@
+// timerApi.ts
 import { getRequest, patchRequest, postRequest } from '@/api';
 import { timerMapper } from '@/api/mapper/timerMapper';
 import {
+  ApiFinishTimerRequest,
   ApiFinishTimerResponse,
   ApiGetCurrentTimerStatusResponse,
   ApiPauseTimerResponse,
@@ -10,22 +12,66 @@ import {
   InProgressGoal,
   TimerSession,
 } from '@/interfaces/timer';
-import { useAuthStore } from '@/store/authStore';
+
+/** ---- helpers: 날짜 표준화(ms) ---- */
+const toMs = (v?: string | number | null): number | undefined => {
+  if (v == null) return undefined;
+  if (typeof v === 'number' && Number.isFinite(v)) return v;
+  if (typeof v === 'string') {
+    const t = Date.parse(v);
+    return Number.isFinite(t) ? t : undefined;
+  }
+  return undefined;
+};
+
+const normalizeFinishBody = (body: ApiFinishTimerRequest) => {
+  const startedAtMs = toMs((body as any).startedAt ?? (body as any).startedAtMs);
+  const finishedAtMs = toMs((body as any).finishedAt ?? (body as any).finishedAtMs);
+  const resumes = (body as any).resumes as (string | number)[] | undefined;
+  const pauses = (body as any).pauses as (string | number)[] | undefined;
+
+  const resumesMs = Array.isArray(resumes)
+    ? (resumes.map(toMs).filter(Boolean) as number[])
+    : undefined;
+  const pausesMs = Array.isArray(pauses)
+    ? (pauses.map(toMs).filter(Boolean) as number[])
+    : undefined;
+
+  const segments = (body as any).segments as
+    | { startAt: string | number; endAt: string | number }[]
+    | undefined;
+  const segmentsMs = Array.isArray(segments)
+    ? (
+        segments
+          .map(s => ({ startAtMs: toMs(s.startAt), endAtMs: toMs(s.endAt) }))
+          .filter(s => s.startAtMs && s.endAtMs) as { startAtMs: number; endAtMs: number }[]
+      )
+    : undefined;
+
+  return {
+    ...body,
+    startedAtMs,
+    finishedAtMs,
+    resumesMs,
+    pausesMs,
+    segmentsMs,
+    clientSentAtMs: Date.now(),
+    clientTzOffsetMin: new Date().getTimezoneOffset(),
+  };
+};
+/** ---------------------------------- */
 
 export const timerApi = {
   startTimer: async (body: ApiStartTimerRequest): Promise<TimerSession> => {
     const data = await postRequest('/todo-timers', body);
-
     const validCodes = ['0000', '0201'];
     if (!validCodes.includes(data?.code)) {
       throw new Error(`타이머 시작 실패: ${data?.message ?? '알 수 없는 오류'}`);
     }
-
     const result: ApiStartTimerResponse | undefined = data?.result;
-    if (!result || typeof result !== 'object' || !result.todoTimerId) {
+    if (!result || !result.todoTimerId) {
       throw new Error('Invalid response: todoTimerId is missing');
     }
-
     return timerMapper.mapApiToStartedTimer(result);
   },
 
@@ -35,24 +81,7 @@ export const timerApi = {
   },
 
   pauseTimerKeepalive(todoTimerId: number) {
-    try {
-      const token = useAuthStore.getState().accessToken ?? '';
-      const base = process.env.NEXT_PUBLIC_API_BASE ?? '';
-      const url = `${base}/todo-timers/${todoTimerId}/pause`;
-
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        body: JSON.stringify({}),
-        keepalive: true,
-        cache: 'no-store',
-      }).catch(() => {});
-    } catch {
-      // intentionally empty
-    }
+    postRequest(`/todo-timers/${todoTimerId}/pause`, {}).catch(() => {});
   },
 
   resumeTimer: async (todoTimerId: number): Promise<TimerSession> => {
@@ -67,12 +96,13 @@ export const timerApi = {
     return timerMapper.mapApiToResumedTimer(payload);
   },
 
-  finishTimer: async (todoTimerId: number) => {
-    const data: any = await patchRequest(`/todo-timers/${todoTimerId}/finish`);
+  finishTimer: async (todoTimerId: number, body: ApiFinishTimerRequest): Promise<TimerSession> => {
+    const normalized = normalizeFinishBody(body);
+    const data: any = await patchRequest(`/todo-timers/${todoTimerId}/finish`, normalized);
     if (data?.code && data.code !== '0000') {
-      throw new Error(data.message || '타이머 종료 실패');
+      throw new Error(data?.message || '타이머 종료 실패');
     }
-    const payload: ApiFinishTimerResponse = data?.result ? data.result : data;
+    const payload: ApiFinishTimerResponse = data?.result ?? data;
     if (!payload?.todoTimerId) {
       throw new Error('Invalid response: todoTimerId is missing');
     }

@@ -3,12 +3,12 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-
 import { timerApi } from '@/api/timerApi';
+import dayjs from '@/lib/dayjs'; // tz 기본 Asia/Seoul 세팅 파일
 
 interface TimerControlsProps {
   todoId: number | null;
-  onSyncTodoId: (_todoId: number) => void; // ← id 경고 회피용 이름 변경(기능 영향 없음)
+  onSyncTodoId: (_todoId: number) => void;
   isRunning: boolean;
   isBlocked: boolean;
   onStart: () => void;
@@ -19,6 +19,10 @@ interface TimerControlsProps {
 
 const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`;
 
+/** "YYYY-MM-DDTHH:mm:ss.SSS+09:00" (KST ISO) */
+const isoKST = () => dayjs().tz('Asia/Seoul').format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+
+/** "HH:MM:SS" → 초 */
 const hmsToSec = (hms?: string) => {
   const [h = '0', m = '0', s = '0'] = (hms ?? '00:00:00').split(':');
   return (+h || 0) * 3600 + (+m || 0) * 60 + (+s || 0);
@@ -101,15 +105,18 @@ export default function TimerControls({
   const startInFlight = useRef(false);
   const pauseInFlight = useRef(false);
   const stopInFlight = useRef(false);
-
-  // 정지 처리 중에는 pause 클릭/요청 무시
   const isStoppingRef = useRef(false);
 
-  // 동일 runningId로 pause/finish 중복 전송 방지
+  // 동일 runningId 재전송 가드
   const lastPausedIdRef = useRef<number | null>(null);
   const lastFinishedIdRef = useRef<number | null>(null);
 
-  // 서버 세션 동기화: 이 모달의 todoId와 같은 세션만 연결
+  // ⏱ 타임스탬프 수집(요구사항: 정지 시 모든 조작 타임스탬프 전송)
+  const startedAtRef = useRef<string | null>(null);
+  const resumesRef = useRef<string[]>([]);
+  const pausesRef = useRef<string[]>([]);
+
+  /** 서버 세션 동기화 */
   useEffect(() => {
     (async () => {
       try {
@@ -118,7 +125,6 @@ export default function TimerControls({
           const s = toSessionLike(status);
           if (s.todoId && todoId && s.todoId === todoId) {
             setSession(s);
-            // 동일할 때만 동기화(다른 할일로 바꾸지 않음)
             onSyncTodoId(todoId);
           } else {
             setSession(null);
@@ -137,6 +143,13 @@ export default function TimerControls({
     lastFinishedIdRef.current = null;
   };
 
+  const resetTimestamps = () => {
+    startedAtRef.current = null;
+    resumesRef.current = [];
+    pausesRef.current = [];
+  };
+
+  /** ⏯ 시작/재개 */
   const handleStart = async () => {
     if (startInFlight.current) return;
     startInFlight.current = true;
@@ -153,47 +166,53 @@ export default function TimerControls({
     }
 
     try {
-      // 1) 같은 할일 세션만 재개 허용
+      // 같은 세션 재개
       if (session?.sessionId && session?.todoId === todoId) {
-        try {
-          const resumed = await timerApi.resumeTimer(session.sessionId);
-          const s = toSessionLike(resumed);
-          setSession(s);
-          onSyncTodoId(todoId);
-          resetGuards();
-          onStart();
-          setIsRunning(true);
-          return;
-        } catch {
-          /* no-op: resume 실패면 다음 경로 시도 */
-        }
+        const resumed = await timerApi.resumeTimer(session.sessionId);
+        setSession(toSessionLike(resumed));
+        onSyncTodoId(todoId);
+        resetGuards();
+
+        // 타임스탬프 기록 (KST)
+        const nowIso = isoKST();
+        if (!startedAtRef.current) startedAtRef.current = nowIso; // 최초 시작 없으면 보정
+        resumesRef.current.push(nowIso);
+
+        onStart();
+        setIsRunning(true);
+        return;
       }
 
-      // 2) 서버 상태 기반 재개 (같은 todo일 때만)
+      // 서버 상태 기반 재개
       const status = await timerApi.getCurrentTimerStatus().catch(() => null);
       const sid2 = pickId(status);
       const stodo = pickTodoId(status);
       if (sid2 && stodo === todoId) {
-        try {
-          const resumed = await timerApi.resumeTimer(sid2);
-          const s = toSessionLike(resumed);
-          setSession(s);
-          onSyncTodoId(todoId);
-          resetGuards();
-          onStart();
-          setIsRunning(true);
-          return;
-        } catch {
-          /* no-op: resume 실패면 다음 경로 시도 */
-        }
+        const resumed = await timerApi.resumeTimer(sid2);
+        setSession(toSessionLike(resumed));
+        onSyncTodoId(todoId);
+        resetGuards();
+
+        const nowIso = isoKST();
+        if (!startedAtRef.current) startedAtRef.current = nowIso;
+        resumesRef.current.push(nowIso);
+
+        onStart();
+        setIsRunning(true);
+        return;
       }
 
-      // 3) 새 세션 시작
+      // 새로 시작
       const started = await timerApi.startTimer({ todoId });
-      const s = toSessionLike(started);
-      setSession(s);
+      setSession(toSessionLike(started));
       onSyncTodoId(todoId);
       resetGuards();
+
+      // 최초 시작 시각 기록 (KST)
+      const startIso = isoKST();
+      startedAtRef.current = startIso;
+      resumesRef.current.push(startIso);
+
       onStart();
       setIsRunning(true);
     } catch (err) {
@@ -204,37 +223,34 @@ export default function TimerControls({
     }
   };
 
-  // 사용자가 누르는 "일시정지"
+  /** ⏸ 일시정지 */
   const handlePause = async () => {
-    if (pauseInFlight.current || isStoppingRef.current) return; // 정지 중엔 무시
-    if (isBlocked) return; // 다른 할일이 돌면 조작 금지
+    if (pauseInFlight.current || isStoppingRef.current) return;
+    if (isBlocked) return;
     pauseInFlight.current = true;
 
     try {
       const status = await timerApi.getCurrentTimerStatus().catch(() => null);
       const sid = pickId(status) ?? session?.sessionId ?? null;
       const stodo = pickTodoId(status);
-
       if (!sid || stodo !== todoId) {
         alert('현재 이 할일의 실행 중인 세션이 없습니다.');
         return;
       }
-
-      // 동일 ID로 두 번 pause 방지
       if (lastPausedIdRef.current === sid) return;
 
       await timerApi.pauseTimer(sid);
       lastPausedIdRef.current = sid;
 
+      // 타임스탬프 기록 (KST)
+      const pauseIso = isoKST();
+      pausesRef.current.push(pauseIso);
+
       // (옵션) 누적 조회해서 상향 동기화
       let finalTotalSec: number | undefined;
       if (todoId) {
-        try {
-          const res = await timerApi.getTotalRunningTime(todoId);
-          finalTotalSec = hmsToSec(res.totalRunningTime);
-        } catch {
-          /* no-op: resume 실패면 다음 경로 시도 */
-        }
+        const res = await timerApi.getTotalRunningTime(todoId);
+        finalTotalSec = hmsToSec(res.totalRunningTime);
       }
 
       onPause(finalTotalSec);
@@ -247,10 +263,10 @@ export default function TimerControls({
     }
   };
 
-  // 사용자가 누르는 "정지"
+  /** ⏹ 정지 */
   const handleStop = async () => {
     if (stopInFlight.current) return;
-    if (isBlocked) return; // 다른 할일이 돌면 조작 금지
+    if (isBlocked) return;
     stopInFlight.current = true;
     isStoppingRef.current = true;
 
@@ -260,7 +276,6 @@ export default function TimerControls({
         return;
       }
 
-      // 최신 실행 ID 확보
       const status = await timerApi.getCurrentTimerStatus().catch(() => null);
       const runningId = pickId(status) ?? session?.sessionId ?? null;
       const stodo = pickTodoId(status);
@@ -270,27 +285,39 @@ export default function TimerControls({
         return;
       }
 
-      // ✅ pause 호출하지 않음 (이중 합산 방지)
+      // 종료 직전에 총 누적 초 조회
+      const total = await timerApi.getTotalRunningTime(todoId);
+      const finalTotalSec = hmsToSec(total.totalRunningTime);
+
+      // 세그먼트 구성 (resume[i] ~ pause[i], 마지막은 finishedAt으로 닫기)
+      const finishedAt = isoKST();
+      const segments: Array<{ startAt: string; endAt: string }> = [];
+      const len = Math.max(resumesRef.current.length, pausesRef.current.length);
+      for (let i = 0; i < len; i++) {
+        const startAt = resumesRef.current[i];
+        const endAt = pausesRef.current[i] ?? finishedAt;
+        if (startAt) segments.push({ startAt, endAt });
+      }
+
       if (lastFinishedIdRef.current !== runningId) {
-        await timerApi.finishTimer(runningId);
+        await timerApi.finishTimer(runningId, {
+          todoId,
+          totalSec: finalTotalSec,
+          finishedAt,
+          startedAt: startedAtRef.current ?? undefined,
+          resumes: resumesRef.current,
+          pauses: pausesRef.current,
+          segments,
+        });
+
         lastFinishedIdRef.current = runningId;
+        onStop(finalTotalSec);
       }
 
-      // finish 후 최종 누적 1회 조회 → 모달로 전달(상향만)
-      let finalTotalSec: number | undefined;
-      try {
-        const total = await timerApi.getTotalRunningTime(todoId);
-        const [h = '0', m = '0', s = '0'] = (total.totalRunningTime ?? '00:00:00').split(':');
-        finalTotalSec = (+h || 0) * 3600 + (+m || 0) * 60 + (+s || 0);
-      } catch {
-        /* no-op: resume 실패면 다음 경로 시도 */
-      }
-
-      onStop(finalTotalSec);
       setIsRunning(false);
       setSession(null);
-      lastPausedIdRef.current = null;
-      lastFinishedIdRef.current = null;
+      resetGuards();
+      resetTimestamps(); // 로컬 타임스탬프 초기화
     } catch (err) {
       console.error('❌ 타이머 종료 실패:', err);
       alert(err instanceof Error ? err.message : '타이머 종료 실패');

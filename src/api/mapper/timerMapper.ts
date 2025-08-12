@@ -1,3 +1,4 @@
+// timerMapper.ts
 import {
   ApiFinishTimerResponse,
   ApiGetCurrentTimerStatusResponse,
@@ -8,12 +9,11 @@ import {
   TimerSession,
 } from '@/interfaces/timer';
 
-/** 서버가 어느 키로 시간을 주더라도 흡수해서 ISO를 반환 */
 function pickStartedIso(obj: any): string | null {
   return (
     obj?.startedDateTime ??
     obj?.startedAt ??
-    obj?.resumeDateTime ?? // 재시작 시점이라면 이것도 시작시각으로 취급
+    obj?.resumeDateTime ??
     null
   );
 }
@@ -25,6 +25,7 @@ export const timerMapper = {
     startedDateTime: data.startedDateTime ?? null,
     endedDateTime: null,
     isRunning: true,
+    runningTime: '00:00:00',
     goalId: '',
     goalTitle: '',
     goalColor: '',
@@ -34,10 +35,10 @@ export const timerMapper = {
   mapApiToPausedTimer: (data: ApiPauseTimerResponse): TimerSession => ({
     sessionId: String(data.todoTimerId ?? ''),
     todoId: String(data.todoId ?? ''),
-    // 일시정지 응답에 시작시각이 없을 수 있으니 null
     startedDateTime: null,
     endedDateTime: data.pausedDateTime ?? null,
     isRunning: false,
+    runningTime: '00:00:00',
     goalId: '',
     goalTitle: '',
     goalColor: '',
@@ -47,20 +48,27 @@ export const timerMapper = {
   mapApiToResumedTimer: (data: ApiResumeTimerResponse): TimerSession => ({
     sessionId: String(data.todoTimerId),
     todoId: String(data.todoId),
-    // 재시작 시점도 델타 기준이므로 시작시각으로 사용
     startedDateTime: data.resumeDateTime ?? null,
     endedDateTime: null,
     isRunning: true,
+    runningTime: '00:00:00',
     goalId: '',
     goalTitle: '',
     goalColor: '',
     todoContent: '',
   }),
 
-  mapApiToFinishedTimer: (data: ApiFinishTimerResponse) => ({
-    sessionId: String(data?.todoTimerId ?? ''),
-    todoId: String(data?.todoId ?? ''),
-    runningTime: data?.runningTime ?? '0',
+  mapApiToFinishedTimer: (data: ApiFinishTimerResponse): TimerSession => ({
+    sessionId: String(data.todoTimerId ?? ''),
+    todoId: String(data.todoId ?? ''),
+    startedDateTime: null,
+    endedDateTime: null,
+    isRunning: false,
+    runningTime: data.runningTime ?? '00:00:00',
+    goalId: '',
+    goalTitle: '',
+    goalColor: '',
+    todoContent: '',
   }),
 
   mapApiToCurrentTimerStatus: (data: ApiGetCurrentTimerStatusResponse): TimerSession | null => {
@@ -73,6 +81,7 @@ export const timerMapper = {
       isRunning: Boolean(s.isRunningTimer),
       startedDateTime: pickStartedIso(s),
       endedDateTime: null,
+      runningTime: '00:00:00',
       goalId: String(s.goalId),
       goalTitle: '',
       goalColor: '',
