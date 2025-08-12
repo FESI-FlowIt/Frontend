@@ -72,12 +72,14 @@ export const noteHandlers = [
     const todoNotes = getNotesByTodoId(todoId);
 
     // ApiNoteSummary 형태로 변환 (updatedAt → modifiedDateTime)
-    const apiNotes = todoNotes.map(note => ({
-      noteId: note.noteId,
-      todoId: note.todoId,
-      title: note.title,
-      modifiedDateTime: note.updatedAt, // API 스펙에 맞게 필드명 변경
-    }));
+    const apiNotes = todoNotes.map(
+      (note: { noteId: number; todoId: number; title: string; updatedAt: string }) => ({
+        noteId: note.noteId,
+        todoId: note.todoId,
+        title: note.title,
+        modifiedDateTime: note.updatedAt, // API 스펙에 맞게 필드명 변경
+      }),
+    );
 
     return HttpResponse.json(
       {

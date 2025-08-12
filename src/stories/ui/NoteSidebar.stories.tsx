@@ -8,11 +8,11 @@ import { TodoWithNotes } from '@/interfaces/todo';
 
 const mockTodoWithNotes: TodoWithNotes = {
   todoId: 1,
-  title: '자바스크립트 기초 렌더링 통과',
+  name: '자바스크립트 기초 렌더링 통과',
   isDone: false,
   goalId: 1,
   goalTitle: '프론트엔드 개발자 되기',
-  notes: [
+  note: [
     {
       noteId: 1,
       todoId: 1,
