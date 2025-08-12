@@ -544,3 +544,51 @@
 .icon-info path {
   fill: #4c82f7 !important;
 }
+
+/* 일반 에러 아이콘 */
+.general-error-icon {
+  fill: none !important;
+}
+.general-error-icon path:first-child {
+  stroke: #e4e8f0 !important;
+}
+.general-error-icon path:nth-child(2) {
+  fill: #e4e8f0 !important;
+  stroke: #e4e8f0 !important;
+}
+.general-error-icon rect {
+  fill: #e4e8f0 !important;
+  stroke: #e4e8f0 !important;
+}
+.general-error-icon circle {
+  fill: #515660 !important;
+}
+.general-error-icon path:last-child {
+  fill: #515660 !important;
+}
+
+/* 404 에러 아이콘 */
+.notfound-error-icon {
+  fill: none !important;
+}
+.notfound-error-icon path:first-child {
+  fill: #c3cad6 !important;
+}
+.notfound-error-icon path:nth-child(2) {
+  fill: #c3cad6 !important;
+}
+.notfound-error-icon path:nth-child(3) {
+  fill: #c3cad6 !important;
+}
+.notfound-error-icon circle:first-child {
+  fill: #667077 !important;
+}
+.notfound-error-icon circle:nth-child(2) {
+  fill: #667077 !important;
+}
+.notfound-error-icon path:nth-child(4) {
+  fill: #667077 !important;
+}
+.notfound-error-icon path:last-child {
+  fill: #c3cad6 !important;
+}
