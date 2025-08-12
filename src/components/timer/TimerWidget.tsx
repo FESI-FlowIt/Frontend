@@ -9,14 +9,12 @@ import { useGoalsDashboard } from '@/hooks/useGoalDashboard';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
 import { getGoalBackgroundColorClass } from '@/lib/goalColors';
-import { useUserStore } from '@/store/userStore';
 
 // 모달과 주고받을 스냅샷 타입
 type TimerSnapshot = { baseTotalSec: number; resumeAtMs: number | null };
 
 export default function TimerWidget() {
-  const userId = useUserStore(state => state.user?.id ?? 0);
-  const { data: goals = [] } = useGoalsDashboard(userId);
+  const { data: goals = [] } = useGoalsDashboard();
 
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const [isTimerModalOpen, setIsTimerModalOpen] = useState(false);
