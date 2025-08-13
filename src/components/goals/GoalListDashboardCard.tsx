@@ -24,14 +24,12 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
     if (goal) setTodos(goal.todos);
   }, [goal]);
 
-  // 마감일 안전 파싱
   const deadline: Date | null = (() => {
     if (!goal?.deadlineDate) return null;
     const d = new Date(String(goal.deadlineDate));
     return Number.isNaN(d.getTime()) ? null : d;
   })();
 
-  // 자정 기준 D-Day 텍스트
   const ddayText = (() => {
     if (!deadline) return 'D-Day';
 
