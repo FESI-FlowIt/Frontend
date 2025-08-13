@@ -24,15 +24,24 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
     if (goal) setTodos(goal.todos);
   }, [goal]);
 
+  // 마감일 안전 파싱
   const deadline: Date | null = (() => {
     if (!goal?.deadlineDate) return null;
     const d = new Date(String(goal.deadlineDate));
     return Number.isNaN(d.getTime()) ? null : d;
   })();
 
+  // 자정 기준 D-Day 텍스트
   const ddayText = (() => {
     if (!deadline) return 'D-Day';
-    const diffDays = Math.ceil((deadline.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const deadlineDate = new Date(deadline);
+    deadlineDate.setHours(0, 0, 0, 0);
+
+    const diffDays = Math.ceil((deadlineDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
     if (diffDays > 0) return `D-${diffDays}`;
     if (diffDays === 0) return 'D-Day';
     return `D+${Math.abs(diffDays)}`;
