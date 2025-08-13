@@ -79,7 +79,7 @@
     <td align="center" width="200">
       <a href="https://github.com/LDY981212">
         <img
-          src="https://avatars.githubusercontent.com/u/134135615?v=4"
+          src="https://github.com/LDY981212.png"
           alt="이도엽"
           width="100"
         />
