@@ -77,10 +77,13 @@ const GoalDetailHeader = ({ goal, todosCount, completedCount }: GoalDetailHeader
   // progress 계산
   const progress = todosCount > 0 ? Math.round((completedCount / todosCount) * 100) : 0;
 
-  // D-Day 계산
-  const diffDays = Math.ceil(
-    (new Date(goal.deadlineDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
-  );
+  // D-Day 계산 - 날짜만 비교 (시간 무시)
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const deadline = new Date(goal.deadlineDate);
+  deadline.setHours(0, 0, 0, 0);
+
+  const diffDays = Math.floor((deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
   const isOverdue = diffDays < 0;
 
   return (
