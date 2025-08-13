@@ -121,7 +121,6 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-0F172A?style=flat&logo=TailwindCSS&logoColor=06B6D4)  
 ![PostCSS](https://img.shields.io/badge/PostCSS-DD3A0A?style=flat&logo=postcss&logoColor=white)  
 ![Storybook](https://img.shields.io/badge/Storybook-FF4785?style=flat&logo=Storybook&logoColor=white)  
-<br />  
 ![Jest](https://img.shields.io/badge/Jest-C21325?style=flat&logo=jest&logoColor=white)  
 ![React Query](https://img.shields.io/badge/React%20Query-FF4154?style=flat&logo=reactquery&logoColor=white)  
 ![Zustand](https://img.shields.io/badge/Zustand-5E412F?style=flat&logo=zustand&logoColor=white)  
