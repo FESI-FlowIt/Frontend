@@ -53,7 +53,7 @@
     <td align="center" width="200">
       <a href="https://github.com/00kang">
         <img
-          src="https://avatars.githubusercontent.com/u/176696485?v=4"
+          src="https://github.com/00kang.png"
           alt="강다빈"
           width="100"
         />
@@ -66,7 +66,7 @@
     <td align="center" width="200">
       <a href="https://github.com/epass1123">
         <img
-          src="https://avatars.githubusercontent.com/u/81586230?v=4"
+          src="https://github.com/epass1123.png"
           alt="김기정"
           width="100"
         />
@@ -92,7 +92,7 @@
     <td align="center" width="200">
       <a href="https://github.com/seohyun062">
         <img
-          src="https://avatars.githubusercontent.com/u/134135615?v=4"
+          src="https://github.com/seohyun062.png"
           alt="임서현"
           width="100"
         />
