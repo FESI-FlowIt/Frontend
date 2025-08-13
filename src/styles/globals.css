@@ -628,3 +628,17 @@ div.prose ol li::marker,
   font-weight: 600 !important;
   font-size: 16px !important;
 }
+
+/* 화살표 아이콘 */
+.arrow-left-icon {
+  fill: none !important;
+}
+.arrow-left-icon path {
+  stroke: #515660 !important;
+}
+.arrow-right-icon {
+  fill: none !important;
+}
+.arrow-right-icon path {
+  stroke: #515660 !important;
+}

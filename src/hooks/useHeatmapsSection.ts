@@ -1,10 +1,14 @@
 import { useCallback } from 'react';
 
+import { useQueryClient } from '@tanstack/react-query';
+
 import { useMonthlyHeatmap, useWeeklyHeatmap } from '@/hooks/useHeatmap';
 import { useMonthlyInsight, useWeeklyInsight } from '@/hooks/useInsight';
 import { getCurrentDate, getCurrentMonth } from '@/lib/calendar';
 
 export const useHeatmapSection = (period: 'week' | 'month') => {
+  const queryClient = useQueryClient();
+
   const isWeek = period === 'week';
 
   const weeklyHeatmap = useWeeklyHeatmap(getCurrentDate(), { enabled: isWeek });
@@ -22,6 +26,11 @@ export const useHeatmapSection = (period: 'week' | 'month') => {
     currentInsight.refetch();
   }, [currentHeatmap, currentInsight]);
 
+  const refreshHeatmapData = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: ['heatmap'] });
+    queryClient.invalidateQueries({ queryKey: ['insight'] });
+  }, [queryClient]);
+
   return {
     weeklyHeatmapData: weeklyHeatmap.data,
     monthlyHeatmapData: monthlyHeatmap.data,
@@ -29,5 +38,6 @@ export const useHeatmapSection = (period: 'week' | 'month') => {
     monthlyInsightData: monthlyInsight.data,
     hasError,
     handleRetry,
+    refreshHeatmapData,
   };
 };
