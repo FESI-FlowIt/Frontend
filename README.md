@@ -114,7 +114,9 @@
 
 **FrontEnd**  
 ![Node.js](https://img.shields.io/badge/Node.js-68A063?style=flat&logo=node.js&logoColor=white) ![React](https://img.shields.io/badge/React-087EA4?style=flat&logo=react&logoColor=white) ![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat&logo=next.js&logoColor=white) ![App Router](https://img.shields.io/badge/App%20Router-5A67D8?style=flat&logo=architect&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=TypeScript&logoColor=white) 
+
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-0F172A?style=flat&logo=TailwindCSS&logoColor=06B6D4) ![PostCSS](https://img.shields.io/badge/PostCSS-DD3A0A?style=flat&logo=postcss&logoColor=white) ![Storybook](https://img.shields.io/badge/Storybook-FF4785?style=flat&logo=Storybook&logoColor=white) ![Jest](https://img.shields.io/badge/Jest-C21325?style=flat&logo=jest&logoColor=white) ![React Query](https://img.shields.io/badge/React%20Query-FF4154?style=flat&logo=reactquery&logoColor=white) 
+
 ![Zustand](https://img.shields.io/badge/Zustand-5E412F?style=flat&logo=zustand&logoColor=white) ![Datepicker](https://img.shields.io/badge/Datepicker-4CAF50?style=flat&logo=architect&logoColor=white)  
 
 **Infrastructure**  
