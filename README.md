@@ -5,7 +5,6 @@
 ## 📣 Overview
 
 ## 📖 배경 (Introduction)  
-![dashboard.svg](https://d2eip3q853u04k.cloudfront.net/assets/images/landing_dashboard.svg)  
 
 **기존 체크리스트 서비스의 한계점**
 
@@ -15,6 +14,8 @@
 - 할 일 관련 자료나 메모를 체계적으로 관리할 수 있는 기능 부족
 
 ## 💡 FlowIt의 해결책(소개)
+
+![dashboard.svg](https://d2eip3q853u04k.cloudfront.net/assets/images/landing_dashboard.svg)  
 
 **목표 중심의 통합 생산성 관리**
 
