@@ -90,9 +90,9 @@
       Frontend
     </td>
     <td align="center" width="200">
-      <a href="https://github.com/seohyun062">
+      <a href="https://github.com/seohyun06">
         <img
-          src="https://github.com/seohyun062.png"
+          src="https://github.com/seohyun06.png"
           alt="임서현"
           width="100"
         />
