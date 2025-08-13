@@ -5,7 +5,7 @@
 ## 📣 Overview
 
 ## 📖 배경 (Introduction)  
-![dashboard.svg](attachment:e0953d3c-2937-41cc-93ba-a20d36e5b34d:dashboard.svg)  
+![dashboard.svg](https://d2eip3q853u04k.cloudfront.net/assets/images/landing_dashboard.svg)  
 
 **기존 체크리스트 서비스의 한계점**
 
