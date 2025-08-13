@@ -32,7 +32,14 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
 
   const ddayText = (() => {
     if (!deadline) return 'D-Day';
-    const diffDays = Math.ceil((deadline.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const deadlineDate = new Date(deadline);
+    deadlineDate.setHours(0, 0, 0, 0);
+
+    const diffDays = Math.ceil((deadlineDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
     if (diffDays > 0) return `D-${diffDays}`;
     if (diffDays === 0) return 'D-Day';
     return `D+${Math.abs(diffDays)}`;

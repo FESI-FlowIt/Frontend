@@ -12,7 +12,6 @@ interface CalendarCellProps {
 const CalendarCell = ({ date, goals = [], onClick, className }: CalendarCellProps) => {
   const hasGoals = goals.length > 0;
   const firstGoal = goals[0];
-  const goalName = goals.length === 1 ? firstGoal.title : goals.length;
   const goalColorName = firstGoal ? getGoalBackgroundColorClass(firstGoal.color) : null;
 
   const handleClick = (event: React.MouseEvent) => {
@@ -36,7 +35,7 @@ const CalendarCell = ({ date, goals = [], onClick, className }: CalendarCellProp
         <div
           className={`text-body-16 rounded-4 ${goalColorName} flex w-full items-center justify-center truncate px-2 text-center text-white`}
         >
-          {goalName}
+          {goals.length}
         </div>
       )}
     </button>

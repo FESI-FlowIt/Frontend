@@ -28,11 +28,23 @@ export default function GoalCardContent({
   const bgClass = getGoalBackgroundColorClass(goal.color);
   const { openTodoModalWithGoal } = useModalStore();
 
-  const deadline = new Date(goal.deadlineDate);
+  const deadline: Date | null = (() => {
+    if (!goal?.deadlineDate) return null;
+    const d = new Date(String(goal.deadlineDate));
+    return Number.isNaN(d.getTime()) ? null : d;
+  })();
 
-  const diffDays = Math.ceil((deadline.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+  const diffDays: number | null = (() => {
+    if (!deadline) return null;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const d = new Date(deadline);
+    d.setHours(0, 0, 0, 0);
+    return Math.ceil((d.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+  })();
 
   const renderDdayText = () => {
+    if (diffDays === null) return 'D-Day';
     if (diffDays > 0) return `D-${diffDays}`;
     if (diffDays === 0) return 'D-Day';
     return `D+${Math.abs(diffDays)}`;
@@ -60,7 +72,9 @@ export default function GoalCardContent({
             <div className="flex items-baseline gap-12">
               <h3 className="text-text-01 text-body-sb-20">{renderDdayText()}</h3>
               <span className="text-body-m-16 text-text-03">
-                ({deadline.getMonth() + 1}/{deadline.getDate()} 마감)
+                {deadline
+                  ? `(${deadline.getMonth() + 1}/${deadline.getDate()} 마감)`
+                  : '(마감일 미정)'}
               </span>
             </div>
 

@@ -1,30 +1,58 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import SelectTodoModal from '@/components/timer/SelectTodoModal';
 import TimerButton from '@/components/timer/TimerButton';
 import TimerModal from '@/components/timer/TimerModal';
-import { useGoalsDashboard } from '@/hooks/useGoalDashboard';
+import { useGoals } from '@/hooks/useGoals';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
 import { getGoalBackgroundColorClass } from '@/lib/goalColors';
 
-// 모달과 주고받을 스냅샷 타입
 type TimerSnapshot = { baseTotalSec: number; resumeAtMs: number | null };
 
+function toGoalSummaryArray(input: any): GoalSummary[] {
+  if (!input) return [];
+
+  if (Array.isArray(input)) return input as GoalSummary[];
+
+  const arr =
+    (Array.isArray(input?.result) && input.result) ||
+    (Array.isArray(input?.data) && input.data) ||
+    (Array.isArray(input?.goals) && input.goals) ||
+    (Array.isArray(input?.items) && input.items) ||
+    (Array.isArray(input?.content) && input.content) ||
+    [];
+
+  return (arr as any[]).map(g => ({
+    goalId: g.goalId ?? g.id,
+    title: g.title ?? g.name ?? g.goalName ?? '',
+    color: g.color ?? g.hex ?? '',
+    isPinned: Boolean(g.isPinned ?? g.pinned),
+    createdAt: g.createdAt ?? g.createDateTime ?? g.createdDate ?? null,
+    todos: (
+      (Array.isArray(g.todos) && g.todos) ||
+      (Array.isArray(g.todoList) && g.todoList) ||
+      []
+    ).map((t: any) => ({
+      id: t.id ?? t.todoId,
+      title: t.title ?? t.todoName ?? t.name ?? '',
+      isDone: Boolean(t.isDone ?? t.done),
+    })),
+  })) as GoalSummary[];
+}
+
 export default function TimerWidget() {
-  const { data: goals = [] } = useGoalsDashboard();
+  const { data } = useGoals();
+  const goals: GoalSummary[] = useMemo(() => toGoalSummaryArray(data), [data]);
 
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const [isTimerModalOpen, setIsTimerModalOpen] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<GoalSummary | null>(null);
   const [selectedTodo, setSelectedTodo] = useState<TodoSummary | null>(null);
 
-  //  todoId별 타이머 스냅샷 캐시
   const [timerCache, setTimerCache] = useState<Record<number, TimerSnapshot>>({});
-
-  // 플로팅 버튼 표시용 로컬 타이머
   const [isRunning, setIsRunning] = useState(false);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
@@ -53,13 +81,11 @@ export default function TimerWidget() {
     setIsRunning(false);
   };
 
-  // 선택 변경 시 버튼 타이머 리셋
   useEffect(() => {
     if (!selectedTodo) return;
     stopLocalTick();
     setMinutes(0);
     setSeconds(0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTodo?.id]);
 
   useEffect(() => {
@@ -83,9 +109,7 @@ export default function TimerWidget() {
     setIsTimerModalOpen(true);
   };
 
-  const handleCloseTimerModal = () => {
-    setIsTimerModalOpen(false);
-  };
+  const handleCloseTimerModal = () => setIsTimerModalOpen(false);
 
   return (
     <>
@@ -115,10 +139,9 @@ export default function TimerWidget() {
           goalColor={getGoalBackgroundColorClass(selectedGoal.color)}
           todoContent={selectedTodo.title}
           todoId={String(selectedTodo.id)}
-          minutes={minutes} // 초기값으로만 사용
-          seconds={seconds} // 초기값으로만 사용
+          minutes={minutes}
+          seconds={seconds}
           isBlocked={false}
-          // 버튼 동기화
           onStartTick={startLocalTick}
           onPauseTick={stopLocalTick}
           onStopTick={() => {
@@ -126,9 +149,7 @@ export default function TimerWidget() {
             setMinutes(0);
             setSeconds(0);
           }}
-          // ⬇ 부모→모달 초기 하이드레이션
           initialSnapshot={timerCache[selectedTodo.id]}
-          // ⬇ 모달→부모 최신 스냅샷 반영
           onSnapshot={(id, snap) => setTimerCache(prev => ({ ...prev, [id]: snap }))}
         />
       )}
