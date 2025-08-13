@@ -28,14 +28,12 @@ export default function GoalCardContent({
   const bgClass = getGoalBackgroundColorClass(goal.color);
   const { openTodoModalWithGoal } = useModalStore();
 
-  // 마감일 안전 파싱
   const deadline: Date | null = (() => {
     if (!goal?.deadlineDate) return null;
     const d = new Date(String(goal.deadlineDate));
     return Number.isNaN(d.getTime()) ? null : d;
   })();
 
-  // 자정 기준 diffDays
   const diffDays: number | null = (() => {
     if (!deadline) return null;
     const today = new Date();
