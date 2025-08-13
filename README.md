@@ -120,10 +120,10 @@
 ![Zustand](https://img.shields.io/badge/Zustand-5E412F?style=flat&logo=zustand&logoColor=white) ![Datepicker](https://img.shields.io/badge/Datepicker-4CAF50?style=flat&logo=architect&logoColor=white)  
 
 **Infrastructure**  
-![AWS EC2](https://img.shields.io/badge/AWS%20EC2-FF9900?style=flat&logo=amazonaws&logoColor=white) ![AWS CloudFront](https://img.shields.io/badge/AWS%20CloudFront-232F3E?style=flat&logo=amazonaws&logoColor=FF9900) ![AWS S3](https://img.shields.io/badge/AWS%20S3-569A31?style=flat&logo=amazonaws&logoColor=FF9900) ![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat&logo=redis&logoColor=white) ![ZEP](https://img.shields.io/badge/ZEP-6C63FF?style=flat&logoColor=white) ![Chromatic](https://img.shields.io/badge/Chromatic-FFCC00?style=flat&logo=storybook&logoColor=black)  
+![AWS EC2](https://img.shields.io/badge/AWS%20EC2-FF9900?style=flat&logo=amazonaws&logoColor=white) ![AWS CloudFront](https://img.shields.io/badge/AWS%20CloudFront-232F3E?style=flat&logo=amazonaws&logoColor=FF9900) ![AWS S3](https://img.shields.io/badge/AWS%20S3-569A31?style=flat&logo=amazonaws&logoColor=FF9900) ![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat&logo=redis&logoColor=white)  ![Chromatic](https://img.shields.io/badge/Chromatic-FFCC00?style=flat&logo=storybook&logoColor=black)  
 
 **Tools**  
-![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=Git&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white) ![Discord](https://img.shields.io/badge/Discord-5865F2?style=flat&logo=discord&logoColor=white) ![Notion](https://img.shields.io/badge/Notion-000000?style=flat&logo=notion&logoColor=white)  
+![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=Git&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white) ![Discord](https://img.shields.io/badge/Discord-5865F2?style=flat&logo=discord&logoColor=white) ![Notion](https://img.shields.io/badge/Notion-000000?style=flat&logo=notion&logoColor=white) ![ZEP](https://img.shields.io/badge/ZEP-6C63FF?style=flat&logoColor=white)  
 
 **Etc**  
 ![npm](https://img.shields.io/badge/npm-CB3837?style=flat&logo=npm&logoColor=black) ![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=flat&logo=Prettier&logoColor=black) ![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=ESLint&logoColor=white)  
