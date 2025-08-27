@@ -23,10 +23,19 @@ export default function SelectTodoModalBody({
 }: BodyProps) {
   if (allTodosEmpty) return <SelectTodoModalEmpty />;
 
+  const isCompleted = (t: any) =>
+    t?.isDone === true ||
+    t?.isCompleted === true ||
+    String(t?.status ?? '').toUpperCase() === 'DONE' ||
+    t?.completedAt != null;
+
   return (
     <div className="min-h-0 flex-1 space-y-12 overflow-y-auto px-16 pb-16 md:px-40 md:pb-40">
       {goals.map(goal => {
         const isSelected = selectedGoalId === String(goal.goalId);
+        const todos = (goal.todos ?? []) as TodoSummary[];
+        const visibleTodos = todos.filter(t => !isCompleted(t));
+
         return (
           <div
             key={goal.goalId}
@@ -51,7 +60,7 @@ export default function SelectTodoModalBody({
 
             {isSelected && (
               <div className="bg-line mt-16 flex flex-col gap-12 rounded-lg p-12">
-                {goal.todos.map(todo => (
+                {visibleTodos.map(todo => (
                   <button
                     key={todo.id}
                     onClick={() => {

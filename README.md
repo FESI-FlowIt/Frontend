@@ -1,10 +1,12 @@
-![로고](https://d2eip3q853u04k.cloudfront.net/assets/images/flowIt-logo.svg)  
-# FlowIt  
-📅 2025.07.07 ~ 진행중(마지막 배포 - 2025.08.13)  
+![로고](https://d2eip3q853u04k.cloudfront.net/assets/images/flowIt-logo.svg)
+
+# FlowIt
+
+📅 2025.07.07 ~ 진행중(마지막 배포 - 2025.08.13)
 
 ## 📣 Overview
 
-## 📖 배경 (Introduction)  
+## 📖 배경 (Introduction)
 
 **기존 체크리스트 서비스의 한계점**
 
@@ -15,7 +17,7 @@
 
 ## 💡 FlowIt의 해결책(소개)
 
-![dashboard.svg](https://d2eip3q853u04k.cloudfront.net/assets/images/landing_dashboard.svg)  
+![dashboard.svg](https://d2eip3q853u04k.cloudfront.net/assets/images/landing_dashboard.svg)
 
 **목표 중심의 통합 생산성 관리**
 
@@ -31,17 +33,17 @@
 
 🌐 **[FlowIt 홈페이지 바로가기](http://3.35.108.14/)**  
 📄 **[API 명세서 바로가기](http://13.209.138.171:8080/api-doc)**  
-📂 **[Back-End Repository](https://github.com/FESI-FlowIt/Backend)**  
+📂 **[Back-End Repository](https://github.com/FESI-FlowIt/Backend)**
 
 ---
 
 ## 🔎 목차
 
-1. [팀원 구성](#-팀원-구성)  
-2. [기술 스택](#-기술-스택)  
-3. [R&R](#rr)  
-4. [아키텍처](#-아키텍처)  
-5. [프로젝트 환경 변수 설정](#-프로젝트-환경-변수-설정)  
+1. [팀원 구성](#-팀원-구성)
+2. [기술 스택](#-기술-스택)
+3. [R&R](#rr)
+4. [아키텍처](#-아키텍처)
+5. [프로젝트 환경 변수 설정](#-프로젝트-환경-변수-설정)
 
 ---
 
@@ -113,20 +115,20 @@
 <div align="center">
 
 **FrontEnd**  
-![Node.js](https://img.shields.io/badge/Node.js-68A063?style=flat&logo=node.js&logoColor=white) ![React](https://img.shields.io/badge/React-087EA4?style=flat&logo=react&logoColor=white) ![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat&logo=next.js&logoColor=white) ![App Router](https://img.shields.io/badge/App%20Router-5A67D8?style=flat&logo=architect&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=TypeScript&logoColor=white) 
+![Node.js](https://img.shields.io/badge/Node.js-68A063?style=flat&logo=node.js&logoColor=white) ![React](https://img.shields.io/badge/React-087EA4?style=flat&logo=react&logoColor=white) ![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat&logo=next.js&logoColor=white) ![App Router](https://img.shields.io/badge/App%20Router-5A67D8?style=flat&logo=architect&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=TypeScript&logoColor=white)
 
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-0F172A?style=flat&logo=TailwindCSS&logoColor=06B6D4) ![PostCSS](https://img.shields.io/badge/PostCSS-DD3A0A?style=flat&logo=postcss&logoColor=white) ![Storybook](https://img.shields.io/badge/Storybook-FF4785?style=flat&logo=Storybook&logoColor=white) ![Jest](https://img.shields.io/badge/Jest-C21325?style=flat&logo=jest&logoColor=white) ![React Query](https://img.shields.io/badge/React%20Query-FF4154?style=flat&logo=reactquery&logoColor=white) 
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-0F172A?style=flat&logo=TailwindCSS&logoColor=06B6D4) ![PostCSS](https://img.shields.io/badge/PostCSS-DD3A0A?style=flat&logo=postcss&logoColor=white) ![Storybook](https://img.shields.io/badge/Storybook-FF4785?style=flat&logo=Storybook&logoColor=white) ![Jest](https://img.shields.io/badge/Jest-C21325?style=flat&logo=jest&logoColor=white) ![React Query](https://img.shields.io/badge/React%20Query-FF4154?style=flat&logo=reactquery&logoColor=white)
 
-![Zustand](https://img.shields.io/badge/Zustand-5E412F?style=flat&logo=zustand&logoColor=white) ![Datepicker](https://img.shields.io/badge/Datepicker-4CAF50?style=flat&logo=architect&logoColor=white)  
+![Zustand](https://img.shields.io/badge/Zustand-5E412F?style=flat&logo=zustand&logoColor=white) ![Datepicker](https://img.shields.io/badge/Datepicker-4CAF50?style=flat&logo=architect&logoColor=white)
 
 **Infrastructure**  
-![AWS EC2](https://img.shields.io/badge/AWS%20EC2-FF9900?style=flat&logo=amazonaws&logoColor=white) ![AWS CloudFront](https://img.shields.io/badge/AWS%20CloudFront-232F3E?style=flat&logo=amazonaws&logoColor=FF9900) ![AWS S3](https://img.shields.io/badge/AWS%20S3-569A31?style=flat&logo=amazonaws&logoColor=FF9900) ![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat&logo=redis&logoColor=white)  ![Chromatic](https://img.shields.io/badge/Chromatic-FFCC00?style=flat&logo=storybook&logoColor=black)  
+![AWS EC2](https://img.shields.io/badge/AWS%20EC2-FF9900?style=flat&logo=amazonaws&logoColor=white) ![AWS CloudFront](https://img.shields.io/badge/AWS%20CloudFront-232F3E?style=flat&logo=amazonaws&logoColor=FF9900) ![AWS S3](https://img.shields.io/badge/AWS%20S3-569A31?style=flat&logo=amazonaws&logoColor=FF9900) ![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat&logo=redis&logoColor=white) ![Chromatic](https://img.shields.io/badge/Chromatic-FFCC00?style=flat&logo=storybook&logoColor=black)
 
 **Tools**  
-![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=Git&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white) ![Discord](https://img.shields.io/badge/Discord-5865F2?style=flat&logo=discord&logoColor=white) ![Notion](https://img.shields.io/badge/Notion-000000?style=flat&logo=notion&logoColor=white) ![ZEP](https://img.shields.io/badge/ZEP-6C63FF?style=flat&logoColor=white)  
+![Git](https://img.shields.io/badge/Git-F05032?style=flat&logo=Git&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white) ![Discord](https://img.shields.io/badge/Discord-5865F2?style=flat&logo=discord&logoColor=white) ![Notion](https://img.shields.io/badge/Notion-000000?style=flat&logo=notion&logoColor=white) ![ZEP](https://img.shields.io/badge/ZEP-6C63FF?style=flat&logoColor=white)
 
 **Etc**  
-![npm](https://img.shields.io/badge/npm-CB3837?style=flat&logo=npm&logoColor=black) ![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=flat&logo=Prettier&logoColor=black) ![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=ESLint&logoColor=white)  
+![npm](https://img.shields.io/badge/npm-CB3837?style=flat&logo=npm&logoColor=black) ![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=flat&logo=Prettier&logoColor=black) ![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=ESLint&logoColor=white)
 
 </div>
 
@@ -166,40 +168,41 @@
 ---
 
 ## 🏗️ 아키텍처
+
 📦 src  
-┣ 📂 app                   # Next.js App Router  
-┃ ┣ 📂 (main)                # 메인 애플리케이션 그룹  
-┃ ┃ ┣ 📂 dashboard           # 대시보드 페이지  
-┃ ┃ ┣ 📂 goal                # 목표 관련 페이지  
-┃ ┃ ┗ 📂 todo                # 할 일 관련 페이지  
-┃ ┣ 📂 auth                  # 인증 페이지 (login, signup)  
-┃ ┣ 📂 oauth                 # OAuth 콜백 처리  
-┃ ┣ 📂 api                   # API 라우트 핸들러  
-┃ ┗ 📂 providers             # Context Provider 설정  
-┣ 📂 components            # UI 컴포넌트 (기능별 분리)  
-┃ ┣ 📂 auth                  # 사용자 인증 (이도엽)  
-┃ ┣ 📂 goals                 # 목표 관리 (김기정)  
-┃ ┣ 📂 heatmaps              # 히트맵 시각화 (강다빈)  
-┃ ┣ 📂 calendar              # 캘린더 시스템 (강다빈)  
-┃ ┣ 📂 timer                 # 타이머 위젯 (임서현)  
-┃ ┣ 📂 schedule              # 일정 관리 (임서현)  
-┃ ┣ 📂 todos                 # 할 일 관리 (김기정)  
-┃ ┣ 📂 notes                 # 노트 시스템 (김기정)  
-┃ ┣ 📂 sidebar               # 네비게이션 (이도엽)  
-┃ ┗ 📂 ui                    # 공통 UI 컴포넌트  
-┣ 📂 hooks                 # Custom Hooks (비즈니스 로직 분리)  
-┣ 📂 store                 # Zustand 전역 상태 관리  
-┣ 📂 api                   # API 통신 레이어  
-┃ ┣ 📂 mapper                # 데이터 변환 레이어  
-┣ 📂 interfaces            # TypeScript 타입 정의  
-┣ 📂 lib                   # 유틸리티 함수  
-┣ 📂 constants             # 상수 정의  
-┣ 📂 mocks                 # MSW 개발 환경  
-┃ ┣ 📂 handlers              # API 핸들러  
-┃ ┗ 📂 mockResponses         # 목 응답 데이터  
-┣ 📂 stories               # Storybook 컴포넌트 문서화  
-┣ 📂 tests                 # 테스트 파일  
-┗ 📂 assets                # 정적 리소스 (아이콘, 이미지)  
+┣ 📂 app # Next.js App Router  
+┃ ┣ 📂 (main) # 메인 애플리케이션 그룹  
+┃ ┃ ┣ 📂 dashboard # 대시보드 페이지  
+┃ ┃ ┣ 📂 goal # 목표 관련 페이지  
+┃ ┃ ┗ 📂 todo # 할 일 관련 페이지  
+┃ ┣ 📂 auth # 인증 페이지 (login, signup)  
+┃ ┣ 📂 oauth # OAuth 콜백 처리  
+┃ ┣ 📂 api # API 라우트 핸들러  
+┃ ┗ 📂 providers # Context Provider 설정  
+┣ 📂 components # UI 컴포넌트 (기능별 분리)  
+┃ ┣ 📂 auth # 사용자 인증 (이도엽)  
+┃ ┣ 📂 goals # 목표 관리 (김기정)  
+┃ ┣ 📂 heatmaps # 히트맵 시각화 (강다빈)  
+┃ ┣ 📂 calendar # 캘린더 시스템 (강다빈)  
+┃ ┣ 📂 timer # 타이머 위젯 (임서현)  
+┃ ┣ 📂 schedule # 일정 관리 (임서현)  
+┃ ┣ 📂 todos # 할 일 관리 (김기정)  
+┃ ┣ 📂 notes # 노트 시스템 (김기정)  
+┃ ┣ 📂 sidebar # 네비게이션 (이도엽)  
+┃ ┗ 📂 ui # 공통 UI 컴포넌트  
+┣ 📂 hooks # Custom Hooks (비즈니스 로직 분리)  
+┣ 📂 store # Zustand 전역 상태 관리  
+┣ 📂 api # API 통신 레이어  
+┃ ┣ 📂 mapper # 데이터 변환 레이어  
+┣ 📂 interfaces # TypeScript 타입 정의  
+┣ 📂 lib # 유틸리티 함수  
+┣ 📂 constants # 상수 정의  
+┣ 📂 mocks # MSW 개발 환경  
+┃ ┣ 📂 handlers # API 핸들러  
+┃ ┗ 📂 mockResponses # 목 응답 데이터  
+┣ 📂 stories # Storybook 컴포넌트 문서화  
+┣ 📂 tests # 테스트 파일  
+┗ 📂 assets # 정적 리소스 (아이콘, 이미지)
 
 ---
 
@@ -207,7 +210,7 @@
 
 프로젝트의 루트 디렉토리에 **`.env`** 파일을 생성합니다.  
 이 파일에 아래와 같은 환경 변수 항목을 추가해주세요.  
-(실제 값은 여러분의 환경에 맞게 입력해야 합니다.)  
+(실제 값은 여러분의 환경에 맞게 입력해야 합니다.)
 
 ```env
 NEXT_PUBLIC_BASE_URL=<your-backend-api-url>
@@ -218,7 +221,7 @@ NEXT_PUBLIC_KAKAO_REST_KEY=<your-kakao-rest-api-key>
 // Chromatic
 CHROMATIC_PROJECT_TOKEN=<your-chromatic-token>
 
-// Aws ec2 
+// Aws ec2
 NEXT_PUBLIC_BASE_URL=<your-backend-api-url>
 
 // S3 & CloudFront
@@ -232,3 +235,4 @@ UPSTASH_REDIS_REST_TOKEN=<your-redis-token>
 //kakao
 NEXT_PUBLIC_KAKAO_REST_API_KEY=<your-kakao-key>
 NEXT_PUBLIC_KAKAO_REDIRECT_URI=<your-kakao-redirect-url>
+```

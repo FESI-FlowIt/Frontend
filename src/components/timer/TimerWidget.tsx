@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import SelectTodoModal from '@/components/timer/SelectTodoModal';
 import TimerButton from '@/components/timer/TimerButton';
@@ -9,12 +9,10 @@ import { useGoals } from '@/hooks/useGoals';
 import { GoalSummary } from '@/interfaces/goal';
 import { TodoSummary } from '@/interfaces/todo';
 import { getGoalBackgroundColorClass } from '@/lib/goalColors';
-
-type TimerSnapshot = { baseTotalSec: number; resumeAtMs: number | null };
+import { useTimerStore } from '@/store/timerStore';
 
 function toGoalSummaryArray(input: any): GoalSummary[] {
   if (!input) return [];
-
   if (Array.isArray(input)) return input as GoalSummary[];
 
   const arr =
@@ -35,67 +33,93 @@ function toGoalSummaryArray(input: any): GoalSummary[] {
       (Array.isArray(g.todos) && g.todos) ||
       (Array.isArray(g.todoList) && g.todoList) ||
       []
-    ).map((t: any) => ({
-      id: t.id ?? t.todoId,
-      title: t.title ?? t.todoName ?? t.name ?? '',
-      isDone: Boolean(t.isDone ?? t.done),
-    })),
+    ).map((t: any) => {
+      const status = String(t?.status ?? '').toUpperCase();
+      return {
+        id: t.id ?? t.todoId,
+        title: t.title ?? t.todoName ?? t.name ?? '',
+        isDone: Boolean(t?.isDone ?? t?.done) || status === 'DONE' || t?.completedAt != null,
+      } as TodoSummary;
+    }),
   })) as GoalSummary[];
 }
 
 export default function TimerWidget() {
-  const { data } = useGoals();
+  const { data, refetch } = useGoals() as { data: any; refetch?: () => void };
   const goals: GoalSummary[] = useMemo(() => toGoalSummaryArray(data), [data]);
+
+  const [completedIds, setCompletedIds] = useState<Set<string>>(new Set());
+
+  const goalsForSelect: GoalSummary[] = useMemo(
+    () =>
+      goals.map(g => ({
+        ...g,
+        todos: (g.todos ?? []).filter(t => !t.isDone && !completedIds.has(String(t.id))),
+      })),
+    [goals, completedIds],
+  );
 
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const [isTimerModalOpen, setIsTimerModalOpen] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<GoalSummary | null>(null);
   const [selectedTodo, setSelectedTodo] = useState<TodoSummary | null>(null);
 
-  const [timerCache, setTimerCache] = useState<Record<number, TimerSnapshot>>({});
-  const [isRunning, setIsRunning] = useState(false);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
-  const tickRef = useRef<number | null>(null);
+  const isRunning = useTimerStore(s => s.isRunning);
+  const mainStartAtMs = useTimerStore(s => s.mainStartAtMs);
+  const mainBaseSec = useTimerStore(s => s.mainBaseSec);
+  const hydrateFromServer = useTimerStore(s => s.hydrateFromServer);
+  const ensureRunningAnchors = useTimerStore(s => s.ensureRunningAnchors);
+  const now = useTimerStore(s => s.nowMs);
+  const startClock = useTimerStore(s => s.startClock);
 
-  const startLocalTick = () => {
-    if (tickRef.current != null) return;
-    tickRef.current = window.setInterval(() => {
-      setSeconds(prev => {
-        const ns = prev + 1;
-        if (ns >= 60) {
-          setMinutes(m => m + 1);
-          return 0;
-        }
-        return ns;
+  const mainSeconds = useMemo(() => {
+    if (!isRunning || !mainStartAtMs) return mainBaseSec;
+    const delta = Math.floor((now - mainStartAtMs) / 1000);
+    return Math.max(0, mainBaseSec + delta);
+  }, [isRunning, mainStartAtMs, mainBaseSec, now]);
+
+  const minutes = Math.floor(mainSeconds / 60);
+  const seconds = mainSeconds % 60;
+
+  useEffect(() => {
+    startClock();
+    hydrateFromServer(null);
+    ensureRunningAnchors();
+  }, [hydrateFromServer, ensureRunningAnchors, startClock]);
+
+  useEffect(() => {
+    if (isSelectModalOpen) refetch?.();
+  }, [isSelectModalOpen, refetch]);
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const { id } = (e as CustomEvent<{ id?: string | number }>).detail ?? {};
+      if (id == null) return;
+
+      const key = String(id);
+      setCompletedIds(prev => {
+        if (prev.has(key)) return prev;
+        const next = new Set(prev);
+        next.add(key);
+        return next;
       });
-    }, 1000);
-    setIsRunning(true);
-  };
-
-  const stopLocalTick = () => {
-    if (tickRef.current != null) {
-      clearInterval(tickRef.current);
-      tickRef.current = null;
-    }
-    setIsRunning(false);
-  };
-
-  useEffect(() => {
-    if (!selectedTodo) return;
-    stopLocalTick();
-    setMinutes(0);
-    setSeconds(0);
-  }, [selectedTodo?.id]);
-
-  useEffect(() => {
-    return () => {
-      if (tickRef.current != null) clearInterval(tickRef.current);
     };
+
+    window.addEventListener('todo:completed', handler);
+    return () => window.removeEventListener('todo:completed', handler);
   }, []);
 
+  const isSelectedTodoUsable = useMemo(() => {
+    if (!selectedGoal || !selectedTodo) return false;
+    if (completedIds.has(String(selectedTodo.id))) return false;
+    const latestGoal = goals.find(g => String(g.goalId) === String(selectedGoal.goalId));
+    const latestTodo = latestGoal?.todos.find(t => String(t.id) === String(selectedTodo.id));
+    return Boolean(latestTodo && !latestTodo.isDone);
+  }, [goals, selectedGoal, selectedTodo, completedIds]);
+
   const handleWidgetClick = () => {
-    if (!selectedGoal || !selectedTodo) {
+    if (!selectedGoal || !selectedTodo || !isSelectedTodoUsable) {
+      refetch?.();
       setIsSelectModalOpen(true);
       return;
     }
@@ -109,7 +133,20 @@ export default function TimerWidget() {
     setIsTimerModalOpen(true);
   };
 
-  const handleCloseTimerModal = () => setIsTimerModalOpen(false);
+  const handleTodoCompleted = (todoId: number | string) => {
+    const key = String(todoId);
+    setCompletedIds(prev => {
+      const next = new Set(prev);
+      next.add(key);
+      return next;
+    });
+    if (selectedTodo && String(selectedTodo.id) === key) {
+      setIsTimerModalOpen(false);
+      setSelectedTodo(null);
+      setIsSelectModalOpen(true);
+    }
+    refetch?.();
+  };
 
   return (
     <>
@@ -122,35 +159,26 @@ export default function TimerWidget() {
 
       {isSelectModalOpen && (
         <SelectTodoModal
-          goals={goals}
+          goals={goalsForSelect}
           onClose={() => setIsSelectModalOpen(false)}
           onSelect={handleSelectTodo}
+          defaultSelectedGoalId={selectedGoal ? String(selectedGoal.goalId) : null}
         />
       )}
 
-      {isTimerModalOpen && selectedGoal && selectedTodo && (
+      {isTimerModalOpen && selectedGoal && selectedTodo && isSelectedTodoUsable && (
         <TimerModal
-          onClose={handleCloseTimerModal}
+          onClose={() => setIsTimerModalOpen(false)}
           onBack={() => {
             setIsTimerModalOpen(false);
             setIsSelectModalOpen(true);
+            refetch?.();
           }}
+          onComplete={handleTodoCompleted}
           goalTitle={selectedGoal.title}
           goalColor={getGoalBackgroundColorClass(selectedGoal.color)}
           todoContent={selectedTodo.title}
           todoId={String(selectedTodo.id)}
-          minutes={minutes}
-          seconds={seconds}
-          isBlocked={false}
-          onStartTick={startLocalTick}
-          onPauseTick={stopLocalTick}
-          onStopTick={() => {
-            stopLocalTick();
-            setMinutes(0);
-            setSeconds(0);
-          }}
-          initialSnapshot={timerCache[selectedTodo.id]}
-          onSnapshot={(id, snap) => setTimerCache(prev => ({ ...prev, [id]: snap }))}
         />
       )}
     </>
