@@ -22,14 +22,11 @@ export type TimerSessionState = {
   sessionId: number | null;
   todoId: number | null;
   isRunning: boolean;
-
   resumeAtMs: number | null;
   mainStartAtMs: number | null;
   mainBaseSec: number;
-
   baseTotalSec: number;
   totalsByTodo: TotalsMap;
-
   startedAt: string | null;
   resumes: string[];
   pauses: string[];
@@ -43,17 +40,13 @@ export type TimerSessionState = {
 
 export type TimerActions = {
   hydrateFromServer: (preferredTodoId?: number | null) => Promise<void>;
-
   fetchTotalFor: (todoId: number) => Promise<void>;
   setTotalFor: (todoId: number, sec: number) => void;
   getTotalFor: (todoId: number | null) => number;
-
   refreshTotalSec: (todoId: number) => Promise<void>;
-
   start: (todoId: number) => Promise<void>;
   pause: () => Promise<void>;
   stop: () => Promise<void>;
-
   ensureRunningAnchors: () => void;
   getSnapshot: () => { baseTotalSec: number; resumeAtMs: number | null };
   startClock: () => void;
@@ -68,14 +61,11 @@ export const useTimerStore = create<TimerStore>((set, get) => ({
   sessionId: null,
   todoId: null,
   isRunning: false,
-
   resumeAtMs: null,
   mainStartAtMs: null,
   mainBaseSec: 0,
-
   baseTotalSec: 0,
   totalsByTodo: {},
-
   startedAt: null,
   resumes: [],
   pauses: [],
@@ -260,10 +250,8 @@ export const useTimerStore = create<TimerStore>((set, get) => ({
     try {
       const total = await timerApi.getTotalRunningTime(todoId);
       const serverSec = hmsToSec(total?.totalRunningTime);
-
       const runningDelta = resumeAtMs ? Math.floor((Date.now() - resumeAtMs) / 1000) : 0;
       const candidate = Math.max(serverSec, get().getTotalFor(todoId) + Math.max(0, runningDelta));
-
       const finishedAt = isoKST();
       const segs: Array<{ startAt: string; endAt: string }> = [];
       const len = Math.max(resumes.length, pauses.length);
