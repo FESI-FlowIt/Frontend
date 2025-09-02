@@ -1,19 +1,16 @@
-// 주간 인사이트 응답 데이터 형식
-export interface WeeklyInsightResponse {
+// API 명세서 기반 응답 타입
+export interface ApiWeeklyInsightResponse {
   success: boolean;
   data: {
-    week_start: string;
-    week_end: string;
-    insights: string[];
+    date: string;
+    insights: string;
   };
 }
 
-// 월간 인사이트 응답 데이터 형식
-export interface MonthlyInsightResponse {
+export interface ApiMonthlyInsightResponse {
   success: boolean;
   data: {
-    month: string;
-    month_name: string;
-    insights: string[];
+    yearMonth: string;
+    insights: string;
   };
 }

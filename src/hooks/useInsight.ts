@@ -1,23 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { MonthlyInsightResponse, WeeklyInsightResponse } from '@/interfaces/insight';
+import { getMonthlyInsight, getWeeklyInsight } from '@/api/insightApi';
+import { ApiMonthlyInsightResponse, ApiWeeklyInsightResponse } from '@/interfaces/insight';
 
-export const useWeeklyInsight = () => {
-  return useQuery<WeeklyInsightResponse>({
-    queryKey: ['weeklyInsight'],
-    queryFn: async () => {
-      const res = await fetch('/insights/weekly');
-      return res.json();
-    },
+export const useWeeklyInsight = (date: string) => {
+  return useQuery<ApiWeeklyInsightResponse>({
+    queryKey: ['weeklyInsight', date],
+    queryFn: async () => getWeeklyInsight(date),
   });
 };
 
-export const useMonthlyInsight = () => {
-  return useQuery<MonthlyInsightResponse>({
-    queryKey: ['monthlyInsight'],
-    queryFn: async () => {
-      const res = await fetch('/insights/monthly');
-      return res.json();
-    },
+export const useMonthlyInsight = (yearMonth: string) => {
+  return useQuery<ApiMonthlyInsightResponse>({
+    queryKey: ['monthlyInsight', yearMonth],
+    queryFn: async () => getMonthlyInsight(yearMonth),
   });
 };
