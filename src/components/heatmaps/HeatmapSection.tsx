@@ -54,22 +54,28 @@ export default function HeatmapSection() {
 
   // 인사이트 카드 렌더링
   const renderInsightCard = () => {
-    // return <InsightCard variant="no-work-time" />;
-
     if (period === 'week') {
-      return weeklyInsightData?.success && weeklyInsightData.data.insights ? (
-        <InsightCard variant="weekly" item={weeklyInsightData.data.insights} />
-      ) : (
-        <InsightCard variant="no-data" />
-      );
+      if (!weeklyInsightData || !weeklyInsightData.success) {
+        return <InsightCard variant="no-data" />;
+      }
+
+      if (!weeklyInsightData.data.insights || weeklyInsightData.data.insights.trim() === '') {
+        return <InsightCard variant="no-work-time" />;
+      }
+
+      return <InsightCard variant="weekly" item={weeklyInsightData.data.insights} />;
     }
 
     if (period === 'month') {
-      return monthlyInsightData?.success && monthlyInsightData.data.insights ? (
-        <InsightCard variant="monthly" item={monthlyInsightData.data.insights} />
-      ) : (
-        <InsightCard variant="no-data" />
-      );
+      if (!monthlyInsightData || !monthlyInsightData.success) {
+        return <InsightCard variant="no-data" />;
+      }
+
+      if (!monthlyInsightData.data.insights || monthlyInsightData.data.insights.trim() === '') {
+        return <InsightCard variant="no-work-time" />;
+      }
+
+      return <InsightCard variant="monthly" item={monthlyInsightData.data.insights} />;
     }
 
     return null;

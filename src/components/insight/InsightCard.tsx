@@ -19,8 +19,8 @@ const InsightCard = ({ variant, item = '', className }: InsightCardProps) => {
           <TimerIcon className="text-inactive" width={32} height={32} fill="currentColor" />
 
           <p>
-            이번 주 작업 기록이 없어 <br className="md:hidden" />
-            인사이트를 제공할 수 없어요 :(
+            작업 기록을 불러올 수 없어요 <br className="md:hidden" />
+            잠시 후 다시 시도해주세요 :(
           </p>
           <p>작업을 시작해보세요!</p>
         </div>
