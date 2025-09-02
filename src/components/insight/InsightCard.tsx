@@ -2,13 +2,13 @@ import { cn } from '@/lib/utils';
 
 interface InsightCardProps {
   variant: 'no-data' | 'no-work-time' | 'weekly' | 'monthly';
-  items?: React.ReactNode[];
+  item?: string;
   className?: string;
 }
 
 import TimerIcon from '@/assets/icons/timer.svg';
 
-const InsightCard = ({ variant, items = [], className }: InsightCardProps) => {
+const InsightCard = ({ variant, item = '', className }: InsightCardProps) => {
   const baseClasses =
     'rounded-20 flex w-full flex-col py-12 px-12 md:px-20 bg-insightContainer gap-12 h-full';
 
@@ -51,9 +51,7 @@ const InsightCard = ({ variant, items = [], className }: InsightCardProps) => {
     <div className={cn(baseClasses, className)}>
       <div className="text-text-01 text-body-b-16">{title}</div>
       <div className="text-body-16 text-text-01 flex flex-col gap-10 leading-tight">
-        {items.map((item, idx) => (
-          <p key={idx}>{item}</p>
-        ))}
+        <p>{item}</p>
       </div>
     </div>
   );

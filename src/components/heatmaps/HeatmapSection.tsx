@@ -19,8 +19,14 @@ export default function HeatmapSection() {
   const [period, setPeriod] = useState<'week' | 'month'>('week');
   const isWeek = period === 'week';
 
-  const { weeklyHeatmapData, monthlyHeatmapData, hasError, handleRetry } =
-    useHeatmapSection(period);
+  const {
+    weeklyHeatmapData,
+    weeklyInsightData,
+    monthlyHeatmapData,
+    monthlyInsightData,
+    hasError,
+    handleRetry,
+  } = useHeatmapSection(period);
 
   const infoButtonRef = useRef<HTMLButtonElement>(null);
   const cardContainerRef = useRef<HTMLDivElement>(null);
@@ -48,26 +54,25 @@ export default function HeatmapSection() {
 
   // 인사이트 카드 렌더링
   const renderInsightCard = () => {
-    return <InsightCard variant="no-work-time" />;
+    // return <InsightCard variant="no-work-time" />;
 
-    // TODO
-    // if (period === 'week') {
-    //   return weeklyInsightData?.success && weeklyInsightData.data.insights.length > 0 ? (
-    //     <InsightCard variant="weekly" items={weeklyInsightData.data.insights} />
-    //   ) : (
-    //     <InsightCard variant="no-data" />
-    //   );
-    // }
+    if (period === 'week') {
+      return weeklyInsightData?.success && weeklyInsightData.data.insights ? (
+        <InsightCard variant="weekly" item={weeklyInsightData.data.insights} />
+      ) : (
+        <InsightCard variant="no-data" />
+      );
+    }
 
-    // if (period === 'month') {
-    //   return monthlyInsightData?.success && monthlyInsightData.data.insights.length > 0 ? (
-    //     <InsightCard variant="monthly" items={monthlyInsightData.data.insights} />
-    //   ) : (
-    //     <InsightCard variant="no-data" />
-    //   );
-    // }
+    if (period === 'month') {
+      return monthlyInsightData?.success && monthlyInsightData.data.insights ? (
+        <InsightCard variant="monthly" item={monthlyInsightData.data.insights} />
+      ) : (
+        <InsightCard variant="no-data" />
+      );
+    }
 
-    // return null;
+    return null;
   };
 
   const cardTitle = (
