@@ -28,7 +28,7 @@ export default function SelectTodoModal({
     setSelectedGoalId(defaultSelectedGoalId);
   }, [defaultSelectedGoalId]);
 
-  const allTodosEmpty = goals.length === 0 || goals.every(goal => goal.todos.length === 0);
+  const allTodosEmpty = goals.length === 0;
 
   return (
     <Modal isOpen onClose={onClose} size="timer" padding="none">
