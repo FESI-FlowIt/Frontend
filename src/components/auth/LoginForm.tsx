@@ -1,20 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
 import useLogin from '@/hooks/auth/useLogin';
-import { useUser } from '@/hooks/auth/useUser';
 import { loginSchema } from '@/interfaces/auth';
-import { useAuthStore } from '@/store/authStore';
-import { useUserStore } from '@/store/userStore';
 
 import { Button } from '../ui/Button';
 import CustomLoading from '../ui/CustomLoading';
-import ErrorFallback from '../ui/ErrorFallback';
 
 import AuthModal from './AuthModal';
 import EmailInput from './EmailInput';
@@ -24,8 +20,6 @@ export type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const setUser = useUserStore(state => state.setUser);
-  const accessToken = useAuthStore(state => state.accessToken);
 
   const handleCloseModal = () => setIsModalOpen(false);
 
@@ -53,23 +47,7 @@ export default function LoginForm() {
     login.mutate(formData);
   };
 
-  const { data, isError } = useUser({
-    enabled: Boolean(login.isSuccess && accessToken),
-  });
-
-  useEffect(() => {
-    if (data) {
-      setUser(data);
-    }
-  }, [data, setUser]);
-
-  const shouldShowLoading = login.isPending || login.isSuccess;
-
-  if (shouldShowLoading) {
-    return <CustomLoading />;
-  }
-
-  if (isError) return <ErrorFallback type="general" />;
+  if (login.isPending || login.isSuccess) return <CustomLoading />;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-20 sm:gap-12 md:gap-20">
