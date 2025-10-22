@@ -51,6 +51,7 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       tempNote: 'h-40 w-84',
       sideNote: 'h-48 w-260',
       error: 'h-44 w-200',
+      eula: 'h-48 w-520',
     },
     rounded: {
       none: 'rounded-none',

@@ -42,16 +42,27 @@ export default function LoginForm() {
   const password = watch('password');
   const isFormValid = email.trim() !== '' && password.trim() !== '';
 
-  const login = useLogin({
-    onError: () => {
-      setIsModalOpen(true);
-    },
-  });
+  const login = useLogin({ onError: () => {} });
 
   const onSubmit = (formData: LoginFormData) => {
     setIsModalOpen(false);
     login.mutate(formData);
   };
+
+  useEffect(() => {
+    if (!login.isError || !login.error) return;
+
+    const status =
+      (login.error as any)?.statusCode ??
+      (login.error as any)?.status ??
+      (login.error as any)?.response?.status;
+
+    if (status >= 400 && status < 500) {
+      setIsModalOpen(true);
+    } else if (status >= 500) {
+      window.location.replace('/error/500error');
+    }
+  }, [login.isError, login.error]);
 
   const { data, isError } = useUser({
     enabled: Boolean(login.isSuccess && accessToken),

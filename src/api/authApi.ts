@@ -27,6 +27,7 @@ export const postSignup = async (name: string, email: string, password: string) 
     name: name,
     email: email,
     password: password,
+    eulaEnabled: true,
   };
 
   try {
