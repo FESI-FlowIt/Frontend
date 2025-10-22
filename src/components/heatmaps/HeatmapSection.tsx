@@ -59,7 +59,12 @@ export default function HeatmapSection() {
         return <InsightCard variant="no-data" />;
       }
 
-      if (!weeklyInsightData.data.insights || weeklyInsightData.data.insights.trim() === '') {
+      // insights가 배열이고 비어있거나, 모든 요소가 빈 문자열인 경우
+      if (
+        !weeklyInsightData.data.insights ||
+        weeklyInsightData.data.insights.length === 0 ||
+        weeklyInsightData.data.insights.every(insight => insight.trim() === '')
+      ) {
         return <InsightCard variant="no-work-time" />;
       }
 
@@ -71,7 +76,12 @@ export default function HeatmapSection() {
         return <InsightCard variant="no-data" />;
       }
 
-      if (!monthlyInsightData.data.insights || monthlyInsightData.data.insights.trim() === '') {
+      // insights가 배열이고 비어있거나, 모든 요소가 빈 문자열인 경우
+      if (
+        !monthlyInsightData.data.insights ||
+        monthlyInsightData.data.insights.length === 0 ||
+        monthlyInsightData.data.insights.every(insight => insight.trim() === '')
+      ) {
         return <InsightCard variant="no-work-time" />;
       }
 

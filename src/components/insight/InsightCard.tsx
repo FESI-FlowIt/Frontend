@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 
 interface InsightCardProps {
   variant: 'no-data' | 'no-work-time' | 'weekly' | 'monthly';
-  item?: string;
+  item?: string | string[];
   className?: string;
 }
 
@@ -47,11 +47,15 @@ const InsightCard = ({ variant, item = '', className }: InsightCardProps) => {
   const title =
     variant === 'weekly' ? '[이번 주 목표 달성 인사이트]' : '[이번 달 목표 달성 인사이트]';
 
+  const insights = Array.isArray(item) ? item : [item];
+
   return (
     <div className={cn(baseClasses, className)}>
       <div className="text-text-01 text-body-b-16">{title}</div>
       <div className="text-body-16 text-text-01 flex flex-col gap-10 leading-tight">
-        <p>{item}</p>
+        {insights.map((insight, index) => (
+          <p key={index}>{insight}</p>
+        ))}
       </div>
     </div>
   );
