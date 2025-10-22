@@ -3,7 +3,7 @@ export interface ApiWeeklyInsightResponse {
   success: boolean;
   data: {
     date: string;
-    insights: string;
+    insights: string[];
   };
 }
 
@@ -11,6 +11,6 @@ export interface ApiMonthlyInsightResponse {
   success: boolean;
   data: {
     yearMonth: string;
-    insights: string;
+    insights: string[];
   };
 }
