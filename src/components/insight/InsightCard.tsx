@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 
 interface InsightCardProps {
   variant: 'no-data' | 'no-work-time' | 'weekly' | 'monthly';
-  item?: string | string[];
+  item?: string;
   className?: string;
 }
 
