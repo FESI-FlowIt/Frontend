@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { getUser, postSocialLogin } from '@/api/authApi';
 import { ROUTES } from '@/lib/routes';
@@ -10,18 +10,17 @@ export default function useSocialLogin() {
   const { setAccessToken } = useAuthStore();
   const { setUser } = useUserStore();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({ code }: { code: string }) => postSocialLogin(code),
     onSuccess: async data => {
       setAccessToken(data.accessToken);
-
-      try {
-        const userData = await getUser();
-        setUser(userData.result);
-      } catch (e) {
-        console.error('Failed to fetch user data:', e);
-      }
+      const user = await queryClient.fetchQuery({
+        queryKey: ['user'],
+        queryFn: getUser,
+      });
+      setUser(user.result);
 
       router.push(ROUTES.DASHBOARD);
     },
