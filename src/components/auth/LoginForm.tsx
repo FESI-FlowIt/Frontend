@@ -44,25 +44,20 @@ export default function LoginForm() {
 
   const login = useLogin({ onError: () => {} });
 
-  const onSubmit = (formData: LoginFormData) => {
+  const onSubmit = async (formData: LoginFormData) => {
     setIsModalOpen(false);
-    login.mutate(formData);
-  };
+    try {
+      await login.mutateAsync(formData);
+    } catch (err: any) {
+      const status = err?.statusCode ?? err?.status ?? err?.response?.status;
 
-  useEffect(() => {
-    if (!login.isError || !login.error) return;
-
-    const status =
-      (login.error as any)?.statusCode ??
-      (login.error as any)?.status ??
-      (login.error as any)?.response?.status;
-
-    if (status >= 400 && status < 500) {
+      if (status >= 500) {
+        window.location.replace('/error/500error');
+        return;
+      }
       setIsModalOpen(true);
-    } else if (status >= 500) {
-      window.location.replace('/error/500error');
     }
-  }, [login.isError, login.error]);
+  };
 
   const { data, isError } = useUser({
     enabled: Boolean(login.isSuccess && accessToken),
