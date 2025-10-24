@@ -84,7 +84,7 @@ const GoalCard = ({ goal }: GoalCardProps) => {
 
   return (
     <div
-      className="rounded-20 relative flex h-340 max-w-480 cursor-pointer flex-col overflow-hidden bg-white shadow-lg"
+      className="rounded-20 relative flex h-300 max-w-408 cursor-pointer flex-col overflow-hidden bg-white shadow-lg"
       onClick={handleCardClick}
     >
       {/* 왼쪽 색상 바 */}

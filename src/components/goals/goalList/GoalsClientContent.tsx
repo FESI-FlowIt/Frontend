@@ -51,7 +51,7 @@ const GoalsClientContent = () => {
 
   return (
     <div className="relative min-h-screen px-24">
-      <div className="mx-auto max-w-1504 pb-118">
+      <div className="mx-auto pb-118">
         {/* 헤더 */}
         <GoalsHeader totalCount={goalsData?.pagination?.totalCount || 0} />
 
