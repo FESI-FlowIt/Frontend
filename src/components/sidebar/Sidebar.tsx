@@ -74,7 +74,7 @@ export default function Sidebar() {
     <>
       <div
         className={cn(
-          `border-line rounded-tr-50 rounded-br-50 min-h-screen w-100 transform flex-col items-center gap-36 border-r bg-white px-18 pt-40 transition-all duration-200 ease-in-out sm:fixed sm:hidden md:fixed md:flex md:w-80 lg:static lg:flex`,
+          `border-line rounded-tr-50 rounded-br-50 min-h-screen w-100 transform flex-col items-center gap-36 border-r bg-white px-18 pt-40 transition-all duration-200 ease-in-out sm:fixed sm:hidden md:static md:flex md:w-80 lg:static lg:flex`,
           {
             'translate-x-0 opacity-100': !isOpen,
             'pointer-events-none -translate-x-full opacity-0': isOpen,
