@@ -31,94 +31,106 @@ export default function Sidebar() {
   const { isOpen, setIsOpen } = useSidebar();
   const { openGoalModal } = useModalStore();
 
-  return isOpen ? (
-    <div
-      className={cn(
-        `border-line md:rounded-tr-50 md:rounded-br-50 sm:rounded-tr-30 sm:rounded-br-30 static z-10 flex h-screen w-320 transform flex-col items-center border-r bg-white py-40 transition-all duration-200 ease-in-out sm:fixed sm:w-280 sm:py-8 md:fixed md:w-320 md:py-40 lg:static`,
-        {
-          'translate-x-0 opacity-100': isOpen,
-          'pointer-events-none -translate-x-full opacity-0': !isOpen,
-        },
-      )}
-    >
-      <section className="mb-40 shrink-0 px-20">
-        <SidebarHeader setIsOpen={setIsOpen} />
-      </section>
-
-      <div className="flex flex-1 flex-col overflow-y-auto pb-20 md:pb-0">
-        <section className="mb-32 shrink-0 px-30 sm:mb-20 sm:px-16 md:mb-32 md:px-30">
-          <SidebarUser />
-        </section>
-
-        <section className="mb-16 shrink-0 px-20 sm:px-16 md:px-20">
-          <SidebarMenu />
-        </section>
-
-        <section className="mb-20 flex-1 overflow-y-auto px-20 sm:px-18 md:px-20">
-          <ErrorBoundary fallback={<ErrorFallback type="general" />}>
-            <Suspense fallback={<CustomLoading />}>
-              <SidebarGoalsList />
-            </Suspense>
-          </ErrorBoundary>
-        </section>
-
-        <section className="mt-auto shrink-0 px-20">
-          <Button size="addgoal" disabled={false} onClick={() => openGoalModal()}>
-            + 목표추가
-          </Button>
-        </section>
-      </div>
-      <GoalModal />
-    </div>
-  ) : (
+  return (
     <>
+      {/* 오버레이 */}
       <div
         className={cn(
-          `border-line rounded-tr-50 rounded-br-50 min-h-screen w-100 transform flex-col items-center gap-36 border-r bg-white px-18 pt-40 transition-all duration-200 ease-in-out sm:fixed sm:hidden md:static md:flex md:w-80 lg:static lg:flex`,
-          {
-            'translate-x-0 opacity-100': !isOpen,
-            'pointer-events-none -translate-x-full opacity-0': isOpen,
-          },
+          'fixed inset-0 z-400 bg-black/20 transition-opacity',
+          isOpen ? 'opacity-100' : 'pointer-events-none opacity-0',
         )}
-      >
-        <div className="relative h-36 w-36 sm:h-28 sm:w-28 md:h-36 md:w-36">
-          <Image src={`${CLOUDFRONT_URL}/assets/images/flowIt-logo.svg`} alt="로고 이미지" fill />
-        </div>
+        onClick={() => setIsOpen(false)}
+      />
 
-        <button
-          onClick={() => setIsOpen(true)}
-          className="rounded-12 border-line hover:bg-sidebar-hover flex h-44 w-44 cursor-pointer items-center justify-center border bg-white hover:border-none sm:h-32 sm:w-32 md:h-44 md:w-44"
+      {isOpen ? (
+        <div
+          className={cn(
+            'border-line fixed inset-y-0 left-0 z-500 h-screen transform border-r bg-white',
+            'w-full sm:max-w-280 md:max-w-320 lg:w-320',
+            'sm:rounded-tr-30 sm:rounded-br-30 md:rounded-tr-50 md:rounded-br-50',
+            'flex flex-col py-16 sm:py-8 md:py-40',
+            'translate-x-0 transition-transform duration-200 ease-in-out',
+          )}
         >
-          <SidebarOpenIcon
-            className="sm:h-17.45 sm:w-17.45 text-gray-01 h-24 w-24 md:h-24 md:w-24"
-            fill="currentColor"
-          />
-        </button>
-      </div>
+          <section className="mb-40 shrink-0 px-20">
+            <SidebarHeader setIsOpen={setIsOpen} />
+          </section>
 
-      <div
-        className={cn(
-          'z-10 h-48 w-full transform transition-all duration-200 ease-in-out sm:fixed sm:flex sm:items-center sm:gap-12 sm:bg-white sm:px-16 md:fixed md:hidden lg:static lg:hidden',
-          {
-            'translate-x-0 opacity-100': !isOpen,
-            'pointer-events-none -translate-x-full opacity-0': isOpen,
-          },
-        )}
-      >
-        <div className="sm:gap-4.6 sm:flex sm:items-center">
-          <div className="sm:relative sm:h-28 sm:w-28">
-            <Image src={`${CLOUDFRONT_URL}/assets/images/flowIt-logo.svg`} alt="로고 이미지" fill />
+          <section className="mb-32 shrink-0 px-30 sm:mb-20 sm:px-16 md:mb-32 md:px-30">
+            <SidebarUser />
+          </section>
+
+          <section className="mb-16 shrink-0 px-20 sm:px-16 md:px-20">
+            <SidebarMenu />
+          </section>
+
+          <section className="flex-1 overflow-y-auto px-20 sm:px-18 md:px-20">
+            <ErrorBoundary fallback={<ErrorFallback type="general" />}>
+              <Suspense fallback={<CustomLoading />}>
+                <SidebarGoalsList />
+              </Suspense>
+            </ErrorBoundary>
+          </section>
+
+          <section className="sticky bottom-0 z-10 mt-auto shrink-0 px-20 py-8">
+            <Button size="addgoal" disabled={false} onClick={() => openGoalModal()}>
+              + 목표추가
+            </Button>
+          </section>
+
+          <GoalModal />
+        </div>
+      ) : (
+        <>
+          <div
+            className={cn(
+              'border-line fixed inset-y-0 left-0 z-30 flex min-h-screen w-100 transform flex-col items-center gap-36 border-r bg-white px-18 pt-40 transition-all duration-200 ease-in-out',
+              'sm:hidden md:flex md:w-80 lg:flex lg:w-80',
+              'translate-x-0 opacity-100',
+            )}
+          >
+            <div className="relative h-36 w-36 sm:h-28 sm:w-28 md:h-36 md:w-36">
+              <Image
+                src={`${CLOUDFRONT_URL}/assets/images/flowIt-logo.svg`}
+                alt="로고 이미지"
+                fill
+              />
+            </div>
+
+            <button
+              onClick={() => setIsOpen(true)}
+              className="rounded-12 border-line hover:bg-sidebar-hover flex h-44 w-44 cursor-pointer items-center justify-center border bg-white sm:h-32 sm:w-32 md:h-44 md:w-44"
+              aria-label="사이드바 열기"
+            >
+              <SidebarOpenIcon
+                className="text-gray-01 sm:h-17.45 sm:w-17.45 h-24 w-24"
+                fill="currentColor"
+              />
+            </button>
           </div>
-          <span className="sm:text-logo-24 sm:text-black">FlowIt</span>
-        </div>
 
-        <button
-          onClick={() => setIsOpen(true)}
-          className="sm:rounded-12 sm:border-line hover:bg-sidebar-hover bg-white hover:border-none sm:flex sm:h-32 sm:w-32 sm:cursor-pointer sm:items-center sm:justify-center sm:border"
-        >
-          <SidebarOpenIcon className="sm:h-17.45 sm:w-17.45" fill="currentColor" />
-        </button>
-      </div>
+          <div className="fixed top-0 z-20 hidden h-48 w-full items-center gap-12 bg-white px-16 sm:flex md:hidden">
+            <div className="sm:gap-4.6 flex items-center">
+              <div className="relative h-28 w-28">
+                <Image
+                  src={`${CLOUDFRONT_URL}/assets/images/flowIt-logo.svg`}
+                  alt="로고 이미지"
+                  fill
+                />
+              </div>
+              <span className="sm:text-logo-24 text-black">FlowIt</span>
+            </div>
+
+            <button
+              onClick={() => setIsOpen(true)}
+              className="rounded-12 border-line hover:bg-sidebar-hover flex h-32 w-32 cursor-pointer items-center justify-center border bg-white"
+              aria-label="사이드바 열기"
+            >
+              <SidebarOpenIcon className="h-17.45 w-17.45" fill="currentColor" />
+            </button>
+          </div>
+        </>
+      )}
     </>
   );
 }
