@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 // Tab 버튼 variants
 const tabVariants = cva(
-  'text-body-m-16 md:text-body-m-20 rounded-8 flex h-24 w-136 items-center justify-center transition-all duration-200 md:h-32 md:w-156',
+  'text-body-m-16 md:text-body-m-20 rounded-8 flex h-24 w-136 items-center justify-center transition-all duration-200 md:h-32 md:max-w-156 lg:h-32 lg:w-120',
   {
     variants: {
       variant: {
