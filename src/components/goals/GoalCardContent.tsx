@@ -52,7 +52,7 @@ export default function GoalCardContent({
 
   return (
     <div
-      className="rounded-20 relative flex h-340 w-303 cursor-pointer flex-col overflow-hidden bg-white md:w-596 lg:w-480"
+      className="rounded-20 relative flex h-340 min-w-303 cursor-pointer flex-col overflow-hidden bg-white md:max-w-596 lg:h-300 lg:w-408 lg:shrink-0"
       onClick={() => router.push(ROUTES.GOALS.DETAIL(String(goal.goalId)))}
     >
       <div className={`absolute top-0 left-0 h-full w-12 ${bgClass}`} />
@@ -108,7 +108,7 @@ export default function GoalCardContent({
             </Button>
           </div>
 
-          <div className="overflow-y-auto" style={{ maxHeight: '104px' }}>
+          <div className="max-h-104 overflow-y-auto lg:max-h-64">
             <div className="flex flex-col gap-16">
               {todos.map(todo => (
                 <div

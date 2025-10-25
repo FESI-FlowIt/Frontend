@@ -13,7 +13,7 @@ const cardVariants = cva('rounded-20 flex flex-col gap-16 px-14 py-20 md:px-20',
       heatmap: 'h-625 w-full min-w-343 md:h-600 md:max-w-636 lg:h-548 lg:max-w-536',
       calendar: 'w-full min-w-343 md:max-w-636 lg:h-368 lg:max-w-536',
       schedule: 'h-auto min-h-140 min-w-343 md:max-w-636 lg:h-168 lg:max-w-536',
-      goal: 'h-1146 w-343 md:w-636 lg:h-428 lg:w-1504',
+      goal: 'max-h-1146 w-343 w-full md:min-h-428 md:max-w-636 lg:h-388 lg:min-h-388 lg:max-w-1096',
     },
   },
   defaultVariants: {
