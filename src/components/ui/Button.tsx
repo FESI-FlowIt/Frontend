@@ -43,7 +43,7 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       md: 'px-auto h-40 w-200 py-8',
       todoCard: 'h-40 w-84',
       emptytodoCard: 'h-40 w-200',
-      addgoal: 'h-40 w-160 md:h-48 md:w-260',
+      addgoal: 'h-40 w-full md:h-48',
       authModal: 'h-48 w-120',
       noteHeader: 'sm:h-40 sm:w-84 md:h-44 md:w-118',
       schedule: 'h-48 w-120 sm:w-165.5',
