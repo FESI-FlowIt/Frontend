@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -30,6 +30,18 @@ const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`
 export default function Sidebar() {
   const { isOpen, setIsOpen } = useSidebar();
   const { openGoalModal } = useModalStore();
+
+  // 사이드바 열릴 때 body 스크롤 방지
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   return (
     <>
