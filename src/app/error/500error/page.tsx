@@ -3,7 +3,7 @@ import ErrorFallback from '@/components/ui/ErrorFallback';
 
 export default function ServerErrorPage() {
   return (
-    <div className="bg-muted/30 flex min-h-dvh items-center justify-center">
+    <div className="bg-background flex h-screen w-screen items-center justify-center">
       <ErrorFallback
         type="general"
         title="문제가 발생했어요"

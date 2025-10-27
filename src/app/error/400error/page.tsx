@@ -3,7 +3,7 @@ import ErrorFallback from '@/components/ui/ErrorFallback';
 
 export default function ClientErrorPage() {
   return (
-    <div className="bg-muted/30 flex min-h-dvh items-center justify-center">
+    <div className="bg-background flex h-screen w-screen items-center justify-center">
       <ErrorFallback
         type="notFound"
         title="페이지를 찾을 수 없어요"
