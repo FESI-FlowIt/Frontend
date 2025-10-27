@@ -13,8 +13,8 @@ export const useHeatmapSection = (period: 'week' | 'month') => {
 
   const weeklyHeatmap = useWeeklyHeatmap(getCurrentDate(), { enabled: isWeek });
   const monthlyHeatmap = useMonthlyHeatmap(getCurrentMonth(), { enabled: !isWeek });
-  const weeklyInsight = useWeeklyInsight();
-  const monthlyInsight = useMonthlyInsight();
+  const weeklyInsight = useWeeklyInsight(getCurrentDate(), { enabled: isWeek });
+  const monthlyInsight = useMonthlyInsight(getCurrentMonth(), { enabled: !isWeek });
 
   const currentHeatmap = isWeek ? weeklyHeatmap : monthlyHeatmap;
   const currentInsight = isWeek ? weeklyInsight : monthlyInsight;

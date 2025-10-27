@@ -19,8 +19,14 @@ export default function HeatmapSection() {
   const [period, setPeriod] = useState<'week' | 'month'>('week');
   const isWeek = period === 'week';
 
-  const { weeklyHeatmapData, monthlyHeatmapData, hasError, handleRetry } =
-    useHeatmapSection(period);
+  const {
+    weeklyHeatmapData,
+    weeklyInsightData,
+    monthlyHeatmapData,
+    monthlyInsightData,
+    hasError,
+    handleRetry,
+  } = useHeatmapSection(period);
 
   const infoButtonRef = useRef<HTMLButtonElement>(null);
   const cardContainerRef = useRef<HTMLDivElement>(null);
@@ -48,26 +54,31 @@ export default function HeatmapSection() {
 
   // 인사이트 카드 렌더링
   const renderInsightCard = () => {
-    return <InsightCard variant="no-work-time" />;
+    if (period === 'week') {
+      if (!weeklyInsightData || !weeklyInsightData.success) {
+        return <InsightCard variant="no-data" />;
+      }
 
-    // TODO
-    // if (period === 'week') {
-    //   return weeklyInsightData?.success && weeklyInsightData.data.insights.length > 0 ? (
-    //     <InsightCard variant="weekly" items={weeklyInsightData.data.insights} />
-    //   ) : (
-    //     <InsightCard variant="no-data" />
-    //   );
-    // }
+      if (!weeklyInsightData.data.insights || weeklyInsightData.data.insights.trim() === '') {
+        return <InsightCard variant="no-work-time" />;
+      }
 
-    // if (period === 'month') {
-    //   return monthlyInsightData?.success && monthlyInsightData.data.insights.length > 0 ? (
-    //     <InsightCard variant="monthly" items={monthlyInsightData.data.insights} />
-    //   ) : (
-    //     <InsightCard variant="no-data" />
-    //   );
-    // }
+      return <InsightCard variant="weekly" item={weeklyInsightData.data.insights} />;
+    }
 
-    // return null;
+    if (period === 'month') {
+      if (!monthlyInsightData || !monthlyInsightData.success) {
+        return <InsightCard variant="no-data" />;
+      }
+
+      if (!monthlyInsightData.data.insights || monthlyInsightData.data.insights.trim() === '') {
+        return <InsightCard variant="no-work-time" />;
+      }
+
+      return <InsightCard variant="monthly" item={monthlyInsightData.data.insights} />;
+    }
+
+    return null;
   };
 
   const cardTitle = (

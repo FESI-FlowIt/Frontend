@@ -1,23 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { MonthlyInsightResponse, WeeklyInsightResponse } from '@/interfaces/insight';
+import { getMonthlyInsight, getWeeklyInsight } from '@/api/insightApi';
+import { ApiMonthlyInsightResponse, ApiWeeklyInsightResponse } from '@/interfaces/insight';
 
-export const useWeeklyInsight = () => {
-  return useQuery<WeeklyInsightResponse>({
-    queryKey: ['weeklyInsight'],
-    queryFn: async () => {
-      const res = await fetch('/insights/weekly');
-      return res.json();
-    },
+type Opts = { enabled?: boolean };
+
+export const useWeeklyInsight = (date: string, opts?: Opts) => {
+  return useQuery<ApiWeeklyInsightResponse>({
+    queryKey: ['weeklyInsight', date],
+    queryFn: () => getWeeklyInsight(date),
+    enabled: !!date && (opts?.enabled ?? true),
   });
 };
 
-export const useMonthlyInsight = () => {
-  return useQuery<MonthlyInsightResponse>({
-    queryKey: ['monthlyInsight'],
-    queryFn: async () => {
-      const res = await fetch('/insights/monthly');
-      return res.json();
-    },
+export const useMonthlyInsight = (yearMonth: string, opts?: Opts) => {
+  return useQuery<ApiMonthlyInsightResponse>({
+    queryKey: ['monthlyInsight', yearMonth],
+    queryFn: () => getMonthlyInsight(yearMonth),
+    enabled: !!yearMonth && (opts?.enabled ?? true),
   });
 };
