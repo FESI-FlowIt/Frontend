@@ -58,7 +58,7 @@ export default function Sidebar() {
         <div
           className={cn(
             'border-line fixed inset-y-0 left-0 z-500 h-screen transform border-r bg-white',
-            'w-full sm:max-w-280 md:max-w-320 lg:w-320',
+            'w-full sm:max-w-280 md:max-w-320 lg:max-w-280',
             'sm:rounded-tr-30 sm:rounded-br-30 md:rounded-tr-50 md:rounded-br-50',
             'flex flex-col py-16 sm:py-8 md:py-40',
             'translate-x-0 transition-transform duration-200 ease-in-out',
