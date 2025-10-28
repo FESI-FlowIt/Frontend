@@ -9,7 +9,7 @@ import TimerWidget from '@/components/timer/TimerWidget';
 export default function DashboardPage() {
   return (
     <div className="mt-54 md:mt-0">
-      <div className="mx-auto w-full md:pl-80 lg:px-30">
+      <div className="mx-auto w-full">
         {/* 모바일/태블릿: 세로 스택 */}
         <div className="space-y-24 lg:hidden">
           <HeatmapSection />
@@ -19,7 +19,7 @@ export default function DashboardPage() {
         </div>
 
         {/* PC: 복합 레이아웃 */}
-        <div className="hidden lg:flex lg:h-full lg:flex-col lg:gap-24 lg:pl-80">
+        <div className="hidden lg:flex lg:h-full lg:flex-col lg:gap-24">
           <div className="flex flex-1 gap-24">
             <div className="flex-1">
               <HeatmapSection />
