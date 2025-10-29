@@ -17,7 +17,7 @@ export default function EmptyTodoMessage({ goal }: EmptyTodoProps) {
       <div
         className={`absolute top-0 left-0 h-full w-12 ${getGoalBackgroundColorClass(goal.color)}`}
       />
-      <div className="relative flex h-full w-full flex-col items-center justify-end px-32 pt-[40px] pb-[68px]">
+      <div className="relative flex h-full w-full flex-col items-center justify-center">
         <p className="text-text-02 text-body-sb-20 mb-32 text-center leading-[34px]">
           목표를 이루기 위해
           <br />할 일을 생성해볼까요?

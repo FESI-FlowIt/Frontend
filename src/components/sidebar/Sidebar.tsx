@@ -34,7 +34,7 @@ export default function Sidebar() {
   return isOpen ? (
     <div
       className={cn(
-        `border-line md:rounded-tr-50 md:rounded-br-50 sm:rounded-tr-30 sm:rounded-br-30 static z-10 flex h-screen w-320 transform flex-col items-center overflow-y-auto border-r bg-white py-40 transition-all duration-200 ease-in-out sm:fixed sm:w-280 sm:py-8 md:fixed md:w-320 md:py-40 lg:static`,
+        `border-line md:rounded-tr-50 md:rounded-br-50 sm:rounded-tr-30 sm:rounded-br-30 static z-10 flex h-screen w-320 transform flex-col items-center border-r bg-white py-40 transition-all duration-200 ease-in-out sm:fixed sm:w-280 sm:py-8 md:fixed md:w-320 md:py-40 lg:static`,
         {
           'translate-x-0 opacity-100': isOpen,
           'pointer-events-none -translate-x-full opacity-0': !isOpen,
@@ -45,7 +45,7 @@ export default function Sidebar() {
         <SidebarHeader setIsOpen={setIsOpen} />
       </section>
 
-      <div className="flex flex-1 flex-col overflow-y-auto">
+      <div className="flex flex-1 flex-col overflow-y-auto pb-20 md:pb-0">
         <section className="mb-32 shrink-0 px-30 sm:mb-20 sm:px-16 md:mb-32 md:px-30">
           <SidebarUser />
         </section>
@@ -54,7 +54,7 @@ export default function Sidebar() {
           <SidebarMenu />
         </section>
 
-        <section className="mb-100 shrink-0 px-20 sm:px-18 md:px-20">
+        <section className="mb-20 flex-1 overflow-y-auto px-20 sm:px-18 md:px-20">
           <ErrorBoundary fallback={<ErrorFallback type="general" />}>
             <Suspense fallback={<CustomLoading />}>
               <SidebarGoalsList />
@@ -62,7 +62,7 @@ export default function Sidebar() {
           </ErrorBoundary>
         </section>
 
-        <section className="shrink-0 px-30 sm:px-10 md:px-30">
+        <section className="mt-auto shrink-0 px-20">
           <Button size="addgoal" disabled={false} onClick={() => openGoalModal()}>
             + 목표추가
           </Button>

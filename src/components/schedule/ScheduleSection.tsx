@@ -63,12 +63,12 @@ export default function ScheduleSection() {
           disabled={false}
           className="flex items-center gap-4"
         >
-          <span className="block sm:hidden">일정관리</span>
-          <span className="hidden sm:block">일정 관리하기</span>
+          <span className="block md:hidden">일정관리</span>
+          <span className="hidden md:block">일정 관리하기</span>
         </Button>
       }
     >
-      <div className="mb-20 h-80 overflow-y-scroll pr-4">
+      <div className="overflow-y-auto pr-4 lg:h-80 lg:overflow-y-scroll">
         <ul className="space-y-4">
           {deduplicatedAssignedTasks.map(({ time, task }) => (
             <li key={`${task.id}-${time}`} className="flex items-start gap-12 text-sm">

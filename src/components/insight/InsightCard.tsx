@@ -15,8 +15,8 @@ const InsightCard = ({ variant, item = '', className }: InsightCardProps) => {
   if (variant === 'no-data') {
     return (
       <div className={cn(baseClasses, 'items-center justify-center text-center', className)}>
-        <div className="text-body-m-16 text-text-03 flex flex-col items-center gap-8">
-          <TimerIcon className="text-inactive" width={32} height={32} fill="currentColor" />
+        <div className="text-body-m-16 text-text-03 flex flex-col items-center">
+          <TimerIcon className="text-inactive mb-8" width={32} height={32} fill="currentColor" />
 
           <p>
             작업 기록을 불러올 수 없어요 <br className="md:hidden" />

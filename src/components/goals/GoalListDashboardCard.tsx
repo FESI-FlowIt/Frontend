@@ -69,7 +69,7 @@ export default function GoalListDashboardCard({ goal }: { goal: GoalSummary | nu
   if (todos.length === 0) {
     return (
       <div
-        className="rounded-20 relative flex h-340 w-303 cursor-pointer flex-col overflow-hidden bg-white md:w-596 lg:w-480"
+        className="rounded-20 relative flex h-340 min-w-303 cursor-pointer flex-col overflow-hidden bg-white md:max-w-596 lg:h-300 lg:w-408 lg:shrink-0"
         onClick={() => router.push(ROUTES.GOALS.DETAIL(String(goal.goalId)))}
       >
         <div className="flex flex-1 flex-col justify-between px-32 pt-20 pb-20">
