@@ -56,8 +56,20 @@ export async function fetchWrapper(
         });
 
         if (!response.ok) {
-          throw new CustomError(`HTTP error! status: ${response.status}`, await response.json());
+          const err = new CustomError(
+            `HTTP error! status: ${response.status}`,
+            await safeJson(response),
+          );
+          (err as any).statusCode = response.status;
+          throw err;
         }
+      } else {
+        const err = new CustomError(
+          `HTTP error! status: ${response.status}`,
+          await safeJson(response),
+        );
+        (err as any).statusCode = response.status;
+        throw err;
       }
     }
 
@@ -67,5 +79,13 @@ export async function fetchWrapper(
   } catch (error) {
     console.error('Fetch error:', error);
     throw error;
+  }
+}
+
+async function safeJson(res: Response) {
+  try {
+    return await res.json();
+  } catch {
+    return null;
   }
 }
