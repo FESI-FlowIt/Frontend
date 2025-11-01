@@ -62,7 +62,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="ko" className={pretendard.variable}>
-      <body>
+      <body className="bg-background min-h-screen">
         <AuthProvider initialToken={token}>
           <MswProvider>
             <ReactQueryProvider>{children}</ReactQueryProvider>

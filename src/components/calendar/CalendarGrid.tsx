@@ -34,7 +34,7 @@ const CalendarGrid = forwardRef<HTMLDivElement, CalendarGridProps>(({ data, onCe
         {DAYS.map(day => (
           <span
             key={day}
-            className="flex h-40 w-full min-w-40 items-center justify-center md:max-w-84 lg:h-20 lg:w-71"
+            className="flex h-40 w-full min-w-40 items-center justify-center md:max-w-84 lg:h-20 lg:max-w-85 lg:min-w-71"
           >
             {day}
           </span>
