@@ -33,7 +33,7 @@ const CalendarCell = ({
     <button
       onClick={handleClick}
       className={cn(
-        'rounded-4 flex h-40 w-full min-w-40 cursor-pointer flex-col items-center p-1 transition md:max-h-44 md:max-w-84 lg:h-40 lg:w-71',
+        'rounded-4 flex h-40 w-full min-w-40 cursor-pointer flex-col items-center p-1 transition md:max-h-44 md:max-w-84 lg:h-40 lg:max-w-85 lg:min-w-71',
         hasGoals && 'hover:bg-tertiary-01',
         !isCurrentMonth && 'opacity-40',
         className,

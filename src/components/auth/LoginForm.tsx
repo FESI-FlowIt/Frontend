@@ -36,15 +36,21 @@ export default function LoginForm() {
   const password = watch('password');
   const isFormValid = email.trim() !== '' && password.trim() !== '';
 
-  const login = useLogin({
-    onError: () => {
-      setIsModalOpen(true);
-    },
-  });
+  const login = useLogin({ onError: () => {} });
 
-  const onSubmit = (formData: LoginFormData) => {
+  const onSubmit = async (formData: LoginFormData) => {
     setIsModalOpen(false);
-    login.mutate(formData);
+    try {
+      await login.mutateAsync(formData);
+    } catch (err: any) {
+      const status = err?.statusCode ?? err?.status ?? err?.response?.status;
+
+      if (status >= 500) {
+        window.location.replace('/error/500error');
+        return;
+      }
+      setIsModalOpen(true);
+    }
   };
 
   if (login.isPending || login.isSuccess) return <CustomLoading />;

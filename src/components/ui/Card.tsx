@@ -10,11 +10,12 @@ const cardVariants = cva('rounded-20 flex flex-col gap-16 px-14 py-20 md:px-20',
     },
     size: {
       auto: 'mx-auto w-fit lg:mx-0',
-      heatmap: 'mx-auto h-625 w-full min-w-343 md:h-600 md:max-w-636 lg:mx-0 lg:h-548 lg:max-w-536',
-      calendar: 'mx-auto w-full min-w-343 md:max-w-636 lg:mx-0 lg:h-368 lg:max-w-536',
+      heatmap:
+        'mx-auto h-625 w-full min-w-343 md:h-600 md:max-w-636 lg:mx-0 lg:h-548 lg:max-w-636 lg:min-w-536',
+      calendar: 'mx-auto w-full min-w-343 md:max-w-636 lg:mx-0 lg:h-368 lg:max-w-636 lg:min-w-536',
       schedule:
-        'mx-auto h-auto min-h-140 min-w-343 md:max-w-636 lg:mx-0 lg:h-auto lg:max-w-536 lg:flex-1',
-      goal: 'mx-auto max-h-1146 w-full min-w-343 md:min-h-428 md:max-w-636 lg:mx-0 lg:h-388 lg:min-h-388 lg:max-w-1096',
+        'mx-auto h-auto min-h-140 min-w-343 md:max-w-636 lg:mx-0 lg:h-auto lg:max-w-636 lg:min-w-536 lg:flex-1',
+      goal: 'mx-auto max-h-1146 w-full min-w-343 md:min-h-428 md:max-w-636 lg:mx-0 lg:h-388 lg:min-h-388 lg:max-w-1296 lg:min-w-1096',
     },
   },
   defaultVariants: {

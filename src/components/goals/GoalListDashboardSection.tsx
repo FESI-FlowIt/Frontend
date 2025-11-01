@@ -51,7 +51,7 @@ export default function GoalListDashboardSection() {
         ) : sortedGoals.length === 0 ? (
           <NoGoalsGuide />
         ) : (
-          <div className="flex w-full flex-col gap-12 md:flex-col lg:flex-row lg:flex-nowrap lg:overflow-x-auto lg:px-16 lg:pb-8">
+          <div className="flex w-full flex-col gap-12 md:flex-col lg:flex-row lg:flex-nowrap lg:overflow-x-auto">
             {sortedGoals.map(goal => (
               <GoalListDashboardCard key={goal.goalId} goal={goal} />
             ))}

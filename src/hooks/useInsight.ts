@@ -8,7 +8,7 @@ type Opts = { enabled?: boolean };
 export const useWeeklyInsight = (date: string, opts?: Opts) => {
   return useQuery<ApiWeeklyInsightResponse>({
     queryKey: ['weeklyInsight', date],
-    queryFn: async () => getWeeklyInsight(date),
+    queryFn: () => getWeeklyInsight(date),
     enabled: !!date && (opts?.enabled ?? true),
   });
 };
@@ -16,7 +16,7 @@ export const useWeeklyInsight = (date: string, opts?: Opts) => {
 export const useMonthlyInsight = (yearMonth: string, opts?: Opts) => {
   return useQuery<ApiMonthlyInsightResponse>({
     queryKey: ['monthlyInsight', yearMonth],
-    queryFn: async () => getMonthlyInsight(yearMonth),
+    queryFn: () => getMonthlyInsight(yearMonth),
     enabled: !!yearMonth && (opts?.enabled ?? true),
   });
 };
