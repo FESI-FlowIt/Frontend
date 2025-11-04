@@ -25,7 +25,7 @@ const dropdownVariants = cva('rounded-b-[20px] border shadow-lg', {
       lg: 'max-w-md min-w-64',
       auto: 'w-auto max-w-xs',
       goalListFilter: 'max-w-148',
-      todo: 'max-w-520',
+      todo: 'max-w-1296',
       full: 'w-auto',
     },
     animation: {
@@ -56,6 +56,7 @@ export interface DropdownMenuProps extends VariantProps<typeof dropdownVariants>
   position?: 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end';
   matchTriggerWidth?: boolean;
   zIndex?: number;
+  offsetPx?: number;
 }
 
 const DropdownMenu = ({
@@ -70,6 +71,7 @@ const DropdownMenu = ({
   position = 'bottom-start',
   matchTriggerWidth = false,
   zIndex = 9999,
+  offsetPx,
 }: DropdownMenuProps) => {
   // Floating UI 설정
   const { refs, floatingStyles, context } = useFloating({
@@ -78,7 +80,7 @@ const DropdownMenu = ({
       if (!open) onClose();
     },
     middleware: [
-      offset(16), // 16px 간격
+      offset(offsetPx),
       flip(), // 화면 경계에 닿으면 위치 자동 조정
       shift(), // 화면 밖으로 나가지 않도록 이동
       ...(matchTriggerWidth
@@ -87,6 +89,7 @@ const DropdownMenu = ({
               apply({ rects, elements }) {
                 Object.assign(elements.floating.style, {
                   width: `${rects.reference.width}px`,
+                  boxSizing: 'border-box',
                 });
               },
             }),

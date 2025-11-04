@@ -112,6 +112,8 @@ const GoalSelector = ({
         size="todo"
         animation="slide"
         shadow="md"
+        matchTriggerWidth
+        offsetPx={2}
         className="max-h-200 w-full overflow-y-auto"
       >
         <div className="py-4">

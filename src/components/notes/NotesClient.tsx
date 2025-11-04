@@ -63,7 +63,7 @@ const NotesClient = ({ initialGoalId }: NotesClientProps) => {
   };
 
   return (
-    <div className="mx-auto h-full max-w-1184">
+    <div className="mx-auto h-full max-w-1296">
       <header className="mb-32 sm:mb-44">
         <div className="flex items-center">
           <h1 className="text-text-01 text-display-24 sm:text-display-32 font-bold">
@@ -74,7 +74,7 @@ const NotesClient = ({ initialGoalId }: NotesClientProps) => {
 
       <div className="flex">
         <main className="flex-1">
-          <div className="mb-32">
+          <div className="mb-32 w-full">
             <GoalSelector
               selectedGoalId={selectedGoalId}
               onSelectGoal={handleGoalChange}
