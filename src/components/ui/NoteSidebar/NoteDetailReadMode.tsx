@@ -40,7 +40,8 @@ const NoteDetailReadMode = ({ note, onEdit, goalTitle, todoTitle }: NoteDetailRe
           className="bg-primary-01 text-white"
           icon={<PencilIcon className="mr-2" />}
         >
-          수정하기
+          <span className="hidden sm:inline md:hidden">수정</span>
+          <span className="hidden md:inline">수정하기</span>
         </Button>
       </div>
     </div>
