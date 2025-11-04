@@ -2,13 +2,16 @@
 
 import { usePathname } from 'next/navigation';
 
+import { NoteSidebarProvider } from '@/app/providers/NoteSidebarProvider';
 import { SidebarProvider } from '@/app/providers/SidebarProvider';
 import Sidebar from '@/components/sidebar/Sidebar';
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <SidebarLayout>{children}</SidebarLayout>
+      <NoteSidebarProvider>
+        <SidebarLayout>{children}</SidebarLayout>
+      </NoteSidebarProvider>
     </SidebarProvider>
   );
 }
