@@ -10,7 +10,7 @@ interface NoteSidebarProps {
   todo?: TodoWithNotes;
   goalTitle?: string;
   onClose: () => void;
-  isDesktop: boolean;
+  isDesktop?: boolean;
 }
 
 // 2단계 레이어 구조: NoteListSidebar → NoteDetailSidebar
