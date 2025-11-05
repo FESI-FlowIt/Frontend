@@ -6,19 +6,26 @@ import { useTimerStore } from '@/store/timerStore';
 
 const CLOUDFRONT_URL = `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_IMAGE_URL}`;
 
-interface TimerControlsProps {
+export interface TimerControlsProps {
   todoId: number | null;
+  /** 중지(세션 종료) 후 상위에서 후속 처리하도록 알림 — 완료 아님 */
+  onStopped?: () => void;
 }
 
-export default function TimerControls({ todoId }: TimerControlsProps) {
+export default function TimerControls({ todoId, onStopped }: TimerControlsProps) {
   const isRunning = useTimerStore(s => s.isRunning);
   const runningTodoId = useTimerStore(s => s.todoId);
 
+  // 🔐 서버/스토어 불일치 대비: 러닝 앵커가 하나라도 있어야 실제 running 으로 간주
+  const resumeAtMs = useTimerStore(s => s.resumeAtMs);
+  const mainStartAtMs = useTimerStore(s => s.mainStartAtMs);
+  const uiRunning = Boolean(isRunning && (resumeAtMs != null || mainStartAtMs != null));
+
   const sameTodo = Boolean(
-    isRunning && runningTodoId != null && todoId != null && runningTodoId === todoId,
+    uiRunning && runningTodoId != null && todoId != null && runningTodoId === todoId,
   );
   const blocked = Boolean(
-    isRunning && runningTodoId != null && todoId != null && runningTodoId !== todoId,
+    uiRunning && runningTodoId != null && todoId != null && runningTodoId !== todoId,
   );
 
   const startInFlight = useTimerStore(s => s.startInFlight);
@@ -33,20 +40,24 @@ export default function TimerControls({ todoId }: TimerControlsProps) {
   const handleStart = () => {
     if (!todoId) return alert('할 일을 선택해 주세요.');
     if (blocked || startInFlight || pauseInFlight || stopInFlight || isStopping) return;
+    // 서버가 paused 상태였던 경우에도 start가 재시작(resume) 역할을 수행해야 함
     start(todoId);
   };
 
   const handlePause = () => {
-    if (!sameTodo || pauseInFlight || isStopping) return;
+    // 🔐 실제 러닝이 아닐 때(서버 paused 등) 방어적으로 막기 → 400 예방
+    if (!uiRunning || !sameTodo || pauseInFlight || isStopping) return;
     pause();
   };
 
   const handleStop = async () => {
-    if (!sameTodo || !todoId || stopInFlight) return;
+    // 정지(세션 종료). 완료 아님. 모달 닫지 않음(부모에서 onStopped 안 넘기면 그대로 유지)
+    if (!uiRunning || !sameTodo || !todoId || stopInFlight) return;
     try {
       await stop();
+      onStopped?.();
     } catch {
-      // no-op //
+      // no-op
     }
   };
 
@@ -71,6 +82,7 @@ export default function TimerControls({ todoId }: TimerControlsProps) {
         </button>
       ) : (
         <>
+          {/* ⛔️ 이미지/alt 그대로 둠 */}
           <button
             aria-label="일시정지"
             onClick={handlePause}
@@ -79,7 +91,7 @@ export default function TimerControls({ todoId }: TimerControlsProps) {
           >
             <Image
               src={`${CLOUDFRONT_URL}/assets/images/timer_stop.svg`}
-              alt="타이머 정지 이미지"
+              alt="타이머 중지 이미지"
               width={88}
               height={88}
               className="h-60 w-60 md:h-88 md:w-88"

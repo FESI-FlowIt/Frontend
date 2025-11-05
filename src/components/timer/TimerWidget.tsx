@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import SelectTodoModal from '@/components/timer/SelectTodoModal';
 import TimerButton from '@/components/timer/TimerButton';
@@ -65,7 +65,9 @@ export default function TimerWidget() {
   const [selectedTodo, setSelectedTodo] = useState<TodoSummary | null>(null);
 
   const isRunning = useTimerStore(s => s.isRunning);
+  const activeTodoId = useTimerStore(s => s.todoId);
   const mainStartAtMs = useTimerStore(s => s.mainStartAtMs);
+  const resumeAtMs = useTimerStore(s => s.resumeAtMs);
   const mainBaseSec = useTimerStore(s => s.mainBaseSec);
   const hydrateFromServer = useTimerStore(s => s.hydrateFromServer);
   const ensureRunningAnchors = useTimerStore(s => s.ensureRunningAnchors);
@@ -73,29 +75,32 @@ export default function TimerWidget() {
   const startClock = useTimerStore(s => s.startClock);
 
   const mainSeconds = useMemo(() => {
-    if (!isRunning || !mainStartAtMs) return mainBaseSec;
+    const uiRunning = Boolean(isRunning && (mainStartAtMs != null || resumeAtMs != null));
+    if (!uiRunning || !mainStartAtMs) return mainBaseSec;
     const delta = Math.floor((now - mainStartAtMs) / 1000);
     return Math.max(0, mainBaseSec + delta);
-  }, [isRunning, mainStartAtMs, mainBaseSec, now]);
+  }, [isRunning, mainStartAtMs, resumeAtMs, mainBaseSec, now]);
 
   const minutes = Math.floor(mainSeconds / 60);
   const seconds = mainSeconds % 60;
 
+  /** 최초 하이드레이션 및 시계 시작 */
   useEffect(() => {
     startClock();
     hydrateFromServer(null);
     ensureRunningAnchors();
   }, [hydrateFromServer, ensureRunningAnchors, startClock]);
 
+  /** 선택 모달이 열릴 때만 refetch */
   useEffect(() => {
     if (isSelectModalOpen) refetch?.();
   }, [isSelectModalOpen, refetch]);
 
+  /** 완료 브로드캐스트 수신 → 로컬 완료집합 업데이트 */
   useEffect(() => {
     const handler = (e: Event) => {
       const { id } = (e as CustomEvent<{ id?: string | number }>).detail ?? {};
       if (id == null) return;
-
       const key = String(id);
       setCompletedIds(prev => {
         if (prev.has(key)) return prev;
@@ -104,10 +109,34 @@ export default function TimerWidget() {
         return next;
       });
     };
-
     window.addEventListener('todo:completed', handler);
     return () => window.removeEventListener('todo:completed', handler);
   }, []);
+
+  /** 스토어의 activeTodoId 기반으로 선택 자동 복원
+   *  ⛔ 정지(stop) 후 activeTodoId가 null이어도 선택을 지우지 않아 모달이 유지되도록 함
+   */
+  const syncSelectedFromStore = useCallback(() => {
+    if (activeTodoId == null) {
+      // 선택을 유지해야 모달이 언마운트되지 않음
+      return;
+    }
+    for (const g of goals) {
+      const t = g.todos?.find(td => String(td.id) === String(activeTodoId));
+      if (t && !t.isDone) {
+        setSelectedGoal(g);
+        setSelectedTodo(t);
+        return;
+      }
+    }
+    // 목록에 없거나 완료되었으면 해제
+    setSelectedGoal(null);
+    setSelectedTodo(null);
+  }, [activeTodoId, goals]);
+
+  useEffect(() => {
+    syncSelectedFromStore();
+  }, [syncSelectedFromStore]);
 
   const isSelectedTodoUsable = useMemo(() => {
     if (!selectedGoal || !selectedTodo) return false;
@@ -118,12 +147,12 @@ export default function TimerWidget() {
   }, [goals, selectedGoal, selectedTodo, completedIds]);
 
   const handleWidgetClick = () => {
-    if (!selectedGoal || !selectedTodo || !isSelectedTodoUsable) {
-      refetch?.();
+    const hasUsable = selectedGoal && selectedTodo && isSelectedTodoUsable;
+    if (hasUsable) {
+      setIsTimerModalOpen(true);
+    } else {
       setIsSelectModalOpen(true);
-      return;
     }
-    setIsTimerModalOpen(true);
   };
 
   const handleSelectTodo = (goal: GoalSummary, todo: TodoSummary) => {
@@ -133,6 +162,7 @@ export default function TimerWidget() {
     setIsTimerModalOpen(true);
   };
 
+  /** 진짜 '완료' 상황에서만 호출해 목록에서 제거 */
   const handleTodoCompleted = (todoId: number | string) => {
     const key = String(todoId);
     setCompletedIds(prev => {
@@ -145,7 +175,6 @@ export default function TimerWidget() {
       setSelectedTodo(null);
       setIsSelectModalOpen(true);
     }
-    refetch?.();
   };
 
   return (
@@ -172,9 +201,9 @@ export default function TimerWidget() {
           onBack={() => {
             setIsTimerModalOpen(false);
             setIsSelectModalOpen(true);
-            refetch?.();
           }}
-          onComplete={handleTodoCompleted}
+          // ⛔ 정지 시 모달 닫히지 않도록 onStopped 전달 없음
+          // onStopped={() => { setIsTimerModalOpen(false); }}
           goalTitle={selectedGoal.title}
           goalColor={getGoalBackgroundColorClass(selectedGoal.color)}
           todoContent={selectedTodo.title}

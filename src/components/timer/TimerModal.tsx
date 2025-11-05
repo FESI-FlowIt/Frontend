@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useCallback } from 'react';
 
 import Modal from '@/components/ui/Modal';
 import { formatTime } from '@/lib/timerUtils';
@@ -26,17 +26,12 @@ interface TimerModalProps {
   goalColor: string;
   todoContent: string;
   todoId: string;
-  onComplete?: (todoId: number | string) => void;
+  onStopped?: (todoId: number | string) => void;
 }
 
-export default function TimerModal({
-  onClose,
-  onBack,
-  goalTitle,
-  goalColor,
-  todoContent,
-  todoId,
-}: TimerModalProps) {
+export default function TimerModal(props: TimerModalProps) {
+  const { onClose, onBack, goalTitle, goalColor, todoContent, todoId, onStopped } = props;
+
   const numericTodoId = useMemo(() => {
     const n = Number(todoId);
     return Number.isFinite(n) ? n : null;
@@ -44,6 +39,7 @@ export default function TimerModal({
 
   const isRunning = useTimerStore(s => s.isRunning);
   const runningTodoId = useTimerStore(s => s.todoId);
+  const lastTodoId = useTimerStore(s => s.lastTodoId);
 
   const resumeAtMs = useTimerStore(s => s.resumeAtMs);
   const mainStartAtMs = useTimerStore(s => s.mainStartAtMs);
@@ -62,56 +58,50 @@ export default function TimerModal({
     }
   }, [startClock, fetchTotalFor, numericTodoId]);
 
-  const blocked = useMemo(() => {
-    return Boolean(
-      isRunning &&
-        runningTodoId != null &&
-        numericTodoId != null &&
-        runningTodoId !== numericTodoId,
-    );
-  }, [isRunning, runningTodoId, numericTodoId]);
+  // 실행 중이면 runningTodoId, 일시정지/정지면 lastTodoId 기준으로 동일성 판정
+  const sameTodo = useMemo(() => {
+    if (numericTodoId == null) return false;
+    if (isRunning) return runningTodoId != null && runningTodoId === numericTodoId;
+    return lastTodoId != null && lastTodoId === numericTodoId;
+  }, [isRunning, runningTodoId, lastTodoId, numericTodoId]);
+
+  const uiRunning = useMemo(
+    () => Boolean(isRunning && (mainStartAtMs != null || resumeAtMs != null)),
+    [isRunning, mainStartAtMs, resumeAtMs],
+  );
 
   const mainSeconds = useMemo(() => {
-    const sameTodo =
-      runningTodoId != null && numericTodoId != null && runningTodoId === numericTodoId;
-    if (sameTodo) {
-      if (isRunning && mainStartAtMs) {
-        const delta = Math.floor((now - mainStartAtMs) / 1000);
-        return Math.max(0, mainBaseSec + delta);
-      }
-
-      return Math.max(0, mainBaseSec);
+    if (!sameTodo) return 0;
+    if (uiRunning && mainStartAtMs) {
+      const delta = Math.floor((now - mainStartAtMs) / 1000);
+      return Math.max(0, mainBaseSec + delta);
     }
-
-    return 0;
-  }, [runningTodoId, numericTodoId, isRunning, mainStartAtMs, mainBaseSec, now]);
+    return Math.max(0, mainBaseSec);
+  }, [sameTodo, uiRunning, mainStartAtMs, mainBaseSec, now]);
 
   const { hours, minutes, seconds } = formatTime(mainSeconds);
 
   const liveTotalSec = useMemo(() => {
-    const base = getTotalFor(numericTodoId);
-    const sameTodo =
-      runningTodoId != null && numericTodoId != null && runningTodoId === numericTodoId;
-    if (!sameTodo || !isRunning || !resumeAtMs) return base;
+    if (!sameTodo) return getTotalFor(numericTodoId);
+    if (!uiRunning || !resumeAtMs) return getTotalFor(numericTodoId);
     const delta = Math.floor((now - resumeAtMs) / 1000);
-    return Math.max(base, base + Math.max(0, delta));
-  }, [getTotalFor, numericTodoId, runningTodoId, isRunning, resumeAtMs, now]);
+    return Math.max(getTotalFor(numericTodoId), getTotalFor(numericTodoId) + Math.max(0, delta));
+  }, [sameTodo, uiRunning, resumeAtMs, now, getTotalFor, numericTodoId]);
+
+  const handleStopped = useCallback(() => {
+    if (numericTodoId == null) return;
+    onStopped?.(numericTodoId);
+  }, [numericTodoId, onStopped]);
 
   return (
     <Modal isOpen onClose={onClose} size="timer">
-      <div className="h-464 w-311 pr-40 md:w-520 md:pr-0">
+      <div role="dialog" aria-label="타이머 모달" className="h-464 w-311 pr-40 md:w-520 md:pr-0">
         <TimerHeader onBack={onBack} onClose={onClose} />
-
-        {blocked && (
-          <div className="text-error -mt-32 mb-12 rounded-md bg-red-100 px-8 py-2 text-center text-sm md:-mt-20">
-            이미 다른 할일의 타이머 실행 중
-          </div>
-        )}
 
         <TaskInfo goalTitle={goalTitle} goalColor={goalColor} todoContent={todoContent} />
         <TimerDisplay hours={hours} minutes={minutes} seconds={seconds} />
 
-        <TimerControls todoId={numericTodoId} />
+        <TimerControls todoId={numericTodoId} onStopped={handleStopped} />
 
         <div className="mt-72 md:mt-0">
           <TotalTime serverTotalTime={toHHMMSS(liveTotalSec)} />
