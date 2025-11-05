@@ -30,7 +30,7 @@ export default function SidebarGoalsList() {
         return (
           <div
             key={goal.goalId}
-            className="flex h-52 w-260 items-center justify-between px-10 sm:h-40 sm:w-248 md:h-52 md:w-260"
+            className="flex h-52 w-248 items-center justify-between px-10 sm:h-40 md:h-52 md:w-260 lg:w-240"
           >
             <div
               onClick={() => router.push(ROUTES.GOALS.DETAIL(`${goal.goalId}`))}

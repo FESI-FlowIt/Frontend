@@ -34,14 +34,14 @@ const CalendarGrid = forwardRef<HTMLDivElement, CalendarGridProps>(({ data, onCe
         {DAYS.map(day => (
           <span
             key={day}
-            className="flex h-40 w-full max-w-83 min-w-40 items-center justify-center md:max-w-87 md:min-w-84 lg:max-w-88 lg:min-w-88"
+            className="flex h-40 w-full min-w-40 items-center justify-center md:max-w-84 lg:h-20 lg:max-w-85 lg:min-w-71"
           >
             {day}
           </span>
         ))}
       </div>
       {/* 캘린더 그리드 */}
-      <div className="grid w-full auto-rows-fr grid-cols-7 gap-2">{calendarCells}</div>
+      <div className="grid w-full auto-rows-fr grid-cols-7 gap-2 lg:gap-0">{calendarCells}</div>
     </div>
   );
 });

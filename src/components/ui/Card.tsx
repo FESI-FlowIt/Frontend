@@ -9,13 +9,13 @@ const cardVariants = cva('rounded-20 flex flex-col gap-16 px-14 py-20 md:px-20',
       gray: 'bg-cardContainer',
     },
     size: {
-      auto: 'w-fit',
+      auto: 'mx-auto w-fit lg:mx-0',
       heatmap:
-        'h-625 w-full max-w-635 min-w-343 md:h-600 md:max-w-739 md:min-w-636 lg:max-w-740 lg:min-w-740',
-      calendar:
-        'h-full w-full max-w-635 min-w-343 md:max-w-739 md:min-w-636 lg:h-412 lg:max-w-740 lg:min-w-740',
-      goal: 'h-1146 w-343 md:w-636 lg:h-428 lg:w-1504',
-      schedule: 'h-200 w-343 md:h-176 md:w-636 lg:h-176 lg:w-728',
+        'mx-auto h-625 w-full min-w-343 md:h-600 md:max-w-636 lg:mx-0 lg:h-548 lg:max-w-636 lg:min-w-536',
+      calendar: 'mx-auto w-full min-w-343 md:max-w-636 lg:mx-0 lg:h-368 lg:max-w-636 lg:min-w-536',
+      schedule:
+        'mx-auto h-auto min-h-140 min-w-343 md:max-w-636 lg:mx-0 lg:h-auto lg:max-w-636 lg:min-w-536 lg:flex-1',
+      goal: 'mx-auto max-h-1146 w-full min-w-343 md:min-h-428 md:max-w-636 lg:mx-0 lg:h-388 lg:min-h-388 lg:max-w-1296 lg:min-w-1096',
     },
   },
   defaultVariants: {

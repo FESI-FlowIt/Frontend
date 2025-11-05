@@ -4,11 +4,11 @@ import { monthlyInsightRes } from '@/mocks/mockResponses/insight/monthlyInsightR
 import { weeklyInsightRes } from '@/mocks/mockResponses/insight/weeklyInsightResponse';
 
 export const insightsHandlers = [
-  http.get('/insights/weekly', async () => {
+  http.get('/heatmaps/todo-timers/insight/weekly/:date', async () => {
     return HttpResponse.json(weeklyInsightRes);
   }),
 
-  http.get('/insights/monthly', () => {
+  http.get('/heatmaps/todo-timers/insight/monthly/:yearMonth', () => {
     return HttpResponse.json(monthlyInsightRes);
   }),
 ];

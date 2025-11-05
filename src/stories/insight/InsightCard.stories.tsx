@@ -38,17 +38,13 @@ export const NoData: Story = {
 export const Weekly: Story = {
   args: {
     variant: 'weekly',
-    items: ['아침 시간대의 집중력이 높아요.', '목표 3개 중 2개를 성공적으로 달성했어요.'],
+    item: '이번 주 골든 타임 1회 달성!',
   },
 };
 
 export const Monthly: Story = {
   args: {
     variant: 'monthly',
-    items: [
-      '가장 많이 활동한 요일은 화요일이에요.',
-      '전체 목표 달성률은 85%입니다.',
-      '작업 시간은 평균 3.2시간으로 꾸준했어요.',
-    ],
+    item: '이번 달은 1주 차를 열심히 보냈네요!',
   },
 };

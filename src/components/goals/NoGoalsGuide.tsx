@@ -13,8 +13,8 @@ export default function NoGoalsGuide() {
   const { openGoalModal } = useModalStore();
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="relative mb-16 h-140 w-140 md:h-200 md:w-200">
+    <div className="flex h-full flex-col items-center justify-center">
+      <div className="relative mb-16 h-140 w-140 md:h-200 md:w-200 lg:h-120 lg:w-120">
         <Image
           src={`${CLOUDFRONT_URL}/assets/images/landing_img.svg`}
           alt="랜딩페이지 이미지"

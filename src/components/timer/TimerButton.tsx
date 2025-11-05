@@ -13,24 +13,23 @@ export default function TimerButton({ isRunning, minutes, seconds, onClick }: Ti
   return (
     <button
       onClick={onClick}
-      className={`fixed right-40 bottom-40 z-50 flex h-100 w-100 cursor-pointer flex-col items-center justify-start rounded-full text-white shadow-xl transition-colors ${
-        isRunning ? 'bg-primary-01' : 'bg-timer'
-      }`}
+      className={`fixed right-40 bottom-40 z-50 flex h-60 w-60 flex-col items-center justify-center rounded-full text-white shadow-xl transition-colors lg:h-100 lg:w-100 ${isRunning ? 'bg-primary-01 border-timer border-2 lg:border-4' : 'bg-timer'}`}
     >
-      <div className={`flex flex-col items-center ${isRunning ? 'mt-13' : 'mt-25'}`}>
-        <TimerIcon className="text-white" width={24} height={24} fill="currentColor" />
+      <TimerIcon
+        className="mb-4 h-[14px] w-[14px] text-white lg:h-[24px] lg:w-[24px]"
+        fill="currentColor"
+      />
 
-        {isRunning ? (
-          <>
-            <div className="text-body-sb-20 mt-4">
-              {`${formatNumber(minutes)}:${formatNumber(seconds)}`}
-            </div>
-            <div className="text-body-sb-16">할 일 중</div>
-          </>
-        ) : (
-          <div className="text-body-sb-20 mt-4">할 일 시작</div>
-        )}
-      </div>
+      {isRunning ? (
+        <>
+          <div className="text-body-12 lg:text-body-sb-20 leading-4">
+            {`${formatNumber(minutes)}:${formatNumber(seconds)}`}
+          </div>
+          <div className="text-body-10 lg:text-body-m-16">할 일 중</div>
+        </>
+      ) : (
+        <div className="text-body-12 lg:text-body-sb-20 mt-4">할 일 시작</div>
+      )}
     </button>
   );
 }
