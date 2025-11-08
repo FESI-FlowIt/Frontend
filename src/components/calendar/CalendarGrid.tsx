@@ -12,18 +12,45 @@ interface CalendarGridProps {
 const CalendarGrid = forwardRef<HTMLDivElement, CalendarGridProps>(({ data, onCellClick }, ref) => {
   const { firstDay, daysInMonth, groupedGoals } = useCalendarData(data);
   const calendarCells = [];
+  const TOTAL_CELLS = 42;
 
-  // 빈 셀 채우기 (월 시작 전 빈 공간)
+  // 이전 달의 날짜 계산
+  const today = new Date();
+  const [currentYear, currentMonth] = data.month.split('-').map(Number);
+
+  const prevMonth = new Date(currentYear, currentMonth - 1, 0);
+  const prevMonthDays = prevMonth.getDate();
+
   for (let i = 0; i < firstDay; i++) {
-    calendarCells.push(<div key={`empty-${i}`} />);
+    const date = prevMonthDays - firstDay + i + 1;
+    calendarCells.push(<CalendarCell key={`prev-${date}`} date={date} isCurrentMonth={false} />);
   }
 
-  // 날짜 셀 채우기
   for (let date = 1; date <= daysInMonth; date++) {
     const goalsOfTheDay = groupedGoals[date] || [];
+    const isToday =
+      today.getDate() === date &&
+      today.getMonth() + 1 === currentMonth &&
+      today.getFullYear() === currentYear;
 
     calendarCells.push(
-      <CalendarCell key={date} date={date} goals={goalsOfTheDay} onClick={onCellClick} />,
+      <CalendarCell
+        key={date}
+        date={date}
+        goals={goalsOfTheDay}
+        onClick={onCellClick}
+        isCurrentMonth={true}
+        isToday={isToday}
+      />,
+    );
+  }
+
+  // 다음 달의 날짜 계산
+  let nextMonthDate = 1;
+  const remainingCells = TOTAL_CELLS - (firstDay + daysInMonth);
+  for (let i = 0; i < remainingCells; i++) {
+    calendarCells.push(
+      <CalendarCell key={`next-${nextMonthDate}`} date={nextMonthDate++} isCurrentMonth={false} />,
     );
   }
 
