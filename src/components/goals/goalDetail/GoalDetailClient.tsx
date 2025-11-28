@@ -67,7 +67,7 @@ const GoalDetailClient = ({ goalId }: GoalDetailClientProps) => {
   }
 
   return (
-    <div className="h-full w-full overflow-hidden lg:max-w-1184">
+    <div className="h-full w-full overflow-hidden lg:max-w-1296">
       <div className="mx-auto flex h-full w-full flex-col p-6">
         {/* 목표 정보 헤더 */}
         <div className="mb-24 flex flex-shrink-0 items-center gap-8">

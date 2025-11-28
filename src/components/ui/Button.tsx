@@ -49,7 +49,7 @@ const buttonVariants = cva('flex cursor-pointer items-center justify-center', {
       schedule: 'h-48 w-120 sm:w-165.5',
       scheduleDashboard: 'h-40 w-120 md:w-160',
       tempNote: 'h-40 w-84',
-      sideNote: 'h-48 w-260',
+      sideNote: 'h-40 w-100 md:h-48 md:w-200 lg:w-260',
       error: 'h-44 w-200',
       eula: 'h-48 w-520',
     },
