@@ -78,7 +78,21 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, text, rounded, children, icon, disabled, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      size,
+      text,
+      rounded,
+      children,
+      icon,
+      disabled,
+      type = 'button',
+      ...props
+    },
+    ref,
+  ) => {
     const btnStyles = buttonVariants({ variant, size, text, rounded, isDisabled: disabled });
 
     return (
@@ -86,6 +100,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled}
         className={cn(btnStyles, className, icon && 'gap-4')}
         ref={ref}
+        type={type}
         {...props}
       >
         {icon && (
